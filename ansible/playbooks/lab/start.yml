@@ -1,0 +1,9 @@
+---
+- name: "Start lab on {{ target }}"
+  hosts: '{{ target }}'
+  gather_facts: true
+  user: root
+ 
+  roles:
+    - { role: lab, do: load }
+    - { role: lab, do: start }

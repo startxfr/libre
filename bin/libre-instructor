@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-instructor
+
+# Dispatch input arguments
+case $1 in
+    install)                instructorPlaybook install ;;
+    update)                 instructorPlaybook update ;;
+    uninstall)              instructorPlaybook uninstall ;;
+    status)                 instructorPlaybook status ;;
+    usage|help|--help|-h)   instructorUsage $@ ;;
+    info|--info)            instructorInformation $@ ;;
+    version|--version)      instructorVersion $@ ;;
+    *)                      instructorWelcome $@ ;;
+esac

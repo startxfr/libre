@@ -1,0 +1,67 @@
+{
+  "name": "libre-instructor",
+  "description": "Web-application used to serve course materials and tools for training delivery",
+  "version": "0.5.12",
+  "debug": true,
+  "resources": {
+    "serviceinfo": {
+      "_class": "serviceinfo"
+    },
+    "data-files": {
+      "_class": "localfs",
+      "directory": "/data/"
+    }
+  },
+  "log": {
+    "filters": {
+      "level": "0,1,2,3,4",
+      "type": "debug,info,error,warn"
+    }
+  },
+  "server": {
+    "port": "8080",
+    "static": [
+      {
+        "path": "/",
+        "dir": "/static"
+      },
+      {
+        "path": "/config",
+        "dir": "/config"
+      },
+      {
+        "path": "/course",
+        "dir": "/course/book"
+      },
+      {
+        "path": "/course-data",
+        "dir": "/course"
+      }
+    ],
+    "endpoints": [
+      {
+        "path": "/health",
+        "resource": "serviceinfo",
+        "endpoint": "health"
+      },
+      {
+        "path": "/info",
+        "desc": "Display technical informations about this API",
+        "resource": "serviceinfo",
+        "endpoint": "info"
+      },
+      {
+        "path": "/ping",
+        "desc": "Ping the application. Return a sample message in text",
+        "code": "200",
+        "body": "pong"
+      },
+      {
+        "path": "/collect/:id",
+        "method": "POST",
+        "endpoint": "create",
+        "resource": "data-files"
+      }
+    ]
+  }
+}

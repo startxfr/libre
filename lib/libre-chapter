@@ -1,0 +1,73 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-core
+
+# Display chapter header message
+function chapterHeader {
+  isVerbose
+  if [ "$?" -eq 1 ] ; then
+    cat /usr/local/lib/libre-chapter.txt
+  fi 
+}
+
+# Call chapter playbook
+function chapterPlaybook {
+  chapterHeader
+  checkIfSession
+  runLibrePlaybook chapter $1 $2
+  exit 0;
+}
+
+# Call chapter start playbook
+function chapterStartPlaybook {
+  chapterHeader
+  checkIfSession
+  param="local"
+  if [[ $2 != "" ]] ; then
+    param="$param -e chapter_current=$2";
+  fi
+  runLibrePlaybook chapter $1 $param
+  exit 0;
+}
+
+# Display chapter info and exit
+function chapterInformation {
+  chapterHeader
+  checkIfSession
+  coreInformation
+  exit 0;
+}
+
+# Display chapter welcome and exit
+function chapterWelcome {
+  chapterHeader
+  coreInformation
+  chapterUsage
+  exit 0;
+}
+
+# Display version info and exit
+function chapterVersion {
+  coreVersion
+  exit 0;
+}
+
+# Display libre-chapter usage 
+function chapterUsage {
+cat <<EOF
+
+Chapter training management command line.
+
+Usage:
+  libre-chapter [command]
+
+- Generic commands:
+  start            start chapter lecture
+  list             list available chapters
+  stop             stop chapter lecture
+  status           get status of the current chapter
+  usage            get command line usage information
+  info             give information about current libre installation
+  version          give information about current libre version
+EOF
+}

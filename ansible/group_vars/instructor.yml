@@ -1,0 +1,24 @@
+## default configuration vars for instructor group
+---
+
+# Workstation type to install
+libre_type: instructor
+# Default user for course content
+libre_user: instructor
+# playbooks directory inside the course directory
+training_dir_course_playbooks: playbooks/instructor
+
+# minimum physical CPU required
+libre_minhw_cpu_physical: 1
+# minimum logical CPU required
+libre_minhw_cpu_cores: 1
+# minimum virtual CPU required
+libre_minhw_cpu_vcpus: 1
+# minimum RAM size
+libre_minhw_memory_total: 1024
+# minimum RAM free space
+libre_minhw_memory_free: 512
+# minimum storage free space (in percent)
+libre_minhw_storage_percent: 10
+# minimum storage free space (in size)
+libre_minhw_storage_capacity: 6096

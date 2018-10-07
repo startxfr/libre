@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LIBRE Session informations</title>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/index.html">
+            <img alt="STARTX" src="images/startx.png">
+          </a>
+          <h4 class="navbar-text">LIBRE Training Management System</h4>
+        </div>
+      </div>
+    </nav>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container" id="mainContainer">
+      <div class="row">
+        <div class="col-md-7" id="surveyList">
+          <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Session participants</h2>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Workstation</th>
+                <th>Student</th>
+                <th>Evaluate</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="col-md-5" id="sessionInfo">
+          <h2><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Session details</h2>
+          <form class="form-horizontal">
+            <div class="form-group courseInfoID">
+              <label class="col-sm-2 control-label">ID</label>
+              <div class="col-sm-10"><p class="form-control-static">ID</p></div>
+            </div>
+            <div class="form-group courseInfoName">
+              <label class="col-sm-2 control-label">Name</label>
+              <div class="col-sm-10"><p class="form-control-static">Name</p></div>
+            </div>
+            <div class="form-group sessionInfoInstructor">
+              <label class="col-sm-2 control-label">Instructor</label>
+              <div class="col-sm-10"><p class="form-control-static">Instructor</p></div>
+            </div>
+            <div class="form-group sessionInfoState">
+              <label class="col-sm-2 control-label">State</label>
+              <div class="col-sm-10"><p class="form-control-static">State</p></div>
+            </div>
+            <div class="form-group sessionInfoType">
+              <label class="col-sm-2 control-label">Type</label>
+              <div class="col-sm-10"><p class="form-control-static">Type</p></div>
+            </div>
+            <div class="form-group courseInfoFormat">
+              <label class="col-sm-2 control-label">Format</label>
+              <div class="col-sm-10"><p class="form-control-static">Time</p></div>
+            </div>
+            <div class="form-group sessionInfoStart">
+              <label class="col-sm-2 control-label">Start</label>
+              <div class="col-sm-10"><p class="form-control-static">Start</p></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container" id="surveyContainer" style="display:none">
+      <h2><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Training evaluation</h2>
+      <form class="form-horizontal">
+            <input type="hidden" name="id" id="inputID" value="">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="inputCompany" class="col-sm-2 control-label">Company</label>
+              <div class="col-sm-10">
+                <input type="text" name="company" class="form-control" id="inputCompany" placeholder="company name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputResponsability" class="col-sm-2 control-label">Responsability</label>
+              <div class="col-sm-10">
+                <input type="text" name="responsability" class="form-control" id="inpuResponsability" placeholder="responsability">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputName" class="col-sm-2 control-label">Name</label>
+              <div class="col-sm-10">
+                <input type="text" name="name" class="form-control" id="inputName" placeholder="name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+              <div class="col-sm-10">
+                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPhone" class="col-sm-2 control-label">Phone</label>
+              <div class="col-sm-10">
+                <input type="text" name="phone" class="form-control" id="inputPhone" placeholder="phone number">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group courseInfoID">
+              <label class="col-sm-2 control-label">ID</label>
+              <div class="col-sm-10"><p class="form-control-static">ID</p></div>
+            </div>
+            <div class="form-group courseInfoName">
+              <label class="col-sm-2 control-label">Name</label>
+              <div class="col-sm-10"><p class="form-control-static">Name</p></div>
+            </div>
+            <div class="form-group sessionInfoInstructor">
+              <label class="col-sm-2 control-label">Instructor</label>
+              <div class="col-sm-10"><p class="form-control-static">Instructor</p></div>
+            </div>
+            <div class="form-group sessionInfoType">
+              <label class="col-sm-2 control-label">Type</label>
+              <div class="col-sm-10"><p class="form-control-static">Type</p></div>
+            </div>
+            <div class="form-group sessionInfoStart">
+              <label class="col-sm-2 control-label">Start</label>
+              <div class="col-sm-10"><p class="form-control-static">Start</p></div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary">Record</button>
+        <button type="button" class="btn btn-default">Reset</button>
+      </form>
+
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container" id="appFooter">
+        &copy; LIBRE - v0.5.12
+      </div>
+    </nav>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="js-yaml.min.js"></script>
+    <script src="app.js"></script>
+    <script>  $(document).ready(app.initSurvey);</script>
+  </body>
+</html>

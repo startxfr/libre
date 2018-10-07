@@ -1,0 +1,10 @@
+---
+- name: "Uninstall session environment on {{ target }}"
+  hosts: '{{ target }}'
+  gather_facts: true
+  user: root
+ 
+  roles:
+    - { role: session, do: load }
+    - { role: session, do: status }
+    - { role: session, do: uninstall, become: yes }

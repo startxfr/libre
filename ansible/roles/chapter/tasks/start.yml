@@ -1,0 +1,38 @@
+---
+# Start pre-tasks
+- name: "start : Course description is loaded"
+  assert:
+    msg: "Course description {{ r_session_dir_course }}/manifest.yml is not loaded"
+    that: "libre_course is defined"
+- name: "start : Current chapter is defined"
+  assert:
+    msg: "Current chapter is not defined"
+    that: "chapter_current is defined"
+
+# Start tasks
+- name: "start : Generate current chapter tracker on {{ r_chapter_dir_conf }}/{{ r_chapter_config_current }}"
+  template:
+    src: templates/chapter-current.j2
+    dest: "{{ r_chapter_dir_conf }}/{{ r_chapter_config_current }}"
+    mode: 0664
+    owner: "{{ r_chapter_user }}"
+    group: "{{ r_chapter_group }}"
+  become: yes
+- name: "start : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_chapter_tmpfile) | default('') }}"
+  delegate_to: localhost
+- name: "start : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_chapter_tmpfile }}"
+  template:
+    src: templates/libre_report-start.j2
+    dest: "{{ r_libre_tmp }}/{{ r_chapter_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+- name: "start : Log start action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars: 
+    log_name: "Started chapter {{ libre_chapter.id }} : {{ libre_chapter.name }}"
+    log_component: chapter
+    log_action: start

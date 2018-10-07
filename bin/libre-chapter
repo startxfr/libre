@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-chapter
+
+
+# Dispatch input arguments
+case $1 in
+    start)                  chapterStartPlaybook start $2 ;;
+    list)                   chapterPlaybook list ;;
+    stop)                   chapterPlaybook stop ;;
+    status)                 chapterPlaybook status ;;
+    usage|help|--help|-h)   chapterUsage $@ ;;
+    info|--info)            chapterInformation $@ ;;
+    version|--version)      chapterVersion $@ ;;
+    *)                      chapterWelcome $@ ;;
+esac

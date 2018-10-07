@@ -1,0 +1,22 @@
+---
+- name: "install-postcheck : Training directory detail must exist"
+  assert:
+    msg: "Training directory detail dosen't exist. Try to re-install LIBRE Toolkit and start again this setup."
+    that: "r_libre_dir_details is defined"
+- name: "install-postcheck : Training configuration file {{ r_libre_config_file_libre }} exist"
+  assert:
+    msg: "Training configuration file {{ r_libre_config_file_libre }} doesn't exist"
+    that: "r_libre_conf_details.results[0].stat.exists == true"
+- name: "install-postcheck : Training configuration {{ r_libre_config_file_libre }} is loaded"
+  assert:
+    msg: "Training configuration {{ r_libre_config_file_libre }} is not loaded"
+    that: "libre_config is defined"
+
+- name: "install-postcheck : Hardware profile file {{ r_libre_config_file_hw }} exist"
+  assert:
+    msg: "Hardware profile file {{ r_libre_config_file_hw }} doesn't exist"
+    that: "r_libre_conf_details.results[1].stat.exists == true"
+- name: "install-postcheck : Hardware profile {{ r_libre_config_file_hw }} is loaded"
+  assert:
+    msg: "Hardware profile {{ r_libre_config_file_hw }} is not loaded"
+    that: "libre_hardware is defined"

@@ -1,0 +1,22 @@
+---
+# Stop pre-tasks
+
+# Stop tasks
+- name: "stop : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_chapter_tmpfile) | default('') }}"
+  delegate_to: localhost
+- name: "stop : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_chapter_tmpfile }}"
+  template:
+    src: templates/libre_report-stop.j2
+    dest: "{{ r_libre_tmp }}/{{ r_chapter_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+- name: "stop : Log stop action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars: 
+    log_name: "Stopped chapter {{ libre_chapter.id }} : {{ libre_chapter.name }}"
+    log_component: chapter
+    log_action: stop

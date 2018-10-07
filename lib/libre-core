@@ -1,0 +1,257 @@
+#!/bin/bash
+
+# Default config var
+CONFIG_DIR=/libre/conf
+CONFIG_FILE=$CONFIG_DIR/config.json
+INVENTORY_FILE=$CONFIG_DIR/inventory.yml
+SESSION_FILE=$CONFIG_DIR/session.json
+LIBRE_VERBOSE=true
+LIBRE_DEBUG=false
+ANSIBLE_RETURN=/tmp/libre.txt
+
+# load init files
+function loadInits {
+  if [[ -f $CONFIG_FILE ]] ; then
+    LIBRE_DEBUG=$(cat $CONFIG_FILE | jq -r '.application.debug')
+    LIBRE_VERBOSE=$(cat $CONFIG_FILE | jq -r '.application.verbose')
+    LIBRE_VERSION=$(cat $CONFIG_FILE | jq -r '.application.version')
+    LIBRE_TYPE=$(cat $CONFIG_FILE | jq -r '.application.type')
+    ANSIBLE_ROOT=$(cat $CONFIG_FILE | jq -r '.application.ansible')
+  fi 
+  if [[ -f $SESSION_FILE ]] ; then
+    LIBREC_ID=$(cat $SESSION_FILE | jq -r '.course')
+    LIBREC_NAME=$(cat $SESSION_FILE | jq -r '.type')
+    LIBRES_ID=$(cat $SESSION_FILE | jq -r '.id')
+    LIBRES_INSTRUCTOR=$(cat $SESSION_FILE | jq -r '.instructor')
+  fi 
+}
+
+# get and store the operating system name
+OS=`cat /etc/os-release | grep "NAME" | head -n 1 | sed 's/NAME=//g' | sed 's/["]//g'`
+OS_NAME=`cat /etc/os-release | grep "PRETTY_NAME" | sed 's/PRETTY_NAME=//g' | sed 's/["]//g'`
+
+# use xterm and set current PID
+export TERM=xterm
+pid=0
+
+# return if verbose is activated
+function isVerbose {
+    if [[ "$LIBRE_VERBOSE" == true || "$LIBRE_VERBOSE" == "true" || "$LIBRE_VERBOSE" == "True" ]] ; then
+        return 1
+    else
+        return 0
+    fi 
+}
+
+# echo if verbose if activated
+function echoVerbose {
+    isVerbose
+    if [ "$?" -eq 1 ] ; then
+        echo "$@"
+    fi 
+}
+
+# echo if verbose if not activated
+function echoNotVerbose {
+    isVerbose
+    if [ "$?" -eq 0 ] ; then
+        echo "$@"
+    fi 
+}
+
+# return if debug is activated
+function isDebug {
+    if [[ "$LIBRE_DEBUG" == true || "$LIBRE_DEBUG" == "true" || "$LIBRE_DEBUG" == "True" ]] ; then
+        return 1
+    else
+        return 0
+    fi 
+}
+
+# echo if debug if activated
+function echoDebug {
+    if [[ "$LIBRE_DEBUG" == true || "$LIBRE_DEBUG" == "true" || "$LIBRE_DEBUG" == "True"  ]] ; then
+        echo "$@"
+    fi 
+}
+
+# echo an error
+function echoError {
+    echo "  ERROR ! $@"
+}
+
+# echo an error and exit
+function echoFatal {
+    echo "  FATAL ! $@"
+    exit 1;
+}
+
+# echo an error and exit
+function echoWarn {
+    echo "  WARN  ! $@"
+}
+
+# echo an error and exit
+function echoOK {
+    echo "SUCCESS : $@"
+}
+
+# echo env if debug if activated
+function echoEnv {
+    if [[ "$LIBRE_DEBUG" == true || "$LIBRE_DEBUG" == "true" || "$LIBRE_DEBUG" == "True"  ]] ; then
+        env | grep "LIBRE"
+    fi 
+}
+
+# status if libre install is done
+function checkIfLibre {
+  if [[ ! -d /libre ]] ; then
+    echoError "LIBRE is not installed";
+    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/master/installer.md";
+    echoError "for more information on how to install LIBRE";
+    exit 1;
+  fi 
+}
+
+# status if session install is done
+function checkIfSession {
+  if [[ ! -f $CONFIG_FILE ]] ; then
+    echoError "LIBRE session is not configured";
+    echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/master/session.md";
+    echoError "for more information on how to setup LIBRE session";
+    exit 1;
+  fi 
+}
+
+# Display general welcome message
+function coreWelcome {
+cat <<EOF
+
+Librairie d'outils pour l'environement de formation STARTX
+Ne pas utiliser directement mais plutot les outils :
+
+  libre-instructor   instructor workstation management
+  libre-session      instructor session management
+  libre-infra        instructor infrastructure management
+  libre-student      student workstation management
+  libre-lab          lab management
+
+EOF
+exit 0;
+}
+
+# Display information
+function coreInformation {
+  echoVerbose $1 "OS        : $OS_NAME"
+  echoVerbose $1 "host      : $HOSTNAME"
+  echoVerbose $1 "libre     : v$LIBRE_VERSION"
+  echoVerbose $1 "type      : $LIBRE_TYPE"
+  echoVerbose $1 "course    : $LIBREC_ID - $LIBREC_NAME"
+  echoVerbose $1 "session   : $LIBRES_ID - $LIBRES_INSTRUCTOR"
+  echoNotVerbose "running on $OS_NAME (libre v$LIBRE_VERSION)"
+  echoNotVerbose "configured for $LIBREC_ID $LIBRE_TYPE"
+}
+
+# Display version
+function coreVersion {
+  echoVerbose "$1 $OS_NAME (libre v$LIBRE_VERSION)"
+  echoNotVerbose $LIBRE_VERSION
+  exit 0;
+}
+
+# execute an libre playbook file
+function runLibrePlaybook {
+  cd $ANSIBLE_ROOT &> /dev/null
+  rm -f $ANSIBLE_RETURN &> /dev/null
+  libretype=$1
+  if [[ $libretype == "" ]] ; then
+    libretype=$LIBRE_TYPE
+  fi
+  libreaction=$2
+  if [[ $libreaction == "" ]] ; then
+    libreaction="status"
+  fi
+  librefilter=$3
+  if [[ $librefilter != "" ]] ; then
+    librefilter="-e target=${@:3}";
+  else
+    librefilter="-e target=local"
+  fi
+  cd $ANSIBLE_ROOT
+  if [[ ! -r $INVENTORY_FILE ]] ; then
+    INVENTORY_FILE="inventory.yml";
+  fi
+  export ANSIBLE_STDOUT_CALLBACK=yaml
+  isDebug
+  if [ "$?" -eq 1 ] ; then
+    ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml
+    retc=$?
+    cd - &> /dev/null
+    if [ $retc -eq 0 ]; then
+      echoOK "Playbook ${libretype}/${libreaction} ended"
+    else
+      echoError "Playbook ${libretype}/${libreaction} ended with error"
+    fi
+    if [ -f $ANSIBLE_RETURN ]; then
+      cat $ANSIBLE_RETURN
+      rm -f $ANSIBLE_RETURN
+    fi
+    return $retc
+  else
+    ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml 1> /tmp/a
+    retc=$?
+    cd - &> /dev/null
+    if [ $retc -eq 0 ]; then
+      ret=$(cat /tmp/a | tail -n 2 | head -n 1)
+      echoOK $ret
+      echoOK "Playbook ${libretype}/${libreaction} ended"
+    else
+      cat /tmp/a | grep -A 20 "^fatal:"
+      echoError "Playbook ${libretype}/${libreaction} ended with error"
+    fi
+    if [ -f $ANSIBLE_RETURN ]; then
+      cat $ANSIBLE_RETURN
+      rm -f $ANSIBLE_RETURN
+    fi
+    rm -f /tmp/a
+    return $retc
+  fi
+}
+
+#function parse_yaml {
+#   local prefix=$2
+#   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
+#   sed -ne "s|^\($s\):|\1|" \
+#        -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
+#        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
+#   awk -F$fs '{
+#      indent = length($1)/2;
+#      vname[indent] = $2;
+#      for (i in vname) {if (i > indent) {delete vname[i]}}
+#      if (length($3) > 0) {
+#         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
+#         printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
+#      }
+#   }'
+#}
+
+## update env var stored in libre.yml file
+#function updateConfigfileVar {
+#  yaml_cli -f $CONFIG_FILE -s $1 $2
+#  echoOK "Key $1 in config file $CONFIG_FILE is updated"
+#}
+
+# Display libre-* generic usage 
+function classroomGenericUsageSubcmd {
+cat <<EOF
+- Generic commands:
+  usage             this message
+  info              give information about libre configuration
+  version           give the version of this tool
+
+EOF
+}
+
+
+loadInits
+checkIfLibre

@@ -1,0 +1,4 @@
+## default configuration vars for students group
+---
+# Enable debug configuration
+libre_debug: false

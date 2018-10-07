@@ -1,0 +1,5 @@
+---
+- name: "install-postcheck : Training directory detail must exist"
+  assert:
+    msg: "Training directory detail dosen't exist. Try to re-install LIBRE Toolkit and start again this setup."
+    that: "r_libre_dir_details is defined"

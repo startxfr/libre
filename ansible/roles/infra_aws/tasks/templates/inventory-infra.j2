@@ -1,0 +1,35 @@
+---
+local:
+  hosts:
+    localhost:
+    # Set AWS access key to use fot this deployement
+    infra_aws_access_key: "{{r_infra_aws_access_key}}"
+    # Set AWS secret key to use fot this deployement
+    infra_aws_secret_key: "{{r_infra_aws_secret_key}}"
+    # Set AWS route53 sub-domain to use for deploying DNS classroom names
+    infra_aws_public_dns_zone: "{{r_infra_aws_public_dns_zone}}"
+    # Set AWS route53 region to use for deploying DNS classroom names
+    infra_aws_route53_dns_zone: "{{r_infra_aws_route53_dns_zone}}"
+    # Set AWS region to use for this deployement
+    infra_aws_region: "{{r_infra_aws_region}}"
+    # Set AWS type of instance
+    infra_aws_instance_type: "{{r_infra_aws_instance_type}}"
+    # Set Number of instance (will be upgraded with the number of students + instructor and spare)
+    infra_aws_instance_nb: "{{r_infra_aws_instance_nb}}"
+    # Set AMI base image (must be available in the region)
+    # - Centos Official 7.4 base image
+    infra_aws_image: "{{r_infra_aws_image}}"
+    # Set AWS key name to set into the EC2 instances
+    infra_aws_key_name: "{{r_infra_aws_key_name}}"
+    # Set AWS private key related to the previous key name
+    infra_aws_ssh_private_key_file: "{{r_infra_aws_ssh_private_key_file}}"
+    # Set ssh user used to connect to the EC2 instance
+    infra_aws_ssh_user: "{{r_infra_aws_ssh_user}}"
+    # Default system user for instructor
+    infra_user_instructor: "{{r_infra_aws_user_instructor}}"
+    # Default system user for students
+    infra_user_student: "{{r_infra_aws_user_student}}"
+    # Default system user group 
+    infra_usergroup: "{{r_infra_aws_usergroup}}"
+    # Configuration directory used for delivering training
+    training_dir_conf: "{{r_infra_aws_dir_conf}}"

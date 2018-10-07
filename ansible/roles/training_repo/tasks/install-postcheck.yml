@@ -1,0 +1,5 @@
+---
+- name: "install-postcheck : Local training repository {{ r_training_repository_local }} exist"
+  assert:
+    msg: "Local training repository {{ r_training_repository_local }} doesn't exist"
+    that: "r_training_repository_local_details.stat.exists == true"

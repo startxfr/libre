@@ -1,0 +1,11 @@
+## default configuration vars for students group
+---
+# Workstation type to install
+libre_type: student
+# Default user for course content
+libre_user: student
+# playbooks directory inside the course directory
+training_dir_course_playbooks: playbooks/student
+
+# Enable debug configuration
+libre_debug: false

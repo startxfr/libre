@@ -1,0 +1,27 @@
+---
+local:
+  hosts:
+    localhost:
+
+instructor:
+  hosts:
+    instructor.{{ session_name }}.{{ r_infra_prem_dns_zone }}:
+
+students:
+{% if ec2.tagged_instances is defined %}
+  hosts:
+{% for instance in ec2.tagged_instances %}
+{% if loop.index0 > 0 %}
+    workstation{{loop.index0}}.{{ session_name }}.{{ r_infra_prem_dns_zone }}:
+{% endif %}
+{% endfor %}
+{% endif %}
+
+classroom:
+  children:
+    instructor:
+    students:
+  vars:
+    ansible_connection: ssh
+    ansible_user: "{{ r_infra_aws_ssh_user }}"
+    ansible_ssh_private_key_file: "{{ r_infra_aws_ssh_private_key_file }}"

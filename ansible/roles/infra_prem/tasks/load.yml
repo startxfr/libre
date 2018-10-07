@@ -1,0 +1,5 @@
+---
+- name: "load : Get {{r_infra_prem_dir_conf}}/inventory-infra_prem.yml inventory file details"
+  stat:
+    path: "{{r_infra_prem_dir_conf}}/inventory-infra_prem.yml"
+  register: r_infra_prem_inventoryinfra_details

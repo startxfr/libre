@@ -1,0 +1,5 @@
+local:
+  hosts:
+    localhost:
+  vars:
+    libre_type: instructor

@@ -1,0 +1,171 @@
+---
+- name: "provision-post : Create the libre user group on all workstations"
+  group:
+    name: "{{ r_infra_aws_usergroup }}"
+    state: present
+  become: yes
+- name: "provision-post : Create the instructor user on all workstations"
+  user:
+    state: present
+    name: "{{ r_infra_aws_user_instructor }}"
+    comment: "LIBRE {{ r_infra_aws_user_instructor }}"
+    group: "{{ r_infra_aws_usergroup }}"
+  become: yes
+- name: "provision-post : Create the student user on all students workstations"
+  user:
+    state: present
+    name: "{{ r_infra_aws_user_student }}"
+    comment: "LIBRE {{ r_infra_aws_user_student }}"
+    group: "{{ r_infra_aws_usergroup }}"
+  become: yes
+  when: inventory_hostname in groups.students
+- name: "provision-post : Authorize instructor SSH key on instructor workstation"
+  authorized_key:
+    user: "{{ user1 }}"
+    state: present
+    key: "{{ lookup('file', '../../ssh/'+r_infra_aws_user_instructor+'-id_rsa.pub') }}"
+  loop: 
+    - root
+    - "{{ r_infra_aws_ssh_user }}"
+    - "{{ r_infra_aws_user_instructor }}"
+  loop_control:
+    loop_var: user1
+  become: yes
+  when: inventory_hostname in groups.instructor
+- name: "provision-post : Authorize instructor SSH key on all workstation"
+  authorized_key:
+    user: "{{ user1 }}"
+    state: present
+    key: "{{ lookup('file', '../../ssh/'+r_infra_aws_user_instructor+'-id_rsa.pub') }}"
+  loop: 
+    - root
+    - "{{ r_infra_aws_ssh_user }}"
+    - "{{ r_infra_aws_user_student }}"
+  loop_control:
+    loop_var: user1
+  become: yes
+  when: inventory_hostname in groups.students
+- name: "provision-post : Authorize student SSH key on all student workstation"
+  authorized_key:
+    user: "{{ r_infra_aws_user_student }}"
+    state: present
+    key: "{{ lookup('file', '../../ssh/'+r_infra_aws_user_student+'-id_rsa.pub') }}"
+  become: yes
+  when: inventory_hostname in groups.students
+- name: "provision-post : Ensure instructor SSH private and public key are present on the instructor workstation "
+  copy: 
+    src: ../../ssh/{{ r_infra_aws_user_instructor }}-{{keyf.key}}
+    dest: "{{keyf.dir}}/.ssh/{{keyf.key}}" 
+    mode: 0600
+    owner: "{{keyf.user}}"
+    group: "{{ r_infra_aws_usergroup }}"
+  loop:
+    - user: "{{ r_infra_aws_user_instructor }}"
+      key: id_rsa.pub
+      dir: "/home/{{ r_infra_aws_user_instructor }}"
+    - user: "{{ r_infra_aws_user_instructor }}"
+      key: id_rsa
+      dir: "/home/{{ r_infra_aws_user_instructor }}"
+    - user: "{{ r_infra_aws_ssh_user }}"
+      key: id_rsa.pub
+      dir: "/home/{{ r_infra_aws_ssh_user }}"
+    - user: "{{ r_infra_aws_ssh_user }}"
+      key: id_rsa
+      dir: "/home/{{ r_infra_aws_ssh_user }}"
+    - user: root
+      key: id_rsa.pub
+      dir: "/root/"
+    - user: root
+      key: id_rsa
+      dir: "/root/"
+  loop_control:
+    loop_var: keyf
+  become: yes
+  when: inventory_hostname in groups.instructor
+- name: "provision-post : Ensure student SSH private and public key are present on students workstation"
+  copy: 
+    src: ../../ssh/{{ r_infra_aws_user_student }}-{{keyf}}
+    dest: "/home/{{ r_infra_aws_user_student }}/.ssh/{{keyf}}" 
+    mode: 0600
+    owner: "{{ r_infra_aws_user_student }}"
+    group: "{{ r_infra_aws_usergroup }}"
+  loop:
+    - id_rsa.pub
+    - id_rsa
+  loop_control:
+    loop_var: keyf
+  become: yes
+  when: inventory_hostname in groups.students
+- name: "provision-post : Change hostname for students"
+  hostname:
+    name: "{{ inventory_hostname }}"
+  become: yes
+  when: inventory_hostname in groups.students
+- name: "provision-post : Change hostname for instructor"
+  hostname:
+    name: "{{ inventory_hostname }}"
+  become: yes
+  when: inventory_hostname in groups.instructor
+- name: "provision-post : Copy inventory for instructor"
+  copy: 
+    src: ../../inventory.yml
+    dest: /tmp/libre-inventory.yml
+    mode: 0664
+    owner: "{{ r_infra_aws_user_instructor }}"
+    group: "{{ r_infra_aws_usergroup }}"
+  become: yes
+  when: inventory_hostname in groups.instructor
+- name: "provision-post : Loading LIBRE for instructor"
+  include_role: 
+    name: libre
+    tasks_from: load
+  when: inventory_hostname in groups.instructor
+- name: "provision-post : Installing LIBRE for instructor"
+  include_role: 
+    name: libre
+    tasks_from: install
+  become: yes
+  when: inventory_hostname in groups.instructor
+- name: "provision-post : Loading LIBRE for students"
+  include_role: 
+    name: libre
+    tasks_from: load
+  when: inventory_hostname in groups.students
+- name: "provision-post : Installing LIBRE for students"
+  include_role: 
+    name: libre
+    tasks_from: install
+  become: yes
+  when: inventory_hostname in groups.students
+- name: "provision-post : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_infra_aws_tmpfile) | default('') }}"
+  delegate_to: localhost
+- name: "provision-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_infra_aws_tmpfile }}"
+  template:
+    src: templates/libre_report-provision-post.j2
+    dest: "{{ r_libre_tmp }}/{{ r_infra_aws_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+- name: "provision-post : Log post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars: 
+    log_name: "AWS infrastructure is Post-provisionned"
+    log_component: infra-aws
+    log_action: post-provision
+- name: "provision-post : Post-provisionning is finish"
+  debug: 
+    msg:
+      - " "
+      - "We are happy to report that AWS infrastructure {{ session_name }}.{{ r_infra_aws_public_dns_zone }} was successfully provisioned on AWS infrastructure"
+      - " "
+      - "You can now connect to your instructor workstation :"
+      - "  ssh -i {{ r_infra_aws_key_name }}.pem {{ r_infra_aws_ssh_user }}@instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+      - "Then run instructor installation by running :"
+      - "  libre-instructor install"
+      - " "
+      - " Have a happy setup ;)"
+  delegate_to: localhost
+  run_once: true

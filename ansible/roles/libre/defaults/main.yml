@@ -1,0 +1,132 @@
+## LIBRE role default variables
+
+# Configure uninstall to deep remove all content (facts, training dir and libre tools)
+r_libre_uninstall_deep: "{{ libre_uninstall_deep | default(False) | bool }}" 
+
+# Set LIBRE source repository containing LIBRE application material
+r_libre_source_url: "{{ libre_source_url | default('https://github.com/startxfr/libre') }}"
+# Set LIBRE source branch containing LIBRE application material
+r_libre_source_branch: "{{ libre_source_branch | default('master') }}"
+# Set LIBRE source directory containing LIBRE application material
+r_libre_source_base: "{{ libre_source_base | default('/') }}"
+# Set LIBRE source temporary directory for hosting copied LIBRE source content
+r_libre_source_tmp: "{{ libre_source_tmp | default('/tmp/libre') }}"
+
+# Set LIBRE destination directory for LIBRE library
+r_libre_dest_lib: "{{ libre_dest_lib | default('/usr/local/lib') }}"
+# Set LIBRE destination directory for LIBRE binary
+r_libre_dest_bin: "{{ libre_dest_bin | default('/usr/local/bin') }}"
+# Set LIBRE destination directory for ansible content
+r_libre_dest_ansible: "{{ libre_dest_ansible | default('/usr/local/lib/libre-ansible') }}"
+
+# Default content for LIBRE config
+r_libre_configdir_libre: "{{ dict() | default({}) }}"
+# Default content for libre hw config
+r_libre_configdir_libre_hw: "{{ dict() | default({}) }}"
+# Default content for session config
+r_libre_configdir_session: "{{ dict() | default({}) }}"
+# Config file for LIBRE
+r_libre_config_file_libre: "{{ libre_config_file_libre | default('config.json') | string }}"
+# Config file for hardware
+r_libre_config_file_hw: "{{ libre_config_file_hw | default('hardware.json') | string }}"
+# Config file for session
+r_libre_config_file_session: "{{ libre_config_file_session | default('session.json') | string }}"
+
+# Default user for course content
+r_libre_user: "{{ libre_user | default('instructor') | string }}"
+# Default user for course content
+r_libre_group: "{{ libre_group | default('libre') | string }}" 
+# Default directory used for delivering training
+r_libre_dir: "{{ training_dir | default('/libre') | string }}"
+# Course directory used for delivering training
+r_libre_dir_course: "{{ training_dir_course | default('/libre/course') | string }}"
+# Configuration directory used for delivering training
+r_libre_dir_conf: "{{ training_dir_conf | default('/libre/conf') | string }}"
+# Collect directory used for collecting training activity
+r_libre_dir_collect: "{{ training_dir_collect | default('/libre/collect') | string }}"
+# Configuration directory used for fact collection
+r_libre_dir_facts: "{{ training_dir_facts | default('/etc/ansible/facts.d') | string }}"
+# Set LIBRE source temporary directory for exchange with libre command line
+r_libre_tmp: "{{ libre_tmp | default('/tmp') | string }}"
+# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
+r_libre_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
+
+# LIBRE configuration file list
+r_libre_conf_list: 
+  - key: config
+    file: "{{ r_libre_config_file_libre }}"
+  - key: hardware
+    file: "{{ r_libre_config_file_hw }}"
+
+# Install type to perform
+r_libre_type: "{{ libre_type | default('instructor') | string }}"
+
+# Default libre_config structure
+r_libre_config: 
+  application:
+    type: "{{ r_libre_type | default('instructor') | string }}"
+    version: "{{ libre_version | default('0.1-devel') | string }}"
+    verbose: "{{ libre_verbose | default(True) | bool }}"
+    debug: "{{ libre_debug | default(False) | bool }}"
+  repository:
+    url: "{{ training_repository_url | default('https://github.com/startxfr/libre') | string }}"
+    branch: "{{ training_repository_branch | default('master') | string }}"
+    base: "{{ training_repository_base | default('/courses-sample') | string }}"
+  directory:
+    base: "{{ r_libre_dir }}"
+    course: "{{ r_libre_dir_course }}"
+    collect: "{{ r_libre_dir_collect }}"
+  gapi:
+    session: "{{ libre_gapi_session | default('https://script.google.com/macros/s/AKfycbxeOVza-MLwqSOtCLecPgzaXA-kUngoTdpbGyGJeObl9TyeSw8/exec') | string }}"
+
+# Default libre_hardware structure
+r_libre_minhw: 
+  architecure: "{{ libre_minhw_architecure | default('x86_64') | string }}"
+  cpu:
+    physical: "{{ libre_minhw_cpu_physical | default(1) | int }}"
+    cores: "{{ libre_minhw_cpu_cores | default(1) | int }}"
+    vcpus: "{{ libre_minhw_cpu_vcpus | default(2) | int }}"
+  memory:
+    total: "{{ libre_minhw_memory_total | default(4096) | int }}"
+    free: "{{ libre_minhw_memory_free | default(1024) | int }}"
+  storage:
+    percent: "{{ libre_minhw_storage_percent | default(20) | int }}"
+    capacity: "{{ libre_minhw_storage_capacity | default(4096) | int }}"
+
+# List of LIBRE library files
+r_libre_files_library: 
+  - "libre-chapter"
+  - "libre-chapter.txt"
+  - "libre-infra"
+  - "libre-infra.txt"
+  - "libre-core"
+  - "libre-instructor"
+  - "libre-instructor.txt"
+  - "libre-lab"
+  - "libre-lab.txt"
+  - "libre-session"
+  - "libre-session.txt"
+  - "libre-student"
+  - "libre-student.txt"
+
+# List of LIBRE binary files for all installation
+r_libre_files_binary_all: 
+  - "libre-chapter"
+  - "libre-infra"
+  - "libre-instructor"
+  - "libre-lab"
+  - "libre-session"
+  - "libre-student"
+
+# List of LIBRE binary files for instructor
+r_libre_files_binary_instructor: 
+  - "libre-chapter"
+  - "libre-infra"
+  - "libre-instructor"
+  - "libre-lab"
+  - "libre-session"
+
+# List of LIBRE binary files for student
+r_libre_files_binary_student: 
+  - "libre-lab"
+  - "libre-student"

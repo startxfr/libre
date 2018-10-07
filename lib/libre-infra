@@ -1,0 +1,85 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-core
+
+# Display infra header message
+function infraHeader {
+  isVerbose
+  if [ "$?" -eq 1 ] ; then
+    cat /usr/local/lib/libre-infra.txt
+  fi 
+}
+
+# Call infra playbook
+function infraPlaybook {
+  infraHeader
+  checkIfSession
+  runLibrePlaybook infra-$1 $2 $3
+  exit 0;
+}
+
+# Call infra playbook with infra inventory
+function infraPlaybookWithInfraInventory {
+  infraHeader
+  checkIfSession
+  TMPINV="$INVENTORY_FILE";
+  INVENTORY_FILE=$CONFIG_DIR/inventory-infra_$1.yml
+  runLibrePlaybook infra-$1 $2
+  INVENTORY_FILE="$TMPINV";
+  exit 0;
+}
+
+# Display infra info and exit
+function infraInformation {
+  infraHeader
+  checkIfSession
+  coreInformation
+  exit 0;
+}
+
+# Display infra welcome and exit
+function infraWelcome {
+  infraHeader
+  coreInformation
+  infraUsage
+  exit 0;
+}
+
+# Display version info and exit
+function infraVersion {
+  coreVersion
+  exit 0;
+}
+
+# Display libre-infra usage 
+function infraUsage {
+cat <<EOF
+
+Classroom training management command line.
+
+Usage:
+  libre-infra type [command]
+
+- Infrastructure type and commands:
+  aws               AWS infrastructure
+    setup           setup AWS infrastructure environement
+    provision       provision AWS infrastructure environment
+    post-provision  exectute AWS post-provisionning task
+    deprovision     deprovision AWS infrastructure environment
+  prem              On-premise infrastructure
+    setup           setup On-premise infrastructure environement
+    provision       provision On-premise infrastructure environment
+    post-provision  exectute On-premise post-provisionning task
+    deprovision     deprovision On-premise infrastructure environment
+  self              Self-hosted infrastructure
+    setup           setup Self-Hosted infrastructure environement
+    provision       provision Self-Hosted infrastructure environment
+    post-provision  exectute Self-Hosted post-provisionning task
+    deprovision     deprovision Self-Hosted infrastructure environment
+
+- Generic commands:
+  usage             get command line usage information
+  info              give information about current libre installation
+  version           give information about current libre version
+EOF
+}

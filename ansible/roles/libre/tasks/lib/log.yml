@@ -1,0 +1,10 @@
+---
+- name: "log : Record log trace in log.yml"
+  lineinfile:
+    path: "{{ r_libre_dir_collect }}/log.yml"
+    line: |-
+      - name: "{{ log_name | default('No message !!!') }}"
+        date: "{{ log_date | default(ansible_date_time.iso8601) }}"
+        component: "{{ log_component | default('libre') }}"
+        action: "{{ log_action | default('No action !!!') }}"
+  become: yes

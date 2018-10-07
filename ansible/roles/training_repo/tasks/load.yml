@@ -1,0 +1,5 @@
+---
+- name: "load : Get {{ r_training_repository_local }} directory details"
+  stat:
+    path: "{{ r_training_repository_local }}"
+  register: r_training_repository_local_details

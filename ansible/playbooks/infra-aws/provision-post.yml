@@ -1,0 +1,10 @@
+---
+- name: "Post-Provision AWS Classroom infrastructure"
+  hosts: '{{ target }}'
+  gather_facts: true
+ 
+  roles:
+    - { role: session, do: load }
+    - { role: session, do: install-postcheck }
+    - { role: infra_aws, do: "load" }
+    - { role: infra_aws, do: "provision-post" }

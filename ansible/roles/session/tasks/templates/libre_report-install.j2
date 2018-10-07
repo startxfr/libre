@@ -1,0 +1,8 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+{% if libre_session is defined %}
+Training session {{ libre_session.type }} {{ libre_session.id }} (state {{ libre_session.state }}) is installed
+{% endif %}
+{% if libre_course is defined %}
+Training course {{ libre_course.id }} version {{ libre_course.version }} is installed
+{% endif %}

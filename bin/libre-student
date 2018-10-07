@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-student
+
+# Dispatch input arguments
+case $1 in
+    install)                studentPlaybook install ;;
+    uninstall)              studentPlaybook uninstall ;;
+    status)                 studentPlaybook status ;;
+    usage|help|--help|-h)   studentUsage $@ ;;
+    info|--info)            studentInformation $@ ;;
+    version|--version)      studentVersion $@ ;;
+    *)                      studentWelcome $@ ;;
+esac

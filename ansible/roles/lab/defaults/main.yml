@@ -1,0 +1,18 @@
+## LIBRE Lab role default variables
+---
+# Default user for course content
+r_lab_user: "{{ libre_user | default('instructor') | string }}"
+# Default user for course content
+r_lab_group: "{{ libre_group | default('libre') | string }}" 
+# Configuration directory used for delivering training
+r_lab_dir_conf: "{{ r_libre_dir_conf | default('/libre/conf') | string }}"
+# Config file to store the current chapter - section
+r_lab_config_current: "{{ lab_config_current | default('current-lab.txt') | string }}"
+
+# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
+r_lab_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
+
+# Course directory used for delivering training
+r_lab_dir_course: "{{ training_dir_course | default('/libre/course') | string }}"
+# Lab directory inside the course directory
+r_lab_dir_course_labs: "{{ training_dir_course_lab | default('playbooks/labs') | string }}"

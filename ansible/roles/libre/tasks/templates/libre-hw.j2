@@ -1,0 +1,22 @@
+{
+  "product_name" : "{{ libre_hardware_product_name }}",
+  "cpu" : {
+    "arch" : "{{ libre_hardware_cpu_arch }}",
+    "physics" : "{{ libre_hardware_cpu_physics }}",
+    "cores" : "{{ libre_hardware_cpu_cores }}",
+    "vcpu" : "{{ libre_hardware_cpu_vcpu }}"
+  },
+  "memory" : {
+    "total" : "{{ libre_hardware_memory_total }}",
+    "free" : "{{ libre_hardware_memory_free }}"
+  },
+  "storage" : {
+    "total" : "{{ libre_hardware_storage_total }}",
+    "free" : "{{ libre_hardware_storage_free }}"
+  },
+  "network" : {
+    "iface" : "{{ ansible_interfaces }}",
+    "hostname" : "{{ ansible_hostname }}",
+    "ip" : "{{ ansible_all_ipv4_addresses }}"
+  }
+}

@@ -1,0 +1,9 @@
+---
+- name: "Install student environment on {{ target }}"
+  hosts: '{{ target }}'
+  gather_facts: true
+  user: root
+ 
+  roles:
+    - { role: student, do: load }
+    - { role: student, do: install, become: yes }

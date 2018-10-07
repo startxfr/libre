@@ -1,0 +1,21 @@
+## LIBRE Classroom role default variables
+---
+# Google API to connect to the session description backend
+r_infra_self_gapi_session: "{{ session_gapi_session | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
+
+# Default r_infra_self structure
+r_infra_self_dns_zone: "{{ infra_self_dns_zone | default('classroom.example.com') | string }}"
+# Default associated IP (must be localhost or 127.0.0.1)
+r_infra_self_associated_ip: "{{ infra_associated_ip | default('127.0.0.1') | string }}"
+# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
+r_infra_self_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
+
+# Default system user for instructor
+r_infra_self_user_instructor: "{{ infra_user_instructor | default('instructor') | string }}"
+# Default system user for students
+r_infra_self_user_student: "{{ infra_user_student | default('student') | string }}"
+# Default system user group 
+r_infra_self_usergroup: "{{ infra_usergroup | default('libre') | string }}" 
+# Configuration directory used for delivering training
+r_infra_self_dir_conf: "{{ training_dir_conf | default('/libre/conf') | string }}"
+

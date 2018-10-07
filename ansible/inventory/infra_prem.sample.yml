@@ -1,0 +1,7 @@
+---
+local:
+  hosts:
+    localhost:
+  vars:
+    ansible_connection: local
+    libre_type: instructor

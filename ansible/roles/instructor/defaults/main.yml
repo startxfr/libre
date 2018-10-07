@@ -1,0 +1,5 @@
+## LIBRE Instructor role default variables
+---
+
+# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
+r_instructor_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"

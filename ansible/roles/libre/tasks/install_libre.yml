@@ -1,0 +1,109 @@
+---
+- name: "install_libre : Ensure dependencies packages are installed"
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - git
+    - ansible
+    - qemu-kvm
+    - docker
+    - bind-utils
+    - rng-tools
+    - ipa-server
+    - bash-completion
+  when: ansible_hostname != "alcor"
+#- name: "install_libre : Force upgrading pip packages manager"
+#  command: "pip install --upgrade pip" 
+- name: "install_libre : Install and force upgrade pip packages"
+  pip: 
+    state: forcereinstall
+    name: "{{ pipname }}"
+    extra_args: --upgrade --user
+  loop: 
+    - pip
+    - Jinja2
+    - docker-py
+  loop_control:
+    loop_var: pipname
+  when: ansible_hostname != "alcor"
+- name: "install_libre : Ensure rng service is running"
+  systemd:
+    state: started
+    name: rngd
+  when: ansible_hostname != "alcor"
+- name: "install_libre : Ensure docker service is running"
+  systemd:
+    state: started
+    name: docker
+  when: ansible_hostname != "alcor"
+  become: yes
+- name: "install_libre : clone LIBRE materials from {{ r_libre_source_url }}"
+  git:
+    repo: "{{ r_libre_source_url }}"
+    dest: "{{ r_libre_source_tmp }}"
+    version: "{{ r_libre_source_branch }}" 
+  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true
+- name: "install_libre : move LIBRE library content to {{ r_libre_dest_lib }}"
+  copy:
+    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/lib/{{ libname }}"
+    dest: "{{ r_libre_dest_lib }}"
+    remote_src: yes
+    mode: 0764
+    owner: root
+    group: root
+  loop: "{{ r_libre_files_library }}"
+  loop_control:
+    loop_var: libname
+  become: yes
+  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true
+- name: "install_libre : move LIBRE auto-completion script to /etc/bash_completion.d/libre"
+  copy:
+    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/lib/completion"
+    dest: "/etc/bash_completion.d/libre"
+    remote_src: yes
+    mode: 0775
+    owner: root
+    group: root
+  become: yes
+  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true
+- name: "install_libre : move LIBRE instructor binary content to {{ r_libre_dest_bin }}"
+  copy:
+    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/bin/{{ binname }}"
+    dest: "{{ r_libre_dest_bin }}"
+    remote_src: yes
+    mode: 0775
+    owner: root
+    group: root
+  loop: "{{ r_libre_files_binary_instructor }}"
+  loop_control:
+    loop_var: binname
+  become: yes
+  when: (r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true) and r_libre_type == "instructor"
+- name: "install_libre : move LIBRE student binary content to {{ r_libre_dest_bin }}"
+  copy:
+    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/bin/{{ binname }}"
+    dest: "{{ r_libre_dest_bin }}"
+    remote_src: yes
+    mode: preserve
+    owner: root
+    group: root
+  loop: "{{ r_libre_files_binary_student }}"
+  loop_control:
+    loop_var: binname
+  become: yes
+  when: (r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true) and r_libre_type != "instructor"
+- name: "install_libre : move LIBRE ansible content to {{ r_libre_dest_ansible }}"
+  synchronize:
+    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/ansible/"
+    dest: "{{ r_libre_dest_ansible }}"
+    recursive: yes
+    delete: yes
+  become: yes
+  delegate_to: "{{ inventory_hostname }}"
+  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true
+- name: "install_libre : Remove tempory LIBRE clone directory {{ r_libre_source_tmp }}"
+  file:
+    state: absent
+    path: "{{ r_libre_source_tmp }}"
+  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true

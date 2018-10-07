@@ -1,0 +1,9 @@
+---
+- name: "Uninstall student environment on {{ target }}"
+  hosts: '{{ target }}'
+  gather_facts: true
+  user: root
+ 
+  roles:
+    - { role: student, do: load }
+    - { role: student, do: uninstall, become: yes, libre_uninstall_deep: true }

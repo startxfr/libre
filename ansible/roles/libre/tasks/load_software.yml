@@ -1,0 +1,19 @@
+---
+- name: "load_software : Get {{ r_libre_dest_bin }}/libre-{{ r_libre_type }} file details"
+  stat:
+    path: "{{ r_libre_dest_bin }}/libre-{{ r_libre_type }}"
+  register: r_libre_binary_details
+- name: "load_software : Get {{ r_libre_tmp }}/{{ r_libre_tmpfile  }} file details"
+  stat:
+    path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile  }}"
+  register: r_libre_tmpfile_details
+  delegate_to: localhost
+  become: no
+- name: "load_software : Touch report data"
+  file:
+    path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    state: touch 
+    mode: 0666
+  delegate_to: localhost
+  become: no
+  when: "r_libre_tmpfile_details.stat.exists != true"

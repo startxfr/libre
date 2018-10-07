@@ -1,0 +1,25 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+{% if r_session_conf_details.results[0].stat.exists == true %}
+session file : {{ r_libre_config_file_session }} {% if libre_session is defined %} (loaded) {% endif %}
+
+{% else %}
+session file : not installed
+{% endif %}
+{% if libre_session is defined %}
+
+session      : {{ libre_session.type }} {{ libre_session.id }}
+State        : {{ libre_session.state }}
+trainer      : {{ libre_session.instructor }}
+start        : {{ libre_session.start }}
+{% else %}
+session      : not configured
+{% endif %}
+{% if libre_course is defined %}
+
+Course       : {{ libre_course.id }} v{{ libre_course.version }}
+               {{ libre_course.name }}
+{% else %}
+Course       : not configured
+{% endif %}
+

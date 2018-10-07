@@ -1,0 +1,28 @@
+---
+# Uninstall pre-tasks
+
+# Uninstall tasks
+- name: "uninstall : Start LIBRE uninstall"
+  include_role: 
+    name: libre
+    tasks_from: uninstall
+  become: yes
+- name: "uninstall : Remove local course repository {{ r_training_repository_local }}"
+  file:
+    state: absent
+    path: "{{ r_training_repository_local }}"
+  when: 
+    - r_training_repository_local_details.stat.exists == true
+    - r_libre_uninstall_deep == true
+- name: "uninstall : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_training_repository_tmpfile) | default('') }}" 
+  delegate_to: localhost
+  become: no
+- name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_training_repository_tmpfile }}"
+  template:
+    src: templates/libre_report-uninstall.j2
+    dest: "{{ r_libre_tmp }}/{{ r_training_repository_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+  become: no

@@ -1,0 +1,6 @@
+---
+- name: "load : Loading LIBRE primitives"
+  include_tasks: "load_{{ item }}.yml"
+  with_items: 
+    - software
+    - environment

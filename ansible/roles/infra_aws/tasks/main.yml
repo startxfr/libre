@@ -1,0 +1,10 @@
+## LIBRE infra_aws role tasks
+---
+- name: "Action {{ do | default('load') | string }} in AWS infrastructure role is supported"
+  assert:
+    msg: "Action {{ do | default('load') | string }} in AWS infrastructure role is not supported"
+    that: "do|default('load')|string in ['load','setup','status','provision','provision-post','deprovision']"
+- name: "{{ do | default('load') | string }} AWS infrastructure environement"
+  include_tasks: "{{ do | default('load') | string }}.yml"
+  vars:
+  when: "do|default('load')|string in ['load','setup','status','provision','provision-post','deprovision']"

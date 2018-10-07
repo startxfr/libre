@@ -1,0 +1,21 @@
+{
+  "id" : "{{ session_id }}",
+  "course" : "{{ course_id }}",
+  "instructor" : "{{ session_instructor }}",
+  "start" : "{{ session_start }}",
+  "stop" : "{{ session_stop }}",
+  "type" : "{{ session_type }}",
+  "state" : "{{ session_state }}",
+  "commentToTrainer" : "{{ session_commentToTrainer }}",
+  "commentToFacility" : "{{ session_commentToFacility }}",
+  "commentFromTrainer" : "{{ session_commentFromTrainer }}",
+  "students" : [
+{% for student in session_students %}
+    {
+      "id" : "{{ student.id }}",
+      "name" : "{{ student.name }}",
+      "workstation" : "{{ student.workstation }}"
+    } {% if not loop.last %}, {%endif%}
+{% endfor %}
+  ]
+}

@@ -1,0 +1,15 @@
+app:
+  container_name: "libre-instructor"
+  build: .
+  environment:
+  - SX_VERBOSE=true
+  - SX_DEBUG=true
+  ports:
+    - "1900:8080"
+  volumes:
+    - "./sxapi.json:/conf/sxapi.json:z"
+    - "./static:/usr/src/app/static:z"
+    - "/libre/conf:/usr/src/app/config:z"
+    - "/libre/course:/usr/src/app/course:z"
+    - "/libre/collect:/data:z"
+    

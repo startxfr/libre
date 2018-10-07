@@ -1,0 +1,12 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+
+{% if libre_lab is defined and libre_lab.id is defined %}
+Lab          : {{ libre_lab.id }} - {{ libre_lab.name }}
+Duration     : {{ libre_lab.time }}min
+--------------
+{{ libre_lab.desc }}
+{% else %}
+Lab          : none
+{% endif %}
+

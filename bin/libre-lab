@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-lab
+
+
+# Dispatch input arguments
+case $1 in
+    start)                  labSetupPlaybook start $2 ;;
+    stop)                   labPlaybook stop $2 ;;
+    reset)                  labPlaybook reset ;;
+    grade)                  labPlaybook grade ;;
+    status)                 labPlaybook status ;;
+    usage|help|--help|-h)   labUsage $@ ;;
+    info|--info)            labInformation $@ ;;
+    version|--version)      labVersion $@ ;;
+    *)                      labWelcome $@ ;;
+esac

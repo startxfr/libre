@@ -1,0 +1,36 @@
+---
+# Install pre-tasks
+- name: "install : Start instructor pre-installation checks"
+  include_tasks: "install-precheck.yml"
+  when: libre_instructor_install_precheck is undefined or libre_instructor_install_precheck != true
+
+# Install tasks
+- name: "install : Start training_repo install"
+  include_role: 
+    name: training_repo
+    tasks_from: install
+  become: yes
+- name: "install : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_instructor_tmpfile) | default('') }}"
+  delegate_to: localhost
+  become: no
+- name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_instructor_tmpfile }}"
+  template:
+    src: templates/libre_report-install.j2
+    dest: "{{ r_libre_tmp }}/{{ r_instructor_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+  become: no
+- name: "install : Log install action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars: 
+    log_name: "Instructor workstation is installed"
+    log_component: instructor
+    log_action: install
+
+# Install post-tasks
+- name: "install : Start instructor post-installation checks"
+  include_tasks: "install-postcheck.yml"

@@ -1,0 +1,94 @@
+---
+# Install pre-tasks
+- name: "install : Start session pre-installation checks"
+  include_tasks: "install-precheck.yml"
+  when: libre_session_install_precheck is undefined or libre_session_install_precheck != true
+
+# Install tasks
+- name: "install : Start instructor install"
+  include_role: 
+    name: instructor
+    tasks_from: install.yml
+  become: yes
+- name: "install : Start session configuration"
+  include_tasks: "config.yml"
+- name: "install : Gathering fresh facts to get session configuration"
+  setup:
+  register: r_session_freshFacts
+  when: libre_session is undefined
+- name: "install : Check if local configuration are in fresh facts"
+  fail: msg="Could not find local configuration in ansible_local facts. Check your config directory {{ r_libre_dir_conf }} and {{ r_libre_dir_facts }}"
+  when: 
+    - libre_session is undefined
+    - (r_session_freshFacts is undefined or r_session_freshFacts.ansible_facts is undefined or r_session_freshFacts.ansible_facts.ansible_local is undefined)
+- name: "install : Check if session configuration is in fresh facts"
+  fail: msg="Could not find session configuration {{ r_libre_config_file_session }} in ansible_local facts"
+  when: 
+    - libre_session is undefined
+    - (r_session_freshFacts.ansible_facts.ansible_local.session is undefined or r_session_freshFacts.ansible_facts.ansible_local.session == "error loading fact - please check content")
+- name: "install : Reload session configuration facts from fresh facts"
+  set_fact: 
+    libre_session: "{{ r_session_freshFacts.ansible_facts.ansible_local.session }}"
+  when: libre_session is undefined
+
+- name: "install : Test if directory {{ r_session_dir_course }} contain a course content"
+  stat:
+    path: "{{ r_session_dir_course }}/manifest.yml"
+  register: session_manifest_details
+- name: "install : Remove previous training course content from directory {{ r_session_dir_course }}"
+  file:
+    state: absent
+    path: "{{ r_session_dir_course }}/"
+  when: session_manifest_details.stat.exists == true
+- name: "install : Get repository course {{ libre_session.course }} details"
+  stat:
+    path: "{{ r_session_training_repository_local }}{{ r_session_training_repo_base }}/{{ libre_session.course }}"
+  register: session_repository_course_details
+- name: "install : Check if course {{ libre_session.course }} is in local repository"
+  fail: msg="Could not find course {{ libre_session.course }} in local repository {{ r_session_training_repository_local }}{{ r_session_training_repo_base }}"
+  when: session_repository_course_details.stat.exists != true
+- name: "install : Copy course {{ libre_session.course }} content from local repository to {{ r_session_dir_course }}"
+  synchronize:
+    src: "{{ r_session_training_repository_local }}{{ r_session_training_repo_base }}/{{ libre_session.course }}/"
+    dest: "{{ r_session_dir_course }}"
+- name: "install : Reload session configuration file details"
+  stat:
+    path: "{{ r_session_dir_conf }}/{{ conf2.file }}"
+  loop: "{{ r_session_conf_list }}"
+  loop_control:
+    loop_var: conf2
+  register: r_session_conf_details
+- name: "install : Reload {{ r_session_dir_course }}/manifest.yml file details"
+  stat:
+    path: "{{ r_session_dir_course }}/manifest.yml"
+  register: r_session_manifest_details
+- name: "install : Install course playbook"
+  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
+  when: "r_session_dir_course_playbooks_details.stat.exists == true" 
+- name: "install : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}" 
+  delegate_to: localhost
+- name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_session_tmpfile }}"
+  template:
+    src: templates/libre_report-install.j2
+    dest: "{{ r_libre_tmp }}/{{ r_session_tmpfile }}"
+    mode: 0664
+  become: no
+  delegate_to: localhost
+- name: "install : Log install action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars: 
+    log_name: "Session is installed"
+    log_component: session
+    log_action: install
+- name: "install : Get {{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }} directory details"
+  stat:
+    path: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }}"
+  register: r_session_dir_course_playbooks_details
+
+# Install post-tasks
+- name: "install : Start session post-installation checks"
+  include_tasks: "install-postcheck.yml"

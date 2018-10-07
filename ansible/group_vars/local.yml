@@ -1,0 +1,10 @@
+## default configuration vars for local group
+---
+# use a local connection to reach this host
+ansible_connection: local
+# Workstation type to install
+libre_type: instructor
+# Default user for course content
+libre_user: instructor
+# playbooks directory inside the course directory
+training_dir_course_playbooks: playbooks/instructor

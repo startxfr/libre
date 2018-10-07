@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# Auto-completion for chapter
+_libre_chapter()
+{
+  local available="start list stop status usage info version"
+  if [ "${#COMP_WORDS[@]}" == "2" ]; then
+    local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
+    if [ "${#suggestions[@]}" == "1" ]; then
+      local number=$(echo ${suggestions[0]/%\ */})
+      COMPREPLY=("$number")
+    else
+      COMPREPLY=("${suggestions[@]}")
+    fi
+  elif [ "${#COMP_WORDS[@]}" == "3" && "${COMP_WORDS[1]}" == "start" ]; then
+    available="1 2 3 4 5 6 7 8 9 10"
+    local suggestions=($(compgen -W "$available" "${COMP_WORDS[2]}"))
+    if [ "${#suggestions[@]}" == "1" ]; then
+      local number=$(echo ${suggestions[0]/%\ */})
+      COMPREPLY=("$number")
+    else
+      COMPREPLY=("${suggestions[@]}")
+    fi
+  else
+    return
+  fi
+}
+
+# Auto-completion for infra
+_libre_infra()
+{
+  local available="aws prem self"
+  local available2="setup provision post-provision deprovision status usage info version"
+  local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
+  local suggestions2=($(compgen -W "$available2" "${COMP_WORDS[2]}"))
+  echo "count  : ${COMP_CWORD}" >> /tmp/toto
+  echo "curent : ${COMP_WORDS[COMP_CWORD]}" >> /tmp/toto
+  echo "prev   : ${COMP_WORDS[COMP_CWORD-1]}" >> /tmp/toto
+  echo "all    : ${#COMP_WORDS[@]}" >> /tmp/toto
+  echo "suggest: ${#suggestions[@]}" >> /tmp/toto
+  if [ "${COMP_CWORD}" == "0" ]; then
+      COMPREPLY=("${suggestions[@]}")
+  elif [ "${COMP_CWORD}" == "1" ]; then
+    if [ "${#suggestions[@]}" == "1" ]; then
+      local number=$(echo ${suggestions[0]/%\ */})
+      COMPREPLY=("$number")
+    else
+      COMPREPLY=("${suggestions[@]}")
+    fi
+  elif [ "${COMP_CWORD}" == "2" ]; then
+    if [ "${#suggestions2[@]}" == "1" ]; then
+      local number=$(echo ${suggestions2[0]/%\ */})
+      COMPREPLY=("$number")
+    else
+      COMPREPLY=("${suggestions2[@]}")
+    fi
+  else
+    return 0;
+  fi
+  return 0;
+}
+
+# Auto-completion for instructor
+_libre_instructor()
+{
+  local available="install uninstall status usage info version"
+  if [ "${#COMP_WORDS[@]}" != "2" ]; then
+    return
+  fi
+  local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
+  if [ "${#suggestions[@]}" == "1" ]; then
+    local number=$(echo ${suggestions[0]/%\ */})
+    COMPREPLY=("$number")
+  else
+    COMPREPLY=("${suggestions[@]}")
+  fi
+}
+
+# Auto-completion for lab
+_libre_lab()
+{
+  local available="setup start stop reset grade status usage info version"
+  if [ "${#COMP_WORDS[@]}" != "2" ]; then
+    return
+  fi
+  local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
+  if [ "${#suggestions[@]}" == "1" ]; then
+    local number=$(echo ${suggestions[0]/%\ */})
+    COMPREPLY=("$number")
+  else
+    COMPREPLY=("${suggestions[@]}")
+  fi
+}
+
+# Auto-completion for session
+_libre_session()
+{
+  local available="config install start stop uninstall status usage info version"
+  if [ "${#COMP_WORDS[@]}" != "2" ]; then
+    return
+  fi
+  local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
+  if [ "${#suggestions[@]}" == "1" ]; then
+    local number=$(echo ${suggestions[0]/%\ */})
+    COMPREPLY=("$number")
+  else
+    COMPREPLY=("${suggestions[@]}")
+  fi
+}
+
+# Auto-completion for student
+_libre_student()
+{
+  local available="install uninstall status usage info version"
+  if [ "${#COMP_WORDS[@]}" != "2" ]; then
+    return
+  fi
+  local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
+  if [ "${#suggestions[@]}" == "1" ]; then
+    local number=$(echo ${suggestions[0]/%\ */})
+    COMPREPLY=("$number")
+  else
+    COMPREPLY=("${suggestions[@]}")
+  fi
+}
+
+complete -F _libre_chapter libre-chapter
+complete -F _libre_infra libre-infra
+complete -F _libre_instructor libre-instructor
+complete -F _libre_lab libre-lab
+complete -F _libre_session libre-session
+complete -F _libre_student libre-student

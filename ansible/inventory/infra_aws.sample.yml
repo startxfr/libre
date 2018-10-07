@@ -1,0 +1,30 @@
+---
+local:
+  hosts:
+    localhost:
+  vars:
+    ansible_connection: local
+    libre_type: instructor
+    # Set AWS access key to use fot this deployement
+    infra_aws_access_key: "XXXXXXXXXXXXX"
+    # Set AWS secret key to use fot this deployement
+    infra_aws_secret_key: "XXXXXXXXXXXXXX"
+    # Set AWS route53 sub-domain to use for deploying DNS classroom names
+    infra_aws_public_dns_zone: training.example.com
+    # Set AWS route53 region to use for deploying DNS classroom names
+    infra_aws_route53_dns_zone: example.com
+    # Set AWS region to use for this deployement
+    infra_aws_region: eu-west-1
+    # Set AWS type of instance
+    infra_aws_instance_type: t2.micro
+    # Set Number of instance (will be upgraded with the number of students + instructor and spare)
+    #infra_aws_instance_nb: 1
+    # Set AMI base image (must be available in the region)
+    # - Centos Official 7.4 base image
+    infra_aws_image: ami-3548444c
+    # Set AWS key name to set into the EC2 instances
+    infra_aws_key_name: my-aws-ssh-key
+    # Set AWS private key related to the previous key name
+    infra_aws_ssh_private_key_file: ~/.ssh/id_rsa
+    # Set ssh user used to connect to the EC2 instance
+    infra_aws_ssh_user: centos

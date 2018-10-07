@@ -1,0 +1,8 @@
+---
+- name: "install-precheck : Start training_repo pre-installation checks"
+  include_role: 
+    name: training_repo
+    tasks_from: "install-precheck.yml"
+  when: libre_training_repository_install_precheck is undefined or libre_training_repository_install_precheck != true
+- name: "install-precheck : Mark instructor install-precheck as done"
+  set_fact: libre_instructor_install_precheck=true

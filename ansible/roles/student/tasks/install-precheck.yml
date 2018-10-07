@@ -1,0 +1,16 @@
+---
+- name: "install-precheck : Start LIBRE pre-installation checks"
+  include_role: 
+    name: libre
+    tasks_from: "install-precheck.yml"
+  when: libre_install_precheck is undefined or libre_install_precheck != true
+- name: "install-precheck : Mark student install-precheck as done"
+  set_fact: libre_student_install_precheck=true
+- name: "install-precheck : Session configuration file {{ r_libre_config_file_session }} is loaded"
+  assert:
+    msg: "Session configuration file {{ r_libre_config_file_session }} is not loaded. You must configure a session before installing a student environement."
+    that: "libre_session is defined"
+- name: "install-precheck : Course description is loaded"
+  assert:
+    msg: "Course description {{ r_session_dir_course }}/manifest.yml is not loaded. You must configure a session before installing a student environement."
+    that: "libre_course is defined"

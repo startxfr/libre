@@ -1,0 +1,14 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+
+{% if libre_chapter is defined and libre_chapter.id is defined %}
+Chapter      : {{ libre_chapter.id }} - {{ libre_chapter.name }}
+{% else %}
+Chapter      : none
+{% endif %}
+{% if libre_section is defined and libre_section.id is defined %}
+Section      : {{ libre_section.id }} - {{ libre_section.name }}
+{% else %}
+Section      : none
+{% endif %}
+

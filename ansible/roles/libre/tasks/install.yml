@@ -1,0 +1,32 @@
+---
+# Install pre-tasks
+- name: "install : Start LIBRE pre-installation checks"
+  include_tasks: "install-precheck.yml"
+  when: libre_install_precheck is undefined or libre_install_precheck != true
+
+# Install tasks
+- name: "install : Start LIBRE installation"
+  include_tasks: "install_{{ item }}.yml"
+  with_items: 
+    - libre
+    - training
+    - config
+    - facts
+  when: r_libre_dir_details.stat.exists != true or r_libre_conf_details.results[0].stat.exists != true or libre_config is undefined
+- name: "install : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+  delegate_to: localhost
+  become: no
+- name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+  template:
+    src: templates/libre_report-install.j2
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+  become: no
+  when: r_libre_dir_details.stat.exists != true or r_libre_conf_details.results[0].stat.exists != true or libre_config is undefined
+
+# Install post-tasks
+- name: "install : Start LIBRE post-installation checks"
+  include_tasks: "install-postcheck.yml"

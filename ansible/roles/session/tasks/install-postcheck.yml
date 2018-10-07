@@ -1,0 +1,39 @@
+---
+- name: "install-postcheck : Session configuration file {{ r_libre_config_file_session }} exist"
+  assert:
+    msg:
+      - " "
+      - "Session configuration file {{ r_libre_config_file_session }} doesn't exist"
+      - " "
+      - "You can configure session with the following command :"
+      - "$ libre-session install"
+      - " "
+    that: "r_session_conf_details.results[0].stat.exists == true"
+- name: "install-postcheck : Training configuration {{ r_libre_config_file_session }} is loaded"
+  assert:
+    msg: "Session configuration file {{ r_libre_config_file_session }} is not loaded"
+    that: "libre_session is defined"
+- name: "install-postcheck : Check if session id exist"
+  assert:
+    msg:
+      - " "
+      - "Session ID must be defined in {{ r_libre_config_file_session }}"
+      - " "
+      - "You can configure session with the following command :"
+      - "$ libre-session install"
+      - " "
+    that: "libre_session.id is defined"
+- name: "install-postcheck : Check if course id exist"
+  assert:
+    msg: 
+      - " "
+      - "Session course must be defined in {{ r_libre_config_file_session }}"
+      - " "
+      - "You can configure session with the following command :"
+      - "$ libre-session install"
+      - " "
+    that: "libre_session.course is defined"
+- name: "install-postcheck : Course manifest exist in {{ r_libre_dir_course }}"
+  assert:
+    msg: "Course manifest not found in {{ r_libre_dir_course }}"
+    that: "r_session_manifest_details.stat.exists == true"

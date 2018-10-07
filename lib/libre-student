@@ -1,0 +1,59 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-core
+
+# Display student header message
+function studentHeader {
+  isVerbose
+  if [ "$?" -eq 1 ] ; then
+    cat /usr/local/lib/libre-student.txt
+  fi 
+}
+
+# Call student playbook
+function studentPlaybook {
+  studentHeader
+  checkIfSession
+  runLibrePlaybook student $1 $2
+  exit 0;
+}
+
+# Display student info and exit
+function studentInformation {
+  studentHeader
+  coreInformation
+  exit 0;
+}
+
+# Display student welcome and exit
+function studentWelcome {
+  studentHeader
+  coreInformation
+  studentUsage
+  exit 0;
+}
+
+# Display version info and exit
+function studentVersion {
+  coreVersion
+  exit 0;
+}
+
+# Display libre-student usage 
+function studentUsage {
+cat <<EOF
+
+Student training management command line.
+
+Usage:
+  libre-student [command]
+
+- Generic commands:
+  install          install student environment
+  uninstall        uninstall student environment
+  status           get status of the current student
+  usage            get command line usage information
+  info             give information about current libre installation
+  version          give information about current libre version
+EOF
+}

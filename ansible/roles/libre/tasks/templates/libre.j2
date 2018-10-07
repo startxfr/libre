@@ -1,0 +1,21 @@
+{
+  "application" : {
+    "type" : "{{ r_libre_config.application.type }}",
+    "version" : "{{ r_libre_config.application.version }}",
+    "verbose" : "{{ r_libre_config.application.verbose }}",
+    "debug" : "{{ r_libre_config.application.debug }}",
+    "ansible" : "{{ r_libre_dest_ansible }}"
+  },
+  "repository" : {
+    "url" : "{{ r_libre_config.repository.url }}",
+    "branch" : "{{ r_libre_config.repository.branch }}",
+    "base" : "{{ r_libre_config.repository.base }}"
+  },
+  "directory" : {
+    "base" : "{{ r_libre_config.directory.base }}",
+    "course" : "{{ r_libre_config.directory.course }}"
+  },
+  "gapi" : {
+    "session" : "{{ r_libre_config.gapi.session }}"
+  }
+}

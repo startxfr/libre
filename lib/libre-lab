@@ -1,0 +1,74 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-core
+
+# Display lab header message
+function labHeader {
+  isVerbose
+  if [ "$?" -eq 1 ] ; then
+    cat /usr/local/lib/libre-lab.txt
+  fi 
+}
+
+# Call lab playbook
+function labPlaybook {
+  labHeader
+  checkIfSession
+  runLibrePlaybook lab $1 $2
+  exit 0;
+}
+
+# Call lab setup playbook
+function labSetupPlaybook {
+  labHeader
+  checkIfSession
+  param="local"
+  if [[ $2 != "" ]] ; then
+    param="$param -e lab_current=$2";
+  fi
+  runLibrePlaybook lab $1 $param
+  exit 0;
+}
+
+# Display lab info and exit
+function labInformation {
+  labHeader
+  checkIfSession
+  coreInformation
+  exit 0;
+}
+
+# Display lab welcome and exit
+function labWelcome {
+  labHeader
+  coreInformation
+  labUsage
+  exit 0;
+}
+
+# Display version info and exit
+function labVersion {
+  coreVersion
+  exit 0;
+}
+
+# Display libre-lab usage 
+function labUsage {
+cat <<EOF
+
+Lab training management command line.
+
+Usage:
+  libre-lab [command]
+
+- Generic commands:
+  start            start lab
+  stop             stop lab
+  reset            reset lab
+  grade            grade lab
+  status           get status of the current lab
+  usage            get command line usage information
+  info             give information about current libre installation
+  version          give information about current libre version
+EOF
+}

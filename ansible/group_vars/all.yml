@@ -1,0 +1,94 @@
+## common configuration vars for all groups
+---
+# LIBRE software version 
+libre_version: 0.5.12
+# Enable verbose configuration
+#libre_verbose: true
+# Enable debug configuration
+#libre_debug: true
+
+# Choose installation type
+#libre_type: instructor
+# Configure a session ID (used during session config)
+#session_id: "0001"
+# Configure a session token (used during session config)
+#session_token: "dev"
+
+
+# Set repository URL for course material
+#libre_source_url: https://github.com/startxfr/libre
+# Set repository branch containing course material
+#libre_source_branch: master
+# Set LIBRE source directory containing LIBRE application material
+#libre_source_base: /
+# Set LIBRE source temporary directory for hosting copied LIBRE source content
+#libre_source_tmp: /tmp/libre
+# Set LIBRE source temporary directory for exchange with libre command line
+#libre_tmp: /tmp
+# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
+#libre_tmpfile: libre.txt
+
+# Default user for course content
+#libre_user: instructor
+# Default group for course content
+#libre_group: libre
+# Set LIBRE destination directory for LIBRE library
+#lib: /usr/local/lib
+# Set LIBRE destination directory for LIBRE binary
+#libre_dest_bin: /usr/local/bin
+# Set LIBRE destination directory for ansible content
+#libre_dest_ansible: /usr/local/lib/libre-ansible
+# Config file for LIBRE
+#libre_config_file_libre: config.json
+# Config file for hardware
+#libre_config_file_hw: hardware.json
+# Config file for session
+#libre_config_file_session: session.json
+
+# targeted architecture
+#libre_minhw_architecure: "x86_64"
+# minimum physical CPU required
+#libre_minhw_cpu_physical: 1
+# minimum logical CPU required
+#libre_minhw_cpu_cores: 1
+# minimum virtual CPU required
+#libre_minhw_cpu_vcpus: 1
+# minimum RAM size
+#libre_minhw_memory_total: 2048
+# minimum RAM free space
+#libre_minhw_memory_free: 512
+# minimum storage free space (in percent)
+#libre_minhw_storage_percent: 15
+# minimum storage free space (in size)
+#libre_minhw_storage_capacity: 4096
+
+# Default directory used for delivering training
+#training_dir: /libre
+# Configuration directory used for delivering training
+#training_dir_conf: /libre/conf
+# Collect directory used for collecting training activity
+#training_dir_collect: /libre/collect
+# Course directory used for delivering training
+#training_dir_course: /libre/course
+# Lab directory inside the course directory
+#training_dir_course_lab: playbooks/labs
+# playbooks directory inside the course directory
+#training_dir_course_playbooks: playbooks/student
+# Configuration directory used for fact collection
+#training_dir_facts: /etc/ansible/facts.d
+# Set training material repository URL containing course material
+#training_repository_url: https://github.com/startxfr/libre
+# Set training material repository branch containing course material
+#training_repository_branch: master
+# Set training material repository directory containing course material
+#training_repository_base: /courses-sample
+# Set LIBRE local directory for hosting course content copy
+#training_repository_local: /var/local/libre.repo
+
+# Set Google API script delivering session description
+#session_gapi_session: https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec
+
+# Config file to store the current chapter - section
+#chapter_config_current: current-chapter.txt
+# Config file to store the current lab
+#lab_config_current: current-lab.txt

@@ -1,0 +1,5 @@
+---
+- name: "setup : Start setup session"
+  include_tasks: "setup/session.yml"
+
+- fail: msg="STOP-----------"

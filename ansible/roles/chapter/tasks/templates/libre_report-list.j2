@@ -1,0 +1,12 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+{% if libre_course is defined %}
+Course       : {{ libre_course.id }} (v{{ libre_course.version }})
+               {{ libre_course.name }}
+
+{% for chapter in libre_course.content %}
+Chapter {{ chapter.id }}    : {{ chapter.name }}
+{% endfor %}
+{% else %}
+Course       : not loaded
+{% endif %}

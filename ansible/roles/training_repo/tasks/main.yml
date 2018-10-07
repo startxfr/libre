@@ -1,0 +1,9 @@
+## LIBRE Training-Repo role tasks
+---
+- name: "Action {{ do | default('load') | string }} in training_repo role is supported"
+  assert:
+    msg: "Action {{ do | default('load') | string }} in training_repo role is not supported"
+    that: "do|default('load')|string in ['load','status','install','update','uninstall']"
+- name: "{{ do | default('load') | string }} training_repo environement"
+  include_tasks: "{{ do | default('load') | string }}.yml"
+  when: "do|default('load')|string in ['load','status','install','update','uninstall']"

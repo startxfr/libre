@@ -1,0 +1,9 @@
+---
+- name: "Check chapter on {{ target }}"
+  hosts: '{{ target }}'
+  gather_facts: true
+  user: root
+ 
+  roles:
+    - { role: chapter, do: load }
+    - { role: chapter, do: status }

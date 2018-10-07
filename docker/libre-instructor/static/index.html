@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LIBRE Training Console</title>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/index.html">
+            <img alt="STARTX" src="images/startx.png">
+          </a>
+          <h4 class="navbar-text">LIBRE Training Management System</h4>
+        </div>
+      </div>
+    </nav>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container" id="mainContainer">
+      <div class="jumbotron">
+        <h1><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Welcome to <span id="courseID">XXXX</span> course</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <p><a class="btn btn-primary btn-lg" href="/course" role="button">
+              <span class="glyphicon glyphicon-education" aria-hidden="true"></span> Read course
+            </a></p>
+          <p>Access course content and training e-book</p>
+        </div>
+        <div class="col-md-3">
+          <p><a class="btn btn-primary btn-lg" href="signsheet.html" role="button">
+              <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Validate signsheet
+            </a></p>
+          <p>Course signsheet to fill in twice a day</p>
+        </div>
+        <div class="col-md-3">
+          <p><a class="btn btn-primary btn-lg" href="survey.html" role="button">
+              <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span> Fill-in survey
+            </a></p>
+          <p>Course survey to fill in at the end of the course</p>
+        </div>
+        <div class="col-md-3">
+          <p><a class="btn btn-primary btn-lg" href="info.html" role="button">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Get informations
+            </a></p>
+          <p>Course and session information detail</p>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container" id="appFooter">
+        &copy; LIBRE - v0.5.12
+      </div>
+    </nav>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="js-yaml.min.js"></script>
+    <script src="app.js"></script>
+    <script>  $(document).ready(app.init);</script>
+  </body>
+</html>

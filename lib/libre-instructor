@@ -1,0 +1,62 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-core
+
+# Display instructor header message
+function instructorHeader {
+  isVerbose
+  if [ "$?" -eq 1 ] ; then
+    cat /usr/local/lib/libre-instructor.txt
+  fi 
+}
+
+# Call instructor playbook
+function instructorPlaybook {
+  instructorHeader
+  checkIfSession
+  runLibrePlaybook instructor $1 $2
+  exit 0;
+}
+
+# Display instructor info and exit
+function instructorInformation {
+  instructorHeader
+  coreInformation
+  exit 0;
+}
+
+# Display instructor welcome and exit
+function instructorWelcome {
+  instructorHeader
+  coreInformation
+  echoEnv 
+  instructorUsage
+  exit 0;
+}
+
+# Display version info and exit
+function instructorVersion {
+  coreVersion
+  exit 0;
+}
+
+# Display libre-instructor usage 
+function instructorUsage {
+cat <<EOF
+
+Instructor training management command line.
+
+Usage:
+  libre-instructor [command]
+
+- Generic commands:
+  install          install instructor environment
+  uninstall        uninstall instructor environment
+  status           get status of the current instructor
+  usage            get command line usage information
+  info             give information about current libre installation
+  version          give information about current libre version
+EOF
+}
+
+

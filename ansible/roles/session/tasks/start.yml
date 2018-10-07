@@ -1,0 +1,37 @@
+---
+# Start pre-tasks
+- name: Start LIBRE-instructor web application
+  docker_container:
+    name: libre-instructor
+    image: startx/libre-instructor:latest
+    state: started
+    volumes:
+     - "/libre/conf:/usr/src/app/config:z"
+     - "/libre/course:/usr/src/app/course:z"
+     - "/libre/collect:/data:z"
+    ports:
+     - "80:8080"
+  become: yes
+- name: "start : Start course {{ libre_course.id }}"
+  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/start.yml"
+  when: "r_session_dir_course_playbooks_details.stat.exists == true" 
+
+# Start tasks
+- name: "start : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}" 
+  delegate_to: localhost
+- name: "start : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_session_tmpfile }}"
+  template:
+    src: templates/libre_report-start.j2
+    dest: "{{ r_libre_tmp }}/{{ r_session_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+- name: "start : Log start action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars: 
+    log_name: "Session is started"
+    log_component: session
+    log_action: start

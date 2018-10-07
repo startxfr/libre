@@ -1,0 +1,7 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+{% if libre_session is defined %}
+Training session {{ libre_session.id }} is started
+{% else %}
+Training session is started
+{% endif %}

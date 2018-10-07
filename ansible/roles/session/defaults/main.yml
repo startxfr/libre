@@ -1,0 +1,34 @@
+## LIBRE Session role default variables
+ 
+
+# Instructor directory inside the course directory
+r_session_dir_course_playbooks: "{{ training_dir_course_playbooks | default('playbooks/instructor') | string }}"
+
+
+# Default user for course content
+r_session_user: "{{ libre_user | default('instructor') | string }}"
+# Default user for course content
+r_session_group: "{{ libre_group | default('libre') | string }}" 
+
+# Configuration directory used for delivering training
+r_session_dir_conf: "{{ r_libre_dir_conf | default('/libre/conf') | string }}"
+# Course directory used for delivering training
+r_session_dir_course: "{{ training_dir_course | default('/libre/course') | string }}"
+# Configuration directory used for fact collection
+r_session_dir_facts: "{{ r_libre_dir_facts | default('/etc/ansible/facts.d') | string }}" 
+
+# Session configuration file list
+r_session_conf_list: 
+  - key: session
+    file: "{{ r_libre_config_file_session }}"
+ 
+# Google API to connect to the session description backend
+r_session_gapi_session: "{{ session_gapi_session | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
+
+# Set LIBRE source local directory for hosting copied LIBRE source content
+r_session_training_repository_local: "{{ r_training_repository_local | default('/var/local/libre.repo') }}"
+# Set training material repository directory containing course material
+r_session_training_repo_base: "{{ r_training_repository_base | default('/courses-sample') }}"
+
+# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
+r_session_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"

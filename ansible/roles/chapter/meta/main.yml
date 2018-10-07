@@ -1,0 +1,18 @@
+## LIBRE Chapter role meta informations
+---
+galaxy_info:
+  author: Startx dev
+  description: LIBRE Training Toolkit - Chapter role 
+  company: STARTX
+  license: Apache License, Version 2.0
+  min_ansible_version: 1.8
+  platforms:
+  - name: CentOS
+    versions:
+    - 7
+  categories:
+  - cloud
+  - system
+  - training
+dependencies:
+  - { role: session, do: load } 
