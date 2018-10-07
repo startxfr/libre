@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.5.12"
+LIBREI_VERSION="0.5.13"
 LIBREI_REQUIREMENTS_FC="git curl pip ansible jq"
 LIBREI_REQUIREMENTS_CENTOS="epel-release; yum install -y git curl python-pip ansible jq"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
-INSTALLER_URL=https://goo.gl/TV92p9
+INSTALLER_URL=https://goo.gl/T8Dw9J
 
 # config var
 LIBRE_USESUDO=yes
 LIBRE_TYPE=instructor
-LIBRE_TOOLREPO_URL=https://github.com/startxfr/startxTools
+LIBRE_TOOLREPO_URL=https://github.com/startxfr/libre
 LIBRE_TOOLREPO_BRANCH=cl
 LIBRE_TOOLREPO_BASE=libre
 

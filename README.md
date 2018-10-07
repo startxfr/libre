@@ -16,7 +16,7 @@ following procedure
 # install the installer
 sudo su -
 yum install -y curl
-curl -L https://goo.gl/TV92p9 -o /tmp/installer-libre
+curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
 chmod +x /tmp/installer-libre
 # install LIBRE
 /tmp/installer-libre instructor
@@ -58,7 +58,7 @@ The simpliest way is to run the following script on your workstation.
 ```bash
 sudo su -
 yum install -y curl
-curl -L https://goo.gl/TV92p9 -o /tmp/installer-libre
+curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
 chmod +x /tmp/installer-libre
 /tmp/installer-libre 
 ```
