@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.5.13"
+LIBREI_VERSION="0.5.14"
 LIBREI_REQUIREMENTS_FC="git curl pip ansible jq"
 LIBREI_REQUIREMENTS_CENTOS="epel-release; yum install -y git curl python-pip ansible jq"
 TMP_DEST=/tmp/libre
@@ -13,8 +13,8 @@ INSTALLER_URL=https://goo.gl/T8Dw9J
 LIBRE_USESUDO=yes
 LIBRE_TYPE=instructor
 LIBRE_TOOLREPO_URL=https://github.com/startxfr/libre
-LIBRE_TOOLREPO_BRANCH=cl
-LIBRE_TOOLREPO_BASE=libre
+LIBRE_TOOLREPO_BRANCH=master
+LIBRE_TOOLREPO_BASE=/
 
 # get and store the operating system name
 OS=`cat /etc/os-release | grep "NAME" | head -n 1 | sed 's/NAME=//g' | sed 's/["]//g'`
@@ -130,7 +130,7 @@ function installerInstallLibre {
     echo "Change branch for $LIBRE_TOOLREPO_BRANCH"
     git checkout $LIBRE_TOOLREPO_BRANCH &> /dev/null
     echo "Copy libre playbook into $ANSIBLE_DEST"
-    cp -r $TMP_DEST/$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
+    cp -r $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
   fi 
   cd - &> /dev/null
 }
