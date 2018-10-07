@@ -1,0 +1,8 @@
+---
+local:
+  hosts:
+    localhost:
+  vars:
+    ansible_connection: local
+    # Set Self-Hosted infrastructure sub-domain to use for deploying DNS classroom names
+    infra_prem_dns_zone: "{{r_infra_prem_dns_zone}}"
