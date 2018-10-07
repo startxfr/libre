@@ -2,8 +2,3 @@
 ---
 # use a local connection to reach this host
 ansible_connection: local
-
-# Set LIBRE source temporary directory for exchange with libre command line
-#libre_tmp: /tmp
-# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
-#libre_tmpfile: libre.txt

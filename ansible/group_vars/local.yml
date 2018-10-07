@@ -2,6 +2,10 @@
 ---
 # use a local connection to reach this host
 ansible_connection: local
+# Enable verbose configuration
+libre_verbose: true
+# Enable debug configuration
+libre_debug: true
 # Workstation type to install
 libre_type: instructor
 # Default user for course content
