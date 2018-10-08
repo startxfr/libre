@@ -1,0 +1,4 @@
+---
+- name: "install : Install course sample complete on {{ target }}"
+  debug: msg="TODO !!! must implement course sample complete install process"
+

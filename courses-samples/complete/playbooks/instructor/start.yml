@@ -1,0 +1,4 @@
+---
+- name: "start : Start course sample complete on {{ target }}"
+  debug: msg="TODO !!! implement course sample complete start process"
+

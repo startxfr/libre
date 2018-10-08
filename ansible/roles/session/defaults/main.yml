@@ -28,7 +28,7 @@ r_session_gapi_session: "{{ session_gapi_session | default('https://script.googl
 # Set LIBRE source local directory for hosting copied LIBRE source content
 r_session_training_repository_local: "{{ r_training_repository_local | default('/var/local/libre.repo') }}"
 # Set training material repository directory containing course material
-r_session_training_repo_base: "{{ r_training_repository_base | default('/courses-sample') }}"
+r_session_training_repo_base: "{{ r_training_repository_base | default('/courses-samples') }}"
 
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
 r_session_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"

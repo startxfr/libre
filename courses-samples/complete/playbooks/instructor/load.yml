@@ -1,0 +1,3 @@
+---
+- name: "load : Load course sample complete on {{ target }}"
+  debug: msg="TODO !!! implement course sample complete load process"

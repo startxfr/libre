@@ -1,0 +1,3 @@
+---
+- name: "stop : Stop course sample complete on {{ target }}"
+  debug: msg="TODO !!! implement course sample complete stop process"

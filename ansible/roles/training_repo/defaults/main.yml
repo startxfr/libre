@@ -5,7 +5,7 @@ r_training_repository_url: "{{ training_repository_url | default('https://github
 # Set training material repository branch containing course material
 r_training_repository_branch: "{{ training_repository_branch | default('master') }}"
 # Set training material repository directory containing course material
-r_training_repository_base: "{{ training_repository_base | default('/courses-sample') }}"
+r_training_repository_base: "{{ training_repository_base | default('/courses-samples') }}"
 # Set libre source local directory for hosting copied LIBRE source content
 r_training_repository_local: "{{ training_repository_local | default('/var/local/libre.repo') }}"
 

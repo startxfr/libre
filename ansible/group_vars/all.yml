@@ -1,7 +1,7 @@
 ## common configuration vars for all groups
 ---
 # LIBRE software version 
-libre_version: 0.5.14
+libre_version: 0.5.15
 # Enable verbose configuration
 #libre_verbose: true
 # Enable debug configuration
@@ -81,7 +81,7 @@ libre_version: 0.5.14
 # Set training material repository branch containing course material
 #training_repository_branch: master
 # Set training material repository directory containing course material
-#training_repository_base: /courses-sample
+#training_repository_base: /courses-samples
 # Set LIBRE local directory for hosting course content copy
 #training_repository_local: /var/local/libre.repo
 

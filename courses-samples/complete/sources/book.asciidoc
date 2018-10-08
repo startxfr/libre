@@ -1,0 +1,51 @@
+:description: Sample training book from libre TMS project
+:doctype: book
+:copyright: CC BY-SA 4.0
+
+:toc:
+
+:icons:
+:sectnums:
+:chapter-label: Chapter
+:xrefstyle: full
+:source-highlighter: coderay
+:listing-caption: Listing
+:pdf-page-size: A4
+:appendix-caption: Appendice
+:appendix-refsig: {appendix-caption}
+:caution-caption: Avertissement
+
+:!chapter-refsig:
+:!section-refsig:
+:example-caption: Example
+:figure-caption: Figure
+:important-caption: Important
+:last-update-label: Dernière mise à jour
+
+:manname-title: NOM
+:note-caption: Note
+
+:table-caption: Table
+:tip-caption: Astuce
+:toc-title: Table of Contents
+:untitled-label: Sans titre
+:version-label: Version
+:warning-caption: Attention
+ifndef::ebook-format[:leveloffset: 1]
+
+[[First Chapter]]
+= First chapter section
+
+= Second chapter section
+
+= First exercise
+
+= Third chapter section
+
+= Second exercise
+
+
+[[Second Chapter]]
+= First chapter section
+
+= Second chapter section

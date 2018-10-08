@@ -71,7 +71,7 @@ r_libre_config:
   repository:
     url: "{{ training_repository_url | default('https://github.com/startxfr/libre') | string }}"
     branch: "{{ training_repository_branch | default('master') | string }}"
-    base: "{{ training_repository_base | default('/courses-sample') | string }}"
+    base: "{{ training_repository_base | default('/courses-samples') | string }}"
   directory:
     base: "{{ r_libre_dir }}"
     course: "{{ r_libre_dir_course }}"
