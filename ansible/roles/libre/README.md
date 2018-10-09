@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - LIBRE ansible role 
+# LIBRE Training Toolkit - LIBRE ansible role
 
 Role used to handle basic libre operations
 

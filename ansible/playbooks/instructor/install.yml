@@ -2,7 +2,7 @@
 - name: "Install instructor environment on {{ target }}"
   hosts: '{{ target }}'
   gather_facts: true
-  
+
   roles:
     - { role: instructor, do: load, become: yes }
     - { role: instructor, do: install, become: yes }

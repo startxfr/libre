@@ -24,7 +24,7 @@ OS_NAME=`cat /etc/os-release | grep "PRETTY_NAME" | sed 's/PRETTY_NAME=//g' | se
 export TERM=xterm
 pid=0
 
-# Display libre installer header 
+# Display libre installer header
 function installerHeader {
 echo "  _     _ _                    _           _        _ _           "
 echo " | |   (_) |__  _ __ ___      (_)_ __  ___| |_ __ _| | | ___ _ __ "
@@ -99,7 +99,7 @@ function installerUpdateSystem {
     echo "Installing packages for $OS"
     yum install -y $LIBREI_REQUIREMENTS_FC &> /dev/null
   else
-    echo "Installing packages for $OS" 
+    echo "Installing packages for $OS"
     yum install -y epel-release &> /dev/null
     yum install -y $LIBREI_REQUIREMENTS_CENTOS &> /dev/null
     pip install --upgrade pip
@@ -131,7 +131,7 @@ function installerInstallLibre {
     git checkout $LIBRE_TOOLREPO_BRANCH &> /dev/null
     echo "Copy libre playbook into $ANSIBLE_DEST"
     cp -r $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
-  fi 
+  fi
   cd - &> /dev/null
 }
 
@@ -167,7 +167,7 @@ function installerInstall {
       else
         LIBRE_TYPE="instructor"
         LIBRE_TARGET="local"
-      fi 
+      fi
     fi
   else
     LIBRE_TYPE="instructor"
@@ -178,13 +178,13 @@ function installerInstall {
   LIBRE_SUDO=""
   if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]] ; then
       LIBRE_SUDO=" -K "
-  fi 
+  fi
   ansible-playbook -i inventory.yml ${LIBRE_SUDO} -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
   echo -n " Do you want to continue by installing training session (y) : "
   read doInstall
   if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]] ; then
     libre-session install
-  fi 
+  fi
   sudo su -
 }
 
@@ -232,7 +232,7 @@ function installerReinstall {
   $INSTALLER_BIN install $LIBRE_TYPE
 }
 
-# Display installer usage 
+# Display installer usage
 function installerUsage {
 installerHeader
 cat <<EOF

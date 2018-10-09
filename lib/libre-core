@@ -17,13 +17,13 @@ function loadInits {
     LIBRE_VERSION=$(cat $CONFIG_FILE | jq -r '.application.version')
     LIBRE_TYPE=$(cat $CONFIG_FILE | jq -r '.application.type')
     ANSIBLE_ROOT=$(cat $CONFIG_FILE | jq -r '.application.ansible')
-  fi 
+  fi
   if [[ -f $SESSION_FILE ]] ; then
     LIBREC_ID=$(cat $SESSION_FILE | jq -r '.course')
     LIBREC_NAME=$(cat $SESSION_FILE | jq -r '.type')
     LIBRES_ID=$(cat $SESSION_FILE | jq -r '.id')
     LIBRES_INSTRUCTOR=$(cat $SESSION_FILE | jq -r '.instructor')
-  fi 
+  fi
 }
 
 # get and store the operating system name
@@ -40,7 +40,7 @@ function isVerbose {
         return 1
     else
         return 0
-    fi 
+    fi
 }
 
 # echo if verbose if activated
@@ -48,7 +48,7 @@ function echoVerbose {
     isVerbose
     if [ "$?" -eq 1 ] ; then
         echo "$@"
-    fi 
+    fi
 }
 
 # echo if verbose if not activated
@@ -56,7 +56,7 @@ function echoNotVerbose {
     isVerbose
     if [ "$?" -eq 0 ] ; then
         echo "$@"
-    fi 
+    fi
 }
 
 # return if debug is activated
@@ -65,14 +65,14 @@ function isDebug {
         return 1
     else
         return 0
-    fi 
+    fi
 }
 
 # echo if debug if activated
 function echoDebug {
     if [[ "$LIBRE_DEBUG" == true || "$LIBRE_DEBUG" == "true" || "$LIBRE_DEBUG" == "True"  ]] ; then
         echo "$@"
-    fi 
+    fi
 }
 
 # echo an error
@@ -100,7 +100,7 @@ function echoOK {
 function echoEnv {
     if [[ "$LIBRE_DEBUG" == true || "$LIBRE_DEBUG" == "true" || "$LIBRE_DEBUG" == "True"  ]] ; then
         env | grep "LIBRE"
-    fi 
+    fi
 }
 
 # status if libre install is done
@@ -110,7 +110,7 @@ function checkIfLibre {
     echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/master/installer.md";
     echoError "for more information on how to install LIBRE";
     exit 1;
-  fi 
+  fi
 }
 
 # status if session install is done
@@ -120,7 +120,7 @@ function checkIfSession {
     echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/master/session.md";
     echoError "for more information on how to setup LIBRE session";
     exit 1;
-  fi 
+  fi
 }
 
 # Display general welcome message
@@ -241,7 +241,7 @@ function runLibrePlaybook {
 #  echoOK "Key $1 in config file $CONFIG_FILE is updated"
 #}
 
-# Display libre-* generic usage 
+# Display libre-* generic usage
 function classroomGenericUsageSubcmd {
 cat <<EOF
 - Generic commands:

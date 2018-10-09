@@ -6,7 +6,7 @@
 
 # Install tasks
 - name: "install : Start LIBRE install"
-  include_role: 
+  include_role:
     name: libre
     tasks_from: install
   become: yes
@@ -15,7 +15,7 @@
     clone: yes
     repo: "{{ r_training_repository_url }}"
     dest: "{{ r_training_repository_local }}"
-    version: "{{ r_training_repository_branch }}" 
+    version: "{{ r_training_repository_branch }}"
   when: r_training_repository_local_details.stat.exists != true
 - name: "install : Update {{ r_training_repository_local }} directory details"
   stat:
@@ -23,7 +23,7 @@
   register: r_training_repository_local_details
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_training_repository_tmpfile) | default('') }}" 
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_training_repository_tmpfile) | default('') }}"
   delegate_to: localhost
   become: no
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_training_repository_tmpfile }}"

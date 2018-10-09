@@ -1,6 +1,6 @@
 # LIBRE-instructor container
 
-[![Build Status](https://travis-ci.org/startxfr/libre.svg?branch=master)](https://travis-ci.org/startxfr/libre) [![npm dependencies](https://david-dm.org/startxfr/libre.svg)](https://www.npmjs.com/package/libre) [![last commit](https://img.shields.io/github/last-commit/startxfr/libre.svg)](https://github.com/startxfr/libre) [![licence](https://img.shields.io/github/license/startxfr/libre.svg)](https://github.com/startxfr/libre) 
+[![Build Status](https://travis-ci.org/startxfr/libre.svg?branch=master)](https://travis-ci.org/startxfr/libre) [![npm dependencies](https://david-dm.org/startxfr/libre.svg)](https://www.npmjs.com/package/libre) [![last commit](https://img.shields.io/github/last-commit/startxfr/libre.svg)](https://github.com/startxfr/libre) [![licence](https://img.shields.io/github/license/startxfr/libre.svg)](https://github.com/startxfr/libre)
 
 ## Getting Started
 

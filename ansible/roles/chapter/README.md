@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - Chapter ansible role 
+# LIBRE Training Toolkit - Chapter ansible role
 
 Role used to handle basic chapter operations
 

@@ -14,8 +14,8 @@ r_infra_self_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
 r_infra_self_user_instructor: "{{ infra_user_instructor | default('instructor') | string }}"
 # Default system user for students
 r_infra_self_user_student: "{{ infra_user_student | default('student') | string }}"
-# Default system user group 
-r_infra_self_usergroup: "{{ infra_usergroup | default('libre') | string }}" 
+# Default system user group
+r_infra_self_usergroup: "{{ infra_usergroup | default('libre') | string }}"
 # Configuration directory used for delivering training
 r_infra_self_dir_conf: "{{ training_dir_conf | default('/libre/conf') | string }}"
 

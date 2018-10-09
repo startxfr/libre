@@ -6,7 +6,7 @@
 
 # Install tasks
 - name: "install : Start instructor install"
-  include_role: 
+  include_role:
     name: instructor
     tasks_from: install.yml
   become: yes
@@ -18,16 +18,16 @@
   when: libre_session is undefined
 - name: "install : Check if local configuration are in fresh facts"
   fail: msg="Could not find local configuration in ansible_local facts. Check your config directory {{ r_libre_dir_conf }} and {{ r_libre_dir_facts }}"
-  when: 
+  when:
     - libre_session is undefined
     - (r_session_freshFacts is undefined or r_session_freshFacts.ansible_facts is undefined or r_session_freshFacts.ansible_facts.ansible_local is undefined)
 - name: "install : Check if session configuration is in fresh facts"
   fail: msg="Could not find session configuration {{ r_libre_config_file_session }} in ansible_local facts"
-  when: 
+  when:
     - libre_session is undefined
     - (r_session_freshFacts.ansible_facts.ansible_local.session is undefined or r_session_freshFacts.ansible_facts.ansible_local.session == "error loading fact - please check content")
 - name: "install : Reload session configuration facts from fresh facts"
-  set_fact: 
+  set_fact:
     libre_session: "{{ r_session_freshFacts.ansible_facts.ansible_local.session }}"
   when: libre_session is undefined
 
@@ -64,10 +64,10 @@
   register: r_session_manifest_details
 - name: "install : Install course playbook"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
-  when: "r_session_dir_course_playbooks_details.stat.exists == true" 
+  when: "r_session_dir_course_playbooks_details.stat.exists == true"
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}" 
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}"
   delegate_to: localhost
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_session_tmpfile }}"
   template:
@@ -80,7 +80,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Session is installed"
     log_component: session
     log_action: install

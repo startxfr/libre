@@ -24,7 +24,7 @@
     user: "{{ user1 }}"
     state: present
     key: "{{ lookup('file', '../../ssh/'+r_infra_aws_user_instructor+'-id_rsa.pub') }}"
-  loop: 
+  loop:
     - root
     - "{{ r_infra_aws_ssh_user }}"
     - "{{ r_infra_aws_user_instructor }}"
@@ -37,7 +37,7 @@
     user: "{{ user1 }}"
     state: present
     key: "{{ lookup('file', '../../ssh/'+r_infra_aws_user_instructor+'-id_rsa.pub') }}"
-  loop: 
+  loop:
     - root
     - "{{ r_infra_aws_ssh_user }}"
     - "{{ r_infra_aws_user_student }}"
@@ -53,9 +53,9 @@
   become: yes
   when: inventory_hostname in groups.students
 - name: "provision-post : Ensure instructor SSH private and public key are present on the instructor workstation "
-  copy: 
+  copy:
     src: ../../ssh/{{ r_infra_aws_user_instructor }}-{{keyf.key}}
-    dest: "{{keyf.dir}}/.ssh/{{keyf.key}}" 
+    dest: "{{keyf.dir}}/.ssh/{{keyf.key}}"
     mode: 0600
     owner: "{{keyf.user}}"
     group: "{{ r_infra_aws_usergroup }}"
@@ -83,9 +83,9 @@
   become: yes
   when: inventory_hostname in groups.instructor
 - name: "provision-post : Ensure student SSH private and public key are present on students workstation"
-  copy: 
+  copy:
     src: ../../ssh/{{ r_infra_aws_user_student }}-{{keyf}}
-    dest: "/home/{{ r_infra_aws_user_student }}/.ssh/{{keyf}}" 
+    dest: "/home/{{ r_infra_aws_user_student }}/.ssh/{{keyf}}"
     mode: 0600
     owner: "{{ r_infra_aws_user_student }}"
     group: "{{ r_infra_aws_usergroup }}"
@@ -107,7 +107,7 @@
   become: yes
   when: inventory_hostname in groups.instructor
 - name: "provision-post : Copy inventory for instructor"
-  copy: 
+  copy:
     src: ../../inventory.yml
     dest: /tmp/libre-inventory.yml
     mode: 0664
@@ -116,23 +116,23 @@
   become: yes
   when: inventory_hostname in groups.instructor
 - name: "provision-post : Loading LIBRE for instructor"
-  include_role: 
+  include_role:
     name: libre
     tasks_from: load
   when: inventory_hostname in groups.instructor
 - name: "provision-post : Installing LIBRE for instructor"
-  include_role: 
+  include_role:
     name: libre
     tasks_from: install
   become: yes
   when: inventory_hostname in groups.instructor
 - name: "provision-post : Loading LIBRE for students"
-  include_role: 
+  include_role:
     name: libre
     tasks_from: load
   when: inventory_hostname in groups.students
 - name: "provision-post : Installing LIBRE for students"
-  include_role: 
+  include_role:
     name: libre
     tasks_from: install
   become: yes
@@ -151,12 +151,12 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "AWS infrastructure is Post-provisionned"
     log_component: infra-aws
     log_action: post-provision
 - name: "provision-post : Post-provisionning is finish"
-  debug: 
+  debug:
     msg:
       - " "
       - "We are happy to report that AWS infrastructure {{ session_name }}.{{ r_infra_aws_public_dns_zone }} was successfully provisioned on AWS infrastructure"

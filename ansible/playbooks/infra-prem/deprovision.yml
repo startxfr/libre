@@ -2,7 +2,7 @@
 - name: "Deprovision On-premise Classroom infrastructure"
   hosts: 'local'
   gather_facts: false
-   
+
   roles:
     - { role: session, do: load }
     - { role: session, do: install-postcheck }

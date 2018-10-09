@@ -14,12 +14,12 @@
     loop_var: conf
   register: r_session_conflinks_details
 - name: "load : Load session facts from local facts"
-  set_fact: 
+  set_fact:
     libre_session: "{{ ansible_local.session }}"
-  when: 
+  when:
     - ansible_local is defined
     - ansible_local.session is defined
-    - ansible_local.session != "error loading fact - please check content" 
+    - ansible_local.session != "error loading fact - please check content"
 - name: "load : Get {{ r_session_dir_course }} directory details"
   stat:
     path: "{{ r_session_dir_course }}"
@@ -53,4 +53,4 @@
   register: r_session_dir_course_playbooks_details
 - name: "load : Load course"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/load.yml"
-  when: "r_session_dir_course_playbooks_details.stat.exists == true" 
+  when: "r_session_dir_course_playbooks_details.stat.exists == true"

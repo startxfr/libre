@@ -39,7 +39,7 @@
     user: "{{ user1 }}"
     state: present
     key: "{{ lookup('file', '../../ssh/'+r_infra_self_user_instructor+'-id_rsa.pub') }}"
-  loop: 
+  loop:
     - root
     - "{{ r_infra_self_user_instructor }}"
     - "{{ r_infra_self_user_student }}"
@@ -53,9 +53,9 @@
     key: "{{ lookup('file', '../../ssh/'+r_infra_self_user_student+'-id_rsa.pub') }}"
   become: yes
 - name: "provision : Ensure instructor SSH private and public key are present on {{ target }}"
-  copy: 
+  copy:
     src: ../../ssh/{{ r_infra_self_user_instructor }}-{{keyf.key}}
-    dest: "{{keyf.dir}}/.ssh/{{keyf.key}}" 
+    dest: "{{keyf.dir}}/.ssh/{{keyf.key}}"
     mode: 0600
     owner: "{{keyf.user}}"
     group: "{{ r_infra_self_usergroup }}"
@@ -76,9 +76,9 @@
     loop_var: keyf
   become: yes
 - name: "provision : Ensure student SSH private and public key are present on {{ target }}"
-  copy: 
+  copy:
     src: ../../ssh/{{ r_infra_self_user_student }}-{{keyf}}
-    dest: "/home/{{ r_infra_self_user_student }}/.ssh/{{keyf}}" 
+    dest: "/home/{{ r_infra_self_user_student }}/.ssh/{{keyf}}"
     mode: 0600
     owner: "{{ r_infra_self_user_student }}"
     group: "{{ r_infra_self_usergroup }}"
@@ -110,13 +110,13 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Self-Hosted infrastructure is Provisionned"
     log_component: infra-self
     log_action: provision
 - name: "provision : Infrastructure provisionning is finish"
-  debug: 
-    msg: 
+  debug:
+    msg:
       - "We are happy to report that self infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully provisioned on Self-Hosted infrastructure"
       - " "
       - "Here are some interesting characteristics of this infrastructure:"

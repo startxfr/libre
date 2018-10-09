@@ -16,7 +16,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Stopped chapter {{ libre_chapter.id }} : {{ libre_chapter.name }}"
     log_component: chapter
     log_action: stop

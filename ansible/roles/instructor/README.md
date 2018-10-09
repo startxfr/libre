@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - Instructor ansible role 
+# LIBRE Training Toolkit - Instructor ansible role
 
 Role used to handle basic instructor operations
 
@@ -22,7 +22,7 @@ Role used to handle basic instructor operations
 
 ## Sample role for uninstalling a instructor
 ```yaml
-- name: "Execute uninstall instructor" 
+- name: "Execute uninstall instructor"
   roles:
     - { role: instructor, do: load }
     - { role: instructor, do: uninstall }

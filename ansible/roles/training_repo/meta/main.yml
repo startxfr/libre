@@ -2,7 +2,7 @@
 ---
 galaxy_info:
   author: Startx dev
-  description: LIBRE Training Toolkit - Training-Repo role 
+  description: LIBRE Training Toolkit - Training-Repo role
   company: STARTX
   license: Apache License, Version 2.0
   min_ansible_version: 1.8
@@ -15,5 +15,5 @@ galaxy_info:
   - system
   - training
 dependencies:
-  - { role: libre, do: load } 
+  - { role: libre, do: load }
 allow_duplicates: false

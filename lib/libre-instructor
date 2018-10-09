@@ -7,7 +7,7 @@ function instructorHeader {
   isVerbose
   if [ "$?" -eq 1 ] ; then
     cat /usr/local/lib/libre-instructor.txt
-  fi 
+  fi
 }
 
 # Call instructor playbook
@@ -29,7 +29,7 @@ function instructorInformation {
 function instructorWelcome {
   instructorHeader
   coreInformation
-  echoEnv 
+  echoEnv
   instructorUsage
   exit 0;
 }
@@ -40,7 +40,7 @@ function instructorVersion {
   exit 0;
 }
 
-# Display libre-instructor usage 
+# Display libre-instructor usage
 function instructorUsage {
 cat <<EOF
 

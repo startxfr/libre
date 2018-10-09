@@ -15,13 +15,13 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Self-Hosted infrastructure is Post-provisionned"
     log_component: infra-self
     log_action: post-provision
   run_once: true
 - name: "provision-post : Post-provisionning is finish"
-  debug: 
+  debug:
     msg:
       - "We are happy to report that self-hosted infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully ppost-provisioned on Self-Hosted infrastructure"
       - " "

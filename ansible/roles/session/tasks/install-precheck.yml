@@ -1,6 +1,6 @@
 ---
 - name: "install-precheck : Start instructor pre-installation checks"
-  include_role: 
+  include_role:
     name: instructor
     tasks_from: "install-precheck.yml"
   when: libre_instructor_install_precheck is undefined or libre_instructor_install_precheck != true

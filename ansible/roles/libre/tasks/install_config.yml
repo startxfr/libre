@@ -18,7 +18,7 @@
     group: "{{ r_libre_group }}"
   become: yes
   when: r_libre_dir_details.stat.exists != true or r_libre_conf_details.results[0].stat.exists != true or libre_config is undefined
-  
+
 - name: "install_config : Load Product name"
   set_fact: libre_hardware_product_name="{{ ansible_product_name }}"
 - name: "install_config : Load CPU Architecture is {{ r_libre_minhw.architecure }}"
@@ -88,4 +88,4 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   become: yes
-  when: r_libre_tmpinventory_details.stat.exists != true 
+  when: r_libre_tmpinventory_details.stat.exists != true
