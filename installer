@@ -17,8 +17,9 @@ LIBRE_TOOLREPO_BRANCH=master
 LIBRE_TOOLREPO_BASE=/
 
 # get and store the operating system name
-OS=`cat /etc/os-release | grep "NAME" | head -n 1 | sed 's/NAME=//g' | sed 's/["]//g'`
-OS_NAME=`cat /etc/os-release | grep "PRETTY_NAME" | sed 's/PRETTY_NAME=//g' | sed 's/["]//g'`
+source /etc/os-release
+OS="$NAME"
+OS_NAME="$PRETTY_NAME"
 
 # use xterm and set current PID
 export TERM=xterm
