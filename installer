@@ -26,230 +26,230 @@ pid=0
 
 # Display libre installer header
 function installerHeader {
-echo "  _     _ _                    _           _        _ _           "
-echo " | |   (_) |__  _ __ ___      (_)_ __  ___| |_ __ _| | | ___ _ __ "
-echo " | |   | | '_ \\| '__/ _ \\_____| | '_ \\/ __| __/ _\` | | |/ _ \\ '__|"
-echo " | |___| | |_) | | |  __/_____| | | | \\__ \\ || (_| | | |  __/ |   "
-echo " |_____|_|_.__/|_|  \\___|     |_|_| |_|___/\\__\\__,_|_|_|\\___|_|   "
-echo "                                                                  "
+    echo "  _     _ _                    _           _        _ _           "
+    echo " | |   (_) |__  _ __ ___      (_)_ __  ___| |_ __ _| | | ___ _ __ "
+    echo " | |   | | '_ \\| '__/ _ \\_____| | '_ \\/ __| __/ _\` | | |/ _ \\ '__|"
+    echo " | |___| | |_) | | |  __/_____| | | | \\__ \\ || (_| | | |  __/ |   "
+    echo " |_____|_|_.__/|_|  \\___|     |_|_| |_|___/\\__\\__,_|_|_|\\___|_|   "
+    echo "                                                                  "
 }
 
 # Display information
 function installerInformation {
-installerHeader
-echo "installer : v$LIBREI_VERSION"
-echo "repo      : $LIBRE_TOOLREPO_URL"
-echo "branch    : $LIBRE_TOOLREPO_BRANCH"
-echo "base      : $LIBRE_TOOLREPO_BASE"
-echo "OS        : $OS_NAME"
-echo "host      : $HOSTNAME"
-echo "type      : $LIBRE_TYPE"
-echo ""
+    installerHeader
+    echo "installer : v$LIBREI_VERSION"
+    echo "repo      : $LIBRE_TOOLREPO_URL"
+    echo "branch    : $LIBRE_TOOLREPO_BRANCH"
+    echo "base      : $LIBRE_TOOLREPO_BASE"
+    echo "OS        : $OS_NAME"
+    echo "host      : $HOSTNAME"
+    echo "type      : $LIBRE_TYPE"
+    echo ""
 }
 
 # installer setup
 function installerSetup {
-  if [[ "$1" == "student" ]] ; then
-      LIBRE_TYPE="student"
-  else
-      LIBRE_TYPE="instructor"
-  fi
+    if [[ "$1" == "student" ]] ; then
+        LIBRE_TYPE="student"
+    else
+        LIBRE_TYPE="instructor"
+    fi
 }
 
 # Display information
 function installerCheck {
-  if [ "$(id -u)" != "0" ]; then
-    echo "  ERROR ! This script must be run as root or you must have sudo"
-    echo "  ERROR ! Try to execute 'sudo su -' and run again this command"
-    exit 1;
-  fi
-  if [ ! -f $INSTALLER_BIN ]; then
-    rm -rf $INSTALLER_BIN
-    if [ -f /tmp/installer-libre ]; then
-      mv /tmp/installer-libre $INSTALLER_BIN
-      rm -f /tmp/installer-libre
+    if [ "$(id -u)" != "0" ]; then
+        echo "  ERROR ! This script must be run as root or you must have sudo"
+        echo "  ERROR ! Try to execute 'sudo su -' and run again this command"
+        exit 1;
     fi
-  fi
-#  grep -i "CentOS Linux" /etc/redhat-release
-#  if [ $? != 0 ]; then
-#     echo "  ERROR ! This script must be run in a Centos 7 OS"
-#     exit 1;
-#  fi
-  if [ ! -d $TMP_DEST ]; then
-    mkdir -p  $TMP_DEST
-  fi
-  if [ ! -w $TMP_DEST ]; then
-     echo "  ERROR ! $TMP_DEST is not writable"
-     exit 1;
-  fi
-  if [ ! -d $ANSIBLE_DEST ]; then
-    mkdir -p  $ANSIBLE_DEST
-  fi
-  if [ ! -w $ANSIBLE_DEST ]; then
-     echo "  ERROR ! $ANSIBLE_DEST is not writable"
-     exit 1;
-  fi
+    if [ ! -f $INSTALLER_BIN ]; then
+        rm -rf $INSTALLER_BIN
+        if [ -f /tmp/installer-libre ]; then
+            mv /tmp/installer-libre $INSTALLER_BIN
+            rm -f /tmp/installer-libre
+        fi
+    fi
+#    grep -i "CentOS Linux" /etc/redhat-release
+#    if [ $? != 0 ]; then
+#        echo "  ERROR ! This script must be run in a Centos 7 OS"
+#        exit 1;
+#    fi
+    if [ ! -d $TMP_DEST ]; then
+        mkdir -p  $TMP_DEST
+    fi
+    if [ ! -w $TMP_DEST ]; then
+        echo "  ERROR ! $TMP_DEST is not writable"
+        exit 1;
+    fi
+    if [ ! -d $ANSIBLE_DEST ]; then
+        mkdir -p  $ANSIBLE_DEST
+    fi
+    if [ ! -w $ANSIBLE_DEST ]; then
+        echo "  ERROR ! $ANSIBLE_DEST is not writable"
+        exit 1;
+    fi
 }
 
 # installer update system
 function installerUpdateSystem {
     echo "Updating OS $OS installation (cloud take minutes...)"
     yum update -y &> /dev/null
-  if [ "$OS" == "Fedora" ]; then
-    echo "Installing packages for $OS"
-    yum install -y $LIBREI_REQUIREMENTS_FC &> /dev/null
-  else
-    echo "Installing packages for $OS"
-    yum install -y epel-release &> /dev/null
-    yum install -y $LIBREI_REQUIREMENTS_CENTOS &> /dev/null
-    pip install --upgrade pip
-    pip install --upgrade Jinja2
-  fi
-#  echo "Installing yaml parser"
-#  mkdir /tmp/tt &> /dev/null
-#  cd  /tmp/tt
-#  git clone https://github.com/Gallore/yaml_cli  &> /dev/null
-#  cd  yaml_cli
-#  pip install . &> /dev/null
-#  rm -rf /tmp/tt
+    if [ "$OS" == "Fedora" ]; then
+        echo "Installing packages for $OS"
+        yum install -y $LIBREI_REQUIREMENTS_FC &> /dev/null
+    else
+        echo "Installing packages for $OS"
+        yum install -y epel-release &> /dev/null
+        yum install -y $LIBREI_REQUIREMENTS_CENTOS &> /dev/null
+        pip install --upgrade pip
+        pip install --upgrade Jinja2
+    fi
+#    echo "Installing yaml parser"
+#    mkdir /tmp/tt &> /dev/null
+#    cd  /tmp/tt
+#    git clone https://github.com/Gallore/yaml_cli  &> /dev/null
+#    cd  yaml_cli
+#    pip install . &> /dev/null
+#    rm -rf /tmp/tt
 }
 
 # installer install libre
 function installerInstallLibre {
-  echo "Create temporary storage"
-  if [ -w $TMP_DEST ]; then
-     echo "remove previous $TMP_DEST directory"
-     rm -rf $TMP_DEST
-  fi
-  echo "create $TMP_DEST directory"
-  mkdir -p $TMP_DEST
-  cd $TMP_DEST
-  echo "Clone tools repository $LIBRE_TOOLREPO_URL"
-  git clone $LIBRE_TOOLREPO_URL .
-  if [ "$?" -eq 0 ] ; then
-    echo "Change branch for $LIBRE_TOOLREPO_BRANCH"
-    git checkout $LIBRE_TOOLREPO_BRANCH &> /dev/null
-    echo "Copy libre playbook into $ANSIBLE_DEST"
-    cp -r $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
-  fi
-  cd - &> /dev/null
+    echo "Create temporary storage"
+    if [ -w $TMP_DEST ]; then
+        echo "remove previous $TMP_DEST directory"
+        rm -rf $TMP_DEST
+    fi
+    echo "create $TMP_DEST directory"
+    mkdir -p $TMP_DEST
+    cd $TMP_DEST
+    echo "Clone tools repository $LIBRE_TOOLREPO_URL"
+    git clone $LIBRE_TOOLREPO_URL .
+    if [ "$?" -eq 0 ] ; then
+        echo "Change branch for $LIBRE_TOOLREPO_BRANCH"
+        git checkout $LIBRE_TOOLREPO_BRANCH &> /dev/null
+        echo "Copy libre playbook into $ANSIBLE_DEST"
+        cp -r $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
+    fi
+    cd - &> /dev/null
 }
 
 # installer install libre
 function installerCleanup {
-  echo "Remove $TMP_DEST"
-  rm -rf $TMP_DEST
+    echo "Remove $TMP_DEST"
+    rm -rf $TMP_DEST
 }
 
 # installer check post-installation
 function installerCheckInstall {
-  if [ ! -d $ANSIBLE_DEST ]; then
-     echo "  ERROR ! $ANSIBLE_DEST doesn't exist"
-  fi
+    if [ ! -d $ANSIBLE_DEST ]; then
+        echo "  ERROR ! $ANSIBLE_DEST doesn't exist"
+    fi
 }
 
 # installer installation process
 function installerInstall {
-  if [[ $1 != "" ]] ; then
-    LIBRE_TYPE=$1
-  fi
-  installerInformation
-  if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]] ; then
-    echo -n "What is your installation type (instructor) : "
-    read typeInstall
-    if [[ "$typeInstall" == "" || "$typeInstall" == "instructor" || "$typeInstall" == "i" ]] ; then
-      LIBRE_TYPE="instructor"
-      LIBRE_TARGET="instructor"
+    if [[ $1 != "" ]] ; then
+        LIBRE_TYPE=$1
+    fi
+    installerInformation
+    if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]] ; then
+        echo -n "What is your installation type (instructor) : "
+        read typeInstall
+        if [[ "$typeInstall" == "" || "$typeInstall" == "instructor" || "$typeInstall" == "i" ]] ; then
+            LIBRE_TYPE="instructor"
+            LIBRE_TARGET="instructor"
+        else
+            if [[ "$typeInstall" == "student" || "$typeInstall" == "s" ]] ; then
+            LIBRE_TYPE="student"
+            LIBRE_TARGET="students"
+            else
+            LIBRE_TYPE="instructor"
+            LIBRE_TARGET="local"
+            fi
+        fi
     else
-      if [[ "$typeInstall" == "student" || "$typeInstall" == "s" ]] ; then
-        LIBRE_TYPE="student"
-        LIBRE_TARGET="students"
-      else
         LIBRE_TYPE="instructor"
         LIBRE_TARGET="local"
-      fi
     fi
-  else
-    LIBRE_TYPE="instructor"
-    LIBRE_TARGET="local"
-  fi
-  installerDoInstall $LIBRE_TYPE
-  cd $ANSIBLE_DEST
-  LIBRE_SUDO=""
-  if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]] ; then
-      LIBRE_SUDO=" -K "
-  fi
-  ansible-playbook -i inventory.yml ${LIBRE_SUDO} -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
-  echo -n " Do you want to continue by installing training session (y) : "
-  read doInstall
-  if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]] ; then
-    libre-session install
-  fi
-  sudo su -
+    installerDoInstall $LIBRE_TYPE
+    cd $ANSIBLE_DEST
+    LIBRE_SUDO=""
+    if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]] ; then
+        LIBRE_SUDO=" -K "
+    fi
+    ansible-playbook -i inventory.yml ${LIBRE_SUDO} -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
+    echo -n " Do you want to continue by installing training session (y) : "
+    read doInstall
+    if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]] ; then
+        libre-session install
+    fi
+    sudo su -
 }
 
 # do installation process
 function installerDoInstall {
-  installerCheck
-  installerUpdateSystem
-  installerInstallLibre
-  installerCleanup
-  installerCheckInstall
+    installerCheck
+    installerUpdateSystem
+    installerInstallLibre
+    installerCleanup
+    installerCheckInstall
 }
 
 # installer uninstall process
 function installerUninstall {
-  if [[ $1 != "" ]] ; then
-    LIBRE_TYPE=$1
-  else
-    LIBRE_TYPE="instructor"
-  fi
-  installerInformation
-  installerDoUninstall $LIBRE_TYPE
+    if [[ $1 != "" ]] ; then
+        LIBRE_TYPE=$1
+    else
+        LIBRE_TYPE="instructor"
+    fi
+    installerInformation
+    installerDoUninstall $LIBRE_TYPE
 }
 
 # do uninstall process
 function installerDoUninstall {
-  if [ -d $ANSIBLE_DEST ]; then
-    cd $ANSIBLE_DEST
-    ansible-playbook -i inventory.yml -e target=local playbooks/$1/uninstall.yml
-  fi
+    if [ -d $ANSIBLE_DEST ]; then
+        cd $ANSIBLE_DEST
+        ansible-playbook -i inventory.yml -e target=local playbooks/$1/uninstall.yml
+    fi
 }
 
 # reinstaller remove libre environement
 function installerReinstall {
-  if [[ $1 != "" ]] ; then
-    LIBRE_TYPE=$1
-  else
-    LIBRE_TYPE="instructor"
-  fi
-  installerInformation
-  installerDoUninstall $LIBRE_TYPE
-  echo "Refresh installer-libre"
-  rm -f $INSTALLER_BIN
-  curl -s -L $INSTALLER_URL -o $INSTALLER_BIN &> /dev/null
-  chmod +x $INSTALLER_BIN
-  $INSTALLER_BIN install $LIBRE_TYPE
+    if [[ $1 != "" ]] ; then
+        LIBRE_TYPE=$1
+    else
+        LIBRE_TYPE="instructor"
+    fi
+    installerInformation
+    installerDoUninstall $LIBRE_TYPE
+    echo "Refresh installer-libre"
+    rm -f $INSTALLER_BIN
+    curl -s -L $INSTALLER_URL -o $INSTALLER_BIN &> /dev/null
+    chmod +x $INSTALLER_BIN
+    $INSTALLER_BIN install $LIBRE_TYPE
 }
 
 # Display installer usage
 function installerUsage {
-installerHeader
-cat <<EOF
+    installerHeader
+    cat <<-EOF
 
-Startx Formation training environement installer
+	Startx Formation training environement installer
 
-Usage:
-  installer-libre [command]
+	Usage:
+	  installer-libre [command]
 
-- Availables commands:
-  install             install LIBRE TMS and instructor or student training environment (interactive)
-  instructor          install LIBRE TMS and instructor training environment
-  student             install LIBRE TMS and student training environment
-  uninstall           uninstall LIBRE TMS and training environment
-  reinstall           re-install LIBRE TMS and training environment
+	- Availables commands:
+	  install             install LIBRE TMS and instructor or student training environment (interactive)
+	  instructor          install LIBRE TMS and instructor training environment
+	  student             install LIBRE TMS and student training environment
+	  uninstall           uninstall LIBRE TMS and training environment
+	  reinstall           re-install LIBRE TMS and training environment
 
-EOF
+	EOF
 }
 
 # Dispatch input arguments
