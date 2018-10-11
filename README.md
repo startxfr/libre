@@ -1,6 +1,6 @@
 # LIBRE Training Management System
 
-This project define a complete training management system to help you build and run simple 
+This project define a complete training management system to help you build and run simple
 or complex training courses. This system can :
 - Install an instructor environement
 - Install a single student environement
@@ -9,7 +9,7 @@ or complex training courses. This system can :
 
 ## 2. Quick method
 
-If you want to get a complete and running training environement from scratch, you can use the 
+If you want to get a complete and running training environement from scratch, you can use the
 following procedure
 
 ```bash
@@ -29,15 +29,15 @@ libre-infra self provision
 # install course environement (aws)
 # libre-infra aws setup
 # libre-infra aws provision
-# Start course 
+# Start course
 libre-chapter start
-# Start lab on each workstation 
+# Start lab on each workstation
 libre-lab start <lab_id>
 ```
 
 ## 3. Complete  method (full workflow)
 
-In order to get a fully installed training classroom, user must follow the following 
+In order to get a fully installed training classroom, user must follow the following
 workflow
 
 1. Install LIBRE on instructor workstation
@@ -50,22 +50,22 @@ workflow
 
 ### 3.1. LIBRE installation
 
-An installer is provided to help you deploy LIBRE environement. You will find more 
+An installer is provided to help you deploy LIBRE environement. You will find more
 information about this installer on [the installer instruction](installer.md).
 
-The simpliest way is to run the following script on your workstation. 
+The simpliest way is to run the following script on your workstation.
 
 ```bash
 sudo su -
 yum install -y curl
 curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
 chmod +x /tmp/installer-libre
-/tmp/installer-libre 
+/tmp/installer-libre
 ```
 
 #### 3.1.1. Instructor installation
 
-Default installation will install an instructor environment. You can specify it during the 
+Default installation will install an instructor environment. You can specify it during the
 installation process by adding `instructor` to the installer script
 ```bash
 /tmp/installer-libre instructor
@@ -87,7 +87,7 @@ libre-infra self provision
 
 #### 3.1.2. Student installation
 
-If you want to setup a student environment (usefull when installing student workstation 
+If you want to setup a student environment (usefull when installing student workstation
 individually) you can add `student` to the installer script
 
 ```bash

@@ -7,7 +7,7 @@ function sessionHeader {
   isVerbose
   if [ "$?" -eq 1 ] ; then
     cat /usr/local/lib/libre-session.txt
-  fi 
+  fi
 }
 
 # Call session playbook
@@ -44,7 +44,7 @@ function sessionInformation {
 function sessionWelcome {
   sessionHeader
   coreInformation
-  echoEnv 
+  echoEnv
   sessionUsage
   exit 0;
 }
@@ -55,7 +55,7 @@ function sessionVersion {
   exit 0;
 }
 
-# Display libre-session usage 
+# Display libre-session usage
 function sessionUsage {
 cat <<EOF
 
@@ -67,8 +67,8 @@ Usage:
 - Generic commands:
   config           configure session environment
   install          install session environment
-  start            start training session 
-  stop             stop training session 
+  start            start training session
+  stop             stop training session
   uninstall        uninstall session environment
   status           get status of the current session
   usage            get command line usage information

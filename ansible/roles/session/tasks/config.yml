@@ -9,7 +9,7 @@
   delegate_to: localhost
   when: libre_session is undefined and session_id is undefined
 - name: "config : Register session_id fact"
-  set_fact: 
+  set_fact:
     session_id: "{{ sessionID.user_input }}"
     hasChanged: true
   when: libre_session is undefined and sessionID.user_input is defined
@@ -24,7 +24,7 @@
   delegate_to: localhost
   when: libre_session is undefined and session_token is undefined
 - name: "config : Register session_token fact"
-  set_fact: 
+  set_fact:
     session_token: "{{ sessionToken.user_input }}"
     hasChanged: true
   when: libre_session is undefined and sessionToken.user_input is defined
@@ -32,7 +32,7 @@
   fail: msg="You must give a good Session token"
   when: libre_session is undefined and session_token|default('')|string == ""
 - name: "config : Set configuration has changed if config file are missing"
-  set_fact: 
+  set_fact:
     hasChanged: true
   when: libre_session is undefined and r_session_conf_details.results[0].stat.exists != true
 
@@ -45,7 +45,7 @@
     return_content: yes
     follow_redirects: all
   register: gapi_session_return
-  when: hasChanged is not undefined 
+  when: hasChanged is not undefined
 - name: "config : Check google HTTP response code"
   fail: msg="Could not configure session because Google API return a bad HTTP {{ gapi_session_return.status }} response code"
   when: hasChanged is not undefined and gapi_session_return.status|string != "200"
@@ -56,7 +56,7 @@
   fail: msg="Could not configure session because Google API response tell {{ gapi_session_return.json.message }}"
   when: hasChanged is not undefined and gapi_session_return.json.code != "ok"
 - name: "config : Extract google API returned data"
-  set_fact: 
+  set_fact:
     course_id: "{{ gapi_session_return.json.data.cours }}"
     session_id: "{{ gapi_session_return.json.data.id }}"
     session_instructor: "{{ gapi_session_return.json.data.instructor }}"
@@ -68,7 +68,7 @@
     session_commentToFacility: "{{ gapi_session_return.json.data.commentToFacility }}"
     session_commentFromTrainer: "{{ gapi_session_return.json.data.commentFromTrainer }}"
     session_students: "{{ gapi_session_return.json.data.students }}"
-  when: hasChanged is not undefined 
+  when: hasChanged is not undefined
 
 - name: "config : Generate session config file {{ r_session_dir_conf }}/{{ r_libre_config_file_session }}"
   template:
@@ -99,12 +99,12 @@
   when: libre_session is undefined
 - name: "config : Check if local configuration are in fresh facts"
   fail: msg="Could not find local configuration in ansible_local facts. Check your config directory {{ r_session_dir_conf }} and {{ r_session_dir_facts }}"
-  when: 
+  when:
     - libre_session is undefined
     - (r_session_freshFacts is undefined or r_session_freshFacts.ansible_facts is undefined or r_session_freshFacts.ansible_facts.ansible_local is undefined)
 - name: "config : Check if session configuration is in fresh facts"
   fail: msg="Could not find session configuration {{ r_libre_config_file_session }} in ansible_local facts"
-  when: 
+  when:
     - libre_session is undefined
     - (r_session_freshFacts.ansible_facts.ansible_local.session is undefined or r_session_freshFacts.ansible_facts.ansible_local.session == "error loading fact - please check content")
 - name: "config : Reload session file details from {{ r_session_dir_facts }} facts"
@@ -115,16 +115,16 @@
     loop_var: conf
   when: libre_session is undefined
 - name: "config : Reload session configuration facts from fresh facts"
-  set_fact: 
+  set_fact:
     libre_session: "{{ r_session_freshFacts.ansible_facts.ansible_local.session }}"
   when: libre_session is undefined
-  
-  
+
+
 - name: "config : Log config action"
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Session is configured"
     log_component: session
     log_action: config

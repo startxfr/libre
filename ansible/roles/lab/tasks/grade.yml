@@ -34,7 +34,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Grading lab {{ libre_lab.id }} {{ libre_lab.name }}"
     log_component: lab
     log_action: grade

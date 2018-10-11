@@ -6,19 +6,19 @@
 - name: "install-precheck : Check CPU Architecture is {{ r_libre_minhw.architecure }}"
   assert:
     msg: "CPU Architecture is not {{ r_libre_minhw.architecure }}"
-    that: ansible_architecture == r_libre_minhw.architecure 
+    that: ansible_architecture == r_libre_minhw.architecure
 - name: "install-precheck : Check minimum physical CPU is not less than {{ r_libre_minhw.cpu.physical }}"
   assert:
     msg: "Physical CPU is less than the required {{ r_libre_minhw.cpu.physical }}} CPU"
-    that: ansible_processor_count > (r_libre_minhw.cpu.physical|int - 1) 
+    that: ansible_processor_count > (r_libre_minhw.cpu.physical|int - 1)
 - name: "install-precheck : Check minimum physical Cores is not less than {{ r_libre_minhw.cpu.cores }}"
   assert:
     msg: "Physical Cores is less than the required {{ r_libre_minhw.cpu.cores }}} CPU"
-    that: ansible_processor_cores > (r_libre_minhw.cpu.cores|int - 1) 
+    that: ansible_processor_cores > (r_libre_minhw.cpu.cores|int - 1)
 - name: "install-precheck : Check minimum virtual Cores is not less than {{ r_libre_minhw.cpu.vcpus }}"
   assert:
     msg: "Virtual Cores is less than the required {{ r_libre_minhw.cpu.vcpus }}} CPU"
-    that: ansible_processor_vcpus > (r_libre_minhw.cpu.vcpus|int - 1) 
+    that: ansible_processor_vcpus > (r_libre_minhw.cpu.vcpus|int - 1)
 #- name: "install-precheck : Check minimum Memory size is more than {{ r_libre_minhw.memory.total }}"
 #  assert:
 #    msg: "Minimum Memory size is less than the required {{ r_libre_minhw.memory.total }} Mo"
@@ -38,4 +38,4 @@
 #    msg: "Minimum storage space left on / is less than the required {{ r_libre_minhw.storage.capacity|int }}Mb"
 #    that: "mount.size_available|int > (r_libre_minhw.storage.capacity|int * 1024 * 1024)"
 - name: "install-precheck : Mark LIBRE install-precheck as done"
-  set_fact: libre_install_precheck=true 
+  set_fact: libre_install_precheck=true

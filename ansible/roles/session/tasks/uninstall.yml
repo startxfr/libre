@@ -1,12 +1,12 @@
 ---
 # Uninstall pre-tasks
 - name: "uninstall : Uninstall course playbook"
-  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/uninstall.yml" 
+  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/uninstall.yml"
   when: "r_session_dir_course_playbooks_details.stat.exists == true"
 
 # Uninstall tasks
 - name: "uninstall : Start instructor uninstall"
-  include_role: 
+  include_role:
     name: instructor
     tasks_from: uninstall
   become: yes
@@ -21,7 +21,7 @@
   when: training_dir_details.stat.exists == true
 - name: "uninstall : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}" 
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}"
   delegate_to: localhost
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_session_tmpfile }}"
   template:
@@ -33,7 +33,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Session is uninstalled"
     log_component: session
     log_action: uninstall

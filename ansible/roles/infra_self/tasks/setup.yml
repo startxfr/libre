@@ -10,7 +10,7 @@
   when: r_infra_self_inventoryinfra_details.stat.exists != true
 - name: "setup : Succesfull setup for Self-Hosted infrastructure"
   debug:
-    msg: 
+    msg:
       - " "
       - "Self-Hosted infrastructure for session {{ libre_session.id }} delivering course {{ libre_session.course }}"
       - "is now setup. You can continue this process by :"

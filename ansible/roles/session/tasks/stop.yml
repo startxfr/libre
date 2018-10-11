@@ -1,13 +1,13 @@
 ---
 # Stop pre-tasks
 - name: "stop : Stop course {{ libre_course.id }}"
-  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/stop.yml" 
+  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/stop.yml"
   when: "r_session_dir_course_playbooks_details.stat.exists == true"
 
 # Stop tasks
 - name: "stop : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}" 
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}"
   delegate_to: localhost
 - name: "stop : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_session_tmpfile }}"
   template:
@@ -19,7 +19,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Session is stopped"
     log_component: session
     log_action: stop

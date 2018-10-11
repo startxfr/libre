@@ -1,6 +1,6 @@
 ---
 - name: "status : Start session status"
-  include_role: 
+  include_role:
     name: session
     tasks_from: status
 - name: "status : Get previous report data"

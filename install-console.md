@@ -6,7 +6,7 @@ LIBRE console allow LIBRE user to handle low level action like infrastructure de
 
 ```bash
 sudo su -
-yum install -y curl git ansible 
+yum install -y curl git ansible
 exit
 ```
 
@@ -24,7 +24,7 @@ git checkout master
 ansible -i inventory.yml --list-hosts all
 ```
 
-Should return 
+Should return
 
 ```bash
   hosts (1):

@@ -7,7 +7,7 @@ function infraHeader {
   isVerbose
   if [ "$?" -eq 1 ] ; then
     cat /usr/local/lib/libre-infra.txt
-  fi 
+  fi
 }
 
 # Call infra playbook
@@ -51,7 +51,7 @@ function infraVersion {
   exit 0;
 }
 
-# Display libre-infra usage 
+# Display libre-infra usage
 function infraUsage {
 cat <<EOF
 

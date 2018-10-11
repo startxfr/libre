@@ -1,7 +1,7 @@
 # LIBRE AWS Provisionning playbooks
 
 Theses playbooks must be run from a console installation. For more more informations
-you can read documentation on how to [setup a console installation](../../../install-console.md) 
+you can read documentation on how to [setup a console installation](../../../install-console.md)
 
 
 ## 1. Setup provisionning
@@ -13,7 +13,7 @@ then create your own `inventory.yml` file.
 
 You will find `inventory/infra-aws.yml` as a sample file in the console directory.
 This file contain all configuration variables used during AWS provisionning playbook and
-could be used as as starting point for your own deployement. 
+could be used as as starting point for your own deployement.
 
 ```bash
 cp inventory/infra-aws.yml inventory.yml
@@ -57,7 +57,7 @@ local:
 ## 2. Start provisionning classroom
 
 During this process, you will be prompted for a session ID and token. This information is mandatory
-for this process as it control autorisation to deploy course content. This session contains also 
+for this process as it control autorisation to deploy course content. This session contains also
 information required for this deployment, like the number of workstation to deploy.
 
 ```bash
@@ -67,8 +67,8 @@ ansible-playbook -i inventory.yml -e target=local playbooks/infra-aws/provision.
 By running the provision playbook, you will start :
 - Create classroom dedicated VPC
 - Create classroom VPC subnet
-- Create classroom VPC Internet Gateway 
-- Create classroom VPC public route table 
+- Create classroom VPC Internet Gateway
+- Create classroom VPC public route table
 - Create classroom VPC security group
 - Create classroom EC2 instance
 - Create classroom DNS entries
@@ -92,7 +92,7 @@ By running the post provision playbook, you will start :
 
 ## 4. Next step
 
-When you have finished this installation, you can connect to the instructor workstation 
+When you have finished this installation, you can connect to the instructor workstation
 and start configuring your classroom.
 
 ```bash
@@ -102,8 +102,8 @@ libre-session install
 
 ## 5. Deprovision a classroom
 
-You can run this playbook from every LIBRE console. you will be prompted for a session ID and token. 
-This information is mandatory for this process as it control autorisation to undeploy course content. 
+You can run this playbook from every LIBRE console. you will be prompted for a session ID and token.
+This information is mandatory for this process as it control autorisation to undeploy course content.
 
 ```bash
 ansible-playbook -i inventory.yml -e target=local playbooks/infra-aws/deprovision.yml

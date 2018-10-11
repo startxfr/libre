@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - Session ansible role 
+# LIBRE Training Toolkit - Session ansible role
 
 Role used to handle basic session operations
 

@@ -3,7 +3,7 @@
 # Default user for course content
 r_lab_user: "{{ libre_user | default('instructor') | string }}"
 # Default user for course content
-r_lab_group: "{{ libre_group | default('libre') | string }}" 
+r_lab_group: "{{ libre_group | default('libre') | string }}"
 # Configuration directory used for delivering training
 r_lab_dir_conf: "{{ r_libre_dir_conf | default('/libre/conf') | string }}"
 # Config file to store the current chapter - section

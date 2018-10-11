@@ -10,7 +10,7 @@
     user: "{{ user1 }}"
     state: absent
     key: "{{ lookup('file', '../../ssh/'+r_infra_self_user_instructor+'-id_rsa.pub') }}"
-  loop: 
+  loop:
     - root
     - "{{ r_infra_self_user_instructor }}"
     - "{{ r_infra_self_user_student }}"
@@ -24,9 +24,9 @@
     key: "{{ lookup('file', '../../ssh/'+r_infra_self_user_student+'-id_rsa.pub') }}"
   become: yes
 - name: "deprovision : Ensure instructor SSH private and public key are removed on {{ target }}"
-  file: 
+  file:
     state: absent
-    path: "{{keyf.dir}}/.ssh/{{keyf.key}}" 
+    path: "{{keyf.dir}}/.ssh/{{keyf.key}}"
   loop:
     - user: "{{ r_infra_self_user_instructor }}"
       key: id_rsa.pub
@@ -44,9 +44,9 @@
     loop_var: keyf
   become: yes
 - name: "deprovision : Ensure student SSH private and public key are removed on {{ target }}"
-  file: 
+  file:
     state: absent
-    path: "/home/{{ r_infra_self_user_student }}/.ssh/{{keyf}}" 
+    path: "/home/{{ r_infra_self_user_student }}/.ssh/{{keyf}}"
     mode: 0600
     owner: "{{ r_infra_self_user_student }}"
     group: "{{ r_infra_self_usergroup }}"
@@ -70,7 +70,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Self-Hosted infrastructure is Deprovisionned"
     log_component: infra-self
     log_action: deprovision

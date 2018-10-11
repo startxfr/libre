@@ -6,7 +6,7 @@
 
 # Install tasks
 - name: "install : Start training_repo install"
-  include_role: 
+  include_role:
     name: training_repo
     tasks_from: install
   become: yes
@@ -26,7 +26,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Instructor workstation is installed"
     log_component: instructor
     log_action: install

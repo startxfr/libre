@@ -7,7 +7,7 @@ function studentHeader {
   isVerbose
   if [ "$?" -eq 1 ] ; then
     cat /usr/local/lib/libre-student.txt
-  fi 
+  fi
 }
 
 # Call student playbook
@@ -39,7 +39,7 @@ function studentVersion {
   exit 0;
 }
 
-# Display libre-student usage 
+# Display libre-student usage
 function studentUsage {
 cat <<EOF
 

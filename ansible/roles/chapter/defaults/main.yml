@@ -3,7 +3,7 @@
 # Default user for course content
 r_chapter_user: "{{ libre_user | default('instructor') | string }}"
 # Default user for course content
-r_chapter_group: "{{ libre_group | default('libre') | string }}" 
+r_chapter_group: "{{ libre_group | default('libre') | string }}"
 # Configuration directory used for delivering training
 r_chapter_dir_conf: "{{ r_libre_dir_conf | default('/libre/conf') | string }}"
 # Config file to store the current chapter - section

@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - Training-Repo ansible role 
+# LIBRE Training Toolkit - Training-Repo ansible role
 
 Role used to handle basic training_repo operations
 

@@ -1,6 +1,6 @@
 ---
 - name: "install-precheck : Start LIBRE pre-installation checks"
-  include_role: 
+  include_role:
     name: libre
     tasks_from: "install-precheck.yml"
   when: libre_install_precheck is undefined or libre_install_precheck != true
