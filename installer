@@ -78,16 +78,17 @@ function installerCheck {
 #        echo "  ERROR ! This script must be run in a Centos 7 OS"
 #        exit 1
 #    fi
-    if [ ! -d $TMP_DEST ]; then
-        mkdir -p  $TMP_DEST
-    fi
+    mkdir -p $TMP_DEST &> /dev/null || {
+        echo "  ERROR ! Unable to create $TMP_DEST"
+    }
     if [ ! -w $TMP_DEST ]; then
         echo "  ERROR ! $TMP_DEST is not writable"
         exit 1
     fi
-    if [ ! -d $ANSIBLE_DEST ]; then
-        mkdir -p  $ANSIBLE_DEST
-    fi
+
+    mkdir -p $ANSIBLE_DEST &> /dev/null || {
+        echo "  ERROR ! Unable to create $ANSIBLE_DEST"
+    }
     if [ ! -w $ANSIBLE_DEST ]; then
         echo "  ERROR ! $ANSIBLE_DEST is not writable"
         exit 1
