@@ -3,7 +3,7 @@
 
 # Uninstall tasks
 - name: "uninstall : Start training_repo uninstall"
-  include_role: 
+  include_role:
     name: training_repo
     tasks_from: uninstall
   become: yes
@@ -21,7 +21,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Instructor workstation is uninstalled"
     log_component: instructor
     log_action: uninstall

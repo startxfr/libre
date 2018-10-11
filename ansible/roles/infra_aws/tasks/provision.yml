@@ -7,7 +7,7 @@
     name: "{{ session_id }}-vpc"
     cidr_block: 172.22.0.0/16
     region: "{{ r_infra_aws_region }}"
-    tags: 
+    tags:
       Name: "{{ session_id }}-vpc"
       Project: "{{ session_name }}"
       Stage: "{{ session_stage }}"
@@ -22,7 +22,7 @@
     cidr: 172.22.1.0/24
     az: "{{ r_infra_aws_region }}b"
     region: "{{ r_infra_aws_region }}"
-    tags: 
+    tags:
       Name: "{{ session_id }}-subnet-classroom"
       Project: "{{ session_name }}"
       Stage: "{{ session_stage }}"
@@ -36,7 +36,7 @@
     aws_secret_key: "{{ r_infra_aws_secret_key }}"
     vpc_id: "{{ libre_vpc.vpc.id }}"
     region: "{{ r_infra_aws_region }}"
-    tags: 
+    tags:
       Name: "{{ session_id }}-igw"
       Project: "{{ session_name }}"
       Stage: "{{ session_stage }}"
@@ -50,7 +50,7 @@
     aws_secret_key: "{{ r_infra_aws_secret_key }}"
     vpc_id: "{{ libre_vpc.vpc.id }}"
     region: "{{ r_infra_aws_region }}"
-    tags: 
+    tags:
       Name: "{{ session_id }}-route-public"
       Project: "{{ session_name }}"
       Stage: "{{ session_stage }}"
@@ -71,7 +71,7 @@
     region: "{{ r_infra_aws_region }}"
     name: openAll
     description: security group for {{ session_name }}
-    tags: 
+    tags:
       Name: "{{ session_id }}-sg-all"
       Project: "{{ session_name }}"
       Stage: "{{ session_stage }}"
@@ -98,7 +98,7 @@
     count_tag: Name
     wait: yes
     wait_timeout: 60
-    instance_tags: 
+    instance_tags:
       Name: "{{ session_id }}-workstation"
       Project: "{{ session_name }}"
       Stage: "{{ session_stage }}"
@@ -150,8 +150,8 @@
     src: templates/inventory.j2
     dest: "../../inventory.yml"
 - name: "provision : Wait for the instances to boot by checking the ssh port"
-  wait_for: 
-    host: "{{item.public_ip}}" 
+  wait_for:
+    host: "{{item.public_ip}}"
     port: 22
     delay: 10
     sleep: 5
@@ -172,13 +172,13 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "AWS infrastructure is Provisionned"
     log_component: infra-aws
     log_action: provision
 - name: "provision : Infrastructure provisionning is finish"
-  debug: 
-    msg: 
+  debug:
+    msg:
       - " "
       - "We are happy to report that classroom infrastructure {{ session_name }}.{{ r_infra_aws_public_dns_zone }} was successfully provisioned on AWS infrastructure"
       - " "
@@ -216,6 +216,6 @@
 #
 #     You must finish your installation by running the following command :
 #       ansible-playbook -i inventory.yml -e target=local playbooks/infra-aws/provision-post.yml
-#     
+#
 #     Have a happy setup ;)
 

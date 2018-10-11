@@ -14,13 +14,13 @@
     - bash-completion
   when: ansible_hostname != "alcor"
 #- name: "install_libre : Force upgrading pip packages manager"
-#  command: "pip install --upgrade pip" 
+#  command: "pip install --upgrade pip"
 - name: "install_libre : Install and force upgrade pip packages"
-  pip: 
+  pip:
     state: forcereinstall
     name: "{{ pipname }}"
     extra_args: --upgrade --user
-  loop: 
+  loop:
     - pip
     - Jinja2
     - docker-py
@@ -42,7 +42,7 @@
   git:
     repo: "{{ r_libre_source_url }}"
     dest: "{{ r_libre_source_tmp }}"
-    version: "{{ r_libre_source_branch }}" 
+    version: "{{ r_libre_source_branch }}"
   when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true
 - name: "install_libre : move LIBRE library content to {{ r_libre_dest_lib }}"
   copy:

@@ -1,6 +1,6 @@
 ---
 - name: "status : Start LIBRE status"
-  include_role: 
+  include_role:
     name: libre
     tasks_from: "status.yml"
 - name: "status : Get previous report data"

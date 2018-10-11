@@ -7,10 +7,10 @@
     update: yes
     repo: "{{ r_training_repository_url }}"
     dest: "{{ r_training_repository_local }}"
-    version: "{{ r_training_repository_branch }}" 
+    version: "{{ r_training_repository_branch }}"
 - name: "update : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_training_repository_tmpfile) | default('') }}" 
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_training_repository_tmpfile) | default('') }}"
   delegate_to: localhost
   become: no
 - name: "update : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_training_repository_tmpfile }}"

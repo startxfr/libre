@@ -20,5 +20,5 @@
   fail: msg="Could not configure session because Google API response tell {{ gapi_return.json.message }}"
   when: gapi_return.json.code != "ok"
 - name: "lib : gapi : Extract google API returned data"
-  set_fact: 
+  set_fact:
     gapiReturn: "{{ gapi_return.json.data }}"

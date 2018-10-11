@@ -7,7 +7,7 @@ function chapterHeader {
   isVerbose
   if [ "$?" -eq 1 ] ; then
     cat /usr/local/lib/libre-chapter.txt
-  fi 
+  fi
 }
 
 # Call chapter playbook
@@ -52,7 +52,7 @@ function chapterVersion {
   exit 0;
 }
 
-# Display libre-chapter usage 
+# Display libre-chapter usage
 function chapterUsage {
 cat <<EOF
 

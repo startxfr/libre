@@ -1,6 +1,6 @@
 ---
 - name: "status : Start LIBRE status"
-  include_role: 
+  include_role:
     name: training_repo
     tasks_from: "status.yml"
   become: yes

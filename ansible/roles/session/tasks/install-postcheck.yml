@@ -25,7 +25,7 @@
     that: "libre_session.id is defined"
 - name: "install-postcheck : Check if course id exist"
   assert:
-    msg: 
+    msg:
       - " "
       - "Session course must be defined in {{ r_libre_config_file_session }}"
       - " "

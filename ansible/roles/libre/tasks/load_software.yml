@@ -12,7 +12,7 @@
 - name: "load_software : Touch report data"
   file:
     path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    state: touch 
+    state: touch
     mode: 0666
   delegate_to: localhost
   become: no

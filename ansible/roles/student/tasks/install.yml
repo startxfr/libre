@@ -6,13 +6,13 @@
 
 # Install tasks
 - name: "install : Start LIBRE install"
-  include_role: 
+  include_role:
     name: libre
     tasks_from: install
   become: yes
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_student_tmpfile) | default('') }}" 
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_student_tmpfile) | default('') }}"
   delegate_to: localhost
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_student_tmpfile }}"
   template:
@@ -24,7 +24,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "Student workstation is installed"
     log_component: student
     log_action: install

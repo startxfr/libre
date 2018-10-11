@@ -7,7 +7,7 @@
 # Install tasks
 - name: "install : Start LIBRE installation"
   include_tasks: "install_{{ item }}.yml"
-  with_items: 
+  with_items:
     - libre
     - training
     - config

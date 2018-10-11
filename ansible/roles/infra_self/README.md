@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - Self-Hosted infrastructure ansible role 
+# LIBRE Training Toolkit - Self-Hosted infrastructure ansible role
 
 Role used to handle basic infrastructure operations
 

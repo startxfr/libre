@@ -27,24 +27,24 @@
   when: libre_config is undefined or libre_hardware is undefined
 - name: "install_facts : Check if local configuration are in fresh facts"
   fail: msg="Could not find local configuration in ansible_local facts. Check your config directory {{ r_libre_dir_conf }} and {{ r_libre_dir_facts }}"
-  when: 
+  when:
     - (libre_config is undefined or libre_hardware is undefined)
     - (r_libre_freshFacts is undefined or r_libre_freshFacts.ansible_facts is undefined or r_libre_freshFacts.ansible_facts.ansible_local is undefined)
 - name: "install_facts : Check if LIBRE configuration is in fresh facts"
   fail: msg="Could not find LIBRE configuration {{ r_libre_config_file_libre }} in ansible_local facts"
-  when: 
+  when:
     - (libre_config is undefined or libre_hardware is undefined)
     - (r_libre_freshFacts.ansible_facts.ansible_local.config is undefined or r_libre_freshFacts.ansible_facts.ansible_local.config == "error loading fact - please check content")
 - name: "install_facts : Reload LIBRE configuration facts from fresh facts"
-  set_fact: 
+  set_fact:
     libre_config: "{{ r_libre_freshFacts.ansible_facts.ansible_local.config }}"
   when: libre_config is undefined
 - name: "install_facts : Check if hardware profile is in fresh facts"
   fail: msg="Could not find hardware profile {{ r_libre_config_file_hw }} in ansible_local facts"
-  when: 
+  when:
     - (libre_config is undefined or libre_hardware is undefined)
     - (r_libre_freshFacts.ansible_facts.ansible_local.hardware is undefined or r_libre_freshFacts.ansible_facts.ansible_local.hardware == "error loading fact - please check content")
 - name: "install_facts : Reload hardware profile from fresh facts"
-  set_fact: 
+  set_fact:
     libre_hardware: "{{ r_libre_freshFacts.ansible_facts.ansible_local.hardware }}"
   when: libre_hardware is undefined

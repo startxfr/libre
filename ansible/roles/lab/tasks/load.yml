@@ -1,18 +1,18 @@
----  
+---
 - name: "load : Get {{ r_lab_dir_conf }}/{{ r_lab_config_current }} file details"
   stat:
     path: "{{ r_lab_dir_conf }}/{{ r_lab_config_current }}"
   register: r_lab_config_current_details
 - name: "load : Load {{ r_lab_dir_conf }}/{{ r_lab_config_current }} content"
-  set_fact: 
+  set_fact:
     lab_current: "{{ lookup('file', r_lab_dir_conf+'/'+r_lab_config_current) | default('1') }}"
   when: "r_lab_config_current_details.stat.exists == true and lab_current is undefined"
 - name: "load : No current lab found in {{ r_lab_dir_conf }}/{{ r_lab_config_current }}, Set default to lab 1"
-  set_fact: 
+  set_fact:
     lab_current: "1"
   when: "r_lab_config_current_details.stat.exists != true and lab_current is undefined"
 - name: "load : Extract lab list from {{ r_lab_dir_course }}/manifest.yml"
-  set_fact: 
+  set_fact:
     libre_lab: "{{ libre_course | default({}) | json_query(qry) }}"
   vars:
     qry: 'labs[?id==`{{lab_current}}`] | [0]'

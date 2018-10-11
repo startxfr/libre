@@ -1,10 +1,10 @@
 # LIBRE SSH Key
 
-Theses key are used in LIBRE playbooks and roles during installation and allow used 
+Theses key are used in LIBRE playbooks and roles during installation and allow used
 to connect to there own environments.
 
 Filename are of the form of `<user>-id_rsa` where user correspond to the user defined
-with `infra_user_instructor` or `infra_user_student` config variables. Respective default 
+with `infra_user_instructor` or `infra_user_student` config variables. Respective default
 values are **instructor** and **student**.
 
 

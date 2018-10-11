@@ -7,7 +7,7 @@ function labHeader {
   isVerbose
   if [ "$?" -eq 1 ] ; then
     cat /usr/local/lib/libre-lab.txt
-  fi 
+  fi
 }
 
 # Call lab playbook
@@ -52,7 +52,7 @@ function labVersion {
   exit 0;
 }
 
-# Display libre-lab usage 
+# Display libre-lab usage
 function labUsage {
 cat <<EOF
 

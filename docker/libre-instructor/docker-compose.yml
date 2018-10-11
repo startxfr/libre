@@ -12,4 +12,4 @@ app:
     - "/libre/conf:/usr/src/app/config:z"
     - "/libre/course:/usr/src/app/course:z"
     - "/libre/collect:/data:z"
-    
+

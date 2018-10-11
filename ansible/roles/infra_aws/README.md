@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - AWS infrastructure ansible role 
+# LIBRE Training Toolkit - AWS infrastructure ansible role
 
 Role used to handle basic infrastructure operations
 

@@ -35,16 +35,16 @@
     loop_var: conf
   register: r_libre_conflinks_details
 - name: "load_environment : Set libre_config fact from {{ r_libre_dir_facts }}/{{ r_libre_config_file_libre }}"
-  set_fact: 
+  set_fact:
     libre_config: "{{ ansible_local.config }}"
-  when: 
+  when:
     - ansible_local is defined
     - ansible_local.config is defined
-    - ansible_local.config != "error loading fact - please check content" 
+    - ansible_local.config != "error loading fact - please check content"
 - name: "load_environment : Set libre_hardware fact from {{ r_libre_dir_facts }}/{{ r_libre_config_file_hw }}"
-  set_fact: 
+  set_fact:
     libre_hardware: "{{ ansible_facts.ansible_local.hardware }}"
-  when: 
+  when:
     - ansible_local is defined
     - ansible_local.hardware is defined
     - ansible_local.hardware != "error loading fact - please check content"

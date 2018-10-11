@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - Lab ansible role 
+# LIBRE Training Toolkit - Lab ansible role
 
 Role used to handle basic lab operations
 

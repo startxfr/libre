@@ -3,7 +3,7 @@
   hosts: '{{ target }}'
   gather_facts: true
   user: root
-  
+
   roles:
     - { role: instructor, do: load }
     - { role: instructor, do: status }

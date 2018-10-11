@@ -1,6 +1,6 @@
 ---
 - name: "status : Start instructor status"
-  include_role: 
+  include_role:
     name: instructor
     tasks_from: "status.yml"
 - name: "status : Get previous report data"

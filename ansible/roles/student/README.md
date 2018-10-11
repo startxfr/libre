@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - Student ansible role 
+# LIBRE Training Toolkit - Student ansible role
 
 Role used to handle basic student operations
 

@@ -26,7 +26,7 @@
     filters:
       "vpc-id": "{{ libre_vpcs.vpcs[0].id }}"
   register: libre_routes
-  when: 
+  when:
     - libre_vpcs.vpcs is defined
     - libre_vpcs.vpcs | length > 0
 - name: "deprovision : Get {{ session_id }}-vpc Subnets facts"
@@ -36,7 +36,7 @@
     region: "{{ r_infra_aws_region }}"
     filters:
       "vpc-id": "{{ libre_vpcs.vpcs[0].id }}"
-  when: 
+  when:
     - libre_vpcs.vpcs is defined
     - libre_vpcs.vpcs | length > 0
   register: libre_subnets
@@ -79,7 +79,7 @@
     ttl: 30
     record: "instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}."
     value: "workstation0.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}."
-    type: CNAME 
+    type: CNAME
 - name: "deprovision : Delete {{ session_id }}-vpc Internet Gateway"
   ec2_vpc_igw:
     state: absent
@@ -87,7 +87,7 @@
     aws_secret_key: "{{ r_infra_aws_secret_key }}"
     region: "{{ r_infra_aws_region }}"
     vpc_id: "{{ libre_vpcs.vpcs[0].id }}"
-  when: 
+  when:
     - libre_vpcs.vpcs is defined
     - libre_vpcs.vpcs | length > 0
 - name: "deprovision : Delete {{ session_id }}-vpc routes tables"
@@ -99,7 +99,7 @@
     route_table_id: "{{ item.id }}"
     lookup: id
   with_items: "{{ libre_routes.route_tables }}"
-  when: 
+  when:
     - libre_routes.route_tables is defined
     - libre_vpcs.vpcs is defined
     - libre_vpcs.vpcs | length > 0
@@ -113,7 +113,7 @@
     cidr: "{{ item.cidr_block }}"
     wait: yes
   with_items: "{{ libre_subnets.subnets }}"
-  when: 
+  when:
     - libre_subnets.subnets is defined
     - libre_vpcs.vpcs is defined
     - libre_vpcs.vpcs | length > 0
@@ -125,9 +125,9 @@
     region: "{{ r_infra_aws_region }}"
     name: "{{ session_id }}-vpc"
     cidr_block: "{{ item.cidr_block }}"
-    purge_cidrs: yes 
+    purge_cidrs: yes
   with_items: "{{ libre_vpcs.vpcs }}"
-  when: 
+  when:
     - libre_vpcs.vpcs is defined
     - libre_vpcs.vpcs | length > 0
 - name: "deprovision : Get previous report data"
@@ -144,7 +144,7 @@
   include_role:
     name: libre
     tasks_from: lib/log
-  vars: 
+  vars:
     log_name: "AWS infrastructure is Deprovisionned"
     log_component: infra-aws
     log_action: deprovision
