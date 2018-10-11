@@ -165,11 +165,11 @@ function installerInstall {
             LIBRE_TARGET="instructor"
         else
             if [[ "$typeInstall" == "student" || "$typeInstall" == "s" ]]; then
-            LIBRE_TYPE="student"
-            LIBRE_TARGET="students"
+                LIBRE_TYPE="student"
+                LIBRE_TARGET="students"
             else
-            LIBRE_TYPE="instructor"
-            LIBRE_TARGET="local"
+                LIBRE_TYPE="instructor"
+                LIBRE_TARGET="local"
             fi
         fi
     else
