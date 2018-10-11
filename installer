@@ -47,12 +47,12 @@ function installerInformation {
     echo "OS        : $OS_NAME"
     echo "host      : $HOSTNAME"
     echo "type      : $LIBRE_TYPE"
-    echo ""
+    echo
 }
 
 # installer setup
 function installerSetup {
-    if [[ "$1" == "student" ]] ; then
+    if [[ "$1" == "student" ]]; then
         LIBRE_TYPE="student"
     else
         LIBRE_TYPE="instructor"
@@ -64,7 +64,7 @@ function installerCheck {
     if [ "$(id -u)" != "0" ]; then
         echo "  ERROR ! This script must be run as root or you must have sudo"
         echo "  ERROR ! Try to execute 'sudo su -' and run again this command"
-        exit 1;
+        exit 1
     fi
     if [ ! -f $INSTALLER_BIN ]; then
         rm -rf $INSTALLER_BIN
@@ -76,21 +76,21 @@ function installerCheck {
 #    grep -i "CentOS Linux" /etc/redhat-release
 #    if [ $? != 0 ]; then
 #        echo "  ERROR ! This script must be run in a Centos 7 OS"
-#        exit 1;
+#        exit 1
 #    fi
     if [ ! -d $TMP_DEST ]; then
         mkdir -p  $TMP_DEST
     fi
     if [ ! -w $TMP_DEST ]; then
         echo "  ERROR ! $TMP_DEST is not writable"
-        exit 1;
+        exit 1
     fi
     if [ ! -d $ANSIBLE_DEST ]; then
         mkdir -p  $ANSIBLE_DEST
     fi
     if [ ! -w $ANSIBLE_DEST ]; then
         echo "  ERROR ! $ANSIBLE_DEST is not writable"
-        exit 1;
+        exit 1
     fi
 }
 
@@ -129,7 +129,7 @@ function installerInstallLibre {
     cd $TMP_DEST
     echo "Clone tools repository $LIBRE_TOOLREPO_URL"
     git clone $LIBRE_TOOLREPO_URL .
-    if [ "$?" -eq 0 ] ; then
+    if [ "$?" -eq 0 ]; then
         echo "Change branch for $LIBRE_TOOLREPO_BRANCH"
         git checkout $LIBRE_TOOLREPO_BRANCH &> /dev/null
         echo "Copy libre playbook into $ANSIBLE_DEST"
@@ -153,18 +153,18 @@ function installerCheckInstall {
 
 # installer installation process
 function installerInstall {
-    if [[ $1 != "" ]] ; then
+    if [[ $1 != "" ]]; then
         LIBRE_TYPE=$1
     fi
     installerInformation
-    if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]] ; then
+    if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]]; then
         echo -n "What is your installation type (instructor) : "
         read typeInstall
-        if [[ "$typeInstall" == "" || "$typeInstall" == "instructor" || "$typeInstall" == "i" ]] ; then
+        if [[ "$typeInstall" == "" || "$typeInstall" == "instructor" || "$typeInstall" == "i" ]]; then
             LIBRE_TYPE="instructor"
             LIBRE_TARGET="instructor"
         else
-            if [[ "$typeInstall" == "student" || "$typeInstall" == "s" ]] ; then
+            if [[ "$typeInstall" == "student" || "$typeInstall" == "s" ]]; then
             LIBRE_TYPE="student"
             LIBRE_TARGET="students"
             else
@@ -179,13 +179,13 @@ function installerInstall {
     installerDoInstall $LIBRE_TYPE
     cd $ANSIBLE_DEST
     LIBRE_SUDO=""
-    if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]] ; then
+    if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]]; then
         LIBRE_SUDO=" -K "
     fi
     ansible-playbook -i inventory.yml ${LIBRE_SUDO} -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
     echo -n " Do you want to continue by installing training session (y) : "
     read doInstall
-    if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]] ; then
+    if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]]; then
         libre-session install
     fi
     sudo su -
@@ -202,7 +202,7 @@ function installerDoInstall {
 
 # installer uninstall process
 function installerUninstall {
-    if [[ $1 != "" ]] ; then
+    if [[ $1 != "" ]]; then
         LIBRE_TYPE=$1
     else
         LIBRE_TYPE="instructor"
@@ -221,7 +221,7 @@ function installerDoUninstall {
 
 # reinstaller remove libre environement
 function installerReinstall {
-    if [[ $1 != "" ]] ; then
+    if [[ $1 != "" ]]; then
         LIBRE_TYPE=$1
     else
         LIBRE_TYPE="instructor"
@@ -245,7 +245,7 @@ function installerUsage {
 	Usage:
 	  installer-libre [command]
 
-	- Availables commands:
+	Availables commands:
 	  install             install LIBRE TMS and instructor or student training environment (interactive)
 	  instructor          install LIBRE TMS and instructor training environment
 	  student             install LIBRE TMS and student training environment
