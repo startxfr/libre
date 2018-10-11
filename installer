@@ -263,6 +263,6 @@ case $1 in
     "install")        installerInstall $2 ;;
     "instructor")     installerInstall instructor ;;
     "student")        installerInstall student ;;
-    usage|-h|--help)  installerUsage $@ ;;
+    usage|-h|--help)  installerUsage ;;
     *)                installerInstall instructor ;;
 esac
