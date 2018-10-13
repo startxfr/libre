@@ -1,0 +1,10 @@
+---
+- name: "Uninstall training repository environment on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: training_repo, do: load }
+    - { role: training_repo, do: uninstall, become: yes }
+#    - { role: training_repo, do: uninstall, become: yes, libre_uninstall_deep: true }

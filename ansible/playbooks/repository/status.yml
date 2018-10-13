@@ -1,0 +1,9 @@
+---
+- name: "Check training repository environment on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: training_repo, do: load }
+    - { role: training_repo, do: status }

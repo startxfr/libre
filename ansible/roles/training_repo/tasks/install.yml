@@ -9,7 +9,7 @@
   include_role:
     name: libre
     tasks_from: install
-  become: yes
+  when: libre_config is undefined
 - name: "install : Clone course materials from {{ r_training_repository_url }} to {{ r_training_repository_local }}"
   git:
     clone: yes

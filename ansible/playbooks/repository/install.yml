@@ -1,0 +1,8 @@
+---
+- name: "Install training repository environment on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+
+  roles:
+    - { role: training_repo, do: load }
+    - { role: training_repo, do: install, become: yes }

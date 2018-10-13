@@ -3,7 +3,6 @@
   include_role:
     name: libre
     tasks_from: "install-precheck.yml"
-  when: libre_install_precheck is undefined or libre_install_precheck != true
-
+  when: libre_config is undefined
 - name: "install-precheck : Mark LIBRE install-precheck as done"
   set_fact: libre_training_repository_install_precheck=true
