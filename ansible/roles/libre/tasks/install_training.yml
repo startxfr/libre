@@ -17,7 +17,6 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
-  become: yes
   when: r_libre_dir_details.stat.exists != true
 - name: "install_training : Create training course directory {{ r_libre_dir_course }}"
   file:
@@ -27,8 +26,11 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
-  become: yes
-  when: r_libre_dir_details.stat.exists != true or r_libre_dir_course_details.stat.exists != true
+  when: r_libre_dir_course_details.stat.exists != true
+- name: "install_training : Get {{ r_libre_dir_collect }} directory details"
+  stat:
+    path: "{{ r_libre_dir_collect }}"
+  register: r_libre_dir_collect_details
 - name: "install_training : Create training collect directory {{ r_libre_dir_collect }}"
   file:
     state: directory
@@ -37,8 +39,11 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
-  become: yes
-  when: r_libre_dir_details.stat.exists != true or r_libre_dir_collect_details.stat.exists != true
+  when: r_libre_dir_collect_details.stat.exists != true
+- name: "install_training : Get {{ r_libre_dir_collect }}/log.yml file details"
+  stat:
+    path: "{{ r_libre_dir_collect }}/log.yml"
+  register: r_libre_dir_collect_log_details
 - name: "install_training : Ensure log file {{ r_libre_dir_collect }}/log.yml exist"
   copy:
     content: ""
@@ -48,5 +53,4 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
-  when: r_libre_dir_details.stat.exists != true or r_libre_dir_collect_log_details.stat.exists != true
+  when: r_libre_dir_collect_log_details.stat.exists != true

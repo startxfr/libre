@@ -1,0 +1,8 @@
+---
+- name: "Uninstall libre environment on local"
+  hosts: 'local'
+  gather_facts: true
+
+  roles:
+    - { role: libre, do: load }
+    - { role: libre, do: uninstall, become: yes, libre_uninstall_deep: true }

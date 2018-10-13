@@ -7,8 +7,7 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
-  become: yes
-  when: r_libre_dir_details.stat.exists != true or r_libre_dir_conf_details.stat.exists != true
+  when: r_libre_dir_details.stat.exists != true
 - name: "install_config : Generate {{ r_libre_dir_conf }}/{{ r_libre_config_file_libre }}"
   template:
     src: templates/libre.j2
@@ -16,9 +15,12 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
-  when: r_libre_dir_details.stat.exists != true or r_libre_conf_details.results[0].stat.exists != true or libre_config is undefined
+  when: r_libre_conf_details.stat.exists != true or libre_config is undefined
 
+- name: "install_config : Get hardware file details"
+  stat:
+    path: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
+  register: r_libre_hw_details
 - name: "install_config : Load Product name"
   set_fact: libre_hardware_product_name="{{ ansible_product_name }}"
 - name: "install_config : Load CPU Architecture is {{ r_libre_minhw.architecure }}"
@@ -45,29 +47,29 @@
 #  debug: var=hostvars['localhost']['ansible_hostname']
 #- name: "install_config : Load Network interfaces"
 #  debug: var=hostvars['localhost']['ansible_all_ipv4_addresses']
-- name: "install_config : Generate {{ r_libre_dir_conf }}/{{ r_libre_config_file_hw }}"
+- name: "install_config : Generate {{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
   template:
     src: templates/libre-hw.j2
-    dest: "{{ r_libre_dir_conf }}/{{ r_libre_config_file_hw }}"
+    dest: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
-  when: r_libre_dir_details.stat.exists != true or r_libre_conf_details.results[1].stat.exists != true or libre_hardware is undefined
+  when: r_libre_hw_details.stat.exists != true
 
-- name: "install_config : Reload config and hardware file details"
+- name: "install_config : Reload config file details"
   stat:
-    path: "{{ r_libre_dir_conf }}/{{ conf2.file }}"
-  loop: "{{ r_libre_conf_list }}"
-  loop_control:
-    loop_var: conf2
-  become: yes
+    path: "{{ r_libre_dir_conf }}/{{ r_libre_config_file_libre }}"
   register: r_libre_conf_details
+  when: r_libre_conf_details.stat.exists != true or libre_config is undefined
+- name: "install_config : Reload hardware file details"
+  stat:
+    path: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
+  register: r_libre_hw_details
+  when: r_libre_hw_details.stat.exists != true
 
 - name: "install_config : Get /tmp/libre-inventory.yml temporary inventory file details"
   stat:
     path: "/tmp/libre-inventory.yml"
-  become: yes
   register: r_libre_tmpinventory_details
 - name: "install_config : Copy /tmp/libre-inventory.yml into config directory {{ r_libre_dir_conf }}"
   copy:
@@ -77,7 +79,6 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
   when: r_libre_tmpinventory_details.stat.exists == true
 - name: "install_config : Copy {{ r_libre_dest_ansible }}/inventory/base.yml into config directory {{ r_libre_dir_conf }}"
   copy:
@@ -87,5 +88,4 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
   when: r_libre_tmpinventory_details.stat.exists != true

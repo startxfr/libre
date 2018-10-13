@@ -5,4 +5,3 @@
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
-  become: no

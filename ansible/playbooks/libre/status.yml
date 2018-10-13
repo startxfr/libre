@@ -1,0 +1,8 @@
+---
+- name: "Check libre environment on local"
+  hosts: 'local'
+  gather_facts: true
+
+  roles:
+    - { role: libre, do: load }
+    - { role: libre, do: status }

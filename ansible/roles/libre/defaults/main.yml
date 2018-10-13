@@ -1,7 +1,13 @@
 ## LIBRE role default variables
 
+# Install type to perform
+r_libre_type: "{{ libre_type | default('instructor') | string }}"
+
+
 # Configure uninstall to deep remove all content (facts, training dir and libre tools)
 r_libre_uninstall_deep: "{{ libre_uninstall_deep | default(False) | bool }}"
+# Used to force upgrading libre lib
+r_libre_force_upgrade: "{{ libre_force_upgrade | default(False) | bool }}"
 
 # Set LIBRE source repository containing LIBRE application material
 r_libre_source_url: "{{ libre_source_url | default('https://github.com/startxfr/libre') }}"
@@ -50,16 +56,6 @@ r_libre_dir_facts: "{{ training_dir_facts | default('/etc/ansible/facts.d') | st
 r_libre_tmp: "{{ libre_tmp | default('/tmp') | string }}"
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
 r_libre_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
-
-# LIBRE configuration file list
-r_libre_conf_list:
-  - key: config
-    file: "{{ r_libre_config_file_libre }}"
-  - key: hardware
-    file: "{{ r_libre_config_file_hw }}"
-
-# Install type to perform
-r_libre_type: "{{ libre_type | default('instructor') | string }}"
 
 # Default libre_config structure
 r_libre_config:

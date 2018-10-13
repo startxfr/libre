@@ -7,33 +7,14 @@
   stat:
     path: "{{ r_libre_dir_course }}"
   register: r_libre_dir_course_details
-- name: "load_environment : Get {{ r_libre_dir_collect }} directory details"
-  stat:
-    path: "{{ r_libre_dir_collect }}"
-  register: r_libre_dir_collect_details
-- name: "load_environment : Get {{ r_libre_dir_collect }}/log.yml file details"
-  stat:
-    path: "{{ r_libre_dir_collect }}/log.yml"
-  register: r_libre_dir_collect_log_details
-
 - name: "load_environment : Get {{ r_libre_dir_conf }} directory details"
   stat:
     path: "{{ r_libre_dir_conf }}"
   register: r_libre_dir_conf_details
-- name: "load_environment : Get config and hardware file details"
+- name: "load_environment : Get config file details"
   stat:
-    path: "{{ r_libre_dir_conf }}/{{ conf2.file }}"
-  loop: "{{ r_libre_conf_list }}"
-  loop_control:
-    loop_var: conf2
+    path: "{{ r_libre_dir_conf }}/{{ r_libre_config_file_libre }}"
   register: r_libre_conf_details
-- name: "load_environment : Load facts from config and hardware "
-  stat:
-    path: "{{ r_libre_dir_facts }}/{{ conf.key }}.fact"
-  loop: "{{ r_libre_conf_list }}"
-  loop_control:
-    loop_var: conf
-  register: r_libre_conflinks_details
 - name: "load_environment : Set libre_config fact from {{ r_libre_dir_facts }}/{{ r_libre_config_file_libre }}"
   set_fact:
     libre_config: "{{ ansible_local.config }}"
@@ -41,10 +22,3 @@
     - ansible_local is defined
     - ansible_local.config is defined
     - ansible_local.config != "error loading fact - please check content"
-- name: "load_environment : Set libre_hardware fact from {{ r_libre_dir_facts }}/{{ r_libre_config_file_hw }}"
-  set_fact:
-    libre_hardware: "{{ ansible_facts.ansible_local.hardware }}"
-  when:
-    - ansible_local is defined
-    - ansible_local.hardware is defined
-    - ansible_local.hardware != "error loading fact - please check content"

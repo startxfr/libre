@@ -37,12 +37,12 @@
   archive:
     path: "{{ r_libre_dir }}"
     dest: "/libre-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
-  when: r_libre_uninstall_deep == true
+  when: r_libre_uninstall_deep == true and r_libre_dir_details.stat.exists == true
 - name: "uninstall : Remove training directory {{ r_libre_dir }}"
   file:
     state: absent
     path: "{{ r_libre_dir }}"
-  when: r_libre_uninstall_deep == true
+  when: r_libre_uninstall_deep == true and r_libre_dir_details.stat.exists == true
 - name: "uninstall : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"

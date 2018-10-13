@@ -8,12 +8,10 @@
     path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile  }}"
   register: r_libre_tmpfile_details
   delegate_to: localhost
-  become: no
 - name: "load_software : Touch report data"
   file:
     path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     state: touch
     mode: 0666
   delegate_to: localhost
-  become: no
   when: "r_libre_tmpfile_details.stat.exists != true"
