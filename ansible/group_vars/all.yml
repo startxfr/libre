@@ -1,7 +1,7 @@
 ## common configuration vars for all groups
 ---
 # LIBRE software version 
-libre_version: 0.5.15
+libre_version: 0.5.16
 # Enable verbose configuration
 #libre_verbose: true
 # Enable debug configuration
@@ -77,13 +77,13 @@ libre_version: 0.5.15
 # Configuration directory used for fact collection
 #training_dir_facts: /etc/ansible/facts.d
 # Set training material repository URL containing course material
-#training_repository_url: https://github.com/startxfr/libre
+#repository_url: https://github.com/startxfr/libre
 # Set training material repository branch containing course material
-#training_repository_branch: master
+#repository_branch: master
 # Set training material repository directory containing course material
-#training_repository_base: /courses-samples
+#repository_base: /courses-samples
 # Set LIBRE local directory for hosting course content copy
-#training_repository_local: /var/local/libre.repo
+#repository_local: /var/local/libre.repo
 
 # Set Google API script delivering session description
 #session_gapi_session: https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec

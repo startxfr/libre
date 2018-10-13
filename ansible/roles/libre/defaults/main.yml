@@ -1,22 +1,9 @@
 ## LIBRE role default variables
 
-# Install type to perform
-r_libre_type: "{{ libre_type | default('instructor') | string }}"
-
-
 # Configure uninstall to deep remove all content (facts, training dir and libre tools)
 r_libre_uninstall_deep: "{{ libre_uninstall_deep | default(False) | bool }}"
 # Used to force upgrading libre lib
 r_libre_force_upgrade: "{{ libre_force_upgrade | default(False) | bool }}"
-
-# Set LIBRE source repository containing LIBRE application material
-r_libre_source_url: "{{ libre_source_url | default('https://github.com/startxfr/libre') }}"
-# Set LIBRE source branch containing LIBRE application material
-r_libre_source_branch: "{{ libre_source_branch | default('master') }}"
-# Set LIBRE source directory containing LIBRE application material
-r_libre_source_base: "{{ libre_source_base | default('/') }}"
-# Set LIBRE source temporary directory for hosting copied LIBRE source content
-r_libre_source_tmp: "{{ libre_source_tmp | default('/tmp/libre') }}"
 
 # Set LIBRE destination directory for LIBRE library
 r_libre_dest_lib: "{{ libre_dest_lib | default('/usr/local/lib') }}"
@@ -25,18 +12,10 @@ r_libre_dest_bin: "{{ libre_dest_bin | default('/usr/local/bin') }}"
 # Set LIBRE destination directory for ansible content
 r_libre_dest_ansible: "{{ libre_dest_ansible | default('/usr/local/lib/libre-ansible') }}"
 
-# Default content for LIBRE config
-r_libre_configdir_libre: "{{ dict() | default({}) }}"
-# Default content for libre hw config
-r_libre_configdir_libre_hw: "{{ dict() | default({}) }}"
-# Default content for session config
-r_libre_configdir_session: "{{ dict() | default({}) }}"
 # Config file for LIBRE
 r_libre_config_file_libre: "{{ libre_config_file_libre | default('config.json') | string }}"
 # Config file for hardware
 r_libre_config_file_hw: "{{ libre_config_file_hw | default('hardware.json') | string }}"
-# Config file for session
-r_libre_config_file_session: "{{ libre_config_file_session | default('session.json') | string }}"
 
 # Default user for course content
 r_libre_user: "{{ libre_user | default('instructor') | string }}"
@@ -60,20 +39,21 @@ r_libre_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
 # Default libre_config structure
 r_libre_config:
   application:
-    type: "{{ r_libre_type | default('instructor') | string }}"
+    type: "{{ libre_type | default('instructor') | string }}"
     version: "{{ libre_version | default('0.1-devel') | string }}"
     verbose: "{{ libre_verbose | default(True) | bool }}"
     debug: "{{ libre_debug | default(True) | bool }}"
-  repository:
-    url: "{{ training_repository_url | default('https://github.com/startxfr/libre') | string }}"
-    branch: "{{ training_repository_branch | default('master') | string }}"
-    base: "{{ training_repository_base | default('/courses-samples') | string }}"
+    source:
+      repo: "{{ libre_source_url | default('https://github.com/startxfr/libre') }}"
+      branch: "{{ libre_source_branch | default('master') }}"
+      base: "{{ libre_source_base | default('/') }}"
+      tmp: "{{ libre_source_tmp | default('/tmp/libre') }}"
   directory:
     base: "{{ r_libre_dir }}"
     course: "{{ r_libre_dir_course }}"
     collect: "{{ r_libre_dir_collect }}"
   gapi:
-    session: "{{ libre_gapi_session | default('https://script.google.com/macros/s/AKfycbxeOVza-MLwqSOtCLecPgzaXA-kUngoTdpbGyGJeObl9TyeSw8/exec') | string }}"
+    session: "{{ libre_gapi_session | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
 
 # Default libre_hardware structure
 r_libre_minhw:

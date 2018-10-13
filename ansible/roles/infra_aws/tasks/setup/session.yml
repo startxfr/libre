@@ -1,11 +1,11 @@
 ---
 - name: "setup : session : Session id exist"
   assert:
-    msg: "Session id must be defined in {{ r_libre_config_file_session }}"
+    msg: "Session id must be defined in {{ r_session_config_file }}"
     that: "libre_session.id is defined"
 - name: "setup : session : Session id exist"
   assert:
-    msg: "Session course must be defined in {{ r_libre_config_file_session }}"
+    msg: "Session course must be defined in {{ r_session_config_file }}"
     that: "libre_session.course is defined"
 
 - name: "setup : session : Configure AWS access key"

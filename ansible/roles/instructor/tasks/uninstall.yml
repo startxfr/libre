@@ -2,9 +2,9 @@
 # Uninstall pre-tasks
 
 # Uninstall tasks
-- name: "uninstall : Start training_repo uninstall"
+- name: "uninstall : Start repository uninstall"
   include_role:
-    name: training_repo
+    name: repository
     tasks_from: uninstall
   become: yes
 - name: "uninstall : Get previous report data"

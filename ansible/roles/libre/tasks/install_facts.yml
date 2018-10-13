@@ -23,18 +23,19 @@
 - name: "install_facts : Gathering fresh facts to get LIBRE configuration"
   setup:
   register: r_libre_freshFacts
-  when: libre_config is undefined
+  when: libre_installed == false
 - name: "install_facts : Check if local configuration are in fresh facts"
   fail: msg="Could not find local configuration in ansible_local facts. Check your config directory {{ r_libre_dir_conf }} and {{ r_libre_dir_facts }}"
   when:
-    - libre_config is undefined
+    - libre_installed == false
     - (r_libre_freshFacts is undefined or r_libre_freshFacts.ansible_facts is undefined or r_libre_freshFacts.ansible_facts.ansible_local is undefined)
 - name: "install_facts : Check if LIBRE configuration is in fresh facts"
   fail: msg="Could not find LIBRE configuration {{ r_libre_config_file_libre }} in ansible_local facts"
   when:
-    - libre_config is undefined
+    - libre_installed == false
     - (r_libre_freshFacts.ansible_facts.ansible_local.config is undefined or r_libre_freshFacts.ansible_facts.ansible_local.config == "error loading fact - please check content")
 - name: "install_facts : Reload LIBRE configuration facts from fresh facts"
   set_fact:
-    libre_config: "{{ r_libre_freshFacts.ansible_facts.ansible_local.config }}"
-  when: libre_config is undefined
+    libre_config: "{{ r_libre_freshFacts.ansible_facts.ansible_local.config }}" 
+    libre_installed: true
+  when: libre_installed == false

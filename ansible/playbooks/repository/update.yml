@@ -4,5 +4,5 @@
   gather_facts: true
 
   roles:
-    - { role: training_repo, do: load }
-    - { role: training_repo, do: update, become: yes }
+    - { role: repository, do: load }
+    - { role: repository, do: update, become: yes }

@@ -3,10 +3,10 @@
   include_role:
     name: libre
     tasks_from: "install-precheck.yml"
-  when: libre_config is undefined
-- name: "install-precheck : Session configuration file {{ r_libre_config_file_session }} is loaded"
+  when: libre_installed == false
+- name: "install-precheck : Session configuration file {{ r_session_config_file }} is loaded"
   assert:
-    msg: "Session configuration file {{ r_libre_config_file_session }} is not loaded. You must configure a session before installing a student environement."
+    msg: "Session configuration file {{ r_session_config_file }} is not loaded. You must configure a session before installing a student environement."
     that: "libre_session is defined"
 - name: "install-precheck : Course description is loaded"
   assert:

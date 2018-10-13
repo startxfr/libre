@@ -5,9 +5,9 @@
   when: libre_instructor_install_precheck is undefined or libre_instructor_install_precheck != true
 
 # Install tasks
-- name: "install : Start training_repo install"
+- name: "install : Start repository install"
   include_role:
-    name: training_repo
+    name: repository
     tasks_from: install
   become: yes
 - name: "install : Get previous report data"

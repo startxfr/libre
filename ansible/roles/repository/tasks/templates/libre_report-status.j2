@@ -1,0 +1,8 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+{% if r_repository_details.stat.exists == true and libre_repository is defined %}
+course repo  : {{ libre_repository.local }}
+{% else %}
+course repo  : none
+{% endif %}
+

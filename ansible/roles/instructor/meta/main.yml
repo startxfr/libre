@@ -15,4 +15,4 @@ galaxy_info:
   - system
   - training
 dependencies:
-  - { role: training_repo, do: "load" }
+  - { role: repository, do: "load" }

@@ -1,7 +1,7 @@
 ---
 - name: "lib : gapi : Calling Google API backend"
   uri:
-    url: "{{ r_libre_config.gapi.session }}"
+    url: "{{ libre_config.gapi.session }}"
     method: POST
     body: "session={{ session_id }}&token={{ session_token }}"
     status_code: 200

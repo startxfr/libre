@@ -1,0 +1,17 @@
+## LIBRE Training-Repo role default variables
+
+# Boolean used internal to mark precheck step as done
+r_repository_install_precheck: false
+
+# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
+r_repository_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
+
+# Config file for LIBRE
+r_repository_config_file: "{{ repository_config_file | default('repository.json') | string }}"
+
+# Default libre_repository structure
+r_repository_default:
+  url: "{{ repository_url | default('https://github.com/startxfr/libre') | string }}"
+  branch: "{{ repository_branch | default('master') | string }}"
+  base: "{{ repository_base | default('/courses-samples') | string }}"
+  local: "{{ repository_local | default('/var/local/libre.repo') }}"

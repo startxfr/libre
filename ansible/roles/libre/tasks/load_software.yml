@@ -1,7 +1,7 @@
 ---
-- name: "load_software : Get {{ r_libre_dest_bin }}/libre-{{ r_libre_type }} file details"
+- name: "load_software : Get {{ r_libre_dest_bin }}/libre-{{ libre_config.application.type }} file details"
   stat:
-    path: "{{ r_libre_dest_bin }}/libre-{{ r_libre_type }}"
+    path: "{{ r_libre_dest_bin }}/libre-{{ libre_config.application.type }}"
   register: r_libre_binary_details
 - name: "load_software : Get {{ r_libre_tmp }}/{{ r_libre_tmpfile  }} file details"
   stat:

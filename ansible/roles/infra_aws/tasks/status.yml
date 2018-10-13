@@ -7,7 +7,7 @@
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_infra_aws_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "status : Generate training_repo report at {{ r_libre_tmp }}/{{ r_infra_aws_tmpfile }}"
+- name: "status : Generate repository report at {{ r_libre_tmp }}/{{ r_infra_aws_tmpfile }}"
   template:
     src: templates/libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ r_infra_aws_tmpfile }}"

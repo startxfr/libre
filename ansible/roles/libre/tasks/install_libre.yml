@@ -1,13 +1,13 @@
 ---
-- name: "install_libre : clone LIBRE materials from {{ r_libre_source_url }}"
+- name: "install_libre : clone LIBRE materials from {{ libre_config.application.source.repo }}"
   git:
-    repo: "{{ r_libre_source_url }}"
-    dest: "{{ r_libre_source_tmp }}"
-    version: "{{ r_libre_source_branch }}"
+    repo: "{{ libre_config.application.source.repo }}"
+    dest: "{{ libre_config.application.source.tmp }}"
+    version: "{{ libre_config.application.source.branch }}"
   when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
 - name: "install_libre : move LIBRE library content to {{ r_libre_dest_lib }}"
   copy:
-    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/lib/{{ libname }}"
+    src: "{{ libre_config.application.source.tmp }}{{ libre_config.application.source.base }}/lib/{{ libname }}"
     dest: "{{ r_libre_dest_lib }}"
     remote_src: yes
     mode: 0764
@@ -19,7 +19,7 @@
   when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
 - name: "install_libre : move LIBRE auto-completion script to /etc/bash_completion.d/libre"
   copy:
-    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/lib/completion"
+    src: "{{ libre_config.application.source.tmp }}{{ libre_config.application.source.base }}/lib/completion"
     dest: "/etc/bash_completion.d/libre"
     remote_src: yes
     mode: 0775
@@ -28,7 +28,7 @@
   when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
 - name: "install_libre : move LIBRE instructor binary content to {{ r_libre_dest_bin }}"
   copy:
-    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/bin/{{ binname }}"
+    src: "{{ libre_config.application.source.tmp }}{{ libre_config.application.source.base }}/bin/{{ binname }}"
     dest: "{{ r_libre_dest_bin }}"
     remote_src: yes
     mode: 0775
@@ -37,10 +37,10 @@
   loop: "{{ r_libre_files_binary_instructor }}"
   loop_control:
     loop_var: binname
-  when: (r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true) and r_libre_type == "instructor"
+  when: (r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true) and libre_config.application.type == "instructor"
 - name: "install_libre : move LIBRE student binary content to {{ r_libre_dest_bin }}"
   copy:
-    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/bin/{{ binname }}"
+    src: "{{ libre_config.application.source.tmp }}{{ libre_config.application.source.base }}/bin/{{ binname }}"
     dest: "{{ r_libre_dest_bin }}"
     remote_src: yes
     mode: preserve
@@ -49,17 +49,17 @@
   loop: "{{ r_libre_files_binary_student }}"
   loop_control:
     loop_var: binname
-  when: (r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true) and r_libre_type != "instructor"
+  when: (r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true) and libre_config.application.type != "instructor"
 - name: "install_libre : move LIBRE ansible content to {{ r_libre_dest_ansible }}"
   synchronize:
-    src: "{{ r_libre_source_tmp }}{{ r_libre_source_base }}/ansible/"
+    src: "{{ libre_config.application.source.tmp }}{{ libre_config.application.source.base }}/ansible/"
     dest: "{{ r_libre_dest_ansible }}"
     recursive: yes
     delete: yes
   delegate_to: "{{ inventory_hostname }}"
   when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
-- name: "install_libre : Remove tempory LIBRE clone directory {{ r_libre_source_tmp }}"
+- name: "install_libre : Remove tempory LIBRE clone directory {{ libre_config.application.source.tmp }}"
   file:
     state: absent
-    path: "{{ r_libre_source_tmp }}"
+    path: "{{ libre_config.application.source.tmp }}"
   when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true

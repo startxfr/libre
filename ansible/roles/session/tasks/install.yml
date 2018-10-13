@@ -22,7 +22,7 @@
     - libre_session is undefined
     - (r_session_freshFacts is undefined or r_session_freshFacts.ansible_facts is undefined or r_session_freshFacts.ansible_facts.ansible_local is undefined)
 - name: "install : Check if session configuration is in fresh facts"
-  fail: msg="Could not find session configuration {{ r_libre_config_file_session }} in ansible_local facts"
+  fail: msg="Could not find session configuration {{ r_session_config_file }} in ansible_local facts"
   when:
     - libre_session is undefined
     - (r_session_freshFacts.ansible_facts.ansible_local.session is undefined or r_session_freshFacts.ansible_facts.ansible_local.session == "error loading fact - please check content")
@@ -42,21 +42,18 @@
   when: session_manifest_details.stat.exists == true
 - name: "install : Get repository course {{ libre_session.course }} details"
   stat:
-    path: "{{ r_session_training_repository_local }}{{ r_session_training_repo_base }}/{{ libre_session.course }}"
+    path: "{{ r_session_repository_local }}{{ r_session_repository_base }}/{{ libre_session.course }}"
   register: session_repository_course_details
 - name: "install : Check if course {{ libre_session.course }} is in local repository"
-  fail: msg="Could not find course {{ libre_session.course }} in local repository {{ r_session_training_repository_local }}{{ r_session_training_repo_base }}"
+  fail: msg="Could not find course {{ libre_session.course }} in local repository {{ r_session_repository_local }}{{ r_session_repository_base }}"
   when: session_repository_course_details.stat.exists != true
 - name: "install : Copy course {{ libre_session.course }} content from local repository to {{ r_session_dir_course }}"
   synchronize:
-    src: "{{ r_session_training_repository_local }}{{ r_session_training_repo_base }}/{{ libre_session.course }}/"
+    src: "{{ r_session_repository_local }}{{ r_session_repository_base }}/{{ libre_session.course }}/"
     dest: "{{ r_session_dir_course }}"
 - name: "install : Reload session configuration file details"
   stat:
-    path: "{{ r_session_dir_conf }}/{{ conf2.file }}"
-  loop: "{{ r_session_conf_list }}"
-  loop_control:
-    loop_var: conf2
+    path: "{{ r_session_dir_conf }}/{{ r_session_config_file }}"
   register: r_session_conf_details
 - name: "install : Reload {{ r_session_dir_course }}/manifest.yml file details"
   stat:

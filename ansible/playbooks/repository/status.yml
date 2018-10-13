@@ -5,5 +5,5 @@
   user: root
 
   roles:
-    - { role: training_repo, do: load }
-    - { role: training_repo, do: status }
+    - { role: repository, do: load }
+    - { role: repository, do: status }

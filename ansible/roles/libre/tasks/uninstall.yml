@@ -1,12 +1,9 @@
 ---
-# Uninstall pre-tasks
-
 # Uninstall tasks
 - name: "uninstall : Remove local fact links in {{ r_libre_dir_facts }}"
   file:
     state: absent
     path: "{{ r_libre_dir_facts }}/"
-  when: r_libre_uninstall_deep == true
 - name: "uninstall : Remove libre-* library from {{ r_libre_dest_lib }}"
   file:
     state: absent
@@ -14,7 +11,6 @@
   loop: "{{ r_libre_files_library }}"
   loop_control:
     loop_var: libname
-  when: r_libre_uninstall_deep == true
 - name: "uninstall : Remove libre-* binary from {{ r_libre_dest_bin }}"
   file:
     state: absent
@@ -22,27 +18,24 @@
   loop: "{{ r_libre_files_binary_all }}"
   loop_control:
     loop_var: binname
-  when: r_libre_uninstall_deep == true
 - name: "uninstall : Remove libre ansible library from {{ r_libre_dest_ansible }}"
   file:
     state: absent
     path: "{{ r_libre_dest_ansible }}"
-  when: r_libre_uninstall_deep == true
 - name: "uninstall : Remove auto-completion script to /etc/bash_completion.d/libre"
   file:
     state: absent
     path: "/etc/bash_completion.d/libre"
-  when: r_libre_uninstall_deep == true
 - name: "Archive training directory {{ r_libre_dir }}"
   archive:
     path: "{{ r_libre_dir }}"
     dest: "/libre-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
-  when: r_libre_uninstall_deep == true and r_libre_dir_details.stat.exists == true
+  when: r_libre_dir_details.stat.exists == true
 - name: "uninstall : Remove training directory {{ r_libre_dir }}"
   file:
     state: absent
     path: "{{ r_libre_dir }}"
-  when: r_libre_uninstall_deep == true and r_libre_dir_details.stat.exists == true
+  when: r_libre_dir_details.stat.exists == true
 - name: "uninstall : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
