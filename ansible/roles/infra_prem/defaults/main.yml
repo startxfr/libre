@@ -1,9 +1,5 @@
 ## LIBRE Classroom role default variables
 ---
-# Google API to connect to the session description backend
-r_infra_prem_gapi_session: "{{ session_gapi_session | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
-
-
 # Set DNS sub-domain to use for deploying DNS classroom names
 r_infra_prem_dns_zone: "{{ infra_prem_dns_zone | default('training.example.com') | string }}"
 # Set On-premise private key tu use for ssh connection

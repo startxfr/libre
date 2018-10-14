@@ -1,6 +1,6 @@
 ---
-- name: "Check instructor environment on {{ target }}"
-  hosts: '{{ target }}'
+- name: "Check instructor environment on instructor"
+  hosts: 'instructor'
   gather_facts: true
   user: root
 

@@ -1,9 +1,8 @@
 ---
-- name: "status : Start LIBRE status"
+- name: "status : Start session status"
   include_role:
-    name: repository
+    name: session
     tasks_from: "status.yml"
-  become: yes
 - name: "status : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_instructor_tmpfile) | default('') }}"

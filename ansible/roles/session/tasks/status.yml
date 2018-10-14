@@ -1,7 +1,7 @@
 ---
-- name: "status : Start instructor status"
+- name: "status : Start repository status"
   include_role:
-    name: instructor
+    name: repository
     tasks_from: "status.yml"
 - name: "status : Get previous report data"
   set_fact:

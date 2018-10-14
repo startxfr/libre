@@ -52,8 +52,9 @@ r_libre_config:
     base: "{{ r_libre_dir }}"
     course: "{{ r_libre_dir_course }}"
     collect: "{{ r_libre_dir_collect }}"
-  gapi:
-    session: "{{ libre_gapi_session | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
+  session:
+    type: "{{ libre_session_type | default('sample') | string }}"
+    gapi: "{{ libre_session_gapi | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
 
 # Default libre_hardware structure
 r_libre_minhw:

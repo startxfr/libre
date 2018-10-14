@@ -20,9 +20,6 @@ r_session_dir_facts: "{{ r_libre_dir_facts | default('/etc/ansible/facts.d') | s
 # Config file for session
 r_session_config_file: "{{ libre_config_file_session | default('session.json') | string }}"
 
-# Google API to connect to the session description backend
-r_session_gapi_session: "{{ session_gapi_session | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
-
 # Set LIBRE source local directory for hosting copied LIBRE source content
 r_session_repository_local: "{{ libre_repository.local | default('/var/local/libre.repo') }}"
 # Set training material repository directory containing course material

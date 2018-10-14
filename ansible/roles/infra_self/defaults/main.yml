@@ -1,8 +1,5 @@
 ## LIBRE Classroom role default variables
 ---
-# Google API to connect to the session description backend
-r_infra_self_gapi_session: "{{ session_gapi_session | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
-
 # Default r_infra_self structure
 r_infra_self_dns_zone: "{{ infra_self_dns_zone | default('classroom.example.com') | string }}"
 # Default associated IP (must be localhost or 127.0.0.1)

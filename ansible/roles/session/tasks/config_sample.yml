@@ -1,0 +1,9 @@
+---
+- name: "config : sample : Generate session config file {{ r_session_dir_conf }}/{{ r_session_config_file }}"
+  template:
+    src: templates/libre-session-sample.j2
+    dest: "{{ r_session_dir_conf }}/{{ r_session_config_file }}"
+    mode: 0664
+    owner: "{{ r_session_user }}"
+    group: "{{ r_session_group }}"
+  become: yes

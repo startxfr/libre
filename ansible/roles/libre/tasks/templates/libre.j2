@@ -17,7 +17,8 @@
     "course" : "{{ libre_config.directory.course }}",
     "collect" : "{{ libre_config.directory.collect }}"
   },
-  "gapi" : {
-    "session" : "{{ libre_config.gapi.session }}"
+  "session" : {
+    "type" : "{{ libre_config.session.type }}",
+    "gapi" : "{{ libre_config.session.gapi }}"
   }
 }

@@ -1,7 +1,7 @@
 ## common configuration vars for all groups
 ---
 # LIBRE software version 
-libre_version: 0.5.16
+libre_version: 0.5.17
 # Enable verbose configuration
 #libre_verbose: true
 # Enable debug configuration
@@ -85,8 +85,10 @@ libre_version: 0.5.16
 # Set LIBRE local directory for hosting course content copy
 #repository_local: /var/local/libre.repo
 
+# Set the session backend to use (sample, manual or gapi)
+#libre_session_type: sample
 # Set Google API script delivering session description
-#session_gapi_session: https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec
+#libre_session_gapi: https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec
 
 # Config file to store the current chapter - section
 #chapter_config_current: current-chapter.txt

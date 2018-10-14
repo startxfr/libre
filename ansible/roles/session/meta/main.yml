@@ -15,4 +15,5 @@ galaxy_info:
   - system
   - training
 dependencies:
-  - { role: instructor, do: load }
+  - { role: repository, do: load }
+allow_duplicates: false

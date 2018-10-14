@@ -16,3 +16,4 @@ galaxy_info:
   - training
 dependencies:
   - { role: session, do: load }
+allow_duplicates: false
