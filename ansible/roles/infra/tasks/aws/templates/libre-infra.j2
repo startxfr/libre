@@ -1,0 +1,22 @@
+{
+  "type" : "aws",
+  "auth" : {
+    "access_key" : "{{ r_infra_aws_access_key }}",
+    "secret_key" : "{{ r_infra_aws_secret_key }}"
+  },
+  "route53" : {
+    "zone" : "{{ r_infra_aws_public_dns_zone }}",
+    "domain" : "{{ r_infra_aws_route53_dns_zone }}"
+  },
+  "ec2" : {
+    "region" : "{{ r_infra_aws_region }}",
+    "type" : "{{ r_infra_aws_instance_type }}",
+    "image" : "{{ r_infra_aws_image }}",
+    "instance_nb" : "{{ r_infra_aws_instance_nb }}"
+  },
+  "ssh" : {
+    "keyname" : "{{ r_infra_aws_key_name }}",
+    "privateKey_file" : "{{ r_infra_aws_ssh_private_key_file }}",
+    "user" : "{{ r_infra_aws_ssh_user }}"
+  }
+}

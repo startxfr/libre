@@ -1,0 +1,54 @@
+---
+- name: "config : Config AWS infrastructure"
+  include_tasks: "aws/config.yml"
+  when: libre_infra.type == 'aws'
+- name: "config : Config On-Premise infrastructure"
+  include_tasks: "prem/config.yml"
+  when: libre_infra.type == 'prem'
+- name: "config : Config Self-Hosted infrastructure"
+  include_tasks: "self/config.yml"
+  when: libre_infra.type == 'self' or libre_infra is undefined
+- name: "config : Reload infra configuration file details"
+  stat:
+    path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
+  register: r_infra_conf_details
+- name: "config : Create ansible local facts links"
+  file:
+    state: link
+    src: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
+    dest: "{{ r_infra_dir_facts }}/infra.fact"
+    mode: 0664
+    owner: root
+    group: root
+  become: yes
+  when: r_infra_conflinks_details.stat.exists != true
+- name: "config : Gathering fresh facts to get infrastructure configuration"
+  setup:
+  register: r_infra_freshFacts
+  when: libre_infra is undefined
+- name: "config : Check if local configuration are in fresh facts"
+  fail: msg="Could not find local configuration in ansible_local facts. Check your config directory {{ r_infra_dir_conf }} and {{ r_infra_dir_facts }}"
+  when:
+    - libre_infra is undefined
+    - (r_infra_freshFacts is undefined or r_infra_freshFacts.ansible_facts is undefined or r_infra_freshFacts.ansible_facts.ansible_local is undefined)
+- name: "config : Check if infrastructure configuration is in fresh facts"
+  fail: msg="Could not find infrastructure configuration {{ r_infra_config_file }} in ansible_local facts"
+  when:
+    - libre_infra is undefined
+    - (r_infra_freshFacts.ansible_facts.ansible_local.infra is undefined or r_infra_freshFacts.ansible_facts.ansible_local.infra == "error loading fact - please check content")
+- name: "config : Reload infrastructure file details from {{ r_infra_dir_facts }} facts"
+  stat:
+    path: "{{ r_infra_dir_facts }}/infra.fact"
+  when: libre_infra is undefined
+- name: "config : Reload infrastructure configuration facts from fresh facts"
+  set_fact:
+    libre_infra: "{{ r_infra_freshFacts.ansible_facts.ansible_local.infra }}"
+  when: libre_infra is undefined
+- name: "config : Log config action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "Infrastructure is configured"
+    log_component: infra
+    log_action: config

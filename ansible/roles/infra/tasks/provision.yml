@@ -1,0 +1,18 @@
+---
+- name: "provision : Start infrastructure configuration"
+  include_tasks: "config.yml"
+  when: infra_installed == false
+- name: "provision : Provision AWS infrastructure"
+  include_tasks: "aws/provision.yml"
+  when: libre_infra.type == 'aws'
+- name: "provision : Provision On-Premise infrastructure"
+  include_tasks: "prem/provision.yml"
+  when: libre_infra.type == 'prem'
+- name: "provision : Provision Self-Hosted infrastructure"
+  include_tasks: "self/provision.yml"
+  when: libre_infra.type == 'self'
+
+# Install post-tasks
+- name: "provision : Start post-provision checks"
+  include_tasks: "provision-post.yml"
+  when: libre_infra.type == 'self'

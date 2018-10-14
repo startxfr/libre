@@ -1,0 +1,14 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+
+{% if r_infra_conf_details.stat.exists == true %}
+infra file   : {{ r_infra_config_file }} {% if libre_infra is defined %} (loaded) {% endif %}
+{% else %}
+infra file   : not installed
+{% endif %}
+{% if libre_infra is defined %}
+
+infra type   : {{ libre_infra.type }}
+{% else %}
+infra type   : not configured
+{% endif %}

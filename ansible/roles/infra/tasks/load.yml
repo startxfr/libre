@@ -1,0 +1,22 @@
+---
+- name: "load : Get infra configuration file details"
+  stat:
+    path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}" 
+  register: r_infra_conf_details
+- name: "load : Get infra file details from {{ r_infra_dir_facts }} facts"
+  stat:
+    path: "{{ r_infra_dir_facts }}/infra.fact"
+  register: r_infra_conflinks_details
+- name: "load : Set libre_infra fact from default infra"
+  set_fact:
+    libre_infra: "{{ r_infra_config }}"
+    infra_installed: false
+  when: ansible_local.infra is undefined or ansible_local.infra == "error loading fact - please check content"
+- name: "load : Set libre_infra fact from {{ r_infra_dir_conf }}/{{ r_infra_config_file }}" 
+  set_fact:
+    libre_infra: "{{ ansible_local.infra }}"
+    infra_installed: true
+  when:
+    - ansible_local is defined
+    - ansible_local.infra is defined
+    - ansible_local.infra != "error loading fact - please check content"

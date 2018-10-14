@@ -1,0 +1,4 @@
+---
+- name: "prem : deprovision : TODO !!!"
+  debug:
+    msg: "prem : deprovision : TODO !!!"

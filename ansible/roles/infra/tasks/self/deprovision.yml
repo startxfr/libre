@@ -1,0 +1,76 @@
+---
+- name: "self : deprovision : Remove /etc/hosts file entries"
+  blockinfile:
+    dest: /etc/hosts
+    content: ""
+    state: absent
+  become: yes
+- name: "self : deprovision : Remove instructor Authorize SSH key on {{ target }}"
+  authorized_key:
+    user: "{{ user1 }}"
+    state: absent
+    key: "{{ lookup('file', '../../ssh/'+r_infra_user_instructor+'-id_rsa.pub') }}"
+  loop:
+    - root
+    - "{{ r_infra_user_instructor }}"
+    - "{{ r_infra_user_student }}"
+  loop_control:
+    loop_var: user1
+  become: yes
+- name: "self : deprovision : Remove student Authorize SSH key on {{ target }}"
+  authorized_key:
+    user: "{{ r_infra_user_student }}"
+    state: absent
+    key: "{{ lookup('file', '../../ssh/'+r_infra_user_student+'-id_rsa.pub') }}"
+  become: yes
+- name: "self : deprovision : Ensure instructor SSH private and public key are removed on {{ target }}"
+  file:
+    state: absent
+    path: "{{keyf.dir}}/.ssh/{{keyf.key}}"
+  loop:
+    - user: "{{ r_infra_user_instructor }}"
+      key: id_rsa.pub
+      dir: "/home/{{ r_infra_user_instructor }}"
+    - user: "{{ r_infra_user_instructor }}"
+      key: id_rsa
+      dir: "/home/{{ r_infra_user_instructor }}"
+    - user: root
+      key: id_rsa.pub
+      dir: "/root/"
+    - user: root
+      key: id_rsa
+      dir: "/root/"
+  loop_control:
+    loop_var: keyf
+  become: yes
+- name: "self : deprovision : Ensure student SSH private and public key are removed on {{ target }}"
+  file:
+    state: absent
+    path: "/home/{{ r_infra_user_student }}/.ssh/{{keyf}}"
+    mode: 0600
+    owner: "{{ r_infra_user_student }}"
+    group: "{{ r_infra_usergroup }}"
+  loop:
+    - id_rsa.pub
+    - id_rsa
+  loop_control:
+    loop_var: keyf
+  become: yes
+- name: "self : deprovision : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_infra_tmpfile) | default('') }}"
+  delegate_to: localhost
+- name: "self : deprovision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_infra_tmpfile }}"
+  template:
+    src: templates/libre_report-deprovision.j2
+    dest: "{{ r_libre_tmp }}/{{ r_infra_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+- name: "self : deprovision : Log deprovision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "Self-Hosted infrastructure is Deprovisionned"
+    log_component: infra-self
+    log_action: deprovision

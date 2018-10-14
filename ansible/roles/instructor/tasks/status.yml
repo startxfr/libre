@@ -3,6 +3,10 @@
   include_role:
     name: session
     tasks_from: "status.yml"
+- name: "status : Start infra status"
+  include_role:
+    name: infra
+    tasks_from: "status.yml"
 - name: "status : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_instructor_tmpfile) | default('') }}"

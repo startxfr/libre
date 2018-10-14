@@ -1,7 +1,7 @@
 ## common configuration vars for all groups
 ---
 # LIBRE software version 
-libre_version: 0.5.17
+libre_version: 0.5.18
 # Enable verbose configuration
 #libre_verbose: true
 # Enable debug configuration
@@ -44,6 +44,8 @@ libre_version: 0.5.17
 #libre_config_file_hw: hardware.json
 # Config file for session
 #libre_config_file_session: session.json
+# Config file for infrastructure
+#libre_config_file_infra: infra.json
 
 # targeted architecture
 #libre_minhw_architecure: "x86_64"

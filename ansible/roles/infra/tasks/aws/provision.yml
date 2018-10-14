@@ -1,0 +1,221 @@
+---
+- name: "aws : provision : Create VPC {{ session_id }}-vpc in {{ r_infra_aws_region }}"
+  ec2_vpc_net:
+    state: present
+    aws_access_key: "{{ r_infra_aws_access_key }}"
+    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    name: "{{ session_id }}-vpc"
+    cidr_block: 172.22.0.0/16
+    region: "{{ r_infra_aws_region }}"
+    tags:
+      Name: "{{ session_id }}-vpc"
+      Project: "{{ session_name }}"
+      Stage: "{{ session_stage }}"
+      Instructor: "{{ session.instructor }}"
+  register: libre_vpc
+- name: "aws : provision : Create classroom subnet in {{ session_id }}-vpc"
+  ec2_vpc_subnet:
+    state: present
+    aws_access_key: "{{ r_infra_aws_access_key }}"
+    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    vpc_id: "{{ libre_vpc.vpc.id }}"
+    cidr: 172.22.1.0/24
+    az: "{{ r_infra_aws_region }}b"
+    region: "{{ r_infra_aws_region }}"
+    tags:
+      Name: "{{ session_id }}-subnet-classroom"
+      Project: "{{ session_name }}"
+      Stage: "{{ session_stage }}"
+      Instructor: "{{ session.instructor }}"
+  register: classroom_subnet
+  when: libre_vpc.vpc.id is defined
+- name: "aws : provision : Create Internet Gateway in {{ session_id }}-vpc"
+  ec2_vpc_igw:
+    state: present
+    aws_access_key: "{{ r_infra_aws_access_key }}"
+    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    vpc_id: "{{ libre_vpc.vpc.id }}"
+    region: "{{ r_infra_aws_region }}"
+    tags:
+      Name: "{{ session_id }}-igw"
+      Project: "{{ session_name }}"
+      Stage: "{{ session_stage }}"
+      Instructor: "{{ session.instructor }}"
+  register: igw
+  when: libre_vpc.vpc.id is defined
+- name: "aws : provision : Create public route table to classroom subnet in {{ session_id }}-vpc"
+  ec2_vpc_route_table:
+    state: present
+    aws_access_key: "{{ r_infra_aws_access_key }}"
+    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    vpc_id: "{{ libre_vpc.vpc.id }}"
+    region: "{{ r_infra_aws_region }}"
+    tags:
+      Name: "{{ session_id }}-route-public"
+      Project: "{{ session_name }}"
+      Stage: "{{ session_stage }}"
+      Instructor: "{{ session.instructor }}"
+    subnets:
+      - "{{ classroom_subnet.subnet.id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ igw.gateway_id }}"
+  register: public_route_table
+  when: libre_vpc.vpc.id is defined
+- name: "aws : provision : Create security group for {{ libre_vpc.vpc.id }} in {{ r_infra_aws_region }}"
+  ec2_group:
+    state: present
+    aws_access_key: "{{ r_infra_aws_access_key }}"
+    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    vpc_id: "{{ libre_vpc.vpc.id }}"
+    region: "{{ r_infra_aws_region }}"
+    name: openAll
+    description: security group for {{ session_name }}
+    tags:
+      Name: "{{ session_id }}-sg-all"
+      Project: "{{ session_name }}"
+      Stage: "{{ session_stage }}"
+      Instructor: "{{ session.instructor }}"
+    rules:
+      - proto: all
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+  register: security_group
+  when: libre_vpc.vpc.id is defined
+- name: "aws : provision : Create ec2 instance in {{ r_infra_aws_region }}"
+  ec2:
+    aws_access_key: "{{ r_infra_aws_access_key }}"
+    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    region: "{{ r_infra_aws_region }}"
+    instance_type: "{{ r_infra_aws_instance_type }}"
+    image: "{{ r_infra_aws_image }}"
+    key_name: "{{ r_infra_aws_key_name }}"
+    group_id: "{{ security_group.group_id }}"
+    vpc_subnet_id: "{{ classroom_subnet.subnet.id }}"
+    assign_public_ip: yes
+    exact_count: "{{ r_infra_aws_instance_nb }}"
+    count_tag: Name
+    wait: yes
+    wait_timeout: 60
+    instance_tags:
+      Name: "{{ session_id }}-workstation"
+      Project: "{{ session_name }}"
+      Stage: "{{ session_stage }}"
+      Instructor: "{{ session.instructor }}"
+    volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 8
+        delete_on_termination: true
+      - device_name: /dev/sdb
+        volume_type: io1
+        iops: 100
+        volume_size: 10
+        delete_on_termination: true
+  register: ec2
+#- name: "aws : provision : Information about instances"
+#  debug:
+#    msg: "Instance {{ item.id }} created with ip {{ item.public_ip }}"
+#  with_items: "{{ ec2.tagged_instances }}"
+- name: "aws : provision : Register a public DNS for workstations"
+  route53:
+    state: present
+    aws_access_key: "{{ r_infra_aws_access_key }}"
+    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    zone: "{{ r_infra_aws_route53_dns_zone }}"
+    record: "workstation{{item.0}}.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+    type: A
+    ttl: 30
+    overwrite: yes
+    value: "{{ item.1.public_ip }}"
+#    wait: yes
+  register: route53_workstation
+  with_indexed_items: "{{ ec2.tagged_instances }}"
+- name: "aws : provision : Register a public DNS for instructor"
+  route53:
+    state: present
+    aws_access_key: "{{ r_infra_aws_access_key }}"
+    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    zone: "{{ r_infra_aws_route53_dns_zone }}"
+    record: "instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+    type: CNAME
+    ttl: 30
+    overwrite: yes
+    value: "workstation0.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+#    wait: yes
+  register: route53_instructor
+- name: "aws : provision : Generate inventory file"
+  template:
+    src: templates/inventory.j2
+    dest: "../../inventory.yml"
+- name: "aws : provision : Wait for the instances to boot by checking the ssh port"
+  wait_for:
+    host: "{{item.public_ip}}"
+    port: 22
+    delay: 10
+    sleep: 5
+    timeout: 60
+    state: started
+  with_items: "{{ ec2.tagged_instances }}"
+- name: "aws : provision : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_infra_tmpfile) | default('') }}"
+  delegate_to: localhost
+- name: "aws : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_infra_tmpfile }}"
+  template:
+    src: templates/libre_report-provision.j2
+    dest: "{{ r_libre_tmp }}/{{ r_infra_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+- name: "aws : provision : Log provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "AWS infrastructure is Provisionned"
+    log_component: infra-aws
+    log_action: provision
+- name: "aws : provision : Infrastructure provisionning is finish"
+  debug:
+    msg:
+      - " "
+      - "We are happy to report that classroom infrastructure {{ session_name }}.{{ r_infra_aws_public_dns_zone }} was successfully provisioned on AWS infrastructure"
+      - " "
+      - "Here are some interesting characteristics of this classroom infrastructure:"
+      - " "
+      - "  - Instructor: instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+      - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
+      - "  - Type: {{ r_infra_aws_instance_type }}"
+      - "  - Region: {{ r_infra_aws_region }}"
+      - "  - SSH User: {{ r_infra_aws_ssh_user }}"
+      - "  - SSH Key: {{ r_infra_aws_key_name }}.pem"
+      - "  - Size: {{ r_infra_aws_instance_nb }} workstations"
+      - " "
+      - "You must finish your installation by running the following command :"
+      - "  ansible-playbook -i inventory.yml -e target=local playbooks/infra-aws/provision-post.yml"
+      - " "
+      - " Have a happy setup ;)"
+#- name: "provision : Send a mail for notification"
+#  mail:
+##     from: cl@startx.fr
+#    to: cl@startx.fr
+#    subject: "Classroom {{ session_name }}.{{ r_infra_aws_public_dns_zone }} has been provisioned"
+#    body: |
+#      We are happy to report that classroom infrastructure {{ session_name }}.{{ r_infra_aws_public_dns_zone }} was successfully provisioned on AWS infrastructure
+#
+#      Here are some interesting characteristics of this classroom infrastructure:
+#
+#        - Instructor: instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}
+#        - IP address: {{ ec2.tagged_instances[0].public_ip }}
+#        - Type: {{ r_infra_aws_instance_type }}
+#        - Region: {{ r_infra_aws_region }}
+#        - SSH User: {{ r_infra_aws_ssh_user }}
+#        - SSH Key: {{ r_infra_aws_key_name }}.pem
+#        - Size: {{ r_infra_aws_instance_nb }} workstations
+#
+#     You must finish your installation by running the following command :
+#       ansible-playbook -i inventory.yml -e target=local playbooks/infra-aws/provision-post.yml
+#
+#     Have a happy setup ;)
+

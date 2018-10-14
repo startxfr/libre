@@ -49,7 +49,7 @@
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_session_tmpfile }}"
+- name: "install : Generate session report at {{ r_libre_tmp }}/{{ r_session_tmpfile }}"
   template:
     src: templates/libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_session_tmpfile }}"

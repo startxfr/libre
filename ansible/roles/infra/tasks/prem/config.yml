@@ -1,0 +1,14 @@
+---
+- name: "prem : config : Get {{ r_infra_dir_conf }}/{{ r_infra_config_file }} config file details"
+  stat:
+    path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
+  register: r_infra_conf_details
+- name: "prem : config : Generate infrastructure config file {{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
+  template:
+    src: templates/libre-infra.j2
+    dest: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
+    mode: 0664
+    owner: "{{ r_session_user }}"
+    group: "{{ r_session_group }}"
+  become: yes
+  when: r_infra_conf_details.stat.exists != true
