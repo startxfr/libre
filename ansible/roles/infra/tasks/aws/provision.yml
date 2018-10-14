@@ -148,7 +148,7 @@
 - name: "aws : provision : Generate inventory file"
   template:
     src: templates/inventory.j2
-    dest: "../../inventory.yml"
+    dest: "{{ r_libre_dir_conf }}/inventory/infra.yml"
 - name: "aws : provision : Wait for the instances to boot by checking the ssh port"
   wait_for:
     host: "{{item.public_ip}}"
@@ -193,7 +193,7 @@
       - "  - Size: {{ r_infra_aws_instance_nb }} workstations"
       - " "
       - "You must finish your installation by running the following command :"
-      - "  ansible-playbook -i inventory.yml -e target=local playbooks/infra-aws/provision-post.yml"
+      - "  ansible-playbook -i /libre/conf/inventory playbooks/infra-aws/provision-post.yml"
       - " "
       - " Have a happy setup ;)"
 #- name: "provision : Send a mail for notification"
@@ -215,7 +215,7 @@
 #        - Size: {{ r_infra_aws_instance_nb }} workstations
 #
 #     You must finish your installation by running the following command :
-#       ansible-playbook -i inventory.yml -e target=local playbooks/infra-aws/provision-post.yml
+#       ansible-playbook -i /libre/conf/inventory playbooks/infra-aws/provision-post.yml
 #
 #     Have a happy setup ;)
 

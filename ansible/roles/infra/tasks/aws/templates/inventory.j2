@@ -1,10 +1,4 @@
 ---
-local:
-  hosts:
-    localhost:
-  vars:
-    ansible_connection: local
-
 instructor:
   hosts:
     instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}:

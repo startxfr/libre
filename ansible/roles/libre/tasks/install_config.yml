@@ -60,32 +60,30 @@
   stat:
     path: "{{ r_libre_dir_conf }}/{{ r_libre_config_file_libre }}"
   register: r_libre_conf_details
-  when: r_libre_conf_details.stat.exists != true or libre_installed == false
 - name: "install_config : Reload hardware file details"
   stat:
     path: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
   register: r_libre_hw_details
   when: r_libre_hw_details.stat.exists != true
 
-- name: "install_config : Get /tmp/libre-inventory.yml temporary inventory file details"
+- name: "install_config : Create inventory directory {{ r_libre_dir_conf }}/inventory"
+  file:
+    state: directory
+    path: "{{ r_libre_dir_conf }}/inventory"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "install_config : Get {{ r_libre_dir_conf }}/inventory/all.yml inventory file details"
   stat:
-    path: "/tmp/libre-inventory.yml"
-  register: r_libre_tmpinventory_details
-- name: "install_config : Copy /tmp/libre-inventory.yml into config directory {{ r_libre_dir_conf }}"
-  copy:
-    src: /tmp/libre-inventory.yml
-    dest: "{{ r_libre_dir_conf }}/inventory.yml"
+    path: "{{ r_libre_dir_conf }}/inventory/all.yml"
+  register: r_libre_inventory_details
+- name: "install_config : Generate inventory {{ r_libre_dir_conf }}/inventory/all.yml"
+  template:
+    src: templates/inventory.j2
+    dest: "{{ r_libre_dir_conf }}/inventory/all.yml"
     remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  when: r_libre_tmpinventory_details.stat.exists == true
-- name: "install_config : Copy {{ r_libre_dest_ansible }}/inventory/base.yml into config directory {{ r_libre_dir_conf }}"
-  copy:
-    src: "{{ r_libre_dest_ansible }}/inventory/base.yml"
-    dest: "{{ r_libre_dir_conf }}/inventory.yml"
-    remote_src: yes
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-  when: r_libre_tmpinventory_details.stat.exists != true
+  when: r_libre_inventory_details.stat.exists != true

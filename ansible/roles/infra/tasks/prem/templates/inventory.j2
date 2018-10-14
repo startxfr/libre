@@ -1,20 +1,14 @@
 ---
-local:
-  hosts:
-    localhost:
-  vars:
-    ansible_connection: local
-
 instructor:
   hosts:
-    instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}:
+    instructor.{{ libre_infra.network.dns }}:
 
 students:
-{% if ec2.tagged_instances is defined %}
+{% if libre_infra.instances is defined %}
   hosts:
-{% for instance in ec2.tagged_instances %}
+{% for instance in libre_infra.instances %}
 {% if loop.index0 > 0 %}
-    workstation{{loop.index0}}.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}:
+    workstation{{loop.index0}}.{{ libre_infra.network.dns }}:
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -23,7 +17,9 @@ classroom:
   children:
     instructor:
     students:
+
+all:
   vars:
     ansible_connection: ssh
-    ansible_user: "{{ r_infra_aws_ssh_user }}"
-    ansible_ssh_private_key_file: "{{ r_infra_aws_ssh_private_key_file }}"
+    ansible_user: "{{ libre_infra.ssh.user }}"
+    ansible_ssh_private_key_file: "{{ libre_infra.ssh.privateKey_file }}"

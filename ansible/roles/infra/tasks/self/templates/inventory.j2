@@ -1,29 +1,19 @@
 ---
-local:
+instructor:
   hosts:
     localhost:
   vars:
     ansible_connection: local
-
-instructor:
-  hosts:
-    instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}:
+    libre_type: instructor
 
 students:
-{% if ec2.tagged_instances is defined %}
   hosts:
-{% for instance in ec2.tagged_instances %}
-{% if loop.index0 > 0 %}
-    workstation{{loop.index0}}.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}:
-{% endif %}
-{% endfor %}
-{% endif %}
+    localhost:
+  vars:
+    ansible_connection: local
+    libre_type: student
 
 classroom:
   children:
     instructor:
     students:
-  vars:
-    ansible_connection: ssh
-    ansible_user: "{{ r_infra_aws_ssh_user }}"
-    ansible_ssh_private_key_file: "{{ r_infra_aws_ssh_private_key_file }}"

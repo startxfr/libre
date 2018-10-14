@@ -1,5 +1,5 @@
 ---
-- name: "self : load : Get {{r_infra_dir_conf}}/inventory.yml inventory file details"
+- name: "self : load : Get {{r_infra_dir_conf}}/inventory/infra.yml inventory file details"
   stat:
-    path: "{{r_infra_dir_conf}}/inventory.yml"
+    path: "{{r_infra_dir_conf}}/inventory/infra.yml"
   register: r_infra_conf_details

@@ -1,39 +1,42 @@
 ---
-- name: "self : provision : Infrastructure inventory {{r_infra_dir_conf}}/inventory.yml exist"
+- name: "self : provision : Infrastructure inventory {{r_infra_dir_conf}}/inventory/infra.yml exist"
   assert:
     msg:
       - " "
-      - "Infrastructure inventory {{r_infra_dir_conf}}/inventory.yml doesn't exist."
+      - "Infrastructure inventory {{r_infra_dir_conf}}/inventory/infra.yml doesn't exist."
       - " "
       - "You must first setup infrastructure environement with the following command :"
       - "$ libre-infra self setup"
       - " "
     that: r_infra_conf_details.stat.exists == true and libre_infra is defined
+- name: "self : provision : Generate base inventory {{r_infra_dir_conf}}/inventory/infra.yml"
+  template:
+    src: "templates/inventory.j2"
+    dest: "{{r_infra_dir_conf}}/inventory/infra.yml"
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
 - name: "self : provision : Update /etc/hosts file"
   blockinfile:
     dest: /etc/hosts
     content: "{{ r_infra_self_associated_ip }}       localhost.localdomain localhost instructor.{{r_infra_self_dns_zone}} student.{{r_infra_self_dns_zone}}"
     state: present
-  become: yes
 - name: "self : provision : Create the libre user group"
   group:
     name: "{{ r_infra_usergroup }}"
     state: present
-  become: yes
 - name: "self : provision : Create the instructor user"
   user:
     state: present
     name: "{{ r_infra_user_instructor }}"
     comment: "LIBRE {{ r_infra_user_instructor }}"
     group: "{{ r_infra_usergroup }}"
-  become: yes
 - name: "self : provision : Create the student user"
   user:
     state: present
     name: "{{ r_infra_user_student }}"
     comment: "LIBRE {{ r_infra_user_student }}"
     group: "{{ r_infra_usergroup }}"
-  become: yes
 - name: "self : provision : Authorize instructor SSH key"
   authorized_key:
     user: "{{ user1 }}"
@@ -45,13 +48,11 @@
     - "{{ r_infra_user_student }}"
   loop_control:
     loop_var: user1
-  become: yes
 - name: "self : provision : Authorize student SSH key"
   authorized_key:
     user: "{{ r_infra_user_student }}"
     state: present
     key: "{{ lookup('file', '../../ssh/'+r_infra_user_student+'-id_rsa.pub') }}"
-  become: yes
 - name: "self : provision : Ensure instructor SSH private and public key are present"
   copy:
     src: ../../ssh/{{ r_infra_user_instructor }}-{{keyf.key}}
@@ -74,7 +75,6 @@
       dir: "/root/"
   loop_control:
     loop_var: keyf
-  become: yes
 - name: "self : provision : Ensure student SSH private and public key are present"
   copy:
     src: ../../ssh/{{ r_infra_user_student }}-{{keyf}}
@@ -87,15 +87,6 @@
     - id_rsa
   loop_control:
     loop_var: keyf
-  become: yes
-#- name: "self : provision : Generate base inventory {{r_infra_dir_conf}}/inventory.yml"
-#  template:
-#    src: "templates/inventory.j2"
-#    dest: "{{r_infra_dir_conf}}/inventory.yml"
-#    mode: 0664
-#    owner: "{{ r_libre_user }}"
-#    group: "{{ r_libre_group }}"
-#  become: yes
 - name: "self : provision : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_infra_tmpfile) | default('') }}"
@@ -127,7 +118,7 @@
       - " "
       - " You can continue this process by :"
       - " "
-      - "1. Review and complete the generated inventory {{r_infra_dir_conf}}/inventory.yml"
+      - "1. Review and complete the generated inventory {{r_infra_dir_conf}}/inventory/infra.yml"
       - "2. Start post-provisionning your infrastructure by executing the following command :"
       - "   $ libre-infra self post-provision"
       - " "

@@ -106,15 +106,6 @@
     name: "{{ inventory_hostname }}"
   become: yes
   when: inventory_hostname in groups.instructor
-- name: "aws : provision-post : Copy inventory for instructor"
-  copy:
-    src: ../../inventory.yml
-    dest: /tmp/libre-inventory.yml
-    mode: 0664
-    owner: "{{ r_infra_user_instructor }}"
-    group: "{{ r_infra_usergroup }}"
-  become: yes
-  when: inventory_hostname in groups.instructor
 - name: "aws : provision-post : Loading LIBRE for instructor"
   include_role:
     name: libre

@@ -3,7 +3,7 @@
 # Default config var
 CONFIG_DIR=/libre/conf
 CONFIG_FILE=$CONFIG_DIR/config.json
-INVENTORY_FILE=$CONFIG_DIR/inventory.yml
+INVENTORY_FILE=$CONFIG_DIR/inventory
 SESSION_FILE=$CONFIG_DIR/session.json
 LIBRE_VERBOSE=true
 LIBRE_DEBUG=false

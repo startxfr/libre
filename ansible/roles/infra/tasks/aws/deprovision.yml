@@ -130,6 +130,10 @@
   when:
     - libre_vpcs.vpcs is defined
     - libre_vpcs.vpcs | length > 0
+- name: "aws : deprovision : Remove infrastructure inventory {{r_infra_dir_conf}}/inventory/infra.yml"
+  file:
+    state: "absent"
+    path: "{{r_infra_dir_conf}}/inventory/infra.yml"
 - name: "aws : deprovision : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_infra_tmpfile) | default('') }}"
