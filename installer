@@ -149,8 +149,7 @@ function installerInstall {
         LIBRE_TYPE=$1
     fi
     if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]]; then
-        echo -n "What is your installation type (instructor) : "
-        read typeInstall
+        read -p 'What is your installation type (instructor) : ' typeInstall
         if [[ "$typeInstall" == "" || "$typeInstall" == "instructor" || "$typeInstall" == "i" ]]; then
             LIBRE_TYPE="instructor"
             LIBRE_TARGET="instructor"
