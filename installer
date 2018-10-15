@@ -21,9 +21,8 @@ source /etc/os-release
 OS="$NAME"
 OS_NAME="$PRETTY_NAME"
 
-# use xterm and set current PID
+# use xterm
 export TERM=xterm
-pid=0
 
 # Display libre installer header
 function installerHeader {
