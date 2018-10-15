@@ -157,7 +157,6 @@ function installerInstall {
     if [[ $1 != "" ]]; then
         LIBRE_TYPE=$1
     fi
-    installerInformation
     if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]]; then
         echo -n "What is your installation type (instructor) : "
         read typeInstall
@@ -177,6 +176,7 @@ function installerInstall {
         LIBRE_TYPE="instructor"
         LIBRE_TARGET="local"
     fi
+    installerInformation
     installerDoInstall $LIBRE_TYPE
     cd $ANSIBLE_DEST
     LIBRE_SUDO=""
