@@ -3,7 +3,7 @@
 # Default config var
 LIBREI_VERSION="0.5.19"
 LIBREI_REQUIREMENTS_FC="git curl pip ansible jq"
-LIBREI_REQUIREMENTS_CENTOS="epel-release; yum install -y git curl python-pip ansible jq"
+LIBREI_REQUIREMENTS_CENTOS="epel-release &> /dev/null; yum install -y git curl python-pip ansible jq"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
