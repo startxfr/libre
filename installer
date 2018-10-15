@@ -73,11 +73,6 @@ function installerCheck {
             rm -f /tmp/installer-libre
         fi
     fi
-#    grep -i "CentOS Linux" /etc/redhat-release
-#    if [ $? != 0 ]; then
-#        echo "  ERROR ! This script must be run in a Centos 7 OS"
-#        exit 1
-#    fi
     mkdir -p $TMP_DEST &> /dev/null || {
         echo "  ERROR ! Unable to create $TMP_DEST"
     }
@@ -109,13 +104,6 @@ function installerUpdateSystem {
         pip install --upgrade pip
         pip install --upgrade Jinja2
     fi
-#    echo "Installing yaml parser"
-#    mkdir /tmp/tt &> /dev/null
-#    cd  /tmp/tt
-#    git clone https://github.com/Gallore/yaml_cli  &> /dev/null
-#    cd  yaml_cli
-#    pip install . &> /dev/null
-#    rm -rf /tmp/tt
 }
 
 # installer install libre
