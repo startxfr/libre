@@ -145,8 +145,8 @@ function installerCheckInstall {
 
 # installer installation process
 function installerInstall {
-    if [[ $1 != "" ]]; then
-        LIBRE_TYPE=$1
+    if [[ "$1" != "" ]]; then
+        LIBRE_TYPE="$1"
     fi
     if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]]; then
         read -p 'What is your installation type (instructor) : ' typeInstall
@@ -193,8 +193,8 @@ function installerDoInstall {
 
 # installer uninstall process
 function installerUninstall {
-    if [[ $1 != "" ]]; then
-        LIBRE_TYPE=$1
+    if [[ "$1" != "" ]]; then
+        LIBRE_TYPE="$1"
     else
         LIBRE_TYPE="instructor"
     fi
@@ -212,8 +212,8 @@ function installerDoUninstall {
 
 # reinstaller remove libre environement
 function installerReinstall {
-    if [[ $1 != "" ]]; then
-        LIBRE_TYPE=$1
+    if [[ "$1" != "" ]]; then
+        LIBRE_TYPE="$1"
     else
         LIBRE_TYPE="instructor"
     fi
@@ -247,7 +247,7 @@ function installerUsage {
 }
 
 # Dispatch input arguments
-case $1 in
+case "$1" in
     "uninstall")      installerUninstall $2 ;;
     "reinstall")      installerReinstall $2 ;;
     "install")        installerInstall $2 ;;
