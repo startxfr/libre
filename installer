@@ -25,7 +25,7 @@ OS_NAME="$PRETTY_NAME"
 export TERM=xterm
 
 # Display libre installer header
-function installerHeader {
+function print_header {
     cat <<-'BANNER'
 	  _     _ _                    _           _        _ _
 	 | |   (_) |__  _ __ ___      (_)_ __  ___| |_ __ _| | | ___ _ __
@@ -37,8 +37,8 @@ function installerHeader {
 }
 
 # Display information
-function installerInformation {
-    installerHeader
+function print_info {
+    print_header
     echo "installer : v$LIBREI_VERSION"
     echo "repo      : $LIBRE_TOOLREPO_URL"
     echo "branch    : $LIBRE_TOOLREPO_BRANCH"
@@ -50,7 +50,7 @@ function installerInformation {
 }
 
 # Display information
-function installerCheck {
+function check_installer {
     if [ "$(id -u)" != "0" ]; then
         echo "  ERROR ! This script must be run as root or you must have sudo"
         echo "  ERROR ! Try to execute 'sudo su -' and run again this command"
@@ -81,7 +81,7 @@ function installerCheck {
 }
 
 # installer update system
-function installerUpdateSystem {
+function install_deps {
     local update
     read -p 'Fully update the operating system (y/N) ? ' update
     if [ "$update" == "y" ]; then
@@ -101,7 +101,7 @@ function installerUpdateSystem {
 }
 
 # installer install libre
-function installerInstallLibre {
+function fetch_installer {
     echo "Create temporary storage"
     if [ -w $TMP_DEST ]; then
         echo "remove previous $TMP_DEST directory"
@@ -122,20 +122,20 @@ function installerInstallLibre {
 }
 
 # installer install libre
-function installerCleanup {
+function clean_installer {
     echo "Remove $TMP_DEST"
     rm -rf $TMP_DEST
 }
 
 # installer check post-installation
-function installerCheckInstall {
+function check_installation {
     if [ ! -d $ANSIBLE_DEST ]; then
         echo "  ERROR ! $ANSIBLE_DEST doesn't exist"
     fi
 }
 
 # installer installation process
-function installerInstall {
+function install_libre {
     if [[ "$1" != "" ]]; then
         LIBRE_TYPE="$1"
     fi
@@ -157,8 +157,8 @@ function installerInstall {
         LIBRE_TYPE="instructor"
         LIBRE_TARGET="local"
     fi
-    installerInformation
-    installerDoInstall $LIBRE_TYPE
+    print_info
+    perform_installation $LIBRE_TYPE
     cd $ANSIBLE_DEST
     LIBRE_SUDO=""
     if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]]; then
@@ -174,27 +174,27 @@ function installerInstall {
 }
 
 # do installation process
-function installerDoInstall {
-    installerCheck
-    installerUpdateSystem
-    installerInstallLibre
-    installerCleanup
-    installerCheckInstall
+function perform_installation {
+    check_installer
+    install_deps
+    fetch_installer
+    clean_installer
+    check_installation
 }
 
 # installer uninstall process
-function installerUninstall {
+function uninstall_libre {
     if [[ "$1" != "" ]]; then
         LIBRE_TYPE="$1"
     else
         LIBRE_TYPE="instructor"
     fi
-    installerInformation
-    installerDoUninstall $LIBRE_TYPE
+    print_info
+    perform_uninstallation $LIBRE_TYPE
 }
 
 # do uninstall process
-function installerDoUninstall {
+function perform_uninstallation {
     if [ -d $ANSIBLE_DEST ]; then
         cd $ANSIBLE_DEST
         ansible-playbook -i inventory.yml -e target=local playbooks/$1/uninstall.yml
@@ -202,14 +202,14 @@ function installerDoUninstall {
 }
 
 # reinstaller remove libre environement
-function installerReinstall {
+function reinstall_libre {
     if [[ "$1" != "" ]]; then
         LIBRE_TYPE="$1"
     else
         LIBRE_TYPE="instructor"
     fi
-    installerInformation
-    installerDoUninstall $LIBRE_TYPE
+    print_info
+    perform_uninstallation $LIBRE_TYPE
     echo "Refresh installer-libre"
     rm -f $INSTALLER_BIN
     curl -s -L $INSTALLER_URL -o $INSTALLER_BIN &> /dev/null
@@ -218,8 +218,8 @@ function installerReinstall {
 }
 
 # Display installer usage
-function installerUsage {
-    installerHeader
+function print_usage {
+    print_header
     cat <<-EOF
 
 	Startx Formation training environement installer
@@ -239,11 +239,11 @@ function installerUsage {
 
 # Dispatch input arguments
 case "$1" in
-    "uninstall")      installerUninstall $2 ;;
-    "reinstall")      installerReinstall $2 ;;
-    "install")        installerInstall $2 ;;
-    "instructor")     installerInstall instructor ;;
-    "student")        installerInstall student ;;
-    usage|-h|--help)  installerUsage ;;
-    *)                installerInstall instructor ;;
+    "uninstall")      uninstall_libre $2 ;;
+    "reinstall")      reinstall_libre $2 ;;
+    "install")        install_libre $2 ;;
+    "instructor")     install_libre instructor ;;
+    "student")        install_libre student ;;
+    usage|-h|--help)  print_usage ;;
+    *)                install_libre instructor ;;
 esac
