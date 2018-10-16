@@ -49,15 +49,6 @@ function installerInformation {
     echo
 }
 
-# installer setup
-function installerSetup {
-    if [[ "$1" == "student" ]]; then
-        LIBRE_TYPE="student"
-    else
-        LIBRE_TYPE="instructor"
-    fi
-}
-
 # Display information
 function installerCheck {
     if [ "$(id -u)" != "0" ]; then
