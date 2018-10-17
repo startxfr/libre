@@ -63,21 +63,16 @@ function check_installer {
             rm -f /tmp/installer-libre
         fi
     fi
-    mkdir -p $TMP_DEST &> /dev/null || {
-        echo "  ERROR ! Unable to create $TMP_DEST"
-    }
-    if [ ! -w $TMP_DEST ]; then
-        echo "  ERROR ! $TMP_DEST is not writable"
-        exit 1
-    fi
-
-    mkdir -p $ANSIBLE_DEST &> /dev/null || {
-        echo "  ERROR ! Unable to create $ANSIBLE_DEST"
-    }
-    if [ ! -w $ANSIBLE_DEST ]; then
-        echo "  ERROR ! $ANSIBLE_DEST is not writable"
-        exit 1
-    fi
+    for d in $TMP_DEST $ANSIBLE_DEST; do
+        mkdir -p $d &> /dev/null || {
+            echo "  ERROR ! Unable to create $d"
+            exit 1
+        }
+        if [ ! -w $d ]; then
+            echo "  ERROR ! $d is not writable"
+            exit 1
+        fi
+    done
 }
 
 # installer update system
