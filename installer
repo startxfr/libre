@@ -2,8 +2,8 @@
 
 # Default config var
 LIBREI_VERSION="0.5.19"
-LIBREI_REQUIREMENTS_FC="git curl pip ansible jq"
-LIBREI_REQUIREMENTS_CENTOS="epel-release; yum install -y git curl python-pip ansible jq"
+LIBREI_REQUIREMENTS_FC="git curl python2-pip ansible jq"
+LIBREI_REQUIREMENTS_CENTOS="epel-release &> /dev/null; yum install -y git curl python-pip ansible jq"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
@@ -21,12 +21,11 @@ source /etc/os-release
 OS="$NAME"
 OS_NAME="$PRETTY_NAME"
 
-# use xterm and set current PID
+# use xterm
 export TERM=xterm
-pid=0
 
 # Display libre installer header
-function installerHeader {
+function print_header {
     cat <<-'BANNER'
 	  _     _ _                    _           _        _ _
 	 | |   (_) |__  _ __ ___      (_)_ __  ___| |_ __ _| | | ___ _ __
@@ -38,8 +37,8 @@ function installerHeader {
 }
 
 # Display information
-function installerInformation {
-    installerHeader
+function print_info {
+    print_header
     echo "installer : v$LIBREI_VERSION"
     echo "repo      : $LIBRE_TOOLREPO_URL"
     echo "branch    : $LIBRE_TOOLREPO_BRANCH"
@@ -50,17 +49,8 @@ function installerInformation {
     echo
 }
 
-# installer setup
-function installerSetup {
-    if [[ "$1" == "student" ]]; then
-        LIBRE_TYPE="student"
-    else
-        LIBRE_TYPE="instructor"
-    fi
-}
-
 # Display information
-function installerCheck {
+function check_installer {
     if [ "$(id -u)" != "0" ]; then
         echo "  ERROR ! This script must be run as root or you must have sudo"
         echo "  ERROR ! Try to execute 'sudo su -' and run again this command"
@@ -73,32 +63,26 @@ function installerCheck {
             rm -f /tmp/installer-libre
         fi
     fi
-#    grep -i "CentOS Linux" /etc/redhat-release
-#    if [ $? != 0 ]; then
-#        echo "  ERROR ! This script must be run in a Centos 7 OS"
-#        exit 1
-#    fi
-    mkdir -p $TMP_DEST &> /dev/null || {
-        echo "  ERROR ! Unable to create $TMP_DEST"
-    }
-    if [ ! -w $TMP_DEST ]; then
-        echo "  ERROR ! $TMP_DEST is not writable"
-        exit 1
-    fi
-
-    mkdir -p $ANSIBLE_DEST &> /dev/null || {
-        echo "  ERROR ! Unable to create $ANSIBLE_DEST"
-    }
-    if [ ! -w $ANSIBLE_DEST ]; then
-        echo "  ERROR ! $ANSIBLE_DEST is not writable"
-        exit 1
-    fi
+    for d in $TMP_DEST $ANSIBLE_DEST; do
+        mkdir -p $d &> /dev/null || {
+            echo "  ERROR ! Unable to create $d"
+            exit 1
+        }
+        if [ ! -w $d ]; then
+            echo "  ERROR ! $d is not writable"
+            exit 1
+        fi
+    done
 }
 
 # installer update system
-function installerUpdateSystem {
-    echo "Updating OS $OS installation (cloud take minutes...)"
-    yum update -y &> /dev/null
+function install_deps {
+    local update
+    read -p 'Fully update the operating system (y/N) ? ' update
+    if [ "$update" == "y" ]; then
+        echo "Updating OS $OS installation (cloud take minutes...)"
+        yum update -y &> /dev/null
+    fi
     if [ "$OS" == "Fedora" ]; then
         echo "Installing packages for $OS"
         yum install -y $LIBREI_REQUIREMENTS_FC &> /dev/null
@@ -109,17 +93,10 @@ function installerUpdateSystem {
         pip install --upgrade pip
         pip install --upgrade Jinja2
     fi
-#    echo "Installing yaml parser"
-#    mkdir /tmp/tt &> /dev/null
-#    cd  /tmp/tt
-#    git clone https://github.com/Gallore/yaml_cli  &> /dev/null
-#    cd  yaml_cli
-#    pip install . &> /dev/null
-#    rm -rf /tmp/tt
 }
 
 # installer install libre
-function installerInstallLibre {
+function fetch_installer {
     echo "Create temporary storage"
     if [ -w $TMP_DEST ]; then
         echo "remove previous $TMP_DEST directory"
@@ -140,27 +117,25 @@ function installerInstallLibre {
 }
 
 # installer install libre
-function installerCleanup {
+function clean_installer {
     echo "Remove $TMP_DEST"
     rm -rf $TMP_DEST
 }
 
 # installer check post-installation
-function installerCheckInstall {
+function check_installation {
     if [ ! -d $ANSIBLE_DEST ]; then
         echo "  ERROR ! $ANSIBLE_DEST doesn't exist"
     fi
 }
 
 # installer installation process
-function installerInstall {
-    if [[ $1 != "" ]]; then
-        LIBRE_TYPE=$1
+function install_libre {
+    if [[ "$1" != "" ]]; then
+        LIBRE_TYPE="$1"
     fi
-    installerInformation
     if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]]; then
-        echo -n "What is your installation type (instructor) : "
-        read typeInstall
+        read -p 'What is your installation type (instructor) : ' typeInstall
         if [[ "$typeInstall" == "" || "$typeInstall" == "instructor" || "$typeInstall" == "i" ]]; then
             LIBRE_TYPE="instructor"
             LIBRE_TARGET="instructor"
@@ -177,7 +152,8 @@ function installerInstall {
         LIBRE_TYPE="instructor"
         LIBRE_TARGET="local"
     fi
-    installerDoInstall $LIBRE_TYPE
+    print_info
+    perform_installation $LIBRE_TYPE
     cd $ANSIBLE_DEST
     LIBRE_SUDO=""
     if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]]; then
@@ -193,27 +169,27 @@ function installerInstall {
 }
 
 # do installation process
-function installerDoInstall {
-    installerCheck
-    installerUpdateSystem
-    installerInstallLibre
-    installerCleanup
-    installerCheckInstall
+function perform_installation {
+    check_installer
+    install_deps
+    fetch_installer
+    clean_installer
+    check_installation
 }
 
 # installer uninstall process
-function installerUninstall {
-    if [[ $1 != "" ]]; then
-        LIBRE_TYPE=$1
+function uninstall_libre {
+    if [[ "$1" != "" ]]; then
+        LIBRE_TYPE="$1"
     else
         LIBRE_TYPE="instructor"
     fi
-    installerInformation
-    installerDoUninstall $LIBRE_TYPE
+    print_info
+    perform_uninstallation $LIBRE_TYPE
 }
 
 # do uninstall process
-function installerDoUninstall {
+function perform_uninstallation {
     if [ -d $ANSIBLE_DEST ]; then
         cd $ANSIBLE_DEST
         ansible-playbook -i inventory.yml -e target=local playbooks/$1/uninstall.yml
@@ -221,14 +197,14 @@ function installerDoUninstall {
 }
 
 # reinstaller remove libre environement
-function installerReinstall {
-    if [[ $1 != "" ]]; then
-        LIBRE_TYPE=$1
+function reinstall_libre {
+    if [[ "$1" != "" ]]; then
+        LIBRE_TYPE="$1"
     else
         LIBRE_TYPE="instructor"
     fi
-    installerInformation
-    installerDoUninstall $LIBRE_TYPE
+    print_info
+    perform_uninstallation $LIBRE_TYPE
     echo "Refresh installer-libre"
     rm -f $INSTALLER_BIN
     curl -s -L $INSTALLER_URL -o $INSTALLER_BIN &> /dev/null
@@ -237,8 +213,8 @@ function installerReinstall {
 }
 
 # Display installer usage
-function installerUsage {
-    installerHeader
+function print_usage {
+    print_header
     cat <<-EOF
 
 	Startx Formation training environement installer
@@ -257,12 +233,12 @@ function installerUsage {
 }
 
 # Dispatch input arguments
-case $1 in
-    "uninstall")      installerUninstall $2 ;;
-    "reinstall")      installerReinstall $2 ;;
-    "install")        installerInstall $2 ;;
-    "instructor")     installerInstall instructor ;;
-    "student")        installerInstall student ;;
-    usage|-h|--help)  installerUsage ;;
-    *)                installerInstall instructor ;;
+case "$1" in
+    "uninstall")      uninstall_libre $2 ;;
+    "reinstall")      reinstall_libre $2 ;;
+    "install")        install_libre $2 ;;
+    "instructor")     install_libre instructor ;;
+    "student")        install_libre student ;;
+    usage|-h|--help)  print_usage ;;
+    *)                install_libre instructor ;;
 esac
