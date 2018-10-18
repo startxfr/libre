@@ -214,7 +214,6 @@ function reinstall_libre {
 
 # Display installer usage
 function print_usage {
-    print_header
     cat <<-EOF
 
 	Startx Formation training environement installer
