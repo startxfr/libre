@@ -19,7 +19,7 @@ yum install -y curl
 curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
 chmod +x /tmp/installer-libre
 # install LIBRE
-/tmp/installer-libre instructor
+/tmp/installer-libre install
 # install course environement
 libre-session install <session_id> <session_token>
 # install course environement (self-host)
@@ -60,7 +60,7 @@ sudo su -
 yum install -y curl
 curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
 chmod +x /tmp/installer-libre
-/tmp/installer-libre
+/tmp/installer-libre install
 ```
 
 #### 3.1.1. Instructor installation
@@ -68,7 +68,7 @@ chmod +x /tmp/installer-libre
 Default installation will install an instructor environment. You can specify it during the
 installation process by adding `instructor` to the installer script
 ```bash
-/tmp/installer-libre instructor
+/tmp/installer-libre -t instructor install
 ```
 
 After installing LIBRE, if you need to setup a training session before provision and deploy your classroom.
@@ -91,7 +91,7 @@ If you want to setup a student environment (usefull when installing student work
 individually) you can add `student` to the installer script
 
 ```bash
-/tmp/installer-libre student
+/tmp/installer-libre -t student install
 ```
 
 Only instructor setup can deploy course material to a student workstation

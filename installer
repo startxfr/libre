@@ -15,6 +15,7 @@ LIBRE_TYPE=instructor
 LIBRE_TOOLREPO_URL=https://github.com/startxfr/libre
 LIBRE_TOOLREPO_BRANCH=master
 LIBRE_TOOLREPO_BASE=/
+UPDATE=n
 
 # get and store the operating system name
 source /etc/os-release
@@ -49,6 +50,20 @@ function print_info {
     echo
 }
 
+function check_type {
+    [ $# -eq 1 ] || {
+        return 1
+    }
+
+    local types=(instructor student)
+
+    for t in "${types[@]}"; do
+        [ "$1" == "$t" ] && return 0
+    done
+
+    return 2
+}
+
 # Display information
 function check_installer {
     if [ "$(id -u)" != "0" ]; then
@@ -77,9 +92,7 @@ function check_installer {
 
 # installer update system
 function install_deps {
-    local update
-    read -p 'Fully update the operating system (y/N) ? ' update
-    if [ "$update" == "y" ]; then
+    if [ "$UPDATE" == "y" ]; then
         echo "Updating OS $OS installation (cloud take minutes...)"
         yum update -y &> /dev/null
     fi
@@ -131,29 +144,13 @@ function check_installation {
 
 # installer installation process
 function install_libre {
-    if [[ "$1" != "" ]]; then
-        LIBRE_TYPE="$1"
-    fi
-    if [[ $LIBRE_TYPE == "" || ($LIBRE_TYPE != "instructor" && $LIBRE_TYPE != "student") ]]; then
-        read -p 'What is your installation type (instructor) : ' typeInstall
-        if [[ "$typeInstall" == "" || "$typeInstall" == "instructor" || "$typeInstall" == "i" ]]; then
-            LIBRE_TYPE="instructor"
-            LIBRE_TARGET="instructor"
-        else
-            if [[ "$typeInstall" == "student" || "$typeInstall" == "s" ]]; then
-                LIBRE_TYPE="student"
-                LIBRE_TARGET="students"
-            else
-                LIBRE_TYPE="instructor"
-                LIBRE_TARGET="local"
-            fi
-        fi
+    if [ "$LIBRE_TYPE" == "student" ]; then
+        LIBRE_TARGET="students"
     else
-        LIBRE_TYPE="instructor"
-        LIBRE_TARGET="local"
+        LIBRE_TARGET="instructor"
     fi
     print_info
-    perform_installation $LIBRE_TYPE
+    perform_installation
     cd $ANSIBLE_DEST
     LIBRE_SUDO=""
     if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]]; then
@@ -179,13 +176,8 @@ function perform_installation {
 
 # installer uninstall process
 function uninstall_libre {
-    if [[ "$1" != "" ]]; then
-        LIBRE_TYPE="$1"
-    else
-        LIBRE_TYPE="instructor"
-    fi
     print_info
-    perform_uninstallation $LIBRE_TYPE
+    perform_uninstallation
 }
 
 # do uninstall process
@@ -198,13 +190,8 @@ function perform_uninstallation {
 
 # reinstaller remove libre environement
 function reinstall_libre {
-    if [[ "$1" != "" ]]; then
-        LIBRE_TYPE="$1"
-    else
-        LIBRE_TYPE="instructor"
-    fi
     print_info
-    perform_uninstallation $LIBRE_TYPE
+    perform_uninstallation
     echo "Refresh installer-libre"
     rm -f $INSTALLER_BIN
     curl -s -L $INSTALLER_URL -o $INSTALLER_BIN &> /dev/null
@@ -215,29 +202,53 @@ function reinstall_libre {
 # Display installer usage
 function print_usage {
     cat <<-EOF
-
 	Startx Formation training environement installer
 
 	Usage:
-	  installer-libre [command]
+	  $0 [-t INSTALL_TYPE] [-u] [command]
+
+	Options:
+	     -t INSTALL_TYPE  install LIBRE_TYPE training environment
+	                      INSTALL_TYPE can be one of:
+	                                                    - instructor (default)
+	                                                    - student
+	     -u               fully update the system during installation
 
 	Availables commands:
-	  install             install LIBRE TMS and instructor or student training environment (interactive)
-	  instructor          install LIBRE TMS and instructor training environment
-	  student             install LIBRE TMS and student training environment
-	  uninstall           uninstall LIBRE TMS and training environment
-	  reinstall           re-install LIBRE TMS and training environment
-
+	     install          install LIBRE TMS and instructor or student training
+	     environment (interactive)
+	     uninstall        uninstall LIBRE TMS and training environment
+	     reinstall        re-install LIBRE TMS and training environment
 	EOF
 }
 
+while getopts :t:u c; do
+    case "$c" in
+        t)
+            check_type "$OPTARG" || {
+                echo "  ERROR ! Invalid argument for option -t : $OPTARG"
+                print_usage
+                exit 1
+            }
+            LIBRE_TYPE="$OPTARG"
+            ;;
+        u)
+            UPDATE=y
+            ;;
+        '?')
+            echo "  ERROR ! Unsupported option : -$OPTARG"
+            print_usage
+            exit 1
+            ;;
+    esac
+done
+
+shift $((OPTIND - 1))
+
 # Dispatch input arguments
 case "$1" in
-    "uninstall")      uninstall_libre $2 ;;
-    "reinstall")      reinstall_libre $2 ;;
-    "install")        install_libre $2 ;;
-    "instructor")     install_libre instructor ;;
-    "student")        install_libre student ;;
-    usage|-h|--help)  print_usage ;;
-    *)                install_libre instructor ;;
+    "install")        install_libre ;;
+    "uninstall")      uninstall_libre ;;
+    "reinstall")      reinstall_libre ;;
+    *)                print_usage; exit 1 ;;
 esac
