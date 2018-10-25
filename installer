@@ -216,7 +216,7 @@ function print_usage {
 
 	Availables commands:
 	     install          install LIBRE TMS and instructor or student training
-	     environment (interactive)
+	                      environment (interactive)
 	     uninstall        uninstall LIBRE TMS and training environment
 	     reinstall        re-install LIBRE TMS and training environment
 	EOF
