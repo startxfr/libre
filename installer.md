@@ -9,7 +9,7 @@ Run this script in order to download and run the libre TMS installer
 sudo yum install -y curl
 sudo curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
 sudo chmod +x /tmp/installer-libre
-/tmp/installer-libre
+/tmp/installer-libre install
 ```
 
 ### Fast method (sudo su -)
@@ -20,7 +20,7 @@ sudo su -
 yum install -y curl
 curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
 chmod +x /tmp/installer-libre
-/tmp/installer-libre
+/tmp/installer-libre install
 ```
 
 ### Step by step (using root)
@@ -47,7 +47,7 @@ chmod +x /tmp/installer-libre
 
 5. Run the installer
 ```bash
-/tmp/installer-libre
+/tmp/installer-libre install
 ```
 
 ## Without internet access
