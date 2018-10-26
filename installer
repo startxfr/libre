@@ -2,8 +2,7 @@
 
 # Default config var
 LIBREI_VERSION="0.5.19"
-LIBREI_REQUIREMENTS_FC="git curl python2-pip ansible jq"
-LIBREI_REQUIREMENTS_CENTOS="epel-release &> /dev/null; yum install -y git curl python-pip ansible jq"
+LIBREI_REQUIREMENTS_CENTOS="git curl python-pip ansible jq"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
@@ -96,16 +95,16 @@ function install_deps {
         echo "Updating OS $OS installation (cloud take minutes...)"
         yum update -y &> /dev/null
     fi
-    if [ "$OS" == "Fedora" ]; then
-        echo "Installing packages for $OS"
-        yum install -y $LIBREI_REQUIREMENTS_FC &> /dev/null
-    else
-        echo "Installing packages for $OS"
-        yum install -y epel-release &> /dev/null
-        yum install -y $LIBREI_REQUIREMENTS_CENTOS &> /dev/null
-        pip install --upgrade pip
+    echo "Installing packages for $OS"
+    (
+        yum install -y epel-release                &&
+        yum install -y $LIBREI_REQUIREMENTS_CENTOS &&
+        pip install --upgrade pip                  &&
         pip install --upgrade Jinja2
-    fi
+    ) &> /dev/null                                 || {
+        echo "  ERROR ! Unable to install dependencies"
+        exit 1
+    }
 }
 
 # installer install libre
@@ -162,7 +161,6 @@ function install_libre {
     if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]]; then
         libre-session install
     fi
-    sudo su -
 }
 
 # do installation process
@@ -216,7 +214,7 @@ function print_usage {
 
 	Availables commands:
 	     install          install LIBRE TMS and instructor or student training
-	     environment (interactive)
+	                      environment (interactive)
 	     uninstall        uninstall LIBRE TMS and training environment
 	     reinstall        re-install LIBRE TMS and training environment
 	EOF
