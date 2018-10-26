@@ -162,7 +162,6 @@ function install_libre {
     if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]]; then
         libre-session install
     fi
-    sudo su -
 }
 
 # do installation process
