@@ -14,4 +14,4 @@
     state: touch
     mode: 0666
   delegate_to: localhost
-  when: "r_libre_tmpfile_details.stat.exists != true"
+  when: r_libre_tmpfile_details.stat.exists != true

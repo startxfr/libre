@@ -3,7 +3,7 @@
 - name: "Action {{ do | default('load') | string }} in On-premise infrastructure role is supported"
   assert:
     msg: "Action {{ do | default('load') | string }} in On-premise infrastructure role is not supported"
-    that: "do|default('load')|string in ['load','status','provision','provision-post','deprovision']"
+    that: do|default('load')|string in ['load','status','provision','provision-post','deprovision']
 - name: "{{ do | default('load') | string }} On-premise infrastructure environement"
   include_tasks: "{{ do | default('load') | string }}.yml"
-  when: "do|default('load')|string in ['load','status','provision','provision-post','deprovision']"
+  when: do|default('load')|string in ['load','status','provision','provision-post','deprovision']

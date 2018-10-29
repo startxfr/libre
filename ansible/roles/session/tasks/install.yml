@@ -44,7 +44,7 @@
   register: r_session_manifest_details
 - name: "install : Install course playbook"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
-  when: "r_session_dir_course_playbooks_details.stat.exists == true"
+  when: r_session_dir_course_playbooks_details.stat.exists == true
 - name: "install : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}"

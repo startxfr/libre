@@ -3,11 +3,11 @@
 - name: "start : Course description is loaded"
   assert:
     msg: "Course description {{ r_session_dir_course }}/manifest.yml is not loaded"
-    that: "libre_course is defined"
+    that: libre_course is defined
 - name: "start : Current chapter is defined"
   assert:
     msg: "Current chapter is not defined"
-    that: "chapter_current is defined"
+    that: chapter_current is defined
 
 # Start tasks
 - name: "start : Generate current chapter tracker on {{ r_chapter_dir_conf }}/{{ r_chapter_config_current }}"

@@ -3,7 +3,7 @@
 - name: "list : Course description is loaded"
   assert:
     msg: "Course description {{ r_session_dir_course }}/manifest.yml is not loaded"
-    that: "libre_course is defined"
+    that: libre_course is defined
 
 # Start tasks
 - name: "list : Get previous report data"

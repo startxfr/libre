@@ -7,10 +7,10 @@
 - name: "install-precheck : Session configuration file {{ r_session_config_file }} is loaded"
   assert:
     msg: "Session configuration file {{ r_session_config_file }} is not loaded. You must configure a session before installing a student environement."
-    that: "libre_session is defined"
+    that: libre_session is defined
 - name: "install-precheck : Course description is loaded"
   assert:
     msg: "Course description {{ r_session_dir_course }}/manifest.yml is not loaded. You must configure a session before installing a student environement."
-    that: "libre_course is defined"
+    that: libre_course is defined
 - name: "install-precheck : Mark student install-precheck as done"
   set_fact: libre_student_install_precheck=true

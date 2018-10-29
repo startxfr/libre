@@ -3,7 +3,7 @@
 - name: "Action {{ do | default('load') | string }} in chapter role is supported"
   assert:
     msg: "Action {{ do | default('load') | string }} in chapter role is not supported"
-    that: "do|default('load')|string in ['load','list','status','start','stop']"
+    that: do|default('load')|string in ['load','list','status','start','stop']
 - name: "{{ do | default('load') | string }} chapter environement"
   include_tasks: "{{ do | default('load') | string }}.yml"
-  when: "do|default('load')|string in ['load','list','status','start','stop']"
+  when: do|default('load')|string in ['load','list','status','start','stop']
