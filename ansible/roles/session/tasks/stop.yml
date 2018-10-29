@@ -2,7 +2,7 @@
 # Stop pre-tasks
 - name: "stop : Stop course {{ libre_course.id }}"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/stop.yml"
-  when: "r_session_dir_course_playbooks_details.stat.exists == true"
+  when: r_session_dir_course_playbooks_details.stat.exists == true
 
 # Stop tasks
 - name: "stop : Get previous report data"

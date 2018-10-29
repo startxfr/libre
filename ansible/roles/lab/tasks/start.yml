@@ -3,15 +3,15 @@
 - name: "start : Course description is loaded"
   assert:
     msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
-    that: "libre_course is defined"
+    that: libre_course is defined
 - name: "start : Course description is loaded"
   assert:
     msg: "Lab description {{ lab_current }}doesn't exist"
-    that: "libre_lab is defined and libre_lab.id is defined"
+    that: libre_lab is defined and libre_lab.id is defined
 - name: "start : Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} exist"
   assert:
     msg: "Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} doesn't exist"
-    that: "r_lab_currentlab_ansible_details is defined and r_lab_currentlab_ansible_details.stat.exists == true"
+    that: r_lab_currentlab_ansible_details is defined and r_lab_currentlab_ansible_details.stat.exists == true
 
 # Start tasks
 - name: "start : Get previous report data"
