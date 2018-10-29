@@ -67,7 +67,7 @@ function check_type {
 function check_installer {
     if [ "$(id -u)" != "0" ]; then
         echo "  ERROR ! This script must be run as root or you must have sudo"
-        echo "  ERROR ! Try to execute 'sudo su -' and run again this command"
+        echo "  ERROR ! Try to execute 'sudo -i' and run again this command"
         exit 1
     fi
     if [ ! -f $INSTALLER_BIN ]; then
