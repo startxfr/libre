@@ -64,7 +64,7 @@ function check_type {
 }
 
 # Display information
-function check_installer {
+function prep_env {
     if [ "$(id -u)" != "0" ]; then
         echo "  ERROR ! This script must be run as root or you must have sudo"
         echo "  ERROR ! Try to execute 'sudo -i' and run again this command"
@@ -165,7 +165,7 @@ function install_libre {
 
 # do installation process
 function perform_installation {
-    check_installer
+    prep_env
     install_deps
     fetch_installer
     clean_installer
