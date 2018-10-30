@@ -7,6 +7,7 @@ TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
 INSTALLER_URL=https://goo.gl/T8Dw9J
+THIS_SCRIPT="$(realpath $0)"
 
 # config var
 LIBRE_USESUDO=yes
@@ -72,10 +73,7 @@ function prep_env {
     fi
     if [ ! -f $INSTALLER_BIN ]; then
         rm -rf $INSTALLER_BIN
-        if [ -f /tmp/installer-libre ]; then
-            mv /tmp/installer-libre $INSTALLER_BIN
-            rm -f /tmp/installer-libre
-        fi
+        cp "$THIS_SCRIPT" $INSTALLER_BIN
     fi
     for d in $TMP_DEST $ANSIBLE_DEST; do
         mkdir -p $d &> /dev/null || {
