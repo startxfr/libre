@@ -200,7 +200,7 @@ function reinstall_libre {
 # Display installer usage
 function print_usage {
     cat <<-EOF
-	Startx Formation training environement installer
+	Startx Formation training environment installer
 
 	Usage:
 	  $0 [-t INSTALL_TYPE] [-u] [command]
