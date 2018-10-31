@@ -79,6 +79,11 @@ function prep_dir {
     }
     local dir="$1"
 
+    #if [ -w $dir/.. ]; then
+    #    echo "Remove previous $dir directory"
+    #    rm -rf $dir
+    #fi
+
     mkdir -p "$dir" &> /dev/null || {
         echo "  ERROR ! Unable to create $dir"
         return 2
@@ -126,13 +131,6 @@ function install_deps {
 
 # installer install libre
 function fetch_installer {
-    echo "Create temporary storage"
-    if [ -w $TMP_DEST ]; then
-        echo "Remove previous $TMP_DEST directory"
-        rm -rf $TMP_DEST
-    fi
-    echo "create $TMP_DEST directory"
-    mkdir -p $TMP_DEST
     cd $TMP_DEST
     echo "Clone tools repository $LIBRE_TOOLREPO_URL"
     git clone $LIBRE_TOOLREPO_URL .
