@@ -95,7 +95,7 @@ function prep_dir {
 function prep_env {
     if [ ! -f $INSTALLER_BIN ]; then
         rm -rf $INSTALLER_BIN
-        cp "$THIS_SCRIPT" $INSTALLER_BIN
+        install -T -m 0755 -o root -g root "$THIS_SCRIPT" $INSTALLER_BIN
     fi
 
     {
