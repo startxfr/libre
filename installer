@@ -128,7 +128,7 @@ function install_deps {
 function fetch_installer {
     echo "Create temporary storage"
     if [ -w $TMP_DEST ]; then
-        echo "remove previous $TMP_DEST directory"
+        echo "Remove previous $TMP_DEST directory"
         rm -rf $TMP_DEST
     fi
     echo "create $TMP_DEST directory"
