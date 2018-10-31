@@ -11,10 +11,12 @@ THIS_SCRIPT="$(realpath $0)"
 
 # config var
 LIBRE_USESUDO=yes
-LIBRE_TYPE=instructor
 LIBRE_TOOLREPO_URL=https://github.com/startxfr/libre
 LIBRE_TOOLREPO_BRANCH=master
 LIBRE_TOOLREPO_BASE=/
+
+# default command line options
+LIBRE_TYPE=instructor
 UPDATE=n
 
 # get and store the operating system name
