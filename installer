@@ -167,9 +167,10 @@ function install_libre {
     perform_installation
     cd $ANSIBLE_DEST
     LIBRE_SUDO=""
-    if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]]; then
-        LIBRE_SUDO=" -K "
+    if [ "$LIBRE_USESUDO" == "yes" ]; then
+        LIBRE_SUDO="-K"
     fi
+
     ansible-playbook -i inventory.yml ${LIBRE_SUDO} -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
 
     read -p "Do you want to continue by installing training session (y/N) : " doInstall
