@@ -163,9 +163,12 @@ function install_libre {
     else
         LIBRE_TARGET="instructor"
     fi
+
     print_info
     perform_installation
+
     cd $ANSIBLE_DEST
+
     LIBRE_SUDO=""
     if [ "$LIBRE_USESUDO" == "yes" ]; then
         LIBRE_SUDO="-K"
