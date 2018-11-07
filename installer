@@ -171,9 +171,9 @@ function install_libre {
         LIBRE_SUDO=" -K "
     fi
     ansible-playbook -i inventory.yml ${LIBRE_SUDO} -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
-    echo -n " Do you want to continue by installing training session (y) : "
-    read doInstall
-    if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]]; then
+
+    read -p "Do you want to continue by installing training session (y/N) : " doInstall
+    if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
         libre-session install
     fi
 }
