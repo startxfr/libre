@@ -131,7 +131,7 @@ function install_deps {
 
 # installer install libre
 function fetch_installer {
-    cd $TMP_DEST
+    pushd $TMP_DEST &> /dev/null
     echo "Clone tools repository $LIBRE_TOOLREPO_URL"
     git clone $LIBRE_TOOLREPO_URL .
     if [ "$?" -eq 0 ]; then
@@ -140,7 +140,7 @@ function fetch_installer {
         echo "Copy libre playbook into $ANSIBLE_DEST"
         cp -r $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
     fi
-    cd - &> /dev/null
+    popd &> /dev/null
 }
 
 # installer install libre
@@ -167,7 +167,7 @@ function install_libre {
     print_info
     perform_installation
 
-    cd $ANSIBLE_DEST
+    pushd $ANSIBLE_DEST &> /dev/null
 
     LIBRE_SUDO=""
     if [ "$LIBRE_USESUDO" == "yes" ]; then
@@ -180,6 +180,8 @@ function install_libre {
     if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
         libre-session install
     fi
+
+    popd &> /dev/null
 }
 
 # do installation process
@@ -200,8 +202,9 @@ function uninstall_libre {
 # do uninstall process
 function perform_uninstallation {
     if [ -d $ANSIBLE_DEST ]; then
-        cd $ANSIBLE_DEST
+        pushd $ANSIBLE_DEST &> /dev/null
         ansible-playbook -i inventory.yml -e target=local playbooks/$1/uninstall.yml
+        popd &> /dev/null
     fi
 }
 
