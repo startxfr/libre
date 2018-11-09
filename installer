@@ -24,6 +24,9 @@ source /etc/os-release
 OS="$NAME"
 OS_NAME="$PRETTY_NAME"
 
+# use only our Ansible config
+unset ANSIBLE_CONFIG
+
 # use xterm
 export TERM=xterm
 
@@ -167,7 +170,7 @@ function install_libre {
 
     pushd $ANSIBLE_DEST &> /dev/null
 
-    ansible-playbook -i inventory.yml $ASK_BECOME_PASS -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
+    ansible-playbook $ASK_BECOME_PASS -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
 
     read -p "Do you want to continue by installing training session (y/N) : " doInstall
     if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
@@ -196,7 +199,7 @@ function uninstall_libre {
 function perform_uninstallation {
     if [ -d $ANSIBLE_DEST ]; then
         pushd $ANSIBLE_DEST &> /dev/null
-        ansible-playbook -i inventory.yml -e target=local playbooks/$1/uninstall.yml
+        ansible-playbook -e target=local playbooks/$1/uninstall.yml
         popd &> /dev/null
     fi
 }
