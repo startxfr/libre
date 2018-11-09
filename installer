@@ -7,13 +7,16 @@ TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
 INSTALLER_URL=https://goo.gl/T8Dw9J
+THIS_SCRIPT="$(realpath $0)"
 
 # config var
 LIBRE_USESUDO=yes
-LIBRE_TYPE=instructor
 LIBRE_TOOLREPO_URL=https://github.com/startxfr/libre
 LIBRE_TOOLREPO_BRANCH=master
 LIBRE_TOOLREPO_BASE=/
+
+# default command line options
+LIBRE_TYPE=instructor
 UPDATE=n
 
 # get and store the operating system name
@@ -23,6 +26,13 @@ OS_NAME="$PRETTY_NAME"
 
 # use xterm
 export TERM=xterm
+
+# check for super-user identity
+if [ "$(id -u)" != "0" ]; then
+    echo "  ERROR ! This script must be run as root or you must have sudo"
+    echo "  ERROR ! Try to execute 'sudo -i' and run again this command"
+    exit 1
+fi
 
 # Display libre installer header
 function print_header {
@@ -63,30 +73,40 @@ function check_type {
     return 2
 }
 
-# Display information
-function check_installer {
-    if [ "$(id -u)" != "0" ]; then
-        echo "  ERROR ! This script must be run as root or you must have sudo"
-        echo "  ERROR ! Try to execute 'sudo su -' and run again this command"
-        exit 1
+function prep_dir {
+    [ $# -eq 1 ] || {
+        return 1
+    }
+    local dir="$1"
+
+    #if [ -w $dir/.. ]; then
+    #    echo "Remove previous $dir directory"
+    #    rm -rf $dir
+    #fi
+
+    mkdir -p "$dir" &> /dev/null || {
+        echo "  ERROR ! Unable to create $dir"
+        return 2
+    }
+    if [ ! -w "$dir" ]; then
+        echo "  ERROR ! $dir is not writable"
+        return 3
     fi
+
+    return 0
+}
+
+# Display information
+function prep_env {
     if [ ! -f $INSTALLER_BIN ]; then
         rm -rf $INSTALLER_BIN
-        if [ -f /tmp/installer-libre ]; then
-            mv /tmp/installer-libre $INSTALLER_BIN
-            rm -f /tmp/installer-libre
-        fi
+        install -T -m 0755 -o root -g root "$THIS_SCRIPT" $INSTALLER_BIN
     fi
-    for d in $TMP_DEST $ANSIBLE_DEST; do
-        mkdir -p $d &> /dev/null || {
-            echo "  ERROR ! Unable to create $d"
-            exit 1
-        }
-        if [ ! -w $d ]; then
-            echo "  ERROR ! $d is not writable"
-            exit 1
-        fi
-    done
+
+    prep_dir $TMP_DEST     &&
+    prep_dir $ANSIBLE_DEST || exit 1
+
+    return 0
 }
 
 # installer update system
@@ -109,14 +129,7 @@ function install_deps {
 
 # installer install libre
 function fetch_installer {
-    echo "Create temporary storage"
-    if [ -w $TMP_DEST ]; then
-        echo "remove previous $TMP_DEST directory"
-        rm -rf $TMP_DEST
-    fi
-    echo "create $TMP_DEST directory"
-    mkdir -p $TMP_DEST
-    cd $TMP_DEST
+    pushd $TMP_DEST &> /dev/null
     echo "Clone tools repository $LIBRE_TOOLREPO_URL"
     git clone $LIBRE_TOOLREPO_URL .
     if [ "$?" -eq 0 ]; then
@@ -125,7 +138,7 @@ function fetch_installer {
         echo "Copy libre playbook into $ANSIBLE_DEST"
         cp -r $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
     fi
-    cd - &> /dev/null
+    popd &> /dev/null
 }
 
 # installer install libre
@@ -148,24 +161,30 @@ function install_libre {
     else
         LIBRE_TARGET="instructor"
     fi
+
     print_info
     perform_installation
-    cd $ANSIBLE_DEST
+
+    pushd $ANSIBLE_DEST &> /dev/null
+
     LIBRE_SUDO=""
-    if [[ "$(id -u)" != "0" && "$LIBRE_USESUDO" == "yes" ]]; then
-        LIBRE_SUDO=" -K "
+    if [ "$LIBRE_USESUDO" == "yes" ]; then
+        LIBRE_SUDO="-K"
     fi
+
     ansible-playbook -i inventory.yml ${LIBRE_SUDO} -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
-    echo -n " Do you want to continue by installing training session (y) : "
-    read doInstall
-    if [[ "$doInstall" == "" || "$doInstall" == "yes" || "$doInstall" == "y" ]]; then
+
+    read -p "Do you want to continue by installing training session (y/N) : " doInstall
+    if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
         libre-session install
     fi
+
+    popd &> /dev/null
 }
 
 # do installation process
 function perform_installation {
-    check_installer
+    prep_env
     install_deps
     fetch_installer
     clean_installer
@@ -181,8 +200,9 @@ function uninstall_libre {
 # do uninstall process
 function perform_uninstallation {
     if [ -d $ANSIBLE_DEST ]; then
-        cd $ANSIBLE_DEST
+        pushd $ANSIBLE_DEST &> /dev/null
         ansible-playbook -i inventory.yml -e target=local playbooks/$1/uninstall.yml
+        popd &> /dev/null
     fi
 }
 
@@ -200,7 +220,7 @@ function reinstall_libre {
 # Display installer usage
 function print_usage {
     cat <<-EOF
-	Startx Formation training environement installer
+	Startx Formation training environment installer
 
 	Usage:
 	  $0 [-t INSTALL_TYPE] [-u] [command]

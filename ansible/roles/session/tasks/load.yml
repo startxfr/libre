@@ -27,12 +27,12 @@
     src: "{{ r_session_dir_course }}/manifest.yml"
     dest: "/tmp/libre-course-manifest.yml"
     flat: yes
-  when: "r_session_manifest_details.stat.exists == true"
+  when: r_session_manifest_details.stat.exists == true
 - name: "load : Load course content manifest {{ r_session_dir_course }}/manifest.yml"
   include_vars:
     file: "/tmp/libre-course-manifest.yml"
     name: libre_course
-  when: "r_session_manifest_details.stat.exists == true"
+  when: r_session_manifest_details.stat.exists == true
 
 - name: "load : Get {{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }} directory details"
   stat:
@@ -40,4 +40,4 @@
   register: r_session_dir_course_playbooks_details
 - name: "load : Load course"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/load.yml"
-  when: "r_session_dir_course_playbooks_details.stat.exists == true"
+  when: r_session_dir_course_playbooks_details.stat.exists == true

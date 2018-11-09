@@ -6,11 +6,11 @@
 - name: "load : Load {{ r_chapter_dir_conf }}/{{ r_chapter_config_current }} content"
   set_fact:
     chapter_current: "{{ lookup('file', r_chapter_dir_conf+'/'+r_chapter_config_current) | default('1') }}"
-  when: "r_chapter_config_current_details.stat.exists == true and chapter_current is undefined"
+  when: r_chapter_config_current_details.stat.exists == true and chapter_current is undefined
 - name: "load : No current chapter found in {{ r_chapter_dir_conf }}/{{ r_chapter_config_current }}, Set default to chapter 1"
   set_fact:
     chapter_current: "1"
-  when: "r_chapter_config_current_details.stat.exists != true and chapter_current is undefined"
+  when: r_chapter_config_current_details.stat.exists != true and chapter_current is undefined
 - name: "load : Determine chapter and section from the current chapter file"
   set_fact:
     chapter_current_chapter: "{{ chapter_current.split('.')[0] | default (1) }}"
