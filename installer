@@ -10,7 +10,6 @@ INSTALLER_URL=https://goo.gl/T8Dw9J
 THIS_SCRIPT="$(realpath $0)"
 
 # config var
-LIBRE_USESUDO=yes
 LIBRE_TOOLREPO_URL=https://github.com/startxfr/libre
 LIBRE_TOOLREPO_BRANCH=master
 LIBRE_TOOLREPO_BASE=/
@@ -18,6 +17,7 @@ LIBRE_TOOLREPO_BASE=/
 # default command line options
 LIBRE_TYPE=instructor
 UPDATE=n
+ASK_BECOME_PASS=
 
 # get and store the operating system name
 source /etc/os-release
@@ -167,12 +167,7 @@ function install_libre {
 
     pushd $ANSIBLE_DEST &> /dev/null
 
-    LIBRE_SUDO=""
-    if [ "$LIBRE_USESUDO" == "yes" ]; then
-        LIBRE_SUDO="-K"
-    fi
-
-    ansible-playbook -i inventory.yml ${LIBRE_SUDO} -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
+    ansible-playbook -i inventory.yml $ASK_BECOME_PASS -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
 
     read -p "Do you want to continue by installing training session (y/N) : " doInstall
     if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
@@ -230,6 +225,7 @@ function print_usage {
 	                      INSTALL_TYPE can be one of:
 	                                                    - instructor (default)
 	                                                    - student
+	     -K               prompt for Ansible's privilege escalation password
 	     -u               fully update the system during installation
 
 	Availables commands:
@@ -240,8 +236,11 @@ function print_usage {
 	EOF
 }
 
-while getopts :t:u c; do
+while getopts :Kt:u c; do
     case "$c" in
+        K)
+            ASK_BECOME_PASS="-K"
+            ;;
         t)
             check_type "$OPTARG" || {
                 echo "  ERROR ! Invalid argument for option -t : $OPTARG"
