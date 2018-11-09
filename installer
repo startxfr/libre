@@ -170,7 +170,7 @@ function install_libre {
 
     pushd $ANSIBLE_DEST &> /dev/null
 
-    ansible-playbook $ASK_BECOME_PASS -e target=${LIBRE_TARGET} playbooks/${LIBRE_TYPE}/install.yml
+    ansible-playbook $ASK_BECOME_PASS -e target=$LIBRE_TARGET playbooks/$LIBRE_TYPE/install.yml
 
     read -p "Do you want to continue by installing training session (y/N) : " doInstall
     if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
