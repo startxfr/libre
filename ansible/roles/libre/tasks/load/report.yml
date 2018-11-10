@@ -1,0 +1,30 @@
+---
+- name: "load_environment : Get {{ r_libre_dir }} directory details"
+  stat:
+    path: "{{ r_libre_dir }}"
+  register: r_libre_dir_details
+- name: "load_environment : Get {{ r_libre_dir_course }} directory details"
+  stat:
+    path: "{{ r_libre_dir_course }}"
+  register: r_libre_dir_course_details
+- name: "load_environment : Get {{ r_libre_dir_conf }} directory details"
+  stat:
+    path: "{{ r_libre_dir_conf }}"
+  register: r_libre_dir_conf_details
+- name: "load_environment : Get config file details"
+  stat:
+    path: "{{ r_libre_dir_conf }}/{{ r_libre_config_file_libre }}"
+  register: r_libre_conf_details
+- name: "load_environment : Set libre_config fact from default config"
+  set_fact:
+    libre_config: "{{ r_libre_config }}"
+    libre_installed: false
+  when: ansible_local.config is undefined or ansible_local.config == "error loading fact - please check content"
+- name: "load_environment : Set libre_config fact from {{ r_libre_dir_facts }}/{{ r_libre_config_file_libre }}"
+  set_fact:
+    libre_config: "{{ ansible_local.config }}"
+    libre_installed: true
+  when:
+    - ansible_local is defined
+    - ansible_local.config is defined
+    - ansible_local.config != "error loading fact - please check content"
