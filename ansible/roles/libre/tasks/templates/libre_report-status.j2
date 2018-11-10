@@ -1,5 +1,5 @@
-{% if r_libre_binary_details.stat.exists == true and r_libre_binary_details.stat.executable == true and libre_config is defined %}
-LIBRE        : v{{ libre_config.application.version }}
+{% if r_libre_binary_details.stat.exists == true and r_libre_binary_details.stat.executable == true and config_libre is defined %}
+LIBRE        : v{{ config_libre.application.version }}
 {% else %}
 LIBRE        : not installed
 {% endif %}
@@ -8,9 +8,14 @@ training dir : {{ r_libre_dir }}
 {% else %}
 training dir : not installed
 {% endif %}
-{% if r_libre_conf_details.stat.exists == true %}
-config file  : {{ r_libre_config_file_libre }} {% if libre_config is defined %} (loaded) {% endif %}
+{% if r_libre_user_conf_details.stat.exists == true %}
+config files : {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} {% if config_libre is defined %} (loaded) {% endif %}
+{% if r_libre_user_session_details.stat.exists == true %}
+               {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} {% if config_session is defined %} (loaded) {% endif %}
+{% else %}
+               {{ r_libre_config_file_session }} (not installed)
+{% endif %}
 
 {% else %}
-config file  : not installed
+config files : not installed
 {% endif %}

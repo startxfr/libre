@@ -1,17 +1,33 @@
 ---
-- name: "install_config : Generate {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
+- name: "install_config : Generate user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
   template:
     src: ../templates/libre.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
     mode: 0664
-  when: r_libre_conf_details.stat.exists != true
+  when: r_libre_user_conf_details.stat.exists != true
   become: no
-- name: "install_config : Reload config file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} details"
+- name: "install_config : Reload user libre configuration {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
-  register: r_libre_conf_details
+  register: r_libre_user_conf_details
   become: no
-- name: "install_config : Reload LIBRE configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
+- name: "install_config : Reload user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
   set_fact:
-    libre_config: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_libre) | default('') }}"
+    config_libre: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_libre) | default('') }}"
+  become: no
+- name: "install_config : Generate user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
+  template:
+    src: ../templates/session.j2
+    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
+    mode: 0664
+  when: r_libre_user_session_details.stat.exists != true
+  become: no
+- name: "install_config : Reload user libre configuration {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} file details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
+  register: r_libre_user_session_details
+  become: no
+- name: "install_config : Reload user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
+  set_fact:
+    config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_session) | default('') }}"
   become: no

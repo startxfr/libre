@@ -3,11 +3,19 @@
   assert:
     msg: "Training directory detail dosen't exist. Try to re-install LIBRE Toolkit and start again this setup."
     that: r_libre_dir_details is defined
-- name: "install-postcheck : Libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} exist"
+- name: "install-postcheck : User libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} exist"
   assert:
-    msg: "Libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} doesn't exist"
-    that: r_libre_conf_details.stat.exists == true
-- name: "install-postcheck : Training configuration {{ r_libre_config_file_libre }} is loaded"
+    msg: "User libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} doesn't exist"
+    that: r_libre_user_conf_details.stat.exists == true
+- name: "install-postcheck : User libre configuration is loaded"
   assert:
-    msg: "Training configuration {{ r_libre_config_file_libre }} is not loaded"
-    that: libre_config is defined
+    msg: "Libre configuration {{ r_libre_config_file_libre }} is not loaded"
+    that: config_libre is defined
+- name: "install-postcheck : User session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} exist"
+  assert:
+    msg: "User session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} doesn't exist"
+    that: r_libre_user_conf_details.stat.exists == true
+- name: "install-postcheck : User session configuration is loaded"
+  assert:
+    msg: "Session configuration {{ r_libre_config_file_session }} is not loaded"
+    that: config_session is defined

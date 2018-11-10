@@ -23,6 +23,8 @@ r_libre_group: "{{ libre_group | default('libre') | string }}"
 r_libre_userconfig_dir: "{{ libre_userconfig_dir | default('~/.libre') | string }}"
 # Config file for LIBRE
 r_libre_config_file_libre: "{{ libre_config_file_libre | default('config.json') | string }}"
+# Config file for session
+r_libre_config_file_session: "{{ libre_config_file_session | default('session.json') | string }}"
 # Default directory used for delivering training
 r_libre_dir: "{{ training_dir | default('/libre') | string }}"
 # Course directory used for delivering training
@@ -36,8 +38,8 @@ r_libre_tmp: "{{ libre_tmp | default('/tmp') | string }}"
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
 r_libre_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
 
-# Default libre_config structure
-r_libre_config:
+# Default config_libre structure
+r_libre_libre_userconf_default:
   application:
     type: "{{ libre_type | default('instructor') | string }}"
     version: "{{ libre_version | default('0.1-devel') | string }}"
@@ -52,9 +54,10 @@ r_libre_config:
     base: "{{ r_libre_dir }}"
     course: "{{ r_libre_dir_course }}"
     collect: "{{ r_libre_dir_collect }}"
-  session:
-    type: "{{ libre_session_type | default('sample') | string }}"
-    gapi: "{{ libre_session_gapi | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
+# Default config_session structure
+r_libre_session_userconf_default:
+  type: "{{ libre_session_type | default('sample') | string }}"
+  gapi: "{{ libre_session_gapi | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
 
 # Default libre_hardware structure
 r_libre_minhw:

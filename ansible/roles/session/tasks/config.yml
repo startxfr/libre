@@ -2,17 +2,17 @@
 - name: "config : Config GAPI session type"
   include_tasks: "config_gapi.yml"
   when: 
-    - libre_config.session.type == 'gapi'
+    - config_session.type == 'gapi'
     - (r_session_conf_details.stat.exists != true or libre_session is undefined)
 - name: "config : Config sample session type"
   include_tasks: "config_sample.yml"
   when: 
-    - libre_config.session.type == 'sample'
+    - config_session.type == 'sample'
     - (r_session_conf_details.stat.exists != true or libre_session is undefined)
 - name: "config : Config manual session type"
   include_tasks: "config_manual.yml"
   when: 
-    - libre_config.session.type == 'manual'
+    - config_session.type == 'manual'
     - (r_session_conf_details.stat.exists != true or libre_session is undefined)
 - name: "config : Gathering fresh facts to get session configuration"
   setup:

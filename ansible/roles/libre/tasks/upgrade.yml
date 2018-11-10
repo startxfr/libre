@@ -20,4 +20,3 @@
     mode: 0664
   delegate_to: localhost
   become: no
-  when: r_libre_dir_details.stat.exists != true or r_libre_conf_details.stat.exists != true or r_libre_force_upgrade == true

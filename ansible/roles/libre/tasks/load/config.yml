@@ -1,15 +1,29 @@
 ---
-- name: "load_config : Get configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} details"
+- name: "load_config : Get user libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
-  register: r_libre_conf_details
+  register: r_libre_user_conf_details
   become: no
-- name: "load_config : Load LIBRE configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
+- name: "load_config : Load user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
   set_fact:
-    libre_config: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_libre) | default('') }}"
-  when: r_libre_conf_details.stat.exists == true
+    config_libre: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_libre) | default('') }}"
+  when: r_libre_user_conf_details.stat.exists == true
   become: no
-- name: "load_config : Load default LIBRE configuration"
+- name: "load_config : Load default user libre configuration"
   set_fact:
-    libre_config: "{{ r_libre_config | default('') }}"
-  when: r_libre_conf_details.stat.exists != true
+    config_libre: "{{ r_libre_libre_userconf_default | default('') }}"
+  when: r_libre_user_conf_details.stat.exists != true
+- name: "load_config : Get user session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
+  register: r_libre_user_session_details
+  become: no
+- name: "load_config : Load user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
+  set_fact:
+    config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_session) | default('') }}"
+  when: r_libre_user_session_details.stat.exists == true
+  become: no
+- name: "load_config : Load default user session configuration"
+  set_fact:
+    config_session: "{{ r_libre_session_userconf_default | default('') }}"
+  when: r_libre_user_session_details.stat.exists != true
