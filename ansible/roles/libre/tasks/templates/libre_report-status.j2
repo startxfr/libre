@@ -9,13 +9,22 @@ training dir : {{ r_libre_dir }}
 training dir : not installed
 {% endif %}
 {% if r_libre_user_conf_details.stat.exists == true %}
-config files : {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} {% if config_libre is defined %} (loaded) {% endif %}
+config files : {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} {% if config_libre is defined %}(loaded){% endif %}
+
 {% if r_libre_user_session_details.stat.exists == true %}
-               {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} {% if config_session is defined %} (loaded) {% endif %}
+               {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} {% if config_session is defined %}(loaded){% endif %}
+
 {% else %}
                {{ r_libre_config_file_session }} (not installed)
-{% endif %}
 
+{% endif %}
+{% if r_libre_user_repository_details.stat.exists == true %}
+               {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }} {% if config_repository is defined %}(loaded){% endif %}
+
+{% else %}
+               {{ r_libre_config_file_repository }} (not installed)
+
+{% endif %}
 {% else %}
 config files : not installed
 {% endif %}

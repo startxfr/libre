@@ -27,3 +27,17 @@
   set_fact:
     config_session: "{{ r_libre_session_userconf_default | default('') }}"
   when: r_libre_user_session_details.stat.exists != true
+- name: "load_config : Get user repository configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
+  register: r_libre_user_repository_details
+  become: no
+- name: "load_config : Load user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
+  set_fact:
+    config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_repository) | default('') }}"
+  when: r_libre_user_repository_details.stat.exists == true
+  become: no
+- name: "load_config : Load default user repository configuration"
+  set_fact:
+    config_repository: "{{ r_libre_repository_userconf_default | default('') }}"
+  when: r_libre_user_repository_details.stat.exists != true

@@ -22,12 +22,28 @@
     mode: 0664
   when: r_libre_user_session_details.stat.exists != true
   become: no
-- name: "install_config : Reload user libre configuration {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} file details"
+- name: "install_config : Reload user session configuration {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
   register: r_libre_user_session_details
   become: no
-- name: "install_config : Reload user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
+- name: "install_config : Reload user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
   set_fact:
     config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_session) | default('') }}"
+  become: no
+- name: "install_config : Generate user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
+  template:
+    src: ../templates/repository.j2
+    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
+    mode: 0664
+  when: r_libre_user_repository_details.stat.exists != true
+  become: no
+- name: "install_config : Reload user repository configuration {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }} file details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
+  register: r_libre_user_repository_details
+  become: no
+- name: "install_config : Reload user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
+  set_fact:
+    config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_config_file_repository) | default('') }}"
   become: no

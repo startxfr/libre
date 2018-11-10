@@ -19,3 +19,11 @@
   assert:
     msg: "Session configuration {{ r_libre_config_file_session }} is not loaded"
     that: config_session is defined
+- name: "install-postcheck : User repository configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }} exist"
+  assert:
+    msg: "User repository configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }} doesn't exist"
+    that: r_libre_user_conf_details.stat.exists == true
+- name: "install-postcheck : User repository configuration is loaded"
+  assert:
+    msg: "Session configuration {{ r_libre_config_file_repository }} is not loaded"
+    that: config_repository is defined

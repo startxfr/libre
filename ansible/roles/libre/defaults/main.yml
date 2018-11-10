@@ -25,6 +25,8 @@ r_libre_userconfig_dir: "{{ libre_userconfig_dir | default('~/.libre') | string 
 r_libre_config_file_libre: "{{ libre_config_file_libre | default('config.json') | string }}"
 # Config file for session
 r_libre_config_file_session: "{{ libre_config_file_session | default('session.json') | string }}"
+# Config file for repository
+r_libre_config_file_repository: "{{ libre_config_file_repository | default('repository.json') | string }}"
 # Default directory used for delivering training
 r_libre_dir: "{{ training_dir | default('/libre') | string }}"
 # Course directory used for delivering training
@@ -58,6 +60,12 @@ r_libre_libre_userconf_default:
 r_libre_session_userconf_default:
   type: "{{ libre_session_type | default('sample') | string }}"
   gapi: "{{ libre_session_gapi | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
+# Default config_repository structure
+r_libre_repository_userconf_default:
+  url: "{{ repository_url | default('https://github.com/startxfr/libre') | string }}"
+  branch: "{{ repository_branch | default('master') | string }}"
+  base: "{{ repository_base | default('/courses-samples') | string }}"
+  local: "{{ repository_local | default('/var/local/libre.repo') }}"
 
 # Default libre_hardware structure
 r_libre_minhw:
