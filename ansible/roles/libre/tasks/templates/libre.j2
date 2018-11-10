@@ -1,24 +1,24 @@
 {
   "application" : {
-    "type" : "{{ libre_config.application.type }}",
-    "version" : "{{ libre_config.application.version }}",
-    "verbose" : "{{ libre_config.application.verbose }}",
-    "debug" : "{{ libre_config.application.debug }}",
+    "type" : "{{ r_libre_config.application.type }}",
+    "version" : "{{ r_libre_config.application.version }}",
+    "verbose" : "{{ r_libre_config.application.verbose }}",
+    "debug" : "{{ r_libre_config.application.debug }}",
     "ansible" : "{{ r_libre_dest_ansible }}",
     "source" : {
-      "repo" : "{{ libre_config.application.source.repo }}",
-      "branch" : "{{ libre_config.application.source.branch }}",
-      "base" : "{{ libre_config.application.source.base }}",
-      "tmp" : "{{ libre_config.application.source.tmp }}"
+      "repo" : "{{ r_libre_config.application.source.repo }}",
+      "branch" : "{{ r_libre_config.application.source.branch }}",
+      "base" : "{{ r_libre_config.application.source.base }}",
+      "tmp" : "{{ r_libre_config.application.source.tmp }}"
     }
   },
   "directory" : {
-    "base" : "{{ libre_config.directory.base }}",
-    "course" : "{{ libre_config.directory.course }}",
-    "collect" : "{{ libre_config.directory.collect }}"
+    "base" : "{{ r_libre_config.directory.base }}",
+    "course" : "{{ r_libre_config.directory.course }}",
+    "collect" : "{{ r_libre_config.directory.collect }}"
   },
   "session" : {
-    "type" : "{{ libre_config.session.type }}",
-    "gapi" : "{{ libre_config.session.gapi }}"
+    "type" : "{{ r_libre_config.session.type }}",
+    "gapi" : "{{ r_libre_config.session.gapi }}"
   }
 }

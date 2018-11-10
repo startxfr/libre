@@ -1,89 +1,16 @@
 ---
-- name: "install_config : Create training configuration directory {{ r_libre_dir_conf }}"
+- name: "install_homedir : Get {{ r_libre_userconfig_dir }} directory details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}"
+  register: r_libre_userconfig_dir_details
+  become: no
+- name: "install_homedir : Create user config directory {{ r_libre_userconfig_dir }}"
   file:
     state: directory
-    path: "{{ r_libre_dir_conf }}"
+    path: "{{ r_libre_userconfig_dir }}"
     mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+#    owner: "{{ r_libre_user }}"
+#    group: "{{ r_libre_group }}"
     recurse: yes
-  when: r_libre_dir_details.stat.exists != true
-- name: "install_config : Generate {{ r_libre_dir_conf }}/{{ r_libre_config_file_libre }}"
-  template:
-    src: templates/libre.j2
-    dest: "{{ r_libre_dir_conf }}/{{ r_libre_config_file_libre }}"
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-  when: r_libre_conf_details.stat.exists != true or libre_installed == false
-
-- name: "install_config : Get hardware file details"
-  stat:
-    path: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
-  register: r_libre_hw_details
-- name: "install_config : Load Product name"
-  set_fact: libre_hardware_product_name="{{ ansible_product_name }}"
-- name: "install_config : Load CPU Architecture is {{ r_libre_minhw.architecure }}"
-  set_fact: libre_hardware_cpu_arch="{{ ansible_architecture }}"
-- name: "install_config : Load minimum physical CPU is {{ r_libre_minhw.cpu.physical }}"
-  set_fact: libre_hardware_cpu_physics="{{ ansible_processor_count }}"
-- name: "install_config : Load minimum physical Cores is {{ r_libre_minhw.cpu.cores }}"
-  set_fact: libre_hardware_cpu_cores="{{ ansible_processor_cores }}"
-- name: "install_config : Load minimum virtual Cores is {{ r_libre_minhw.cpu.vcpus }}"
-  set_fact: libre_hardware_cpu_vcpu="{{ ansible_processor_vcpus|int }}"
-- name: "install_config : Load minimum Memory size is more than {{ r_libre_minhw.memory.total }}"
-  set_fact: libre_hardware_memory_total="{{ ansible_memtotal_mb }}"
-- name: "install_config : Load minimum free memory size is more than {{ r_libre_minhw.memory.free }}"
-  set_fact:  libre_hardware_memory_free="{{ r_libre_minhw.memory.free }}"
-- name: "install_config : Extract storage informations"
-  set_fact: mount="{{ ansible_mounts | selectattr('mount','equalto','/') | list | first }}"
-- name: "install_config : Ensure that storage on / is more than {{ r_libre_minhw.storage.percent }}%"
-  set_fact: libre_hardware_storage_total="{{ mount.size_total / 1024 / 1024 }}Gb"
-- name: "install_config : Load Storage space left on / is more than  {{ r_libre_minhw.storage.capacity|int }}Mb"
-  set_fact: libre_hardware_storage_free="{{ mount.size_available|int / 1024 / 1024 }}Gb"
-#- name: "install_config : Load Network interfaces"
-#  debug: var=hostvars['localhost']['ansible_interfaces']
-#- name: "install_config : Load Network interfaces"
-#  debug: var=hostvars['localhost']['ansible_hostname']
-#- name: "install_config : Load Network interfaces"
-#  debug: var=hostvars['localhost']['ansible_all_ipv4_addresses']
-- name: "install_config : Generate {{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
-  template:
-    src: templates/libre-hw.j2
-    dest: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-  when: r_libre_hw_details.stat.exists != true
-
-- name: "install_config : Reload config file details"
-  stat:
-    path: "{{ r_libre_dir_conf }}/{{ r_libre_config_file_libre }}"
-  register: r_libre_conf_details
-- name: "install_config : Reload hardware file details"
-  stat:
-    path: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
-  register: r_libre_hw_details
-  when: r_libre_hw_details.stat.exists != true
-
-- name: "install_config : Create inventory directory {{ r_libre_dir_conf }}/inventory"
-  file:
-    state: directory
-    path: "{{ r_libre_dir_conf }}/inventory"
-    mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-    recurse: yes
-- name: "install_config : Get {{ r_libre_dir_conf }}/inventory/all.yml inventory file details"
-  stat:
-    path: "{{ r_libre_dir_conf }}/inventory/all.yml"
-  register: r_libre_inventory_details
-- name: "install_config : Generate inventory {{ r_libre_dir_conf }}/inventory/all.yml"
-  template:
-    src: templates/inventory.j2
-    dest: "{{ r_libre_dir_conf }}/inventory/all.yml"
-    remote_src: yes
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-  when: r_libre_inventory_details.stat.exists != true
+  when: r_libre_userconfig_dir_details.stat.exists != true
+  become: no

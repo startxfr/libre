@@ -22,23 +22,6 @@
   stat:
     path: "{{ r_libre_dir_conf }}/{{ r_repository_config_file }}"
   register: r_repository_conf_details
-- name: "install : Load repository fact file detail"
-  stat:
-    path: "{{ r_libre_dir_facts }}/repository.fact"
-  register: r_libre_repolinks_details
-- name: "install : Create ansible local facts links"
-  file:
-    state: link
-    src: "{{ r_libre_dir_conf }}/{{ r_repository_config_file }}"
-    dest: "{{ r_libre_dir_facts }}/repository.fact"
-    mode: 0664
-    owner: root
-    group: root
-  when: r_repository_conf_details.stat.exists and r_libre_repolinks_details.stat.exists != true
-- name: "install : Gathering fresh facts to get repository configuration"
-  setup:
-  register: r_repository_freshFacts
-  when: libre_repository is undefined
 - name: "install : Check if repository configuration is in fresh facts"
   fail: msg="Could not find repository configuration {{ r_repository_config_file }} in ansible_local facts"
   when:

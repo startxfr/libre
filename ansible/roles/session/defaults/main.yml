@@ -14,8 +14,6 @@ r_session_group: "{{ libre_group | default('libre') | string }}"
 r_session_dir_conf: "{{ r_libre_dir_conf | default('/libre/conf') | string }}"
 # Course directory used for delivering training
 r_session_dir_course: "{{ training_dir_course | default('/libre/course') | string }}"
-# Configuration directory used for fact collection
-r_session_dir_facts: "{{ r_libre_dir_facts | default('/etc/ansible/facts.d') | string }}"
 
 # Config file for session
 r_session_config_file: "{{ libre_config_file_session | default('session.json') | string }}"

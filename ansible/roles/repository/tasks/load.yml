@@ -4,14 +4,14 @@
     libre_repository: "{{ r_repository_default }}"
     repository_installed: false
   when: ansible_local.repository is undefined or ansible_local.repository == "error loading fact - please check content"
-- name: "load : Set libre_repository fact from {{ r_libre_dir_facts }}/{{ r_repository_config_file }}"
-  set_fact:
-    libre_repository: "{{ ansible_local.repository }}"
-    repository_installed: true
-  when:
-    - ansible_local is defined
-    - ansible_local.repository is defined
-    - ansible_local.repository != "error loading fact - please check content"
+#- name: "load : Set libre_repository fact from {{ r_libre_dir_facts }}/{{ r_repository_config_file }}"
+#  set_fact:
+#    libre_repository: "{{ ansible_local.repository }}"
+#    repository_installed: true
+#  when:
+#    - ansible_local is defined
+#    - ansible_local.repository is defined
+#    - ansible_local.repository != "error loading fact - please check content"
 - name: "load : Get {{ libre_repository.local }} directory details"
   stat:
     path: "{{ libre_repository.local }}"

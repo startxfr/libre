@@ -10,10 +10,6 @@
     state: absent
     path: "{{ libre_repository.local }}"
   when: r_repository_details.stat.exists == true
-- name: "uninstall : Remove ansible local facts links"
-  file:
-    state: absent
-    dest: "{{ r_libre_dir_facts }}/repository.fact"
 - name: "uninstall : Remove repository configuration file"
   file:
     state: absent

@@ -12,8 +12,6 @@ r_libre_dest_bin: "{{ libre_dest_bin | default('/usr/local/bin') }}"
 # Set LIBRE destination directory for ansible content
 r_libre_dest_ansible: "{{ libre_dest_ansible | default('/usr/local/lib/libre-ansible') }}"
 
-# Config file for LIBRE
-r_libre_config_file_libre: "{{ libre_config_file_libre | default('config.json') | string }}"
 # Config file for hardware
 r_libre_config_file_hw: "{{ libre_config_file_hw | default('hardware.json') | string }}"
 
@@ -21,6 +19,10 @@ r_libre_config_file_hw: "{{ libre_config_file_hw | default('hardware.json') | st
 r_libre_user: "{{ libre_user | default('instructor') | string }}"
 # Default user for course content
 r_libre_group: "{{ libre_group | default('libre') | string }}"
+# Personal home directory where configuration is stored
+r_libre_userconfig_dir: "{{ libre_userconfig_dir | default('~/.libre') | string }}"
+# Config file for LIBRE
+r_libre_config_file_libre: "{{ libre_config_file_libre | default('config.json') | string }}"
 # Default directory used for delivering training
 r_libre_dir: "{{ training_dir | default('/libre') | string }}"
 # Course directory used for delivering training
@@ -29,8 +31,6 @@ r_libre_dir_course: "{{ training_dir_course | default('/libre/course') | string 
 r_libre_dir_conf: "{{ training_dir_conf | default('/libre/conf') | string }}"
 # Collect directory used for collecting training activity
 r_libre_dir_collect: "{{ training_dir_collect | default('/libre/collect') | string }}"
-# Configuration directory used for fact collection
-r_libre_dir_facts: "{{ training_dir_facts | default('/etc/ansible/facts.d') | string }}"
 # Set LIBRE source temporary directory for exchange with libre command line
 r_libre_tmp: "{{ libre_tmp | default('/tmp') | string }}"
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line

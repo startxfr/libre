@@ -1,50 +1,23 @@
 ---
-# Uninstall tasks
-- name: "uninstall : Remove local fact links in {{ r_libre_dir_facts }}"
-  file:
-    state: absent
-    path: "{{ r_libre_dir_facts }}/"
-- name: "uninstall : Remove libre-* library from {{ r_libre_dest_lib }}"
+- name: "uninstall_libre : Remove libre-* library from {{ r_libre_dest_lib }}"
   file:
     state: absent
     path: "{{ r_libre_dest_lib }}/{{ libname }}"
   loop: "{{ r_libre_files_library }}"
   loop_control:
     loop_var: libname
-- name: "uninstall : Remove libre-* binary from {{ r_libre_dest_bin }}"
+- name: "uninstall_libre : Remove libre-* binary from {{ r_libre_dest_bin }}"
   file:
     state: absent
     path: "{{ r_libre_dest_bin }}/{{ binname }}"
   loop: "{{ r_libre_files_binary_all }}"
   loop_control:
     loop_var: binname
-- name: "uninstall : Remove libre ansible library from {{ r_libre_dest_ansible }}"
+- name: "uninstall_libre : Remove libre ansible library from {{ r_libre_dest_ansible }}"
   file:
     state: absent
     path: "{{ r_libre_dest_ansible }}"
-- name: "uninstall : Remove auto-completion script to /etc/bash_completion.d/libre"
+- name: "uninstall_libre : Remove auto-completion script to /etc/bash_completion.d/libre"
   file:
     state: absent
     path: "/etc/bash_completion.d/libre"
-- name: "Archive training directory {{ r_libre_dir }}"
-  archive:
-    path: "{{ r_libre_dir }}"
-    dest: "/libre-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
-  when: r_libre_dir_details.stat.exists == true
-- name: "uninstall : Remove training directory {{ r_libre_dir }}"
-  file:
-    state: absent
-    path: "{{ r_libre_dir }}"
-  when: r_libre_dir_details.stat.exists == true
-- name: "uninstall : Get previous report data"
-  set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
-  become: no
-- name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-  template:
-    src: templates/libre_report-uninstall.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
-  delegate_to: localhost
-  become: no

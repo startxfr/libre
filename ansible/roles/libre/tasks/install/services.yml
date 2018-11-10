@@ -13,8 +13,9 @@
     - ipa-server
     - bash-completion
   when: ansible_hostname != "alcor"
-#- name: "install_services : Force upgrading pip packages manager"
-#  command: "pip install --upgrade pip"
+- name: "install_services : Force upgrading pip packages manager"
+  command: "pip install --upgrade pip"
+  when: ansible_hostname != "alcor"
 - name: "install_services : Install and force upgrade pip packages"
   pip:
     state: forcereinstall

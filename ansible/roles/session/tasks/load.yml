@@ -3,10 +3,6 @@
   stat:
     path: "{{ r_session_dir_conf }}/{{ r_session_config_file }}" 
   register: r_session_conf_details
-- name: "load : Get session file details from {{ r_session_dir_facts }} facts"
-  stat:
-    path: "{{ r_session_dir_facts }}/session.fact"
-  register: r_session_conflinks_details
 - name: "load : Load session facts from local facts"
   set_fact:
     libre_session: "{{ ansible_local.session }}"

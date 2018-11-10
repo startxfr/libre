@@ -1,56 +1,11 @@
 ---
-- name: "install_training : Create the libre user group {{ r_libre_group }}"
+- name: "install_user : Create the libre user group {{ r_libre_group }}"
   group:
     name: "{{ r_libre_group }}"
     state: present
-- name: "install_training : Create the instructor user {{ r_libre_user }}"
+- name: "install_user : Create the instructor user {{ r_libre_user }}"
   user:
     state: present
     name: "{{ r_libre_user }}"
     comment: "LIBRE {{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-- name: "install_training : Create training directory {{ r_libre_dir }}"
-  file:
-    state: directory
-    path: "{{ r_libre_dir }}"
-    mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-    recurse: yes
-  when: r_libre_dir_details.stat.exists != true
-- name: "install_training : Create training course directory {{ r_libre_dir_course }}"
-  file:
-    state: directory
-    path: "{{ r_libre_dir_course }}"
-    mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-    recurse: yes
-  when: r_libre_dir_course_details.stat.exists != true
-- name: "install_training : Get {{ r_libre_dir_collect }} directory details"
-  stat:
-    path: "{{ r_libre_dir_collect }}"
-  register: r_libre_dir_collect_details
-- name: "install_training : Create training collect directory {{ r_libre_dir_collect }}"
-  file:
-    state: directory
-    path: "{{ r_libre_dir_collect }}"
-    mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-    recurse: yes
-  when: r_libre_dir_collect_details.stat.exists != true
-- name: "install_training : Get {{ r_libre_dir_collect }}/log.yml file details"
-  stat:
-    path: "{{ r_libre_dir_collect }}/log.yml"
-  register: r_libre_dir_collect_log_details
-- name: "install_training : Ensure log file {{ r_libre_dir_collect }}/log.yml exist"
-  copy:
-    content: ""
-    dest: "{{ r_libre_dir_collect }}/log.yml"
-    remote_src: yes
-    force: no
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-  when: r_libre_dir_collect_log_details.stat.exists != true

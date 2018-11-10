@@ -1,7 +1,7 @@
 ---
 # Upgrade tasks
 - name: "upgrade : Start LIBRE upgrade"
-  include_tasks: "install_libre.yml"
+  include_tasks: "install/libre.yml"
   vars:
     r_libre_force_upgrade: true
 - name: "upgrade : Start LIBRE post-upgrade checks"

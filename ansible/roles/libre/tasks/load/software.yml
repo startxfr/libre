@@ -1,17 +1,5 @@
 ---
-- name: "load_software : Get {{ r_libre_dest_bin }}/libre-{{ libre_config.application.type }} file details"
+- name: "load_software : Get {{ r_libre_dest_bin }}/libre-{{ libre_config.application.type | default('instructor') | string }} file details"
   stat:
     path: "{{ r_libre_dest_bin }}/libre-{{ libre_config.application.type }}"
   register: r_libre_binary_details
-- name: "load_software : Get {{ r_libre_tmp }}/{{ r_libre_tmpfile  }} file details"
-  stat:
-    path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile  }}"
-  register: r_libre_tmpfile_details
-  delegate_to: localhost
-- name: "load_software : Touch report data"
-  file:
-    path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    state: touch
-    mode: 0666
-  delegate_to: localhost
-  when: r_libre_tmpfile_details.stat.exists != true
