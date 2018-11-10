@@ -1,20 +1,20 @@
 ---
 # Update tasks
-- name: "upgrade : Update course materials from {{ libre_repository.url }}"
+- name: "upgrade : Update course materials from {{ config_repository.url }}"
   git:
     update: yes
-    repo: "{{ libre_repository.url }}"
-    dest: "{{ libre_repository.local }}"
-    version: "{{ libre_repository.branch }}"
+    repo: "{{ config_repository.url }}"
+    dest: "{{ config_repository.local }}"
+    version: "{{ config_repository.branch }}"
 - name: "upgrade : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_repository_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
   become: no
-- name: "upgrade : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_repository_tmpfile }}"
+- name: "upgrade : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-upgrade.j2
-    dest: "{{ r_libre_tmp }}/{{ r_repository_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
   become: no

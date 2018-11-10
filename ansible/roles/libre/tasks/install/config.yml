@@ -4,12 +4,12 @@
     src: ../templates/libre.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
     mode: 0664
-  when: r_libre_user_conf_details.stat.exists != true
+  when: r_libre_libre_userconf_details.stat.exists != true or r_libre_force_upgrade == true
   become: no
 - name: "install_config : Reload user libre configuration {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
-  register: r_libre_user_conf_details
+  register: r_libre_libre_userconf_details
   become: no
 - name: "install_config : Reload user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_libre }}"
   set_fact:
@@ -20,12 +20,12 @@
     src: ../templates/session.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
     mode: 0664
-  when: r_libre_user_session_details.stat.exists != true
+  when: r_libre_session_userconf_details.stat.exists != true
   become: no
 - name: "install_config : Reload user session configuration {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
-  register: r_libre_user_session_details
+  register: r_libre_session_userconf_details
   become: no
 - name: "install_config : Reload user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_session }}"
   set_fact:
@@ -36,12 +36,12 @@
     src: ../templates/repository.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
     mode: 0664
-  when: r_libre_user_repository_details.stat.exists != true
+  when: r_libre_repository_userconf_details.stat.exists != true
   become: no
 - name: "install_config : Reload user repository configuration {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
-  register: r_libre_user_repository_details
+  register: r_libre_repository_userconf_details
   become: no
 - name: "install_config : Reload user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_config_file_repository }}"
   set_fact:

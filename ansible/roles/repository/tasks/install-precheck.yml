@@ -3,6 +3,3 @@
   include_role:
     name: libre
     tasks_from: "install-precheck.yml"
-  when: libre_installed == false
-- name: "install-precheck : Mark LIBRE install-precheck as done"
-  set_fact: r_repository_install_precheck=true

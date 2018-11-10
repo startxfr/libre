@@ -1,7 +1,6 @@
 ---
 - name: "provision : Start infrastructure configuration"
   include_tasks: "config.yml"
-  when: infra_installed == false
 - name: "provision : Provision AWS infrastructure"
   include_tasks: "aws/provision.yml"
   when: libre_infra.type == 'aws'

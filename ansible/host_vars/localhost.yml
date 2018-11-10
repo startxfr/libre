@@ -3,4 +3,4 @@
 # use a local connection to reach this host
 ansible_connection: local
 # LIBRE software version 
-libre_version: 0.5.22
+libre_version: 0.5.23

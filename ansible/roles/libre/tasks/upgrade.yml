@@ -4,6 +4,10 @@
   include_tasks: "install/libre.yml"
   vars:
     r_libre_force_upgrade: true
+- name: "upgrade : Start configuration upgrade"
+  include_tasks: "install/config.yml"
+  vars:
+    r_libre_force_upgrade: true
 - name: "upgrade : Start LIBRE post-upgrade checks"
   include_tasks: "install-postcheck.yml"
   vars:

@@ -65,7 +65,7 @@ r_libre_repository_userconf_default:
   url: "{{ repository_url | default('https://github.com/startxfr/libre') | string }}"
   branch: "{{ repository_branch | default('master') | string }}"
   base: "{{ repository_base | default('/courses-samples') | string }}"
-  local: "{{ repository_local | default('/var/local/libre.repo') }}"
+  local: "{{ repository_local | default('/var/local/libre.repo') | string }}"
 
 # Default libre_hardware structure
 r_libre_minhw:
