@@ -1,6 +1,6 @@
 ---
-- name: "Uninstall session environment on {{ target }}"
-  hosts: '{{ target }}'
+- name: "Uninstall session environment on instructor"
+  hosts: 'instructor'
   gather_facts: true
   user: root
 

@@ -1,6 +1,6 @@
 ---
-- name: "Check session environment on {{ target }}"
-  hosts: '{{ target }}'
+- name: "Check session environment on instructor"
+  hosts: 'instructor'
   gather_facts: true
   user: root
 

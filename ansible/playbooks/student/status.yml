@@ -1,6 +1,6 @@
 ---
-- name: "Check student environment on {{ target }}"
-  hosts: '{{ target }}'
+- name: "Check student environment on students"
+  hosts: 'students'
   gather_facts: true
   user: root
 

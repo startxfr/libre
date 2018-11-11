@@ -1,7 +1,7 @@
 {
   "name": "libre-instructor",
   "description": "Web-application used to serve course materials and tools for training delivery",
-  "version": "0.5.23",
+  "version": "0.5.24",
   "debug": true,
   "resources": {
     "serviceinfo": {

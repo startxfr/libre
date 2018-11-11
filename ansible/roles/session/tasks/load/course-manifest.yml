@@ -1,0 +1,26 @@
+---
+- name: "load : course-manifest : Get {{ r_session_dir_course }} directory details"
+  stat:
+    path: "{{ r_session_dir_course }}"
+  register: r_session_dir_course_details
+- name: "load : course-manifest : Get {{ r_session_dir_course }}/manifest.yml file details"
+  stat:
+    path: "{{ r_session_dir_course }}/manifest.yml"
+  register: r_course_manifest_details
+- name: "load : course-manifest : Load course content manifest {{ r_session_dir_course }}/manifest.yml"
+  include_vars:
+    file: "{{ r_session_dir_course }}/manifest.yml"
+    name: libre_course_tmp
+  when: r_course_manifest_details.stat.exists == true
+- name: "load : course-manifest : Convert to fact course content manifest {{ r_session_dir_course }}/manifest.yml"
+  set_fact:
+    libre_course: "{{libre_course_tmp}}"
+  when: r_course_manifest_details.stat.exists == true
+- name: "load : course-manifest : Load default course content manifest"
+  set_fact:
+    libre_course: {}
+  when: r_course_manifest_details.stat.exists != true
+- name: "load : course-manifest : Get {{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }} directory details"
+  stat:
+    path: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }}"
+  register: r_session_dir_course_playbooks_details

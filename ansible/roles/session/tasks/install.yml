@@ -2,27 +2,36 @@
 # Install pre-tasks
 - name: "install : Start session pre-installation checks"
   include_tasks: "install-precheck.yml"
-  when: libre_session_install_precheck is undefined or libre_session_install_precheck != true
+  when: session_install_precheck is undefined or session_install_precheck != true
 
 # Install tasks
-- name: "install : Start repository install"
-  include_role:
-    name: repository
-    tasks_from: install.yml
-  become: yes
-- name: "install : Start session configuration"
+- name: "install : Start repository install sequence"
+  block:
+    - name: "install : Start libre install post-check"
+      include_role:
+        name: libre
+        tasks_from: install-postcheck
+    - name: "install : Start repository install post-check"
+      include_role:
+        name: repository
+        tasks_from: install-postcheck
+  rescue:
+    - name: "install : Start repository install"
+      include_role:
+        name: repository
+        tasks_from: install
+      become: yes
+    - name: "install : Reload session"
+      include_tasks: "load.yml"
+- name: "install : Start configuration because no session configuration {{ r_session_dir_conf }}/{{ r_session_config_file }} file found"
   include_tasks: "config.yml"
-  when: libre_session is undefined
-
-- name: "install : Test if directory {{ r_session_dir_course }} contain a course content"
-  stat:
-    path: "{{ r_session_dir_course }}/manifest.yml"
-  register: session_manifest_details
+  when: 
+    - r_session_conf_details.stat.exists != true
 - name: "install : Remove previous training course content from directory {{ r_session_dir_course }}"
   file:
     state: absent
     path: "{{ r_session_dir_course }}/"
-  when: session_manifest_details.stat.exists == true
+  when: r_course_manifest_details.stat.exists == true
 - name: "install : Get repository course {{ libre_session.course }} details"
   stat:
     path: "{{ r_session_repository_local }}{{ r_session_repository_base }}/{{ libre_session.course }}"
@@ -34,25 +43,23 @@
   synchronize:
     src: "{{ r_session_repository_local }}{{ r_session_repository_base }}/{{ libre_session.course }}/"
     dest: "{{ r_session_dir_course }}"
-- name: "install : Reload session configuration file details"
-  stat:
-    path: "{{ r_session_dir_conf }}/{{ r_session_config_file }}"
-  register: r_session_conf_details
-- name: "install : Reload {{ r_session_dir_course }}/manifest.yml file details"
-  stat:
-    path: "{{ r_session_dir_course }}/manifest.yml"
-  register: r_session_manifest_details
+- name: "install : Reload session course-manifest"
+  include_tasks: "load/course-manifest.yml"
 - name: "install : Install course playbook"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
   when: r_session_dir_course_playbooks_details.stat.exists == true
+
+- debug: var=config_session
+- debug: var=libre_session
+- debug: var=libre_course
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_session_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "install : Generate session report at {{ r_libre_tmp }}/{{ r_session_tmpfile }}"
+- name: "install : Generate session report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-install.j2
-    dest: "{{ r_libre_tmp }}/{{ r_session_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   become: no
   delegate_to: localhost
@@ -64,10 +71,6 @@
     log_name: "Session is installed"
     log_component: session
     log_action: install
-- name: "install : Get {{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }} directory details"
-  stat:
-    path: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }}"
-  register: r_session_dir_course_playbooks_details
 
 # Install post-tasks
 - name: "install : Start session post-installation checks"

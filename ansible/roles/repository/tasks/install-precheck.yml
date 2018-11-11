@@ -1,5 +1,8 @@
 ---
-- name: "install-precheck : Start LIBRE pre-installation checks"
+- name: "install-precheck : Start repository pre-installation checks"
   include_role:
     name: libre
     tasks_from: "install-precheck.yml"
+  when: repository_install_precheck is undefined or repository_install_precheck != true
+- name: "install-precheck : Mark repository install-precheck as done"
+  set_fact: repository_install_precheck=true

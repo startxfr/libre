@@ -9,10 +9,12 @@
       $ libre-session install
 
     that: r_session_conf_details.stat.exists == true
+  when: session_install_postcheck is undefined or session_install_postcheck != true
 - name: "install-postcheck : Training configuration {{ r_session_config_file }} is loaded"
   assert:
     msg: "Session configuration file {{ r_session_config_file }} is not loaded"
     that: libre_session is defined
+  when: session_install_postcheck is undefined or session_install_postcheck != true
 - name: "install-postcheck : Check if session id exist"
   assert:
     msg: |
@@ -23,6 +25,7 @@
       $ libre-session install
 
     that: libre_session.id is defined
+  when: session_install_postcheck is undefined or session_install_postcheck != true
 - name: "install-postcheck : Check if course id exist"
   assert:
     msg: |
@@ -33,7 +36,11 @@
       $ libre-session install
 
     that: libre_session.course is defined
+  when: session_install_postcheck is undefined or session_install_postcheck != true
 - name: "install-postcheck : Course manifest exist in {{ r_libre_dir_course }}"
   assert:
     msg: "Course manifest not found in {{ r_libre_dir_course }}"
-    that: r_session_manifest_details.stat.exists == true
+    that: r_course_manifest_details.stat.exists == true
+  when: session_install_postcheck is undefined or session_install_postcheck != true
+- name: "install-postcheck : Mark session install-postcheck as done"
+  set_fact: session_install_postcheck=true

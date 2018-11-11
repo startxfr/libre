@@ -1,41 +1,8 @@
 ---
-- name: "config : Config GAPI session type"
-  include_tasks: "config_gapi.yml"
-  when: 
-    - config_session.type == 'gapi'
-    - (r_session_conf_details.stat.exists != true or libre_session is undefined)
-- name: "config : Config sample session type"
-  include_tasks: "config_sample.yml"
-  when: 
-    - config_session.type == 'sample'
-    - (r_session_conf_details.stat.exists != true or libre_session is undefined)
-- name: "config : Config manual session type"
-  include_tasks: "config_manual.yml"
-  when: 
-    - config_session.type == 'manual'
-    - (r_session_conf_details.stat.exists != true or libre_session is undefined)
-- name: "config : Gathering fresh facts to get session configuration"
-  setup:
-  register: r_session_freshFacts
-  when: libre_session is undefined
-- name: "config : Check if local configuration are in fresh facts"
-  fail: msg="Could not find local configuration in ansible_local facts. Check your config directory {{ r_session_dir_conf }} and {{ r_session_dir_facts }}"
-  when:
-    - libre_session is undefined
-    - (r_session_freshFacts is undefined or r_session_freshFacts.ansible_facts is undefined or r_session_freshFacts.ansible_facts.ansible_local is undefined)
-#- name: "config : Check if session configuration is in fresh facts"
-#  fail: msg="Could not find session configuration {{ r_session_config_file }} in ansible_local facts"
-#  when:
-#    - libre_session is undefined
-#    - (r_session_freshFacts.ansible_facts.ansible_local.session is undefined or r_session_freshFacts.ansible_facts.ansible_local.session == "error loading fact - please check content")
-#- name: "config : Reload session file details from {{ r_session_dir_facts }} facts"
-#  stat:
-#    path: "{{ r_session_dir_facts }}/session.fact"
-#  when: libre_session is undefined
-#- name: "config : Reload session configuration facts from fresh facts"
-#  set_fact:
-#    libre_session: "{{ r_session_freshFacts.ansible_facts.ansible_local.session }}"
-#  when: libre_session is undefined
+- name: "config : Config {{ config_session.type }} session type"
+  include_tasks: "config/{{ config_session.type }}.yml"
+- name: "config : Reload session configuration"
+  include_tasks: "load/config.yml"
 - name: "config : Log config action"
   include_role:
     name: libre

@@ -14,3 +14,8 @@
     recurse: yes
   when: r_libre_userconfig_dir_details.stat.exists != true
   become: no
+- name: "install_homedir : Reload configuration directory {{ r_libre_userconfig_dir }}"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}"
+  register: r_libre_userconfig_dir_details
+  become: no

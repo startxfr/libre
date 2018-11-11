@@ -8,7 +8,6 @@
 - name: "config : manual : Register session_id fact"
   set_fact:
     session_id: "{{ sessionID.user_input }}"
-    hasChanged: true
   when: libre_session is undefined and sessionID.user_input is defined
 - name: "config : manual : Session ID doesn't match a good number"
   fail: msg="You must give a good Session ID"
@@ -22,21 +21,15 @@
 - name: "config : manual : Register course_id fact"
   set_fact:
     course_id: "{{ courseID.user_input }}"
-    hasChanged: true
   when: libre_session is undefined and courseID.user_input is defined
 - name: "config : manual : Course ID doesn't match a good id"
   fail: msg="You must give a good course ID"
   when: libre_session is undefined and course_id|default('')|string == ""
-- name: "config : manual : Set configuration has changed if config file are missing"
-  set_fact:
-    hasChanged: true
-  when: libre_session is undefined and r_session_conf_details.stat.exists != true
 - name: "config : manual : Generate session config file {{ r_session_dir_conf }}/{{ r_session_config_file }}"
   template:
-    src: templates/libre-session-manual.j2
+    src: ../templates/libre-session-manual.j2
     dest: "{{ r_session_dir_conf }}/{{ r_session_config_file }}"
     mode: 0664
     owner: "{{ r_session_user }}"
     group: "{{ r_session_group }}"
   become: yes
-  when: hasChanged is not undefined

@@ -19,9 +19,6 @@ r_session_dir_course: "{{ training_dir_course | default('/libre/course') | strin
 r_session_config_file: "{{ libre_config_file_session | default('session.json') | string }}"
 
 # Set LIBRE source local directory for hosting copied LIBRE source content
-r_session_repository_local: "{{ libre_repository.local | default('/var/local/libre.repo') }}"
+r_session_repository_local: "{{ config_repository.local | default('/var/local/libre.repo') }}"
 # Set training material repository directory containing course material
-r_session_repository_base: "{{ libre_repository.base | default('/courses-samples') }}"
-
-# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
-r_session_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
+r_session_repository_base: "{{ config_repository.base | default('/courses-samples') }}"

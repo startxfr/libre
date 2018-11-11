@@ -3,6 +3,6 @@
   include_role:
     name: repository
     tasks_from: "install-precheck.yml"
-  when: libre_repository_install_precheck is undefined or libre_repository_install_precheck != true
+  when: session_install_precheck is undefined or session_install_precheck != true
 - name: "install-precheck : Mark session install-precheck as done"
-  set_fact: libre_session_install_precheck=true
+  set_fact: session_install_precheck=true

@@ -1,6 +1,6 @@
 ---
-- name: "Check lab on {{ target }}"
-  hosts: '{{ target }}'
+- name: "Check lab on local"
+  hosts: 'local'
   gather_facts: true
   user: root
 

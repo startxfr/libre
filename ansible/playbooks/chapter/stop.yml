@@ -1,6 +1,6 @@
 ---
-- name: "Stop chapter on {{ target }}"
-  hosts: '{{ target }}'
+- name: "Stop chapter on local"
+  hosts: 'local'
   gather_facts: true
   user: root
 

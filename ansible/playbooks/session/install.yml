@@ -1,6 +1,6 @@
 ---
-- name: "Install session environment on {{ target }}"
-  hosts: '{{ target }}'
+- name: "Install session environment on instructor"
+  hosts: 'instructor'
   gather_facts: true
   user: root
 

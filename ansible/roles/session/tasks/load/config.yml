@@ -1,0 +1,15 @@
+---
+- name: "load : config : Get session configuration {{ r_session_dir_conf }}/{{ r_session_config_file }} file details"
+  stat:
+    path: "{{ r_session_dir_conf }}/{{ r_session_config_file }}" 
+  register: r_session_conf_details
+- name: "load : config : Load session configuration from {{ r_session_dir_conf }}/{{ r_session_config_file }}"
+  set_fact:
+    libre_session: "{{ lookup('file', r_session_dir_conf + '/' + r_session_config_file) | default('') }}"
+  when: r_session_conf_details.stat.exists == true
+  become: no
+- name: "load : config : Load default session configuration"
+  set_fact:
+    libre_session: {}
+  when: r_session_conf_details.stat.exists != true
+  become: no
