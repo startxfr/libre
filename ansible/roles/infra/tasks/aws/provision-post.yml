@@ -26,7 +26,7 @@
     key: "{{ lookup('file', '../../ssh/'+r_infra_user_instructor+'-id_rsa.pub') }}"
   loop:
     - root
-    - "{{ r_infra_aws_ssh_user }}"
+    - "{{ libre_infra.ssh.user }}"
     - "{{ r_infra_user_instructor }}"
   loop_control:
     loop_var: user1
@@ -39,7 +39,7 @@
     key: "{{ lookup('file', '../../ssh/'+r_infra_user_instructor+'-id_rsa.pub') }}"
   loop:
     - root
-    - "{{ r_infra_aws_ssh_user }}"
+    - "{{ libre_infra.ssh.user }}"
     - "{{ r_infra_user_student }}"
   loop_control:
     loop_var: user1
@@ -66,12 +66,12 @@
     - user: "{{ r_infra_user_instructor }}"
       key: id_rsa
       dir: "/home/{{ r_infra_user_instructor }}"
-    - user: "{{ r_infra_aws_ssh_user }}"
+    - user: "{{ libre_infra.ssh.user }}"
       key: id_rsa.pub
-      dir: "/home/{{ r_infra_aws_ssh_user }}"
-    - user: "{{ r_infra_aws_ssh_user }}"
+      dir: "/home/{{ libre_infra.ssh.user }}"
+    - user: "{{ libre_infra.ssh.user }}"
       key: id_rsa
-      dir: "/home/{{ r_infra_aws_ssh_user }}"
+      dir: "/home/{{ libre_infra.ssh.user }}"
     - user: root
       key: id_rsa.pub
       dir: "/root/"
@@ -150,10 +150,10 @@
   debug:
     msg:
       - " "
-      - "We are happy to report that AWS infrastructure {{ session_name }}.{{ r_infra_aws_public_dns_zone }} was successfully provisioned on AWS infrastructure"
+      - "We are happy to report that AWS infrastructure {{ libre_session.course }}.{{ libre_infra.route53.domain }} was successfully provisioned on AWS infrastructure"
       - " "
       - "You can now connect to your instructor workstation :"
-      - "  ssh -i {{ r_infra_aws_key_name }}.pem {{ r_infra_aws_ssh_user }}@instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+      - "  ssh -i {{ libre_infra.ssh.keyname }}.pem {{ libre_infra.ssh.user }}@instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
       - "Then run instructor installation by running :"
       - "  libre-instructor install"
       - " "

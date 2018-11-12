@@ -1,36 +1,21 @@
 ---
-- name: "aws : config : Session id exist"
-  assert:
-    msg: "Session id must be defined in {{ r_session_config_file }}"
-    that: libre_session.id is defined
-- name: "aws : config : Course id exist"
-  assert:
-    msg: "Session course must be defined in {{ r_session_config_file }}"
-    that: libre_session.course is defined
-
 - name: "aws : config : Configure AWS access key"
   pause:
-   prompt: "What is your AWS Access key ({{ infra_aws_access_key|default('') }}) ?"
+   prompt: "What is your AWS Access key ?"
   register: aws_access_key
-  when: infra_aws_access_key is undefined or force_setup
-- name: "aws : config : Register infra_aws_access_key fact"
+- name: "aws : config : Register access_key in libre_infra fact"
   set_fact:
-    infra_aws_access_key: "{{ aws_access_key.user_input }}"
-  when: (infra_aws_access_key is undefined or force_setup) and aws_access_key.user_input is defined
+    libre_infra: "{{ libre_infra|combine({'auth': {'access_key': aws_access_key.user_input }}, recursive=True) }}"
+  when: aws_access_key.user_input is defined
 - name: "aws : config : Configure AWS access key"
   pause:
-   prompt: "What is your AWS Access key ({{ infra_aws_secret_key|default('') }}) ?"
+   prompt: "What is your AWS Access key ?"
   register: aws_secret_key
-  when: infra_aws_secret_key is undefined or force_setup
-- name: "aws : config : Register infra_aws_secret_key fact"
+- name: "aws : config : Register secret_key in libre_infra fact"
   set_fact:
-    infra_aws_secret_key: "{{ aws_secret_key.user_input }}"
-  when: (infra_aws_secret_key is undefined or force_setup) and aws_secret_key.user_input is defined
+    libre_infra: "{{ libre_infra|combine({'auth': {'secret_key': aws_secret_key.user_input }}, recursive=True) }}"
+  when: aws_secret_key.user_input is defined
 
-- name: "aws : config : Get {{ r_infra_dir_conf }}/{{ r_infra_config_file }} config file details"
-  stat:
-    path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
-  register: r_infra_conf_details
 - name: "aws : config : Generate infrastructure config file {{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -39,4 +24,16 @@
     owner: "{{ r_session_user }}"
     group: "{{ r_session_group }}"
   become: yes
-  when: r_infra_conf_details.stat.exists != true
+- name: "aws : config : Succesfull config for Public-Cloud AWS infrastructure"
+  debug:
+    msg:
+      - " "
+      - "Public-Cloud AWS infrastructure for session {{ libre_session.id }} delivering course {{ libre_session.course }}"
+      - "is now configured. You can continue this process by :"
+      - " "
+      - "1. Review classroom infrastructure configuration file {{r_infra_dir_conf}}/{{ r_infra_config_file }}"
+      - "2. Start provisionning infrastructure by executing the following command :"
+      - "   $ libre-infra aws provision"
+      - " "
+      - " Have an happy training ;)"
+      - " "

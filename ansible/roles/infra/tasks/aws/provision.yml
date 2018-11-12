@@ -1,59 +1,59 @@
 ---
-- name: "aws : provision : Create VPC {{ session_id }}-vpc in {{ r_infra_aws_region }}"
+- name: "aws : provision : Create VPC {{ libre_session.id }}-vpc in {{ libre_infra.ec2.region }}"
   ec2_vpc_net:
     state: present
-    aws_access_key: "{{ r_infra_aws_access_key }}"
-    aws_secret_key: "{{ r_infra_aws_secret_key }}"
-    name: "{{ session_id }}-vpc"
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    name: "{{ libre_session.id }}-vpc"
     cidr_block: 172.22.0.0/16
-    region: "{{ r_infra_aws_region }}"
+    region: "{{ libre_infra.ec2.region }}"
     tags:
-      Name: "{{ session_id }}-vpc"
-      Project: "{{ session_name }}"
-      Stage: "{{ session_stage }}"
+      Name: "{{ libre_session.id }}-vpc"
+      Project: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
       Instructor: "{{ session.instructor }}"
   register: libre_vpc
-- name: "aws : provision : Create classroom subnet in {{ session_id }}-vpc"
+- name: "aws : provision : Create classroom subnet in {{ libre_session.id }}-vpc"
   ec2_vpc_subnet:
     state: present
-    aws_access_key: "{{ r_infra_aws_access_key }}"
-    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     vpc_id: "{{ libre_vpc.vpc.id }}"
     cidr: 172.22.1.0/24
-    az: "{{ r_infra_aws_region }}b"
-    region: "{{ r_infra_aws_region }}"
+    az: "{{ libre_infra.ec2.region }}b"
+    region: "{{ libre_infra.ec2.region }}"
     tags:
-      Name: "{{ session_id }}-subnet-classroom"
-      Project: "{{ session_name }}"
-      Stage: "{{ session_stage }}"
+      Name: "{{ libre_session.id }}-subnet-classroom"
+      Project: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
       Instructor: "{{ session.instructor }}"
   register: classroom_subnet
   when: libre_vpc.vpc.id is defined
-- name: "aws : provision : Create Internet Gateway in {{ session_id }}-vpc"
+- name: "aws : provision : Create Internet Gateway in {{ libre_session.id }}-vpc"
   ec2_vpc_igw:
     state: present
-    aws_access_key: "{{ r_infra_aws_access_key }}"
-    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     vpc_id: "{{ libre_vpc.vpc.id }}"
-    region: "{{ r_infra_aws_region }}"
+    region: "{{ libre_infra.ec2.region }}"
     tags:
-      Name: "{{ session_id }}-igw"
-      Project: "{{ session_name }}"
-      Stage: "{{ session_stage }}"
+      Name: "{{ libre_session.id }}-igw"
+      Project: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
       Instructor: "{{ session.instructor }}"
   register: igw
   when: libre_vpc.vpc.id is defined
-- name: "aws : provision : Create public route table to classroom subnet in {{ session_id }}-vpc"
+- name: "aws : provision : Create public route table to classroom subnet in {{ libre_session.id }}-vpc"
   ec2_vpc_route_table:
     state: present
-    aws_access_key: "{{ r_infra_aws_access_key }}"
-    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     vpc_id: "{{ libre_vpc.vpc.id }}"
-    region: "{{ r_infra_aws_region }}"
+    region: "{{ libre_infra.ec2.region }}"
     tags:
-      Name: "{{ session_id }}-route-public"
-      Project: "{{ session_name }}"
-      Stage: "{{ session_stage }}"
+      Name: "{{ libre_session.id }}-route-public"
+      Project: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
       Instructor: "{{ session.instructor }}"
     subnets:
       - "{{ classroom_subnet.subnet.id }}"
@@ -62,19 +62,19 @@
         gateway_id: "{{ igw.gateway_id }}"
   register: public_route_table
   when: libre_vpc.vpc.id is defined
-- name: "aws : provision : Create security group for {{ libre_vpc.vpc.id }} in {{ r_infra_aws_region }}"
+- name: "aws : provision : Create security group for {{ libre_vpc.vpc.id }} in {{ libre_infra.ec2.region }}"
   ec2_group:
     state: present
-    aws_access_key: "{{ r_infra_aws_access_key }}"
-    aws_secret_key: "{{ r_infra_aws_secret_key }}"
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     vpc_id: "{{ libre_vpc.vpc.id }}"
-    region: "{{ r_infra_aws_region }}"
+    region: "{{ libre_infra.ec2.region }}"
     name: openAll
-    description: security group for {{ session_name }}
+    description: security group for {{ libre_session.course }}
     tags:
-      Name: "{{ session_id }}-sg-all"
-      Project: "{{ session_name }}"
-      Stage: "{{ session_stage }}"
+      Name: "{{ libre_session.id }}-sg-all"
+      Project: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
       Instructor: "{{ session.instructor }}"
     rules:
       - proto: all
@@ -83,25 +83,25 @@
         cidr_ip: 0.0.0.0/0
   register: security_group
   when: libre_vpc.vpc.id is defined
-- name: "aws : provision : Create ec2 instance in {{ r_infra_aws_region }}"
+- name: "aws : provision : Create ec2 instance in {{ libre_infra.ec2.region }}"
   ec2:
-    aws_access_key: "{{ r_infra_aws_access_key }}"
-    aws_secret_key: "{{ r_infra_aws_secret_key }}"
-    region: "{{ r_infra_aws_region }}"
-    instance_type: "{{ r_infra_aws_instance_type }}"
-    image: "{{ r_infra_aws_image }}"
-    key_name: "{{ r_infra_aws_key_name }}"
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    region: "{{ libre_infra.ec2.region }}"
+    instance_type: "{{ libre_infra.ec2.type }}"
+    image: "{{ libre_infra.ec2.image }}"
+    key_name: "{{ libre_infra.ssh.keyname }}"
     group_id: "{{ security_group.group_id }}"
     vpc_subnet_id: "{{ classroom_subnet.subnet.id }}"
     assign_public_ip: yes
-    exact_count: "{{ r_infra_aws_instance_nb }}"
+    exact_count: "{{ libre_infra.ec2.instance_nb }}"
     count_tag: Name
     wait: yes
     wait_timeout: 60
     instance_tags:
-      Name: "{{ session_id }}-workstation"
-      Project: "{{ session_name }}"
-      Stage: "{{ session_stage }}"
+      Name: "{{ libre_session.id }}-workstation"
+      Project: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
       Instructor: "{{ session.instructor }}"
     volumes:
       - device_name: /dev/xvda
@@ -121,10 +121,10 @@
 - name: "aws : provision : Register a public DNS for workstations"
   route53:
     state: present
-    aws_access_key: "{{ r_infra_aws_access_key }}"
-    aws_secret_key: "{{ r_infra_aws_secret_key }}"
-    zone: "{{ r_infra_aws_route53_dns_zone }}"
-    record: "workstation{{item.0}}.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    zone: "{{ libre_infra.route53.zone }}"
+    record: "workstation{{item.0}}.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
     type: A
     ttl: 30
     overwrite: yes
@@ -135,14 +135,14 @@
 - name: "aws : provision : Register a public DNS for instructor"
   route53:
     state: present
-    aws_access_key: "{{ r_infra_aws_access_key }}"
-    aws_secret_key: "{{ r_infra_aws_secret_key }}"
-    zone: "{{ r_infra_aws_route53_dns_zone }}"
-    record: "instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    zone: "{{ libre_infra.route53.zone }}"
+    record: "instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
     type: CNAME
     ttl: 30
     overwrite: yes
-    value: "workstation0.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+    value: "workstation0.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
 #    wait: yes
   register: route53_instructor
 - name: "aws : provision : Generate inventory file"
@@ -180,17 +180,17 @@
   debug:
     msg:
       - " "
-      - "We are happy to report that classroom infrastructure {{ session_name }}.{{ r_infra_aws_public_dns_zone }} was successfully provisioned on AWS infrastructure"
+      - "We are happy to report that classroom infrastructure {{ libre_session.course }}.{{ libre_infra.route53.domain }} was successfully provisioned on AWS infrastructure"
       - " "
       - "Here are some interesting characteristics of this classroom infrastructure:"
       - " "
-      - "  - Instructor: instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}"
+      - "  - Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
       - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
-      - "  - Type: {{ r_infra_aws_instance_type }}"
-      - "  - Region: {{ r_infra_aws_region }}"
-      - "  - SSH User: {{ r_infra_aws_ssh_user }}"
-      - "  - SSH Key: {{ r_infra_aws_key_name }}.pem"
-      - "  - Size: {{ r_infra_aws_instance_nb }} workstations"
+      - "  - Type: {{ libre_infra.ec2.type }}"
+      - "  - Region: {{ libre_infra.ec2.region }}"
+      - "  - SSH User: {{ libre_infra.ssh.user }}"
+      - "  - SSH Key: {{ libre_infra.ssh.keyname }}.pem"
+      - "  - Size: {{ libre_infra.ec2.instance_nb }} workstations"
       - " "
       - "You must finish your installation by running the following command :"
       - "  ansible-playbook -i /libre/conf/inventory playbooks/infra-aws/provision-post.yml"
@@ -200,19 +200,19 @@
 #  mail:
 ##     from: cl@startx.fr
 #    to: cl@startx.fr
-#    subject: "Classroom {{ session_name }}.{{ r_infra_aws_public_dns_zone }} has been provisioned"
+#    subject: "Classroom {{ libre_session.course }}.{{ libre_infra.route53.domain }} has been provisioned"
 #    body: |
-#      We are happy to report that classroom infrastructure {{ session_name }}.{{ r_infra_aws_public_dns_zone }} was successfully provisioned on AWS infrastructure
+#      We are happy to report that classroom infrastructure {{ libre_session.course }}.{{ libre_infra.route53.domain }} was successfully provisioned on AWS infrastructure
 #
 #      Here are some interesting characteristics of this classroom infrastructure:
 #
-#        - Instructor: instructor.{{ session_name }}.{{ r_infra_aws_public_dns_zone }}
+#        - Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}
 #        - IP address: {{ ec2.tagged_instances[0].public_ip }}
-#        - Type: {{ r_infra_aws_instance_type }}
-#        - Region: {{ r_infra_aws_region }}
-#        - SSH User: {{ r_infra_aws_ssh_user }}
-#        - SSH Key: {{ r_infra_aws_key_name }}.pem
-#        - Size: {{ r_infra_aws_instance_nb }} workstations
+#        - Type: {{ libre_infra.ec2.type }}
+#        - Region: {{ libre_infra.ec2.region }}
+#        - SSH User: {{ libre_infra.ssh.user }}
+#        - SSH Key: {{ libre_infra.ssh.keyname }}.pem
+#        - Size: {{ libre_infra.ec2.instance_nb }} workstations
 #
 #     You must finish your installation by running the following command :
 #       ansible-playbook -i /libre/conf/inventory playbooks/infra-aws/provision-post.yml

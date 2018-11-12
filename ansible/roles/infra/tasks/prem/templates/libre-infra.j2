@@ -1,10 +1,10 @@
 {
-  "type" : "prem",
+  "type" : "{{ libre_infra.type }}",
   "network" : {
-    "dns" : "{{ r_infra_prem_dns_zone }}"
+    "dns" : "{{ libre_infra.network.dns }}"
   },
   "ssh" : {
-    "privateKey_file" : "{{ r_infra_prem_ssh_private_key_file }}",
-    "user" : "{{ r_infra_prem_ssh_user }}"
+    "privateKey_file" : "{{ libre_infra.ssh.privateKey_file }}",
+    "user" : "{{ libre_infra.ssh.user }}"
   }
 }

@@ -3,14 +3,11 @@
   stat:
     path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}" 
   register: r_infra_conf_details
-- name: "load : Set libre_infra fact from default infra"
-  set_fact:
-    libre_infra: "{{ r_infra_config }}"
-  when: ansible_local.infra is undefined or ansible_local.infra == "error loading fact - please check content"
 - name: "load : Set libre_infra fact from {{ r_infra_dir_conf }}/{{ r_infra_config_file }}" 
   set_fact:
-    libre_infra: "{{ ansible_local.infra }}"
-  when:
-    - ansible_local is defined
-    - ansible_local.infra is defined
-    - ansible_local.infra != "error loading fact - please check content"
+    libre_infra: "{{ lookup('file', r_infra_dir_conf + '/' + r_infra_config_file) | default('') }}"
+  when: r_infra_conf_details.stat.exists == true
+- name: "load : Set libre_infra fact from default infra"
+  set_fact:
+    libre_infra: "{{ config_infra[config_infra.default] }}"
+  when: r_infra_conf_details.stat.exists != true or libre_infra is undefined

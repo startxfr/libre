@@ -1,10 +1,3 @@
 ---
-- name: "provision-post : Post-Provision AWS infrastructure"
-  include_tasks: "aws/provision-post.yml"
-  when: libre_infra.type == 'aws'
-- name: "provision-post : Post-Provision On-Premise infrastructure"
-  include_tasks: "prem/provision-post.yml"
-  when: libre_infra.type == 'prem'
-- name: "provision-post : Post-Provision Self-Hosted infrastructure"
-  include_tasks: "self/provision-post.yml"
-  when: libre_infra.type == 'self'
+- name: "provision-post : Post-Provision {{ libre_infra.type }} infrastructure"
+  include_tasks: "{{ libre_infra.type }}/provision.yml"

@@ -1,13 +1,13 @@
 ---
-- name: "config : Config AWS infrastructure"
-  include_tasks: "aws/config.yml"
-  when: libre_infra.type == 'aws'
-- name: "config : Config On-Premise infrastructure"
-  include_tasks: "prem/config.yml"
-  when: libre_infra.type == 'prem'
-- name: "config : Config Self-Hosted infrastructure"
-  include_tasks: "self/config.yml"
-  when: libre_infra.type == 'self' or libre_infra is undefined
+- name: "config : Configure infrastructure type"
+  pause:
+   prompt: "What kind of infrastructure backend do you whan to use (self,prem,aws) ?"
+  register: infra_type 
+- name: "aws : config : Set libre_infra fact from default {{infra_type.user_input}} infra"
+  set_fact:
+    libre_infra: "{{ config_infra[infra_type.user_input] }}"
+- name: "config : Config {{ libre_infra.type }} infrastructure"
+  include_tasks: "{{ libre_infra.type }}/config.yml"
 - name: "config : Reload infra configuration file details"
   stat:
     path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
@@ -17,6 +17,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Infrastructure is configured"
+    log_name: "Infrastructure {{ libre_infra.type }} is configured"
     log_component: infra
     log_action: config

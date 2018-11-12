@@ -1,7 +1,7 @@
 ---
 - name: "lib : gapi : Calling Google API backend"
   uri:
-    url: "{{ config_libre.session.gapi }}"
+    url: "{{ config_session.gapi }}"
     method: POST
     body: "session={{ session_id }}&token={{ session_token }}"
     status_code: 200
@@ -10,17 +10,17 @@
   delegate_to: localhost
   run_once: true
   register: gapi_return
-  when: config_libre.session.type == 'gapi'
+  when: config_session.type == 'gapi'
 - name: "lib : gapi : Check google HTTP response code"
   fail: msg="Could not configure session because Google API return a bad HTTP {{ gapi_return.status }} response code"
-  when: config_libre.session.type == 'gapi' and gapi_return.status|string != "200"
+  when: config_session.type == 'gapi' and gapi_return.status|string != "200"
 - name: "lib : gapi : Check google HTTP content is JSON"
   fail: msg="Could not configure session because Google API return a non-json body content"
-  when: config_libre.session.type == 'gapi' and gapi_return.json is undefined
+  when: config_session.type == 'gapi' and gapi_return.json is undefined
 - name: "lib : gapi : Check google HTTP content application return code"
   fail: msg="Could not configure session because Google API response tell {{ gapi_return.json.message }}"
-  when: config_libre.session.type == 'gapi' and gapi_return.json.code != "ok"
+  when: config_session.type == 'gapi' and gapi_return.json.code != "ok"
 - name: "lib : gapi : Extract google API returned data"
   set_fact:
     gapiReturn: "{{ gapi_return.json.data }}"
-  when: config_libre.session.type == 'gapi' and gapi_return.json.code == "ok"
+  when: config_session.type == 'gapi' and gapi_return.json.code == "ok"

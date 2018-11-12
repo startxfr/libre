@@ -19,7 +19,7 @@
 - name: "self : provision : Update /etc/hosts file"
   blockinfile:
     dest: /etc/hosts
-    content: "{{ r_infra_self_associated_ip }}       localhost.localdomain localhost instructor.{{r_infra_self_dns_zone}} student.{{r_infra_self_dns_zone}}"
+    content: "{{ libre_infra.network.associated_ip }}       localhost.localdomain localhost instructor.{{libre_infra.network.dns}} student.{{libre_infra.network.dns}}"
     state: present
 - name: "self : provision : Create the libre user group"
   group:
@@ -112,9 +112,9 @@
       - " "
       - "Here are some interesting characteristics of this infrastructure:"
       - " "
-      - "  - Instructor: instructor.{{ r_infra_self_dns_zone }}"
-      - "  - Student   : student.{{ r_infra_self_dns_zone }}"
-      - "  - IP address: {{ r_infra_self_associated_ip }}"
+      - "  - Instructor: instructor.{{ libre_infra.network.dns }}"
+      - "  - Student   : student.{{ libre_infra.network.dns }}"
+      - "  - IP address: {{ libre_infra.network.associated_ip }}"
       - " "
       - " You can continue this process by :"
       - " "

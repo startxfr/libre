@@ -12,34 +12,3 @@ r_infra_user_student: "{{ infra_user_student | default('student') | string }}"
 r_infra_usergroup: "{{ infra_usergroup | default('libre') | string }}"
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
 r_infra_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
-
-# Default infra_config structure
-r_infra_config:
-  type: "{{ infra_type | default('self') | string }}"
-
-# Default r_infra_aws structure
-r_infra_aws_public_dns_zone: "{{ infra_aws_public_dns_zone | default('libre.startx.fr') | string }}"
-r_infra_aws_access_key: "{{ infra_aws_access_key | default(false) }}"
-r_infra_aws_secret_key: "{{ infra_aws_secret_key | default(false) }}"
-r_infra_aws_route53_dns_zone: "{{ infra_aws_route53_dns_zone | default('startx.fr') | string }}"
-r_infra_aws_region: "{{ infra_aws_region | default('eu-west-1') | string }}"
-r_infra_aws_instance_type: "{{ infra_aws_instance_type | default('t2.micro') | string }}"
-r_infra_aws_instance_nb: "{{ infra_aws_instance_nb | default(1) | int }}"
-r_infra_aws_image: "{{ infra_aws_image | default('ami-3548444c') | string }}"
-r_infra_aws_key_name: "{{ infra_aws_key_name | default('ssh-key') | string }}"
-r_infra_aws_ssh_private_key_file: "{{ infra_aws_ssh_private_key_file | default('~/.ssh/id_rsa') | string }}"
-r_infra_aws_ssh_user: "{{ infra_aws_ssh_user | default('centos') | string }}"
-
-
-# Set DNS sub-domain to use for deploying DNS classroom names
-r_infra_prem_dns_zone: "{{ infra_prem_dns_zone | default('training.example.com') | string }}"
-# Set On-premise private key tu use for ssh connection
-r_infra_prem_ssh_private_key_file: "{{ infra_prem_ssh_private_key_file | default('~/my-ssh-key.pem') | string }}"
-# Set ssh user used to connect to the workstation
-r_infra_prem_ssh_user: "{{ infra_prem_ssh_user | default('root') | string }}"
-
-
-# Default r_infra_self structure
-r_infra_self_dns_zone: "{{ infra_self_dns_zone | default('classroom.example.com') | string }}"
-# Default associated IP (must be localhost or 127.0.0.1)
-r_infra_self_associated_ip: "{{ infra_associated_ip | default('127.0.0.1') | string }}"

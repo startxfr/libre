@@ -1,8 +1,4 @@
 ---
-- name: "self : config : Get {{ r_infra_dir_conf }}/{{ r_infra_config_file }} config file details"
-  stat:
-    path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
-  register: r_infra_conf_details
 - name: "self : config : Generate infrastructure config file {{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -11,7 +7,6 @@
     owner: "{{ r_session_user }}"
     group: "{{ r_session_group }}"
   become: yes
-  when: r_infra_conf_details.stat.exists != true
 - name: "self : config : Succesfull config for Self-Hosted infrastructure"
   debug:
     msg:
@@ -19,11 +14,9 @@
       - "Self-Hosted infrastructure for session {{ libre_session.id }} delivering course {{ libre_session.course }}"
       - "is now configured. You can continue this process by :"
       - " "
-      - "1. Review and complete inventory {{r_infra_dir_conf}}/inventory-infra_self.yml"
+      - "1. Review classroom infrastructure configuration file {{r_infra_dir_conf}}/{{ r_infra_config_file }}"
       - "2. Start provisionning infrastructure by executing the following command :"
       - "   $ libre-infra self provision"
       - " "
-      - "You can also check in {{ r_libre_dest_ansible }}/inventory for sample inventory to use"
-      - "before lauching infrastructure provisionning."
-      - " "
       - " Have an happy training ;)"
+      - " "

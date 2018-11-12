@@ -1,0 +1,30 @@
+default: "{{ config_infra.default }}"
+self: 
+  type: "{{ config_infra.self.type }}"
+  network:
+    dns: "{{ config_infra.self.network.dns }}"
+    associated_ip: "{{ config_infra.self.network.associated_ip }}"
+prem: 
+  type: "{{ config_infra.prem.type }}"
+  network:
+    dns: "{{ config_infra.prem.network.dns }}"
+  ssh:
+    privateKey_file: "{{ config_infra.prem.ssh.privateKey_file }}"
+    user: "{{ config_infra.prem.ssh.user }}"
+aws: 
+  type: "{{ config_infra.aws.type }}"
+  auth:
+    access_key: "{{ config_infra.aws.auth.access_key }}"
+    secret_key: "{{ config_infra.aws.auth.secret_key }}"
+  route53:
+    zone: "{{ config_infra.aws.route53.zone }}"
+    domain: "{{ config_infra.aws.route53.domain }}"
+  ec2:
+    region: "{{ config_infra.aws.ec2.region }}"
+    type: "{{ config_infra.aws.ec2.type }}"
+    image: "{{ config_infra.aws.ec2.image }}"
+    instance_nb: "{{ config_infra.aws.ec2.instance_nb }}"
+  ssh:
+    keyname: "{{ config_infra.aws.ssh.keyname }}"
+    privateKey_file: "{{ config_infra.aws.ssh.privateKey_file }}"
+    user: "{{ config_infra.aws.ssh.user }}"

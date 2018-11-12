@@ -22,11 +22,13 @@ r_libre_group: "{{ libre_group | default('libre') | string }}"
 # Personal home directory where configuration is stored
 r_libre_userconfig_dir: "{{ libre_userconfig_dir | default('~/.libre') | string }}"
 # Config file for LIBRE
-r_libre_config_file_libre: "{{ libre_config_file_libre | default('config.json') | string }}"
+r_libre_myconfile_libre: "{{ libre_myconfile_libre | default('config.yml') | string }}"
 # Config file for session
-r_libre_config_file_session: "{{ libre_config_file_session | default('session.json') | string }}"
+r_libre_myconfile_session: "{{ libre_myconfile_session | default('session.yml') | string }}"
+# Config file for infrastructure
+r_libre_myconfile_infra: "{{ libre_myconfile_infra | default('infra.yml') | string }}"
 # Config file for repository
-r_libre_config_file_repository: "{{ libre_config_file_repository | default('repository.json') | string }}"
+r_libre_myconfile_repository: "{{ libre_myconfile_repository | default('repository.yml') | string }}"
 # Default directory used for delivering training
 r_libre_dir: "{{ training_dir | default('/libre') | string }}"
 # Course directory used for delivering training
@@ -60,6 +62,38 @@ r_libre_libre_userconf_default:
 r_libre_session_userconf_default:
   type: "{{ libre_session_type | default('sample') | string }}"
   gapi: "{{ libre_session_gapi | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
+# Default config_infra structure
+r_libre_infra_userconf_default:
+  default: "{{ libre_infra_type | default('self') | string }}"
+  self: 
+    type: "self"
+    network:
+      dns: "{{ infra_self_dns_zone | default('classroom.example.com') | string }}"
+      associated_ip: "{{ infra_associated_ip | default('127.0.0.1') | string }}"
+  prem: 
+    type: "prem"
+    network:
+      dns: "{{ infra_prem_dns_zone | default('training.example.com') | string }}"
+    ssh:
+      privateKey_file: "{{ infra_prem_ssh_private_key_file | default('~/my-ssh-key.pem') | string }}"
+      user: "{{ infra_prem_ssh_user | default('root') | string }}"
+  aws: 
+    type: "aws"
+    auth:
+      access_key: "{{ infra_aws_access_key | default(false) }}"
+      secret_key: "{{ infra_aws_secret_key | default(false) }}"
+    route53:
+      zone: "{{ infra_aws_route53_dns_zone | default('startx.fr') | string }}"
+      domain: "{{ infra_aws_public_dns_zone | default('libre.startx.fr') | string }}"
+    ec2:
+      region: "{{ infra_aws_region | default('eu-west-1') | string }}"
+      type: "{{ infra_aws_instance_type | default('t2.micro') | string }}"
+      image: "{{ infra_aws_image | default('ami-3548444c') | string }}"
+      instance_nb: "{{ infra_aws_instance_nb | default(1) | int }}"
+    ssh:
+      keyname: "{{ infra_aws_key_name | default('ssh-key') | string }}"
+      privateKey_file: "{{ infra_aws_ssh_private_key_file | default('~/.ssh/id_rsa') | string }}"
+      user: "{{ infra_aws_ssh_user | default('centos') | string }}"
 # Default config_repository structure
 r_libre_repository_userconf_default:
   url: "{{ repository_url | default('https://github.com/startxfr/libre') | string }}"
