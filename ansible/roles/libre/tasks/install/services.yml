@@ -12,10 +12,8 @@
     - rng-tools
     - ipa-server
     - bash-completion
-  when: ansible_hostname != "alcor"
 - name: "install_services : Force upgrading pip packages manager"
   command: "pip install --upgrade pip"
-  when: ansible_hostname != "alcor"
 - name: "install_services : Install and force upgrade pip packages"
   pip:
     state: forcereinstall
@@ -27,14 +25,11 @@
     - docker-py
   loop_control:
     loop_var: pipname
-  when: ansible_hostname != "alcor"
 - name: "install_services : Ensure rng service is running"
   systemd:
     state: started
     name: rngd
-  when: ansible_hostname != "alcor"
 - name: "install_services : Ensure docker service is running"
   systemd:
     state: started
     name: docker
-  when: ansible_hostname != "alcor"
