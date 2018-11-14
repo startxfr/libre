@@ -159,18 +159,12 @@ function check_installation {
 
 # installer installation process
 function install_libre {
-    if [ "$LIBRE_TYPE" == "student" ]; then
-        LIBRE_TARGET="students"
-    else
-        LIBRE_TARGET="instructor"
-    fi
-
     print_info
     perform_installation
 
     pushd $ANSIBLE_DEST &> /dev/null
 
-    ansible-playbook $ASK_BECOME_PASS -e target=$LIBRE_TARGET playbooks/$LIBRE_TYPE/install.yml
+    ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml
 
     read -p "Do you want to continue by installing training session (y/N) : " doInstall
     if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
@@ -199,7 +193,7 @@ function uninstall_libre {
 function perform_uninstallation {
     if [ -d $ANSIBLE_DEST ]; then
         pushd $ANSIBLE_DEST &> /dev/null
-        ansible-playbook -e target=local playbooks/$1/uninstall.yml
+        ansible-playbook playbooks/$LIBRE_TYPE/uninstall.yml
         popd &> /dev/null
     fi
 }
