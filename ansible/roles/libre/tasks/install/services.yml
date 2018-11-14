@@ -10,8 +10,8 @@
     - docker
     - bind-utils
     - rng-tools
-    - ipa-server
     - bash-completion
+    #- ipa-server # TODO: Move this prerequisite to the infra/prem role
 - name: "install_services : Force upgrading pip packages manager"
   command: "pip install --upgrade pip"
 - name: "install_services : Install and force upgrade pip packages"
