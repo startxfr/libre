@@ -5,7 +5,7 @@ galaxy_info:
   description: LIBRE Training Toolkit - LIBRE role
   company: STARTX
   license: Apache License, Version 2.0
-  min_ansible_version: 1.8
+  min_ansible_version: 2.5
   platforms:
   - name: CentOS
     versions:
