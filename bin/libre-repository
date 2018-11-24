@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-repository
+
+# Dispatch input arguments
+case $1 in
+    install)                repositoryPlaybook install ;;
+    update)                 repositoryPlaybook update ;;
+    uninstall)              repositoryPlaybook uninstall ;;
+    status)                 repositoryPlaybook status ;;
+    usage|help|--help|-h)   repositoryUsage $@ ;;
+    info|--info)            repositoryInformation $@ ;;
+    version|--version)      repositoryVersion $@ ;;
+    *)                      repositoryWelcome $@ ;;
+esac

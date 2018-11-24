@@ -1,0 +1,63 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-core
+
+# Display repository header message
+function repositoryHeader {
+  isVerbose
+  if [ "$?" -eq 1 ] ; then
+    cat /usr/local/lib/libre-repository.txt
+  fi
+}
+
+# Call repository playbook
+function repositoryPlaybook {
+  repositoryHeader
+  checkIfSession
+  runLibrePlaybook repository $1 $2
+  exit 0;
+}
+
+# Display repository info and exit
+function repositoryInformation {
+  repositoryHeader
+  coreInformation
+  exit 0;
+}
+
+# Display repository welcome and exit
+function repositoryWelcome {
+  repositoryHeader
+  coreInformation
+  echoEnv
+  repositoryUsage
+  exit 0;
+}
+
+# Display version info and exit
+function repositoryVersion {
+  coreVersion
+  exit 0;
+}
+
+# Display libre-repository usage
+function repositoryUsage {
+cat <<EOF
+
+Instructor training management command line.
+
+Usage:
+  libre-repository [command]
+
+- Generic commands:
+  install          install course repository cache
+  uninstall        uninstall course repository cache
+  update           update course repository cache
+  status           get status of the course repository
+  usage            get command line usage information
+  info             give information about current libre installation
+  version          give information about current libre version
+EOF
+}
+
+

@@ -1,30 +1,60 @@
+# Name of the default backend (should be one of 'self', 'prem' or 'aws')
 default: "{{ config_infra.default }}"
+# Configuration of the Self infrastructure
 self: 
+  # Name of the infrastructure type (self)
   type: "{{ config_infra.self.type }}"
+  # Network configuration
   network:
+    # Domain name to use for the instructor station
     dns: "{{ config_infra.self.network.dns }}"
+    # IP associated to this domain name
     associated_ip: "{{ config_infra.self.network.associated_ip }}"
+# Configuration of the On-Premise infrastructure
 prem: 
+  # Name of the infrastructure type (prem)
   type: "{{ config_infra.prem.type }}"
+  # Network configuration
   network:
+    # Domain name to use for the instructor station
     dns: "{{ config_infra.prem.network.dns }}"
+  # SSH configuration
   ssh:
+    # ssh private key file location
     privateKey_file: "{{ config_infra.prem.ssh.privateKey_file }}"
+    # ssh user used to connect
     user: "{{ config_infra.prem.ssh.user }}"
+# Configuration of the AWS infrastructure
 aws: 
+  # Name of the infrastructure type (aws)
   type: "{{ config_infra.aws.type }}"
+  # AWS authentification configuration
   auth:
+    # AWS access key to use for AWS interaction (Must have credentials over EC2, VPC, Route53 objects)
     access_key: "{{ config_infra.aws.auth.access_key }}"
+    # AWS secret key coresponding to the access key
     secret_key: "{{ config_infra.aws.auth.secret_key }}"
+  # Route53 configuration
   route53:
+    # AWS route53 declared zone to use
     zone: "{{ config_infra.aws.route53.zone }}"
+    # AWS route53 domain to use for compute node naming (will be overwrited by session configuration)
     domain: "{{ config_infra.aws.route53.domain }}"
+  # EC2 configuration
   ec2:
+    # AWS EC2 region to use
     region: "{{ config_infra.aws.ec2.region }}"
+    # AWS EC2 compute type to provision
     type: "{{ config_infra.aws.ec2.type }}"
+    # AWS EC2 image used to boot (must be available in your region)
     image: "{{ config_infra.aws.ec2.image }}"
+    # AWS number of compute instance to provision (will be overwrited by session configuration)
     instance_nb: "{{ config_infra.aws.ec2.instance_nb }}"
+  # SSH configuration
   ssh:
+    # AWS EC2 key name coresponding to the private key file 
     keyname: "{{ config_infra.aws.ssh.keyname }}"
+    # ssh private key file location
     privateKey_file: "{{ config_infra.aws.ssh.privateKey_file }}"
+    # ssh user used to connect
     user: "{{ config_infra.aws.ssh.user }}"
