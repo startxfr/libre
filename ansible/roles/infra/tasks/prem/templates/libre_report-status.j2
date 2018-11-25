@@ -2,13 +2,12 @@
 
 
 {% if r_infra_conf_details.stat.exists == true %}
-infra file   : {{ r_infra_config_file }} {% if libre_infra is defined %} (loaded) {% endif %}
+infra conf   : {{ r_infra_config_file }}             {% if libre_infra is defined %}[loaded]{% endif %}
 {% else %}
-infra file   : not installed
+infra conf   : none                   [not installed]
 {% endif %}
-{% if libre_infra is defined %}
-
-infra type   : {{ libre_infra.type }}
+{% if libre_infra.type is defined %}
+        type : {{ libre_infra.type }}                   [configured]
 {% else %}
-infra type   : not configured
+        type : none                   [not configured]
 {% endif %}

@@ -4,31 +4,28 @@
    prompt: "What is your session ID ?"
   register: sessionID
   delegate_to: localhost
-  when: libre_session is undefined and session_id is undefined
+  when: session_id is undefined
 - name: "config : gapi : Register session_id fact"
   set_fact:
     session_id: "{{ sessionID.user_input }}"
-  when: libre_session is undefined and sessionID.user_input is defined
+  when: sessionID.user_input is defined
 - name: "config : gapi : Session ID doesn't match a good number"
   fail: msg="You must give a good Session ID"
-  when: libre_session is undefined and session_id|default('')|string == ""
+  when: session_id|default('')|string == ""
 - name: "config : gapi : Configure of the session token"
   pause:
    prompt: "What is the coresponding session token ?"
    echo: no
   register: sessionToken
   delegate_to: localhost
-  when: libre_session is undefined and session_token is undefined
+  when: session_token is undefined
 - name: "config : gapi : Register session_token fact"
   set_fact:
     session_token: "{{ sessionToken.user_input }}"
-  when: libre_session is undefined and sessionToken.user_input is defined
+  when: sessionToken.user_input is defined
 - name: "config : gapi : Session token doesn't match a good token"
   fail: msg="You must give a good Session token"
-  when: libre_session is undefined and session_token|default('')|string == ""
-- name: "config : gapi : Set configuration has changed if config file are missing"
-  set_fact:
-  when: libre_session is undefined and r_session_conf_details.stat.exists != true
+  when: session_token|default('')|string == ""
 - name: "config : gapi : Calling Google API backend for session"
   include_role:
     name: libre
