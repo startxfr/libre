@@ -5,20 +5,20 @@
   when: session_install_precheck is undefined or session_install_precheck != true
 
 # Install tasks
-- name: "install : Start repository install sequence"
+- name: "install : Start instructor install sequence"
   block:
     - name: "install : Start libre install post-check"
       include_role:
         name: libre
         tasks_from: install-postcheck
-    - name: "install : Start repository install post-check"
+    - name: "install : Start instructor install post-check"
       include_role:
-        name: repository
+        name: instructor
         tasks_from: install-postcheck
   rescue:
-    - name: "install : Start repository install"
+    - name: "install : Start instructor install"
       include_role:
-        name: repository
+        name: instructor
         tasks_from: install
       become: yes
     - name: "install : Reload session"
@@ -49,9 +49,6 @@
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
   when: r_session_dir_course_playbooks_details.stat.exists == true
 
-- debug: var=config_session
-- debug: var=libre_session
-- debug: var=libre_course
 - name: "install : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"

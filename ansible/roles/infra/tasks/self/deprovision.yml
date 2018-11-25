@@ -8,7 +8,7 @@
     dest: /etc/hosts
     content: ""
     state: absent
-- name: "self : deprovision : Remove instructor Authorize SSH key on {{ target }}"
+- name: "self : deprovision : Remove instructor Authorize SSH key"
   authorized_key:
     user: "{{ user1 }}"
     state: absent
@@ -19,12 +19,12 @@
     - "{{ r_infra_user_student }}"
   loop_control:
     loop_var: user1
-- name: "self : deprovision : Remove student Authorize SSH key on {{ target }}"
+- name: "self : deprovision : Remove student Authorize SSH key"
   authorized_key:
     user: "{{ r_infra_user_student }}"
     state: absent
     key: "{{ lookup('file', '../../ssh/'+r_infra_user_student+'-id_rsa.pub') }}"
-- name: "self : deprovision : Ensure instructor SSH private and public key are removed on {{ target }}"
+- name: "self : deprovision : Ensure instructor SSH private and public key are removed "
   file:
     state: absent
     path: "{{keyf.dir}}/.ssh/{{keyf.key}}"
@@ -43,7 +43,7 @@
       dir: "/root/"
   loop_control:
     loop_var: keyf
-- name: "self : deprovision : Ensure student SSH private and public key are removed on {{ target }}"
+- name: "self : deprovision : Ensure student SSH private and public key are removed on"
   file:
     state: absent
     path: "/home/{{ r_infra_user_student }}/.ssh/{{keyf}}"

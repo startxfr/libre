@@ -48,7 +48,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.5.26"
+  version: "0.5.27"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"

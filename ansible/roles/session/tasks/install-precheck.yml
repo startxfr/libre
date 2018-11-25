@@ -1,7 +1,7 @@
 ---
-- name: "install-precheck : Start repository pre-installation checks"
+- name: "install-precheck : Start instructor pre-installation checks"
   include_role:
-    name: repository
+    name: instructor
     tasks_from: "install-precheck.yml"
   when: session_install_precheck is undefined or session_install_precheck != true
 - name: "install-precheck : Mark session install-precheck as done"

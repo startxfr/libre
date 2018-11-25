@@ -6,12 +6,12 @@
   become: no
 - name: "load_config : Load user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   set_fact:
-    config_libre: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_libre) | from_yaml | default('') }}"
+    config_libre: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_libre) | from_yaml | default({}) }}"
   when: r_libre_libre_userconf_details.stat.exists == true
   become: no
 - name: "load_config : Load default user libre configuration"
   set_fact:
-    config_libre: "{{ r_libre_libre_userconf_default | default('') }}"
+    config_libre: "{{ r_libre_libre_userconf_default | default({}) }}"
   when: r_libre_libre_userconf_details.stat.exists != true
 - name: "load_config : Get user session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} details"
   stat:
@@ -20,12 +20,12 @@
   become: no
 - name: "load_config : Load user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   set_fact:
-    config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_session) | from_yaml | default('') }}"
+    config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_session) | from_yaml | default({}) }}"
   when: r_libre_session_userconf_details.stat.exists == true
   become: no
 - name: "load_config : Load default user session configuration"
   set_fact:
-    config_session: "{{ r_libre_session_userconf_default | default('') }}"
+    config_session: "{{ r_libre_session_userconf_default | default({}) }}"
   when: r_libre_session_userconf_details.stat.exists != true
 - name: "load_config : Get user repository configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} details"
   stat:
@@ -34,12 +34,12 @@
   become: no
 - name: "load_config : Load user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   set_fact:
-    config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository) | from_yaml | default('') }}"
+    config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository) | from_yaml | default({}) }}"
   when: r_libre_repository_userconf_details.stat.exists == true
   become: no
 - name: "load_config : Load default user repository configuration"
   set_fact:
-    config_repository: "{{ r_libre_repository_userconf_default | default('') }}"
+    config_repository: "{{ r_libre_repository_userconf_default | default({}) }}"
   when: r_libre_repository_userconf_details.stat.exists != true
 - name: "load_config : Get user infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} details"
   stat:
@@ -48,10 +48,10 @@
   become: no
 - name: "load_config : Load user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   set_fact:
-    config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra) | from_yaml | default('') }}"
+    config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra) | from_yaml | default({}) }}"
   when: r_libre_infra_userconf_details.stat.exists == true
   become: no
 - name: "load_config : Load default user infra configuration"
   set_fact:
-    config_infra: "{{ r_libre_infra_userconf_default | default('') }}"
+    config_infra: "{{ r_libre_infra_userconf_default | default({}) }}"
   when: r_libre_infra_userconf_details.stat.exists != true

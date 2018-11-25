@@ -46,7 +46,7 @@ r_libre_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
 r_libre_libre_userconf_default:
   application:
     type: "{{ libre_type | default('instructor') | string }}"
-    version: "{{ libre_version | default('0.5.26') | string }}"
+    version: "{{ libre_version | default('0.5.27') | string }}"
     verbose: "{{ libre_verbose | default(True) | bool }}"
     debug: "{{ libre_debug | default(True) | bool }}"
     source:

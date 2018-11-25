@@ -5,9 +5,9 @@
   when: r_session_dir_course_playbooks_details.stat.exists == true
 
 # Uninstall tasks
-- name: "uninstall : Start repository uninstall"
+- name: "uninstall : Start instructor uninstall"
   include_role:
-    name: repository
+    name: instructor
     tasks_from: uninstall
   become: yes
 - name: "uninstall : Test if course directory directory exist"

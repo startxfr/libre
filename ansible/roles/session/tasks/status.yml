@@ -1,13 +1,13 @@
 ---
-- name: "status : Start repository status"
+- name: "status : Start instructor status"
   include_role:
-    name: repository
+    name: instructor
     tasks_from: "status.yml"
 - name: "status : Get previous report data"
   set_fact:
     previous_report: "{{lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "status : Generate repository report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+- name: "status : Generate session report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"

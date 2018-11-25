@@ -7,7 +7,7 @@
 # Install tasks
 - name: "install : Start session install"
   include_role:
-    name: session
+    name: repository
     tasks_from: install
   become: yes
 - name: "install : Get previous report data"
