@@ -1,5 +1,13 @@
 ---
-- name: "aws : load : Get {{r_infra_dir_conf}}/inventory/infra.yml inventory file details"
+- name: "aws : load : Get {{r_infra_dir_conf}}/{{ r_infra_config_file }} infrastructure configuration file details"
   stat:
-    path: "{{r_infra_dir_conf}}/inventory/infra.yml"
+    path: "{{r_infra_dir_conf}}/{{ r_infra_config_file }}"
   register: r_infra_conf_details
+- name: "aws : load : Get {{r_infra_dir_conf}}/inventory/instructor.yml inventory file details"
+  stat:
+    path: "{{r_infra_dir_conf}}/inventory/instructor.yml"
+  register: r_libre_inventory_instructor_details
+- name: "aws : load : Get {{r_infra_dir_conf}}/inventory/students.yml inventory file details"
+  stat:
+    path: "{{r_infra_dir_conf}}/inventory/students.yml"
+  register: r_libre_inventory_students_details

@@ -1,24 +1,17 @@
 ---
-instructor:
-  hosts:
-    instructor.{{ libre_infra.network.dns }}:
-
 students:
-{% if libre_infra.instances is defined %}
+{% if ec2.tagged_instances is defined %}
   hosts:
-{% for instance in libre_infra.instances %}
+{% for instance in ec2.tagged_instances %}
 {% if loop.index0 > 0 %}
-    workstation{{loop.index0}}.{{ libre_infra.network.dns }}:
+    workstation{{loop.index0}}.{{ libre_session.course }}.{{ libre_infra.route53.domain }}:
 {% endif %}
 {% endfor %}
 {% endif %}
 
 classroom:
   children:
-    instructor:
     students:
-
-all:
   vars:
     ansible_connection: ssh
     ansible_user: "{{ libre_infra.ssh.user }}"

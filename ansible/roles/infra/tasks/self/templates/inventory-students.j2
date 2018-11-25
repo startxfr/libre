@@ -1,0 +1,11 @@
+---
+students:
+  hosts:
+    localhost:
+  vars:
+    ansible_connection: local
+    libre_type: student
+
+classroom:
+  children:
+    students:

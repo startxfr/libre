@@ -1,11 +1,4 @@
 ---
-local:
-  hosts:
-    localhost:
-  vars:
-    ansible_connection: local
-    libre_type: instructor
-
 instructor:
   hosts:
     localhost:
@@ -13,9 +6,6 @@ instructor:
     ansible_connection: local
     libre_type: instructor
 
-students:
-
 classroom:
   children:
     instructor:
-    students:
