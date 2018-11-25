@@ -20,7 +20,7 @@
     src: ../templates/session.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
     mode: 0664
-  when: r_libre_session_userconf_details.stat.exists != true
+  when: r_libre_session_userconf_details.stat.exists != true or r_libre_force_upgrade == true
   become: no
 - name: "install_config : Reload user session configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} file details"
   stat:
@@ -36,7 +36,7 @@
     src: ../templates/repository.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
     mode: 0664
-  when: r_libre_repository_userconf_details.stat.exists != true
+  when: r_libre_repository_userconf_details.stat.exists != true or r_libre_force_upgrade == true
   become: no
 - name: "install_config : Reload user repository configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} file details"
   stat:
@@ -52,7 +52,7 @@
     src: ../templates/infra.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
     mode: 0664
-  when: r_libre_infra_userconf_details.stat.exists != true
+  when: r_libre_infra_userconf_details.stat.exists != true or r_libre_force_upgrade == true
   become: no
 - name: "install_config : Reload user infra configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} file details"
   stat:

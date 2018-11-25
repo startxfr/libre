@@ -25,10 +25,10 @@
 #  debug: var=hostvars['localhost']['ansible_hostname']
 #- name: "install_hardware : Load Network interfaces"
 #  debug: var=hostvars['localhost']['ansible_all_ipv4_addresses']
-- name: "install_hardware : Generate {{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
+- name: "install_hardware : Generate {{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }}"
   template:
     src: ../templates/libre-hw.j2
-    dest: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
+    dest: "{{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }}"
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"

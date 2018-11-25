@@ -1,64 +1,64 @@
 ---
-- name: "install_directory : Create training configuration directory {{ r_libre_dir_conf }}"
+- name: "install_directory : Create training configuration directory {{ config_libre.directory.conf }}"
   file:
     state: directory
-    path: "{{ r_libre_dir_conf }}"
+    path: "{{ config_libre.directory.conf }}"
     mode: 0775
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
   when: r_libre_dir_conf_details.stat.exists != true
-- name: "install_directory : Reload {{ r_libre_dir_conf }} directory details"
+- name: "install_directory : Reload {{ config_libre.directory.conf }} directory details"
   stat:
-    path: "{{ r_libre_dir_conf }}"
+    path: "{{ config_libre.directory.conf }}"
   register: r_libre_dir_conf_details
-- name: "install_directory : Create training directory {{ r_libre_dir }}"
+- name: "install_directory : Create training directory {{ config_libre.directory.base }}"
   file:
     state: directory
-    path: "{{ r_libre_dir }}"
+    path: "{{ config_libre.directory.base }}"
     mode: 0775
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
   when: r_libre_dir_details.stat.exists != true
-- name: "install_directory : Reload {{ r_libre_dir }} directory details"
+- name: "install_directory : Reload {{ config_libre.directory.base }} directory details"
   stat:
-    path: "{{ r_libre_dir }}"
+    path: "{{ config_libre.directory.base }}"
   register: r_libre_dir_details
-- name: "install_directory : Create training course directory {{ r_libre_dir_course }}"
+- name: "install_directory : Create training course directory {{ config_libre.directory.course }}"
   file:
     state: directory
-    path: "{{ r_libre_dir_course }}"
+    path: "{{ config_libre.directory.course }}"
     mode: 0775
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
   when: r_libre_dir_course_details.stat.exists != true
-- name: "install_directory : Reload {{ r_libre_dir_course }} directory details"
+- name: "install_directory : Reload {{ config_libre.directory.course }} directory details"
   stat:
-    path: "{{ r_libre_dir_course }}"
+    path: "{{ config_libre.directory.course }}"
   register: r_libre_dir_course_details
-- name: "install_directory : Get {{ r_libre_dir_collect }} directory details"
+- name: "install_directory : Get {{ config_libre.directory.collect }} directory details"
   stat:
-    path: "{{ r_libre_dir_collect }}"
+    path: "{{ config_libre.directory.collect }}"
   register: r_libre_dir_collect_details
-- name: "install_directory : Create training collect directory {{ r_libre_dir_collect }}"
+- name: "install_directory : Create training collect directory {{ config_libre.directory.collect }}"
   file:
     state: directory
-    path: "{{ r_libre_dir_collect }}"
+    path: "{{ config_libre.directory.collect }}"
     mode: 0775
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
   when: r_libre_dir_collect_details.stat.exists != true
-- name: "install_directory : Get {{ r_libre_dir_collect }}/log.yml file details"
+- name: "install_directory : Get {{ config_libre.directory.collect }}/log.yml file details"
   stat:
-    path: "{{ r_libre_dir_collect }}/log.yml"
+    path: "{{ config_libre.directory.collect }}/log.yml"
   register: r_libre_dir_collect_log_details
-- name: "install_directory : Ensure log file {{ r_libre_dir_collect }}/log.yml exist"
+- name: "install_directory : Ensure log file {{ config_libre.directory.collect }}/log.yml exist"
   copy:
     content: ""
-    dest: "{{ r_libre_dir_collect }}/log.yml"
+    dest: "{{ config_libre.directory.collect }}/log.yml"
     remote_src: yes
     force: no
     mode: 0664

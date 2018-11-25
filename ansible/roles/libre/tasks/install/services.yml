@@ -12,23 +12,23 @@
     - rng-tools
     - bash-completion
     #- ipa-server # TODO: Move this prerequisite to the infra/prem role
-- name: "install_services : Force upgrading pip packages manager"
-  command: "pip install --upgrade pip"
-- name: "install_services : Install and force upgrade pip packages"
-  pip:
-    state: forcereinstall
-    name: "{{ pipname }}"
-    extra_args: --upgrade --user
-  loop:
-    - pip
-    - Jinja2
-    - docker-py
-  loop_control:
-    loop_var: pipname
-- name: "install_services : Ensure rng service is running"
-  systemd:
-    state: started
-    name: rngd
+#- name: "install_services : Force upgrading pip packages manager"
+#  command: "pip install --upgrade pip"
+#- name: "install_services : Install and force upgrade pip packages"
+#  pip:
+#    state: forcereinstall
+#    name: "{{ pipname }}"
+#    extra_args: --upgrade --user
+#  loop:
+#    - pip
+#    - Jinja2
+#    - docker-py
+#  loop_control:
+#    loop_var: pipname
+#- name: "install_services : Ensure rng service is running"
+#  systemd:
+#    state: started
+#    name: rngd
 - name: "install_services : Ensure docker service is running"
   systemd:
     state: started

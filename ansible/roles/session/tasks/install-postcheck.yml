@@ -37,9 +37,9 @@
 
     that: libre_session.course is defined
   when: session_install_postcheck is undefined or session_install_postcheck != true
-- name: "install-postcheck : Course manifest exist in {{ r_libre_dir_course }}"
+- name: "install-postcheck : Course manifest exist in {{ config_libre.directory.course }}"
   assert:
-    msg: "Course manifest not found in {{ r_libre_dir_course }}"
+    msg: "Course manifest not found in {{ config_libre.directory.course }}"
     that: r_course_manifest_details.stat.exists == true
   when: session_install_postcheck is undefined or session_install_postcheck != true
 - name: "install-postcheck : Mark session install-postcheck as done"

@@ -1,7 +1,5 @@
 ## LIBRE Classroom role default variables
 ---
-# Configuration directory used for delivering training
-r_infra_dir_conf: "{{ training_dir_conf | default('/libre/conf') | string }}"
 # Config file for infra
 r_infra_config_file: "{{ libre_config_file_infra | default('infra.json') | string }}"
 # Default system user for instructor
@@ -10,5 +8,3 @@ r_infra_user_instructor: "{{ infra_user_instructor | default('instructor') | str
 r_infra_user_student: "{{ infra_user_student | default('student') | string }}"
 # Default system user group
 r_infra_usergroup: "{{ infra_usergroup | default('libre') | string }}"
-# Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
-r_infra_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"

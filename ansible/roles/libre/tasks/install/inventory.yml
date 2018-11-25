@@ -1,63 +1,63 @@
 ---
-- name: "install_inventory : Create inventory directory {{ r_libre_dir_conf }}/inventory"
+- name: "install_inventory : Create inventory directory {{ config_libre.directory.conf }}/inventory"
   file:
     state: directory
-    path: "{{ r_libre_dir_conf }}/inventory"
+    path: "{{ config_libre.directory.conf }}/inventory"
     mode: 0775
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
-- name: "install_inventory : Get {{ r_libre_dir_conf }}/inventory/local.yml inventory file details"
+- name: "install_inventory : Get {{ config_libre.directory.conf }}/inventory/local.yml inventory file details"
   stat:
-    path: "{{ r_libre_dir_conf }}/inventory/local.yml"
+    path: "{{ config_libre.directory.conf }}/inventory/local.yml"
   register: r_libre_inventory_local_details
-- name: "install_inventory : Generate inventory {{ r_libre_dir_conf }}/inventory/local.yml"
+- name: "install_inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
   template:
     src: ../templates/inventory-local.j2
-    dest: "{{ r_libre_dir_conf }}/inventory/local.yml"
+    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
     remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   when: r_libre_inventory_local_details.stat.exists != true
-- name: "install_inventory : Reload {{ r_libre_dir_conf }}/inventory/local.yml inventory file details"
+- name: "install_inventory : Reload {{ config_libre.directory.conf }}/inventory/local.yml inventory file details"
   stat:
-    path: "{{ r_libre_dir_conf }}/inventory/local.yml"
+    path: "{{ config_libre.directory.conf }}/inventory/local.yml"
   register: r_libre_inventory_local_details
   when: r_libre_inventory_local_details.stat.exists != true
-- name: "install_inventory : Get {{ r_libre_dir_conf }}/inventory/instructor.yml inventory file details"
+- name: "install_inventory : Get {{ config_libre.directory.conf }}/inventory/instructor.yml inventory file details"
   stat:
-    path: "{{ r_libre_dir_conf }}/inventory/instructor.yml"
+    path: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
   register: r_libre_inventory_instructor_details
-- name: "install_inventory : Generate inventory {{ r_libre_dir_conf }}/inventory/instructor.yml"
+- name: "install_inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
     src: ../templates/inventory-instructor.j2
-    dest: "{{ r_libre_dir_conf }}/inventory/instructor.yml"
+    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
     remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   when: r_libre_inventory_instructor_details.stat.exists != true
-- name: "install_inventory : Reload {{ r_libre_dir_conf }}/inventory/instructor.yml inventory file details"
+- name: "install_inventory : Reload {{ config_libre.directory.conf }}/inventory/instructor.yml inventory file details"
   stat:
-    path: "{{ r_libre_dir_conf }}/inventory/instructor.yml"
+    path: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
   register: r_libre_inventory_instructor_details
   when: r_libre_inventory_instructor_details.stat.exists != true
-- name: "install_inventory : Get {{ r_libre_dir_conf }}/inventory/students.yml inventory file details"
+- name: "install_inventory : Get {{ config_libre.directory.conf }}/inventory/students.yml inventory file details"
   stat:
-    path: "{{ r_libre_dir_conf }}/inventory/students.yml"
+    path: "{{ config_libre.directory.conf }}/inventory/students.yml"
   register: r_libre_inventory_students_details
-- name: "install_inventory : Generate inventory {{ r_libre_dir_conf }}/inventory/students.yml"
+- name: "install_inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
   template:
     src: ../templates/inventory-students.j2
-    dest: "{{ r_libre_dir_conf }}/inventory/students.yml"
+    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
     remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   when: r_libre_inventory_students_details.stat.exists != true
-- name: "install_inventory : Reload {{ r_libre_dir_conf }}/inventory/students.yml inventory file details"
+- name: "install_inventory : Reload {{ config_libre.directory.conf }}/inventory/students.yml inventory file details"
   stat:
-    path: "{{ r_libre_dir_conf }}/inventory/students.yml"
+    path: "{{ config_libre.directory.conf }}/inventory/students.yml"
   register: r_libre_inventory_students_details
   when: r_libre_inventory_students_details.stat.exists != true

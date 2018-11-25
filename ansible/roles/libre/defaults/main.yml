@@ -29,14 +29,6 @@ r_libre_myconfile_session: "{{ libre_myconfile_session | default('session.yml') 
 r_libre_myconfile_infra: "{{ libre_myconfile_infra | default('infra.yml') | string }}"
 # Config file for repository
 r_libre_myconfile_repository: "{{ libre_myconfile_repository | default('repository.yml') | string }}"
-# Default directory used for delivering training
-r_libre_dir: "{{ training_dir | default('/libre') | string }}"
-# Course directory used for delivering training
-r_libre_dir_course: "{{ training_dir_course | default('/libre/course') | string }}"
-# Configuration directory used for delivering training
-r_libre_dir_conf: "{{ training_dir_conf | default('/libre/conf') | string }}"
-# Collect directory used for collecting training activity
-r_libre_dir_collect: "{{ training_dir_collect | default('/libre/collect') | string }}"
 # Set LIBRE source temporary directory for exchange with libre command line
 r_libre_tmp: "{{ libre_tmp | default('/tmp') | string }}"
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
@@ -46,7 +38,7 @@ r_libre_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
 r_libre_libre_userconf_default:
   application:
     type: "{{ libre_type | default('instructor') | string }}"
-    version: "{{ libre_version | default('0.5.28') | string }}"
+    version: "{{ libre_version | default('0.5.29') | string }}"
     verbose: "{{ libre_verbose | default(True) | bool }}"
     debug: "{{ libre_debug | default(True) | bool }}"
     source:
@@ -55,9 +47,10 @@ r_libre_libre_userconf_default:
       base: "{{ libre_source_base | default('/') }}"
       tmp: "{{ libre_source_tmp | default('/tmp/libre') }}"
   directory:
-    base: "{{ r_libre_dir }}"
-    course: "{{ r_libre_dir_course }}"
-    collect: "{{ r_libre_dir_collect }}"
+    base: "{{ training_dir | default('/libre') | string }}"
+    conf: "{{ training_dir_conf | default('/libre/conf') | string }}"
+    course: "{{ training_dir_course | default('/libre/course') | string }}"
+    collect: "{{ training_dir_collect | default('/libre/collect') | string }}"
 # Default config_session structure
 r_libre_session_userconf_default:
   type: "{{ libre_session_type | default('sample') | string }}"

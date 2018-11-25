@@ -10,22 +10,22 @@
     that: chapter_current is defined
 
 # Start tasks
-- name: "start : Generate current chapter tracker on {{ r_chapter_dir_conf }}/{{ r_chapter_config_current }}"
+- name: "start : Generate current chapter tracker on {{ config_libre.directory.conf }}/{{ r_chapter_config_current }}"
   template:
     src: templates/chapter-current.j2
-    dest: "{{ r_chapter_dir_conf }}/{{ r_chapter_config_current }}"
+    dest: "{{ config_libre.directory.conf }}/{{ r_chapter_config_current }}"
     mode: 0664
-    owner: "{{ r_chapter_user }}"
-    group: "{{ r_chapter_group }}"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
   become: yes
 - name: "start : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_chapter_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "start : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_chapter_tmpfile }}"
+- name: "start : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-start.j2
-    dest: "{{ r_libre_tmp }}/{{ r_chapter_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
 - name: "start : Log start action"

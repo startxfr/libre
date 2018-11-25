@@ -10,7 +10,7 @@
   include_tasks: "{{ libre_infra.type }}/config.yml"
 - name: "config : Reload infra configuration file details"
   stat:
-    path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
+    path: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   register: r_infra_conf_details
 - name: "config : Log config action"
   include_role:

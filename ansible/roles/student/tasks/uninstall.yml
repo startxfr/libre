@@ -9,12 +9,12 @@
   become: yes
 - name: "uninstall : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_student_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_student_tmpfile }}"
+- name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: templates/libre_report-uninstall.j2
-    dest: "{{ r_libre_tmp }}/{{ r_student_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
 - name: "uninstall : Log uninstall action"

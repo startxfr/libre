@@ -1,7 +1,7 @@
 ## common configuration vars for all groups
 ---
 # LIBRE software version 
-libre_version: 0.5.28
+libre_version: 0.5.29
 # Enable verbose configuration
 #libre_verbose: true
 # Enable debug configuration

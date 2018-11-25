@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.5.28"
+LIBREI_VERSION="0.5.29"
 LIBREI_REQUIREMENTS_CENTOS="git curl python-pip ansible jq"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre

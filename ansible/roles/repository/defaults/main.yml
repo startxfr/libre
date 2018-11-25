@@ -1,4 +1,4 @@
 ## LIBRE Training-Repo role default variables
 
 # Set if uninstall repository deeply
-r_repository_uninstall_deep: "{{ libre_uninstall_deep | default('False') | bool }}"
+r_repository_uninstall_deep: "{{ r_libre_uninstall_deep | default('False') | bool }}"

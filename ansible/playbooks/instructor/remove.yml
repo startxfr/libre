@@ -1,0 +1,9 @@
+---
+- name: "Remove instructor tools on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: instructor, do: load }
+    - { role: instructor, do: uninstall, become: yes, libre_uninstall_deep: true }

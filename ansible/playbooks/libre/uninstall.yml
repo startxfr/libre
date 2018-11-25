@@ -1,6 +1,6 @@
 ---
 - name: "Uninstall libre environment on local"
-  hosts: 'local'
+  hosts: 'instructor'
   gather_facts: true
 
   roles:

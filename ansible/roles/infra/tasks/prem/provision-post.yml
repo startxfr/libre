@@ -1,13 +1,13 @@
 ---
 - name: "prem : provision-post : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_infra_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
   run_once: true
-- name: "prem : provision-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_infra_tmpfile }}"
+- name: "prem : provision-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision-post.j2
-    dest: "{{ r_libre_tmp }}/{{ r_infra_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
   run_once: true

@@ -4,21 +4,8 @@
 # Instructor directory inside the course directory
 r_session_dir_course_playbooks: "{{ training_dir_course_playbooks | default('playbooks/instructor') | string }}"
 
-
-# Default user for course content
-r_session_user: "{{ libre_user | default('instructor') | string }}"
-# Default user for course content
-r_session_group: "{{ libre_group | default('libre') | string }}"
-
-# Configuration directory used for delivering training
-r_session_dir_conf: "{{ r_libre_dir_conf | default('/libre/conf') | string }}"
 # Course directory used for delivering training
 r_session_dir_course: "{{ training_dir_course | default('/libre/course') | string }}"
 
 # Config file for session
 r_session_config_file: "{{ libre_config_file_session | default('session.json') | string }}"
-
-# Set LIBRE source local directory for hosting copied LIBRE source content
-r_session_repository_local: "{{ config_repository.local | default('/var/local/libre.repo') }}"
-# Set training material repository directory containing course material
-r_session_repository_base: "{{ config_repository.base | default('/courses-samples') }}"

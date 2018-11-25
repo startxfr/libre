@@ -25,11 +25,11 @@
 - name: "config : manual : Course ID doesn't match a good id"
   fail: msg="You must give a good course ID"
   when: libre_session is undefined and course_id|default('')|string == ""
-- name: "config : manual : Generate session config file {{ r_session_dir_conf }}/{{ r_session_config_file }}"
+- name: "config : manual : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
   template:
     src: ../templates/libre-session-manual.j2
-    dest: "{{ r_session_dir_conf }}/{{ r_session_config_file }}"
+    dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     mode: 0664
-    owner: "{{ r_session_user }}"
-    group: "{{ r_session_group }}"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
   become: yes

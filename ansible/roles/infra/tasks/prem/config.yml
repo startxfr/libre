@@ -1,11 +1,11 @@
 ---
-- name: "prem : config : Generate infrastructure config file {{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
+- name: "prem : config : Generate infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
-    dest: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}"
+    dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
     mode: 0664
-    owner: "{{ r_session_user }}"
-    group: "{{ r_session_group }}"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
   become: yes
 - name: "prem : config : Succesfull config for On-Premise infrastructure"
   debug:
@@ -14,7 +14,7 @@
       - "On-Premise infrastructure for session {{ libre_session.id }} delivering course {{ libre_session.course }}"
       - "is now configured. You can continue this process by :"
       - " "
-      - "1. Review classroom infrastructure configuration file {{r_infra_dir_conf}}/{{ r_infra_config_file }}"
+      - "1. Review classroom infrastructure configuration file {{config_libre.directory.conf}}/{{ r_infra_config_file }}"
       - "2. Start provisionning infrastructure by executing the following command :"
       - "   $ libre-infra prem provision"
       - " "

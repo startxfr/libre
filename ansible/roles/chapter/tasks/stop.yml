@@ -4,12 +4,12 @@
 # Stop tasks
 - name: "stop : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_chapter_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "stop : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_chapter_tmpfile }}"
+- name: "stop : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-stop.j2
-    dest: "{{ r_libre_tmp }}/{{ r_chapter_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
 - name: "stop : Log stop action"

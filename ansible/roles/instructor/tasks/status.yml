@@ -1,19 +1,15 @@
 ---
-- name: "status : Start session status"
+- name: "status : Start repository status"
   include_role:
-    name: session
-    tasks_from: "status.yml"
-- name: "status : Start infra status"
-  include_role:
-    name: infra
+    name: repository
     tasks_from: "status.yml"
 - name: "status : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_instructor_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "status : Generate repository report at {{ r_libre_tmp }}/{{ r_instructor_tmpfile }}"
+- name: "status : Generate repository report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-status.j2
-    dest: "{{ r_libre_tmp }}/{{ r_instructor_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost

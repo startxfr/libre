@@ -2,10 +2,11 @@
 
 This project define a complete training management system to help you build and run simple
 or complex training courses. This system can :
-- Install an instructor environement
-- Install a single student environement
+- Install an instructor environement (toolkit and course materials)
+- Install a standalone student environement (lab materials)
 - Deploy a classroom environement (multiple students)
 - Download and manage course materials
+- Collect course log and students actions
 
 ## 2. Quick method
 
@@ -22,11 +23,11 @@ chmod +x /tmp/installer-libre
 /tmp/installer-libre install
 # install course environement
 libre-session install <session_id> <session_token>
-# install course environement (self-host)
+# provision course environement (self-host)
 libre-infra self provision
-# install course environement (on-premise)
+# provision course environement (on-premise)
 # libre-infra prem provision
-# install course environement (aws)
+# provision course environement (aws)
 # libre-infra aws setup
 # libre-infra aws provision
 # Start course
@@ -40,12 +41,12 @@ libre-lab start <lab_id>
 In order to get a fully installed training classroom, user must follow the following
 workflow
 
-1. Install LIBRE on instructor workstation
-2. Install course materials on instructor workstation
-3. Configure session on instructor workstation
-4. Provision classroom workstation
-5. Deploy course materials on students workstation
-6. Start course service on instructor
+1. [Install LIBRE on instructor workstation](installer.md)
+2. [Install course materials on instructor workstation](libre-repository.md)
+3. [Configure session on instructor workstation](session-config.md)
+4. [Provision classroom workstation](infra-provision.md)
+5. [Deploy course materials on students workstation](session-install.md)
+6. [Start course service on instructor](session-start.md)
 
 
 ### 3.1. LIBRE installation

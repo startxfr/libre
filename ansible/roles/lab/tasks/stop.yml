@@ -16,18 +16,18 @@
 # Stop tasks
 - name: "stop : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_lab_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
 - name: "stop : Cleanning lab {{ libre_lab.id }} {{ libre_lab.name }}"
   include_tasks: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/stop.yml"
 - name: "stop : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_lab_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "stop : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_lab_tmpfile }}"
+- name: "stop : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-stop.j2
-    dest: "{{ r_libre_tmp }}/{{ r_lab_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
 - name: "stop : Log stop action"

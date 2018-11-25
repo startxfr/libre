@@ -10,15 +10,14 @@
     name: instructor
     tasks_from: uninstall
   become: yes
-- name: "uninstall : Test if course directory directory exist"
-  stat:
-    path: "{{ r_session_dir_course }}/manifest.yml"
-  register: training_dir_details
 - name: "uninstall : Remove course directory content {{ r_session_dir_course }}"
   file:
     state: absent
-    path: "{{ r_session_dir_course }}/"
-  when: training_dir_details.stat.exists == true
+    path: "{{ r_session_dir_course }}"
+- name: "uninstall : Remove session configuration {{ config_libre.directory.conf }}/{{ r_session_config_file }} file"
+  file:
+    state: absent
+    path: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
 - name: "uninstall : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"

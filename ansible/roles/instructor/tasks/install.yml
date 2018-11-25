@@ -5,20 +5,20 @@
   when: libre_instructor_install_precheck is undefined or libre_instructor_install_precheck != true
 
 # Install tasks
-- name: "install : Start session install"
+- name: "install : Start repository install"
   include_role:
     name: repository
     tasks_from: install
   become: yes
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_instructor_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
   become: no
-- name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_instructor_tmpfile }}"
+- name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-install.j2
-    dest: "{{ r_libre_tmp }}/{{ r_instructor_tmpfile }}"
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
   become: no

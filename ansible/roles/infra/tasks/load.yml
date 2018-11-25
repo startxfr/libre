@@ -1,11 +1,11 @@
 ---
 - name: "load : Get infra configuration file details"
   stat:
-    path: "{{ r_infra_dir_conf }}/{{ r_infra_config_file }}" 
+    path: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}" 
   register: r_infra_conf_details
-- name: "load : Set libre_infra fact from {{ r_infra_dir_conf }}/{{ r_infra_config_file }}" 
+- name: "load : Set libre_infra fact from {{ config_libre.directory.conf }}/{{ r_infra_config_file }}" 
   set_fact:
-    libre_infra: "{{ lookup('file', r_infra_dir_conf + '/' + r_infra_config_file) | default('') }}"
+    libre_infra: "{{ lookup('file', config_libre.directory.conf + '/' + r_infra_config_file) | default('') }}"
   when: r_infra_conf_details.stat.exists == true
 - name: "load : Set libre_infra fact from default infra"
   set_fact:

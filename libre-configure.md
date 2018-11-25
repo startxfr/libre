@@ -40,6 +40,7 @@ Describe and configure your libre directory installation
 | property      |   
 +---------------|---------------------------------------------
 | base          | Location of the training directory (course and session materials)
+| conf          | Location of the course configuration directory (where course is configured)
 | course        | Location of the course material directory (where course is installed)
 | collect       | Location of the collector directory (where course logs are recorded)
 
@@ -48,7 +49,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.5.28"
+  version: "0.5.29"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"
@@ -59,6 +60,7 @@ application:
     tmp: "/tmp/libre"
 directory:
   base: "/libre"
+  conf: "/libre/conf"
   course: "/libre/course"
   collect: "/libre/collect"
 ```

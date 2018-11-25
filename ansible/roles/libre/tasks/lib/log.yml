@@ -1,7 +1,7 @@
 ---
 - name: "log : Record log trace in log.yml"
   lineinfile:
-    path: "{{ r_libre_dir_collect }}/log.yml"
+    path: "{{ config_libre.directory.collect }}/log.yml"
     line: |-
       - name: "{{ log_name | default('No message !!!') }}"
         date: "{{ log_date | default(ansible_date_time.iso8601) }}"

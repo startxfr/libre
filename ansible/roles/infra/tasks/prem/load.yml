@@ -1,14 +1,14 @@
 ---
-- name: "prem : load : Get {{r_infra_dir_conf}}/{{ r_infra_config_file }} infrastructure configuration file details"
+- name: "prem : load : Get {{config_libre.directory.conf}}/{{ r_infra_config_file }} infrastructure configuration file details"
   stat:
-    path: "{{r_infra_dir_conf}}/{{ r_infra_config_file }}"
+    path: "{{config_libre.directory.conf}}/{{ r_infra_config_file }}"
   register: r_infra_conf_details
-- name: "prem : load : Get {{r_infra_dir_conf}}/inventory/instructor.yml inventory file details"
+- name: "prem : load : Get {{config_libre.directory.conf}}/inventory/instructor.yml inventory file details"
   stat:
-    path: "{{r_infra_dir_conf}}/inventory/instructor.yml"
+    path: "{{config_libre.directory.conf}}/inventory/instructor.yml"
   register: r_libre_inventory_instructor_details
-- name: "prem : load : Get {{r_infra_dir_conf}}/inventory/students.yml inventory file details"
+- name: "prem : load : Get {{config_libre.directory.conf}}/inventory/students.yml inventory file details"
   stat:
-    path: "{{r_infra_dir_conf}}/inventory/students.yml"
+    path: "{{config_libre.directory.conf}}/inventory/students.yml"
   register: r_libre_inventory_students_details
 

@@ -1,13 +1,13 @@
 ---
-- name: "load : Get {{ r_lab_dir_conf }}/{{ r_lab_config_current }} file details"
+- name: "load : Get {{ config_libre.directory.conf }}/{{ r_lab_config_current }} file details"
   stat:
-    path: "{{ r_lab_dir_conf }}/{{ r_lab_config_current }}"
+    path: "{{ config_libre.directory.conf }}/{{ r_lab_config_current }}"
   register: r_lab_config_current_details
-- name: "load : Load {{ r_lab_dir_conf }}/{{ r_lab_config_current }} content"
+- name: "load : Load {{ config_libre.directory.conf }}/{{ r_lab_config_current }} content"
   set_fact:
-    lab_current: "{{ lookup('file', r_lab_dir_conf+'/'+r_lab_config_current) | default('1') }}"
+    lab_current: "{{ lookup('file', config_libre.directory.conf+'/'+r_lab_config_current) | default('1') }}"
   when: r_lab_config_current_details.stat.exists == true and lab_current is undefined
-- name: "load : No current lab found in {{ r_lab_dir_conf }}/{{ r_lab_config_current }}, Set default to lab 1"
+- name: "load : No current lab found in {{ config_libre.directory.conf }}/{{ r_lab_config_current }}, Set default to lab 1"
   set_fact:
     lab_current: "1"
   when: r_lab_config_current_details.stat.exists != true and lab_current is undefined

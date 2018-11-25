@@ -1,7 +1,7 @@
 ---
-- name: "install_hardware : Get hardware file {{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }} details"
+- name: "install_hardware : Get hardware file {{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }} details"
   stat:
-    path: "{{ r_libre_dir_collect }}/{{ r_libre_config_file_hw }}"
+    path: "{{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }}"
   register: r_hardware_conf_details
 - name: "install : Start LIBRE installation"
   include_tasks: "install/hardware-set.yml"

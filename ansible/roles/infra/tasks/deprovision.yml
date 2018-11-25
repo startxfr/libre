@@ -1,10 +1,3 @@
 ---
-- name: "deprovision : Deprovision AWS infrastructure"
-  include_tasks: "aws/deprovision.yml"
-  when: libre_infra.type == 'aws'
-- name: "deprovision : Deprovision On-Premise infrastructure"
-  include_tasks: "prem/deprovision.yml"
-  when: libre_infra.type == 'prem'
-- name: "deprovision : Deprovision Self-Hosted infrastructure"
-  include_tasks: "self/deprovision.yml"
-  when: libre_infra.type == 'self'
+- name: "deprovision : Deprovision {{ libre_infra.type }} infrastructure"
+  include_tasks: "{{ libre_infra.type }}/deprovision.yml"

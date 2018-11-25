@@ -48,13 +48,13 @@
     session_students: "{{ gapiReturn.students }}"
   when: gapiReturn is defined
 
-- name: "config : gapi : Generate session config file {{ r_session_dir_conf }}/{{ r_session_config_file }}"
+- name: "config : gapi : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
   template:
     src: ../templates/libre-session-gapi.j2
-    dest: "{{ r_session_dir_conf }}/{{ r_session_config_file }}"
+    dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     mode: 0664
-    owner: "{{ r_session_user }}"
-    group: "{{ r_session_group }}"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
   become: yes
 
 

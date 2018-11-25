@@ -6,3 +6,4 @@
   roles:
     - { role: instructor, do: load }
     - { role: session, do: config, become: yes }
+    - { role: infra, do: config, become: yes }
