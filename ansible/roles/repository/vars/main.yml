@@ -1,0 +1,2 @@
+r_do: "{{ do | string }}"
+r_repository_uninstall_deep: "{{ repository_uninstall_deep | bool }}"
