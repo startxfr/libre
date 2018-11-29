@@ -1,5 +1,5 @@
 ---
-- name: "config : gapi : Configure of the session ID"
+- name: "config : gapi : Configure the session ID"
   pause:
    prompt: "What is your session ID ?"
   register: sessionID
@@ -12,9 +12,9 @@
 - name: "config : gapi : Session ID doesn't match a good number"
   fail: msg="You must give a good Session ID"
   when: session_id|default('')|string == ""
-- name: "config : gapi : Configure of the session token"
+- name: "config : gapi : Configure the session token"
   pause:
-   prompt: "What is the coresponding session token ?"
+   prompt: "What is the corresponding session token ?"
    echo: no
   register: sessionToken
   delegate_to: localhost
@@ -30,7 +30,7 @@
   include_role:
     name: libre
     tasks_from: lib/gapi
-- name: "config : gapi : Extract google API returned data"
+- name: "config : gapi : Extract Google API returned data"
   set_fact:
     course_id: "{{ gapiReturn.cours }}"
     session_id: "{{ gapiReturn.id }}"

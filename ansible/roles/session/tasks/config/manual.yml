@@ -1,5 +1,5 @@
 ---
-- name: "config : manual : Configure of the session ID"
+- name: "config : manual : Configure the session ID"
   pause:
    prompt: "What is your session ID ?"
   register: sessionID
@@ -12,7 +12,7 @@
 - name: "config : manual : Session ID doesn't match a good number"
   fail: msg="You must give a good Session ID"
   when: session_id|default('')|string == ""
-- name: "config : manual : Configure of the course ID"
+- name: "config : manual : Configure the course ID"
   pause:
    prompt: "What is your course ID ?"
   register: courseID
