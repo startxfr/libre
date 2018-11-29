@@ -13,7 +13,7 @@
   register: r_libre_inventory_local_details
 - name: "install_inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
   template:
-    src: ../templates/inventory-local.j2
+    src: inventory-local.j2
     dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
     remote_src: yes
     mode: 0664
@@ -31,7 +31,7 @@
   register: r_libre_inventory_instructor_details
 - name: "install_inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
-    src: ../templates/inventory-instructor.j2
+    src: inventory-instructor.j2
     dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
     remote_src: yes
     mode: 0664
@@ -49,7 +49,7 @@
   register: r_libre_inventory_students_details
 - name: "install_inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
   template:
-    src: ../templates/inventory-students.j2
+    src: inventory-students.j2
     dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
     remote_src: yes
     mode: 0664

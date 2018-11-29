@@ -1,7 +1,7 @@
 ---
 - name: "install_config : Generate user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   template:
-    src: ../templates/libre.j2
+    src: libre.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
     mode: 0664
   when: r_libre_libre_userconf_details.stat.exists != true or r_libre_force_upgrade == true
@@ -17,7 +17,7 @@
   become: no
 - name: "install_config : Generate user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   template:
-    src: ../templates/session.j2
+    src: session.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
     mode: 0664
   when: r_libre_session_userconf_details.stat.exists != true or r_libre_force_upgrade == true
@@ -33,7 +33,7 @@
   become: no
 - name: "install_config : Generate user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   template:
-    src: ../templates/repository.j2
+    src: repository.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
     mode: 0664
   when: r_libre_repository_userconf_details.stat.exists != true or r_libre_force_upgrade == true
@@ -49,7 +49,7 @@
   become: no
 - name: "install_config : Generate user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   template:
-    src: ../templates/infra.j2
+    src: infra.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
     mode: 0664
   when: r_libre_infra_userconf_details.stat.exists != true or r_libre_force_upgrade == true
