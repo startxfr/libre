@@ -47,7 +47,7 @@
 
 - name: "config : gapi : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
   template:
-    src: ../templates/libre-session-gapi.j2
+    src: libre-session-gapi.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     mode: 0664
     owner: "{{ r_libre_user }}"
