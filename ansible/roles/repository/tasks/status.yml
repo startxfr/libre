@@ -2,12 +2,14 @@
 - name: "status : Start LIBRE status"
   include_role:
     name: libre
-    tasks_from: "status.yml"
+    tasks_from: status
+
 - name: "status : Get previous report data"
   set_fact:
-    previous_report: "{{lookup('file', r_libre_tmp+ '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{lookup('file', r_libre_tmp+ '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
   become: no
+
 - name: "status : Generate repository report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-status.j2
