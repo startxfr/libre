@@ -1,9 +1,15 @@
-## LIBRE Instructor role tasks
 ---
-- name: "Action {{ r_do | default('load') | string }} in instructor role is supported"
+## LIBRE Instructor role tasks
+- name: "Action {{ r_do }} in instructor role is supported"
   assert:
-    msg: "Action {{ r_do | default('load') | string }} in instructor role is not supported"
-    that: r_do|default('load')|string in ['load','status','install','update','uninstall']
-- name: "{{ r_do | default('load') | string }} instructor environment"
-  include_tasks: "{{ r_do | default('load') | string }}.yml"
-  when: r_do|default('load')|string in ['load','status','install','update','uninstall']
+    that: >
+      r_do in [
+               'load',
+               'status',
+               'install',
+               'update',
+               'uninstall',
+              ]
+    msg: "Action {{ r_do }} in instructor role is not supported"
+- name: "{{ r_do }} instructor environment"
+  include_tasks: "{{ r_do }}.yml"

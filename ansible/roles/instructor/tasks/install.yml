@@ -1,8 +1,9 @@
 ---
 # Install pre-tasks
 - name: "install : Start instructor pre-installation checks"
-  include_tasks: "install-precheck.yml"
-  when: libre_instructor_install_precheck is undefined or libre_instructor_install_precheck != true
+  include_tasks: install-precheck.yml
+  when: not libre_instructor_install_precheck or
+            libre_instructor_install_precheck is undefined
 
 # Install tasks
 - name: "install : Start repository install"
@@ -10,11 +11,13 @@
     name: repository
     tasks_from: install
   become: yes
+
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
   become: no
+
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-install.j2
@@ -22,6 +25,7 @@
     mode: 0664
   delegate_to: localhost
   become: no
+
 - name: "install : Log install action"
   include_role:
     name: libre
@@ -33,4 +37,4 @@
 
 # Install post-tasks
 - name: "install : Start instructor post-installation checks"
-  include_tasks: "install-postcheck.yml"
+  include_tasks: install-postcheck.yml
