@@ -1,5 +1,7 @@
 ## LIBRE role default variables
 
+do: load
+
 # Configure uninstall to deeply remove all content (facts, training dir and LIBRE tools)
 libre_uninstall_deep: False
 # Used to force upgrading LIBRE lib

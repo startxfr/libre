@@ -1,5 +1,7 @@
 ## LIBRE role default variables
 
+r_do: "{{ do | string }}"
+
 r_libre_uninstall_deep: "{{ libre_uninstall_deep | bool }}"
 r_libre_force_upgrade: "{{ libre_force_upgrade | bool }}"
 
