@@ -4,61 +4,76 @@
     src: libre.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
     mode: 0664
-  when: r_libre_libre_userconf_details.stat.exists != true or r_libre_force_upgrade == true
+  when: not r_libre_libre_userconf_details.stat.exists or
+            r_libre_force_upgrade
   become: no
+
 - name: "install_config : Reload user libre configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   register: r_libre_libre_userconf_details
   become: no
+
 - name: "install_config : Reload user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   set_fact:
     config_libre: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_libre) | from_yaml | default('') }}"
   become: no
+
 - name: "install_config : Generate user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   template:
     src: session.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
     mode: 0664
-  when: r_libre_session_userconf_details.stat.exists != true or r_libre_force_upgrade == true
+  when: not r_libre_session_userconf_details.stat.exists or
+            r_libre_force_upgrade
   become: no
+
 - name: "install_config : Reload user session configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   register: r_libre_session_userconf_details
   become: no
+
 - name: "install_config : Reload user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   set_fact:
     config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_session) | from_yaml | default('') }}"
   become: no
+
 - name: "install_config : Generate user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   template:
     src: repository.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
     mode: 0664
-  when: r_libre_repository_userconf_details.stat.exists != true or r_libre_force_upgrade == true
+  when: not r_libre_repository_userconf_details.stat.exists or
+            r_libre_force_upgrade
   become: no
+
 - name: "install_config : Reload user repository configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   register: r_libre_repository_userconf_details
   become: no
+
 - name: "install_config : Reload user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   set_fact:
     config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository) | from_yaml | default('') }}"
   become: no
+
 - name: "install_config : Generate user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   template:
     src: infra.j2
     dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
     mode: 0664
-  when: r_libre_infra_userconf_details.stat.exists != true or r_libre_force_upgrade == true
+  when: not r_libre_infra_userconf_details.stat.exists or
+            r_libre_force_upgrade
   become: no
+
 - name: "install_config : Reload user infra configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
   become: no
+
 - name: "install_config : Reload user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   set_fact:
     config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra) | from_yaml | default('') }}"

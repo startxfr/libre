@@ -3,6 +3,7 @@
   stat:
     path: "{{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }}"
   register: r_hardware_conf_details
+
 - name: "install : Start LIBRE installation"
-  include_tasks: "install/hardware-set.yml"
-  when: r_hardware_conf_details.stat.exists != true
+  include_tasks: install/hardware-set.yml
+  when: not r_hardware_conf_details.stat.exists

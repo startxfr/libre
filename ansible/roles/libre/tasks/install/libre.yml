@@ -4,7 +4,10 @@
     repo: "{{ config_libre.application.source.repo }}"
     dest: "{{ config_libre.application.source.tmp }}"
     version: "{{ config_libre.application.source.branch }}"
-  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
+  when: not r_libre_binary_details.stat.exists or
+        not r_libre_binary_details.stat.executable or
+            r_libre_force_upgrade
+
 - name: "install_libre : move LIBRE library content to {{ r_libre_dest_lib }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/lib/{{ libname }}"
@@ -16,7 +19,10 @@
   loop: "{{ r_libre_files_library }}"
   loop_control:
     loop_var: libname
-  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
+  when: not r_libre_binary_details.stat.exists or
+        not r_libre_binary_details.stat.executable or
+            r_libre_force_upgrade
+
 - name: "install_libre : move LIBRE auto-completion script to /etc/bash_completion.d/libre"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/lib/completion"
@@ -25,7 +31,10 @@
     mode: 0775
     owner: root
     group: root
-  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
+  when: not r_libre_binary_details.stat.exists or
+        not r_libre_binary_details.stat.executable or
+            r_libre_force_upgrade
+
 - name: "install_libre : move LIBRE instructor binary content to {{ r_libre_dest_bin }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"
@@ -37,7 +46,14 @@
   loop: "{{ r_libre_files_binary_instructor }}"
   loop_control:
     loop_var: binname
-  when: (r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true) and config_libre.application.type == "instructor"
+  when: >
+    config_libre.application.type == "instructor" and
+    (
+      not r_libre_binary_details.stat.exists or
+      not r_libre_binary_details.stat.executable or
+          r_libre_force_upgrade
+    )
+
 - name: "install_libre : move LIBRE student binary content to {{ r_libre_dest_bin }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"
@@ -49,7 +65,14 @@
   loop: "{{ r_libre_files_binary_student }}"
   loop_control:
     loop_var: binname
-  when: (r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true) and config_libre.application.type != "instructor"
+  when: >
+    config_libre.application.type != "instructor" and
+    (
+      not r_libre_binary_details.stat.exists or
+      not r_libre_binary_details.stat.executable or
+          r_libre_force_upgrade
+    )
+
 - name: "install_libre : move LIBRE ansible content to {{ r_libre_dest_ansible }}"
   synchronize:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/ansible/"
@@ -57,9 +80,14 @@
     recursive: yes
     delete: yes
   delegate_to: "{{ inventory_hostname }}"
-  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
+  when: not r_libre_binary_details.stat.exists or
+        not r_libre_binary_details.stat.executable or
+            r_libre_force_upgrade
+
 - name: "install_libre : Remove tempory LIBRE clone directory {{ config_libre.application.source.tmp }}"
   file:
     state: absent
     path: "{{ config_libre.application.source.tmp }}"
-  when: r_libre_binary_details.stat.exists != true or r_libre_binary_details.stat.executable != true or r_libre_force_upgrade == true
+  when: not r_libre_binary_details.stat.exists or
+        not r_libre_binary_details.stat.executable or
+            r_libre_force_upgrade

@@ -6,6 +6,7 @@
   loop: "{{ r_libre_files_library }}"
   loop_control:
     loop_var: libname
+
 - name: "uninstall_libre : Remove libre-* binary from {{ r_libre_dest_bin }}"
   file:
     state: absent
@@ -13,11 +14,13 @@
   loop: "{{ r_libre_files_binary_all }}"
   loop_control:
     loop_var: binname
+
 - name: "uninstall_libre : Remove libre ansible library from {{ r_libre_dest_ansible }}"
   file:
     state: absent
     path: "{{ r_libre_dest_ansible }}"
+
 - name: "uninstall_libre : Remove auto-completion script to /etc/bash_completion.d/libre"
   file:
     state: absent
-    path: "/etc/bash_completion.d/libre"
+    path: /etc/bash_completion.d/libre

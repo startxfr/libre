@@ -1,5 +1,5 @@
-## LIBRE role tasks
 ---
+## LIBRE role tasks
 - name: "Action {{ r_do }} in LIBRE role is supported"
   assert:
     msg: "Action {{ r_do }} in LIBRE role is not supported"

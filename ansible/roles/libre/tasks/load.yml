@@ -1,6 +1,6 @@
 ---
 - name: "load : Loading LIBRE primitives"
-  include_tasks: "load/{{ item }}.yml"
+  include_tasks: load/{{ item }}.yml
   with_items:
     - config
     - directory
