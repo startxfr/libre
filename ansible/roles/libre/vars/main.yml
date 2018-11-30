@@ -44,19 +44,19 @@ r_libre_session_userconf_default:
   gapi: "{{ libre_session_gapi | string }}"
 r_libre_infra_userconf_default:
   default: "{{ libre_infra_type | string }}"
-  self: 
+  self:
     type: "self"
     network:
       dns: "{{ infra_self_dns_zone | string }}"
       associated_ip: "{{ infra_associated_ip | string }}"
-  prem: 
+  prem:
     type: "prem"
     network:
       dns: "{{ infra_prem_dns_zone | string }}"
     ssh:
       privateKey_file: "{{ infra_prem_ssh_private_key_file | string }}"
       user: "{{ infra_prem_ssh_user | string }}"
-  aws: 
+  aws:
     type: "aws"
     auth:
       access_key: "{{ infra_aws_access_key }}"

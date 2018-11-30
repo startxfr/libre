@@ -4,6 +4,6 @@
   assert:
     msg: "Action {{ do | default('load') | string }} in LIBRE role is not supported"
     that: do|default('load')|string in ['load','status','install','upgrade','uninstall']
-- name: "{{ do | default('load') | string }} LIBRE environement"
+- name: "{{ do | default('load') | string }} LIBRE environment"
   include_tasks: "{{ do | default('load') | string }}.yml"
   when: do|default('load')|string in ['load','status','install','upgrade','uninstall']

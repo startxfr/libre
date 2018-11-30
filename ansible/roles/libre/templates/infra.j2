@@ -1,7 +1,7 @@
 # Name of the default backend (should be one of 'self', 'prem' or 'aws')
 default: "{{ config_infra.default }}"
 # Configuration of the Self infrastructure
-self: 
+self:
   # Name of the infrastructure type (self)
   type: "{{ config_infra.self.type }}"
   # Network configuration
@@ -11,7 +11,7 @@ self:
     # IP associated to this domain name
     associated_ip: "{{ config_infra.self.network.associated_ip }}"
 # Configuration of the On-Premise infrastructure
-prem: 
+prem:
   # Name of the infrastructure type (prem)
   type: "{{ config_infra.prem.type }}"
   # Network configuration
@@ -25,7 +25,7 @@ prem:
     # ssh user used to connect
     user: "{{ config_infra.prem.ssh.user }}"
 # Configuration of the AWS infrastructure
-aws: 
+aws:
   # Name of the infrastructure type (aws)
   type: "{{ config_infra.aws.type }}"
   # AWS authentification configuration
@@ -52,7 +52,7 @@ aws:
     instance_nb: "{{ config_infra.aws.ec2.instance_nb }}"
   # SSH configuration
   ssh:
-    # AWS EC2 key name coresponding to the private key file 
+    # AWS EC2 key name coresponding to the private key file
     keyname: "{{ config_infra.aws.ssh.keyname }}"
     # ssh private key file location
     privateKey_file: "{{ config_infra.aws.ssh.privateKey_file }}"

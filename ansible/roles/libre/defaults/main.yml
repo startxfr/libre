@@ -1,8 +1,8 @@
 ## LIBRE role default variables
 
-# Configure uninstall to deep remove all content (facts, training dir and libre tools)
+# Configure uninstall to deeply remove all content (facts, training dir and LIBRE tools)
 libre_uninstall_deep: False
-# Used to force upgrading libre lib
+# Used to force upgrading LIBRE lib
 libre_force_upgrade: False
 
 # Set LIBRE destination directory for LIBRE library
@@ -37,12 +37,12 @@ training_dir_course: '/libre/course'
 training_dir_conf: '/libre/conf'
 # Collect directory used for collecting training activity
 training_dir_collect: '/libre/collect'
-# Set LIBRE source temporary directory for exchange with libre command line
+# Set LIBRE source temporary directory for exchange with LIBRE command line
 libre_tmp: '/tmp'
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
 libre_tmpfile: 'libre.txt'
 
-# Default config_libre structure
+# Default config_LIBRE structure
 libre_type: 'instructor'
 libre_version: '0.1-devel'
 libre_verbose: True

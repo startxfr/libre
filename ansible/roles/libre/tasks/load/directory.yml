@@ -16,4 +16,3 @@
     path: "{{ r_libre_userconfig_dir }}"
   register: r_libre_userconfig_dir_details
   become: no
-  
