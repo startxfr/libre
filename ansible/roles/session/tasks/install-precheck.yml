@@ -2,7 +2,10 @@
 - name: "install-precheck : Start instructor pre-installation checks"
   include_role:
     name: instructor
-    tasks_from: "install-precheck.yml"
-  when: session_install_precheck is undefined or session_install_precheck != true
+    tasks_from: install-precheck
+  when: not session_install_precheck or
+            session_install_precheck is undefined
+
 - name: "install-precheck : Mark session install-precheck as done"
-  set_fact: session_install_precheck=true
+  set_fact:
+    session_install_precheck: True

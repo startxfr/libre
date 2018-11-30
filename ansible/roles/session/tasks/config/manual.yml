@@ -1,30 +1,36 @@
 ---
 - name: "config : manual : Configure the session ID"
   pause:
-   prompt: "What is your session ID ?"
+    prompt: "What is your session ID ?"
   register: sessionID
   delegate_to: localhost
   when: session_id is undefined
-- name: "config : manual : Register session_id fact"
-  set_fact:
-    session_id: "{{ sessionID.user_input }}"
-  when: sessionID.user_input is defined
+
 - name: "config : manual : Session ID doesn't match a good number"
-  fail: msg="You must give a good Session ID"
-  when: session_id|default('')|string == ""
+  fail:
+    msg: "You must give a good Session ID"
+  when: session_id | default('') | string == ""
+
 - name: "config : manual : Configure the course ID"
   pause:
-   prompt: "What is your course ID ?"
+    prompt: "What is your course ID ?"
   register: courseID
   delegate_to: localhost
   when: course_id is undefined
+
+- name: "config : manual : Course ID doesn't match a good id"
+  fail:
+    msg: "You must give a good course ID"
+  when: course_id | default('') | string == ""
+
+- name: "config : manual : Register session_id fact"
+  set_fact:
+    session_id: "{{ sessionID.user_input }}"
+
 - name: "config : manual : Register course_id fact"
   set_fact:
     course_id: "{{ courseID.user_input }}"
-  when: courseID.user_input is defined
-- name: "config : manual : Course ID doesn't match a good id"
-  fail: msg="You must give a good course ID"
-  when: course_id|default('')|string == ""
+
 - name: "config : manual : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
   template:
     src: libre-session-manual.j2

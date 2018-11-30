@@ -2,8 +2,18 @@
 ---
 - name: "Action {{ r_do }} in session role is supported"
   assert:
+    that: >
+      r_do in [
+               'load',
+               'status',
+               'config',
+               'install',
+               'install-postcheck',
+               'start',
+               'stop',
+               'uninstall',
+              ]
     msg: "Action {{ r_do }} in session role is not supported"
-    that: r_do in ['load','status','config','install','install-postcheck','start','stop','uninstall']
+
 - name: "{{ r_do }} session environement"
   include_tasks: "{{ r_do }}.yml"
-  when: r_do in ['load','status','config','install','install-postcheck','start','stop','uninstall']

@@ -1,8 +1,10 @@
 ---
 - name: "config : Config {{ config_session.type }} session type"
   include_tasks: "config/{{ config_session.type }}.yml"
+
 - name: "config : Reload session configuration"
   include_tasks: "load/config.yml"
+
 - name: "config : Log config action"
   include_role:
     name: libre
