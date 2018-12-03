@@ -1,4 +1,7 @@
-## LIBRE Chapter role default variables
 ---
+## LIBRE Chapter role default variables
+
+do: load
+
 # Config file to store the current chapter - section
-r_chapter_config_current: "{{ chapter_config_current | default('current-chapter.txt') | string }}"
+chapter_config_current: 'current-chapter.txt'

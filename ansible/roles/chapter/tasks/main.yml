@@ -1,9 +1,9 @@
 ## LIBRE Chapter role tasks
 ---
-- name: "Action {{ do | default('load') | string }} in chapter role is supported"
+- name: "Action {{ r_do | default('load') | string }} in chapter role is supported"
   assert:
-    msg: "Action {{ do | default('load') | string }} in chapter role is not supported"
-    that: do|default('load')|string in ['load','list','status','start','stop']
-- name: "{{ do | default('load') | string }} chapter environement"
-  include_tasks: "{{ do | default('load') | string }}.yml"
-  when: do|default('load')|string in ['load','list','status','start','stop']
+    msg: "Action {{ r_do | default('load') | string }} in chapter role is not supported"
+    that: r_do|default('load')|string in ['load','list','status','start','stop']
+- name: "{{ r_do | default('load') | string }} chapter environement"
+  include_tasks: "{{ r_do | default('load') | string }}.yml"
+  when: r_do|default('load')|string in ['load','list','status','start','stop']

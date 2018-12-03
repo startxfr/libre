@@ -1,0 +1,3 @@
+---
+r_do: "{{ do | string }}"
+r_chapter_config_current: "{{ chapter_config_current | string }}"
