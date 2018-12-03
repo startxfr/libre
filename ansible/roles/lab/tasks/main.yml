@@ -1,9 +1,17 @@
-## LIBRE Lab role tasks
 ---
-- name: "Action {{ r_do | default('load') | string }} in lab role is supported"
+## LIBRE Lab role tasks
+- name: "Action {{ r_do }} in lab role is supported"
   assert:
-    msg: "Action {{ r_do | default('load') | string }} in lab role is not supported"
-    that: r_do|default('load')|string in ['setup','load','status','grade','reset','start','stop']
-- name: "{{ r_do | default('load') | string }} lab environement"
-  include_tasks: "{{ r_do | default('load') | string }}.yml"
-  when: r_do|default('load')|string in ['setup','load','status','grade','reset','start','stop']
+    msg: "Action {{ r_do }} in lab role is not supported"
+    that: >
+      r_do in [
+               'setup',
+               'load',
+               'status',
+               'grade',
+               'reset',
+               'start',
+               'stop',
+              ]
+- name: "{{ r_do }} lab environement"
+  include_tasks: "{{ r_do }}.yml"
