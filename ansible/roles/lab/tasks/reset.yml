@@ -28,7 +28,7 @@
   delegate_to: localhost
 - name: "reset : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-reset.j2
+    src: libre_report-reset.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
