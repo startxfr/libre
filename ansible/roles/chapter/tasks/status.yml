@@ -1,15 +1,18 @@
 ---
+
 - name: "status : Start session status"
   include_role:
     name: session
     tasks_from: status
+
 - name: "status : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
+
 - name: "status : Generate repository report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-status.j2
+    src: libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost

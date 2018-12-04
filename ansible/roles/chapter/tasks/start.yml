@@ -1,33 +1,39 @@
 ---
 # Start pre-tasks
+
 - name: "start : Course description is loaded"
   assert:
-    msg: "Course description {{ r_session_dir_course }}/manifest.yml is not loaded"
     that: libre_course is defined
+    msg: "Course description {{ r_session_dir_course }}/manifest.yml is not loaded"
+
 - name: "start : Current chapter is defined"
   assert:
-    msg: "Current chapter is not defined"
     that: chapter_current is defined
+    msg: "Current chapter is not defined"
 
 # Start tasks
+
 - name: "start : Generate current chapter tracker on {{ config_libre.directory.conf }}/{{ r_chapter_config_current }}"
   template:
-    src: templates/chapter-current.j2
+    src: chapter-current.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_chapter_config_current }}"
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   become: yes
+
 - name: "start : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
+
 - name: "start : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-start.j2
+    src: libre_report-start.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
+
 - name: "start : Log start action"
   include_role:
     name: libre
