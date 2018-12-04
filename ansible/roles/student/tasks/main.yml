@@ -1,9 +1,16 @@
 ## LIBRE Student role tasks
 ---
-- name: "Action {{ do | default('load') | string }} in student role is supported"
+
+- name: "Action {{ r_do }} in student role is supported"
   assert:
-    msg: "Action {{ do | default('load') | string }} in student role is not supported"
-    that: do|default('load')|string in ['load','status','install','uninstall']
-- name: "{{ do | default('load') | string }} student environement"
-  include_tasks: "{{ do | default('load') | string }}.yml"
-  when: do|default('load')|string in ['load','status','install','uninstall']
+    msg: "Action {{ r_do }} in student role is not supported"
+    that: >
+      r_do in [
+               'load',
+               'status',
+               'install',
+               'uninstall'
+              ]
+
+- name: "{{ r_do }} student environment"
+  include_tasks: "{{ r_do }}.yml"
