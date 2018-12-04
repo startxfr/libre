@@ -1,0 +1,5 @@
+---
+r_do: "{{ do | string }}"
+r_lab_config_current: "{{ lab_config_current | string }}"
+r_lab_dir_course: "{{ lab_dir_course | string }}"
+r_lab_dir_course_labs: "{{ lab_dir_course_labs | string }}"

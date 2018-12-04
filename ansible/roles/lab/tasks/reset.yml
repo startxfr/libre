@@ -1,37 +1,50 @@
 ---
 # Reset pre-tasks
+
 - name: "reset : Course description is loaded"
   assert:
-    msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
     that: libre_course is defined
+    msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
+
 - name: "reset : Course description is loaded"
   assert:
-    msg: "Lab description {{ lab_current }}doesn't exist"
-    that: libre_lab is defined and libre_lab.id is defined
-- name: "reset : Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} exist"
+    that:
+    - libre_lab is defined
+    - libre_lab.id is defined
+    msg: "Lab description {{ lab_current }} doesn't exist"
+
+- name: "reset : Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} exists"
   assert:
+    that:
+    - r_lab_currentlab_ansible_details is defined
+    - r_lab_currentlab_ansible_details.stat.exists
     msg: "Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} doesn't exist"
-    that: r_lab_currentlab_ansible_details is defined and r_lab_currentlab_ansible_details.stat.exists == true
 
 # Reset tasks
+
 - name: "reset : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
+
 - name: "reset : Stop lab {{ libre_lab.id }} {{ libre_lab.name }}"
   include_tasks: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/stop.yml"
+
 - name: "reset : Start lab {{ libre_lab.id }} {{ libre_lab.name }}"
   include_tasks: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/start.yml"
+
 - name: "reset : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
+
 - name: "reset : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-reset.j2
+    src: libre_report-reset.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
+
 - name: "reset : Log reset action"
   include_role:
     name: libre

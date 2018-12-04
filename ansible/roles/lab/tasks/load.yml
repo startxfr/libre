@@ -1,23 +1,34 @@
 ---
+
 - name: "load : Get {{ config_libre.directory.conf }}/{{ r_lab_config_current }} file details"
   stat:
     path: "{{ config_libre.directory.conf }}/{{ r_lab_config_current }}"
   register: r_lab_config_current_details
+
 - name: "load : Load {{ config_libre.directory.conf }}/{{ r_lab_config_current }} content"
   set_fact:
     lab_current: "{{ lookup('file', config_libre.directory.conf+'/'+r_lab_config_current) | default('1') }}"
-  when: r_lab_config_current_details.stat.exists == true and lab_current is undefined
+  when:
+  - r_lab_config_current_details.stat.exists
+  - lab_current is undefined
+
 - name: "load : No current lab found in {{ config_libre.directory.conf }}/{{ r_lab_config_current }}, Set default to lab 1"
   set_fact:
     lab_current: "1"
-  when: r_lab_config_current_details.stat.exists != true and lab_current is undefined
+  when:
+  - not r_lab_config_current_details.stat.exists
+  - lab_current is undefined
+
 - name: "load : Extract lab list from {{ r_lab_dir_course }}/manifest.yml"
   set_fact:
     libre_lab: "{{ libre_course | default({}) | json_query(qry) }}"
   vars:
     qry: 'labs[?id==`{{lab_current}}`] | [0]'
+
 - name: "load : {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} directory details"
   stat:
     path: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}"
   register: r_lab_currentlab_ansible_details
-  when: libre_lab is defined and libre_lab.id is defined
+  when:
+  - libre_lab is defined
+  - libre_lab.id is defined
