@@ -2,7 +2,10 @@
 - name: "install-precheck : Start repository pre-installation checks"
   include_role:
     name: repository
-    tasks_from: "install-precheck.yml"
-  when: r_repository_install_precheck is undefined or r_repository_install_precheck != true
+    tasks_from: install-precheck.yml
+  when: not r_repository_install_precheck or
+            r_repository_install_precheck is undefined
+
 - name: "install-precheck : Mark instructor install-precheck as done"
-  set_fact: libre_instructor_install_precheck=true
+  set_fact:
+    libre_instructor_install_precheck: True
