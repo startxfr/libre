@@ -13,7 +13,7 @@
   delegate_to: localhost
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
-    src: templates/libre_report-uninstall.j2
+    src: libre_report-uninstall.j2
     dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
