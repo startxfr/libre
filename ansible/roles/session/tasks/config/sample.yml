@@ -1,7 +1,7 @@
 ---
 - name: "config : sample : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
   template:
-    src: ../templates/libre-session-sample.j2
+    src: libre-session-sample.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     mode: 0664
     owner: "{{ r_libre_user }}"

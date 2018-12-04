@@ -2,7 +2,7 @@
 # Uninstall pre-tasks
 - name: "uninstall : Uninstall course playbook"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/uninstall.yml"
-  when: r_session_dir_course_playbooks_details.stat.exists == true
+  when: r_session_dir_course_playbooks_details.stat.exists
 
 # Uninstall tasks
 - name: "uninstall : Start instructor uninstall"
@@ -10,24 +10,29 @@
     name: instructor
     tasks_from: uninstall
   become: yes
+
 - name: "uninstall : Remove course directory content {{ r_session_dir_course }}"
   file:
     state: absent
     path: "{{ r_session_dir_course }}"
+
 - name: "uninstall : Remove session configuration {{ config_libre.directory.conf }}/{{ r_session_config_file }} file"
   file:
     state: absent
     path: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+
 - name: "uninstall : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
+
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-uninstall.j2
+    src: libre_report-uninstall.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
+
 - name: "uninstall : Log uninstall action"
   include_role:
     name: libre

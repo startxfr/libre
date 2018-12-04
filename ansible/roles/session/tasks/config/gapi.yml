@@ -1,38 +1,45 @@
 ---
-- name: "config : gapi : Configure of the session ID"
+- name: "config : gapi : Configure the session ID"
   pause:
-   prompt: "What is your session ID ?"
+    prompt: "What is your session ID ?"
   register: sessionID
   delegate_to: localhost
   when: session_id is undefined
-- name: "config : gapi : Register session_id fact"
-  set_fact:
-    session_id: "{{ sessionID.user_input }}"
-  when: sessionID.user_input is defined
+
 - name: "config : gapi : Session ID doesn't match a good number"
-  fail: msg="You must give a good Session ID"
-  when: session_id|default('')|string == ""
-- name: "config : gapi : Configure of the session token"
+  fail:
+    msg: "You must give a good Session ID"
+  when: sessionID.user_input | default('') | string == ""
+
+- name: "config : gapi : Configure the session token"
   pause:
-   prompt: "What is the coresponding session token ?"
-   echo: no
+    prompt: "What is the corresponding session token ?"
+    echo: no
   register: sessionToken
   delegate_to: localhost
   when: session_token is undefined
+
+- name: "config : gapi : Session token doesn't match a good token"
+  fail:
+    msg: "You must give a good Session token"
+  when: session_token | default('') | string == ""
+
+- name: "config : gapi : Register session_id fact"
+  set_fact:
+    session_id: "{{ sessionID.user_input }}"
+
 - name: "config : gapi : Register session_token fact"
   set_fact:
     session_token: "{{ sessionToken.user_input }}"
-  when: sessionToken.user_input is defined
-- name: "config : gapi : Session token doesn't match a good token"
-  fail: msg="You must give a good Session token"
-  when: session_token|default('')|string == ""
+
 - name: "config : gapi : Calling Google API backend for session"
   include_role:
     name: libre
     tasks_from: lib/gapi
-- name: "config : gapi : Extract google API returned data"
+
+- name: "config : gapi : Extract Google API returned data"
   set_fact:
-    course_id: "{{ gapiReturn.cours }}"
+    course_id: "{{ gapiReturn.course }}"
     session_id: "{{ gapiReturn.id }}"
     session_instructor: "{{ gapiReturn.instructor }}"
     session_type: "{{ gapiReturn.type }}"
@@ -47,7 +54,7 @@
 
 - name: "config : gapi : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
   template:
-    src: ../templates/libre-session-gapi.j2
+    src: libre-session-gapi.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     mode: 0664
     owner: "{{ r_libre_user }}"
