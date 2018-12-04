@@ -1,12 +1,13 @@
 ---
 # Install pre-tasks
 - name: "install : Start LIBRE pre-installation checks"
-  include_tasks: "install-precheck.yml"
-  when: libre_install_precheck is undefined or libre_install_precheck != true
+  include_tasks: install-precheck.yml
+  when: not libre_install_precheck or
+            libre_install_precheck is undefined
 
 # Install tasks
 - name: "install : Start LIBRE installation"
-  include_tasks: "install/{{ item }}.yml"
+  include_tasks: install/{{ item }}.yml
   with_items:
     - services
     - libre
@@ -16,14 +17,16 @@
     - config
     - hardware
     - inventory
+
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
   become: no
+
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-install.j2
+    src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
@@ -31,4 +34,4 @@
 
 # Install post-tasks
 - name: "install : Start LIBRE post-installation checks"
-  include_tasks: "install-postcheck.yml"
+  include_tasks: install-postcheck.yml

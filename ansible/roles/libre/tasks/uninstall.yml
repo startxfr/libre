@@ -1,19 +1,21 @@
 ---
 # Uninstall tasks
 - name: "uninstall : Start LIBRE uninstallation"
-  include_tasks: "uninstall/{{ item }}.yml"
+  include_tasks: uninstall/{{ item }}.yml
   with_items:
     - libre
     - directory
     - user
+
 - name: "uninstall : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
   become: no
+
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-uninstall.j2
+    src: libre_report-uninstall.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost

@@ -1,23 +1,27 @@
 ---
 # Upgrade tasks
 - name: "upgrade : Start LIBRE upgrade"
-  include_tasks: "install/libre.yml"
+  include_tasks: install/libre.yml
   vars:
     r_libre_force_upgrade: true
+
 - name: "upgrade : Start configuration upgrade"
-  include_tasks: "install/config.yml"
+  include_tasks: install/config.yml
   vars:
     r_libre_force_upgrade: true
+
 - name: "upgrade : Start LIBRE post-upgrade checks"
-  include_tasks: "install-postcheck.yml"
+  include_tasks: install-postcheck.yml
+
 - name: "upgrade : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
   become: no
+
 - name: "upgrade : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-upgrade.j2
+    src: libre_report-upgrade.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost

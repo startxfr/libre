@@ -1,51 +1,54 @@
 ---
-- name: "install-precheck : Check Hardware Product name"
-  assert:
-    msg: "Hardware Product name is not defined in ansible fact"
-    that: ansible_product_name is defined and ansible_product_name != ""
-  when: libre_install_precheck is undefined or libre_install_precheck != true
-- name: "install-precheck : Check CPU Architecture is {{ r_libre_minhw.architecure }}"
-  assert:
-    msg: "CPU Architecture is not {{ r_libre_minhw.architecure }}"
-    that: ansible_architecture == r_libre_minhw.architecure
-  when: libre_install_precheck is undefined or libre_install_precheck != true
-- name: "install-precheck : Check minimum physical CPU is not less than {{ r_libre_minhw.cpu.physical }}"
-  assert:
-    msg: "Physical CPU is less than the required {{ r_libre_minhw.cpu.physical }}} CPU"
-    that: ansible_processor_count > (r_libre_minhw.cpu.physical|int - 1)
-  when: libre_install_precheck is undefined or libre_install_precheck != true
-- name: "install-precheck : Check minimum physical Cores is not less than {{ r_libre_minhw.cpu.cores }}"
-  assert:
-    msg: "Physical Cores is less than the required {{ r_libre_minhw.cpu.cores }}} CPU"
-    that: ansible_processor_cores > (r_libre_minhw.cpu.cores|int - 1)
-  when: libre_install_precheck is undefined or libre_install_precheck != true
-- name: "install-precheck : Check minimum virtual Cores is not less than {{ r_libre_minhw.cpu.vcpus }}"
-  assert:
-    msg: "Virtual Cores is less than the required {{ r_libre_minhw.cpu.vcpus }}} CPU"
-    that: ansible_processor_vcpus > (r_libre_minhw.cpu.vcpus|int - 1)
-  when: libre_install_precheck is undefined or libre_install_precheck != true
-#- name: "install-precheck : Check minimum Memory size is more than {{ r_libre_minhw.memory.total }}"
-#  assert:
-#    msg: "Minimum Memory size is less than the required {{ r_libre_minhw.memory.total }} Mo"
-#    that: ansible_memtotal_mb|int > r_libre_minhw.memory.total|int
-#  when: libre_install_precheck is undefined or libre_install_precheck != true
-#- name: "install-precheck : Check minimum free memory size is more than {{ r_libre_minhw.memory.total }}"
-#  assert:
-#    msg: "Minimum free memory size is less than the required {{ r_libre_minhw.memory.total }} Mo"
-#    that: ansible_memfree_mb|int > r_libre_minhw.memory.free|int
-#  when: libre_install_precheck is undefined or libre_install_precheck != true
-#- name: "install-precheck : Extract storage informations"
-#  set_fact: mount="{{ ansible_mounts | selectattr('mount','equalto','/') | list | first }}"
-#  when: libre_install_precheck is undefined or libre_install_precheck != true
-#- name: "install-precheck : Check storage on / is more than {{ r_libre_minhw.storage.percent }}%"
-#  assert:
-#    msg: "Minimum free storage size  on / is less than the required {{ r_libre_minhw.storage.percent }}}%"
-#    that: mount.size_available|int > (mount.size_total|int * ((100 - (100 - r_libre_minhw.storage.percent|int ))/100))
-#  when: libre_install_precheck is undefined or libre_install_precheck != true
-#- name: "install-precheck : Check Storage space left on / is more than  {{ r_libre_minhw.storage.capacity|int }}Mb"
-#  assert:
-#    msg: "Minimum storage space left on / is less than the required {{ r_libre_minhw.storage.capacity|int }}Mb"
-#    that: mount.size_available|int > (r_libre_minhw.storage.capacity|int * 1024 * 1024)
-#  when: libre_install_precheck is undefined or libre_install_precheck != true
+- when: not libre_install_precheck or
+            libre_install_precheck is undefined
+  block:
+  - name: "install-precheck : Check Hardware Product name"
+    assert:
+      that: ansible_product_name is defined and ansible_product_name != ""
+      msg: "Hardware Product name is not defined in ansible fact"
+
+  - name: "install-precheck : Check CPU Architecture is {{ r_libre_minhw.architecure }}"
+    assert:
+      that: ansible_architecture == r_libre_minhw.architecure
+      msg: "CPU Architecture is not {{ r_libre_minhw.architecure }}"
+
+  - name: "install-precheck : Check minimum physical CPU is not less than {{ r_libre_minhw.cpu.physical }}"
+    assert:
+      that: ansible_processor_count > (r_libre_minhw.cpu.physical|int - 1)
+      msg: "Physical CPU is less than the required {{ r_libre_minhw.cpu.physical }}} CPU"
+
+  - name: "install-precheck : Check minimum physical Cores is not less than {{ r_libre_minhw.cpu.cores }}"
+    assert:
+      that: ansible_processor_cores > (r_libre_minhw.cpu.cores|int - 1)
+      msg: "Physical Cores is less than the required {{ r_libre_minhw.cpu.cores }}} CPU"
+
+  - name: "install-precheck : Check minimum virtual Cores is not less than {{ r_libre_minhw.cpu.vcpus }}"
+    assert:
+      that: ansible_processor_vcpus > (r_libre_minhw.cpu.vcpus|int - 1)
+      msg: "Virtual Cores is less than the required {{ r_libre_minhw.cpu.vcpus }}} CPU"
+  #- name: "install-precheck : Check minimum Memory size is more than {{ r_libre_minhw.memory.total }}"
+  #  assert:
+  #    that: ansible_memtotal_mb|int > r_libre_minhw.memory.total|int
+  #    msg: "Minimum Memory size is less than the required {{ r_libre_minhw.memory.total }} Mo"
+
+  #- name: "install-precheck : Check minimum free memory size is more than {{ r_libre_minhw.memory.total }}"
+  #  assert:
+  #    that: ansible_memfree_mb|int > r_libre_minhw.memory.free|int
+  #    msg: "Minimum free memory size is less than the required {{ r_libre_minhw.memory.total }} Mo"
+
+  #- name: "install-precheck : Extract storage informations"
+  #  set_fact: mount="{{ ansible_mounts | selectattr('mount','equalto','/') | list | first }}"
+
+  #- name: "install-precheck : Check storage on / is more than {{ r_libre_minhw.storage.percent }}%"
+  #  assert:
+  #    that: mount.size_available|int > (mount.size_total|int * ((100 - (100 - r_libre_minhw.storage.percent|int ))/100))
+  #    msg: "Minimum free storage size  on / is less than the required {{ r_libre_minhw.storage.percent }}}%"
+
+  #- name: "install-precheck : Check Storage space left on / is more than  {{ r_libre_minhw.storage.capacity|int }}Mb"
+  #  assert:
+  #    that: mount.size_available|int > (r_libre_minhw.storage.capacity|int * 1024 * 1024)
+  #    msg: "Minimum storage space left on / is less than the required {{ r_libre_minhw.storage.capacity|int }}Mb"
+
 - name: "install-precheck : Mark LIBRE install-precheck as done"
-  set_fact: libre_install_precheck=true
+  set_fact:
+    libre_install_precheck: True

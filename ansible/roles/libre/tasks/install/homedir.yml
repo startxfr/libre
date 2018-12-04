@@ -4,16 +4,18 @@
     path: "{{ r_libre_userconfig_dir }}"
   register: r_libre_userconfig_dir_details
   become: no
+
 - name: "install_homedir : Create user config directory {{ r_libre_userconfig_dir }}"
   file:
     state: directory
     path: "{{ r_libre_userconfig_dir }}"
     mode: 0775
-#    owner: "{{ r_libre_user }}"
-#    group: "{{ r_libre_group }}"
+    #owner: "{{ r_libre_user }}"
+    #group: "{{ r_libre_group }}"
     recurse: yes
-  when: r_libre_userconfig_dir_details.stat.exists != true
+  when: not r_libre_userconfig_dir_details.stat.exists
   become: no
+
 - name: "install_homedir : Reload configuration directory {{ r_libre_userconfig_dir }}"
   stat:
     path: "{{ r_libre_userconfig_dir }}"

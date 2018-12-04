@@ -1,151 +1,91 @@
 ## LIBRE role default variables
 
-# Configure uninstall to deep remove all content (facts, training dir and libre tools)
-r_libre_uninstall_deep: "{{ libre_uninstall_deep | default(False) | bool }}"
-# Used to force upgrading libre lib
-r_libre_force_upgrade: "{{ libre_force_upgrade | default(False) | bool }}"
+do: load
+
+# Configure uninstall to deeply remove all content (facts, training dir and LIBRE tools)
+libre_uninstall_deep: False
+# Used to force upgrading LIBRE lib
+libre_force_upgrade: False
 
 # Set LIBRE destination directory for LIBRE library
-r_libre_dest_lib: "{{ libre_dest_lib | default('/usr/local/lib') }}"
+libre_dest_lib: '/usr/local/lib'
 # Set LIBRE destination directory for LIBRE binary
-r_libre_dest_bin: "{{ libre_dest_bin | default('/usr/local/bin') }}"
+libre_dest_bin: '/usr/local/bin'
 # Set LIBRE destination directory for ansible content
-r_libre_dest_ansible: "{{ libre_dest_ansible | default('/usr/local/lib/libre-ansible') }}"
+libre_dest_ansible: '/usr/local/lib/libre-ansible'
 
 # Config file for hardware
-r_libre_config_file_hw: "{{ libre_config_file_hw | default('hardware.json') | string }}"
+libre_config_file_hw: 'hardware.json'
 
 # Default user for course content
-r_libre_user: "{{ libre_user | default('instructor') | string }}"
+libre_user: 'instructor'
 # Default user for course content
-r_libre_group: "{{ libre_group | default('libre') | string }}"
+libre_group: 'libre'
 # Personal home directory where configuration is stored
-r_libre_userconfig_dir: "{{ libre_userconfig_dir | default('~/.libre') | string }}"
+libre_userconfig_dir: '~/.libre'
 # Config file for LIBRE
-r_libre_myconfile_libre: "{{ libre_myconfile_libre | default('config.yml') | string }}"
+libre_myconfile_libre: 'config.yml'
 # Config file for session
-r_libre_myconfile_session: "{{ libre_myconfile_session | default('session.yml') | string }}"
+libre_myconfile_session: 'session.yml'
 # Config file for infrastructure
-r_libre_myconfile_infra: "{{ libre_myconfile_infra | default('infra.yml') | string }}"
+libre_myconfile_infra: 'infra.yml'
 # Config file for repository
-r_libre_myconfile_repository: "{{ libre_myconfile_repository | default('repository.yml') | string }}"
-# Set LIBRE source temporary directory for exchange with libre command line
-r_libre_tmp: "{{ libre_tmp | default('/tmp') | string }}"
+libre_myconfile_repository: 'repository.yml'
+# Default directory used for delivering training
+training_dir: '/libre'
+# Course directory used for delivering training
+training_dir_course: '/libre/course'
+# Configuration directory used for delivering training
+training_dir_conf: '/libre/conf'
+# Collect directory used for collecting training activity
+training_dir_collect: '/libre/collect'
+# Set LIBRE source temporary directory for exchange with LIBRE command line
+libre_tmp: '/tmp'
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
-r_libre_tmpfile: "{{ libre_tmpfile | default('libre.txt') | string }}"
+libre_tmpfile: 'libre.txt'
 
-# Default config_libre structure
-r_libre_libre_userconf_default:
-  application:
-    type: "{{ libre_type | default('instructor') | string }}"
-    version: "{{ libre_version | default('0.5.30') | string }}"
-    verbose: "{{ libre_verbose | default(True) | bool }}"
-    debug: "{{ libre_debug | default(True) | bool }}"
-    source:
-      repo: "{{ libre_source_url | default('https://github.com/startxfr/libre') }}"
-      branch: "{{ libre_source_branch | default('master') }}"
-      base: "{{ libre_source_base | default('/') }}"
-      tmp: "{{ libre_source_tmp | default('/tmp/libre') }}"
-  directory:
-    base: "{{ training_dir | default('/libre') | string }}"
-    conf: "{{ training_dir_conf | default('/libre/conf') | string }}"
-    course: "{{ training_dir_course | default('/libre/course') | string }}"
-    collect: "{{ training_dir_collect | default('/libre/collect') | string }}"
+# Default config_LIBRE structure
+libre_type: 'instructor'
+libre_version: '0.1-devel'
+libre_verbose: True
+libre_debug: True
+libre_source_url: 'https://github.com/startxfr/libre'
+libre_source_branch: 'master'
+libre_source_base: '/'
+libre_source_tmp: '/tmp/libre'
 # Default config_session structure
-r_libre_session_userconf_default:
-  type: "{{ libre_session_type | default('sample') | string }}"
-  gapi: "{{ libre_session_gapi | default('https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec') | string }}"
+libre_session_type: 'sample'
+libre_session_gapi: 'https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec'
 # Default config_infra structure
-r_libre_infra_userconf_default:
-  default: "{{ libre_infra_type | default('self') | string }}"
-  self: 
-    type: "self"
-    network:
-      dns: "{{ infra_self_dns_zone | default('classroom.example.com') | string }}"
-      associated_ip: "{{ infra_associated_ip | default('127.0.0.1') | string }}"
-  prem: 
-    type: "prem"
-    network:
-      dns: "{{ infra_prem_dns_zone | default('training.example.com') | string }}"
-    ssh:
-      privateKey_file: "{{ infra_prem_ssh_private_key_file | default('~/my-ssh-key.pem') | string }}"
-      user: "{{ infra_prem_ssh_user | default('root') | string }}"
-  aws: 
-    type: "aws"
-    auth:
-      access_key: "{{ infra_aws_access_key | default(false) }}"
-      secret_key: "{{ infra_aws_secret_key | default(false) }}"
-    route53:
-      zone: "{{ infra_aws_route53_dns_zone | default('startx.fr') | string }}"
-      domain: "{{ infra_aws_public_dns_zone | default('libre.startx.fr') | string }}"
-    ec2:
-      region: "{{ infra_aws_region | default('eu-west-1') | string }}"
-      type: "{{ infra_aws_instance_type | default('t2.micro') | string }}"
-      image: "{{ infra_aws_image | default('ami-3548444c') | string }}"
-      instance_nb: "{{ infra_aws_instance_nb | default(1) | int }}"
-    ssh:
-      keyname: "{{ infra_aws_key_name | default('ssh-key') | string }}"
-      privateKey_file: "{{ infra_aws_ssh_private_key_file | default('~/.ssh/id_rsa') | string }}"
-      user: "{{ infra_aws_ssh_user | default('centos') | string }}"
+libre_infra_type: 'self'
+infra_self_dns_zone: 'classroom.example.com'
+infra_associated_ip: '127.0.0.1'
+infra_prem_dns_zone: 'training.example.com'
+infra_prem_ssh_private_key_file: '~/my-ssh-key.pem'
+infra_prem_ssh_user: 'root'
+infra_aws_access_key: false
+infra_aws_secret_key: false
+infra_aws_route53_dns_zone: 'startx.fr'
+infra_aws_public_dns_zone: 'libre.startx.fr'
+infra_aws_region: 'eu-west-1'
+infra_aws_instance_type: 't2.micro'
+infra_aws_image: 'ami-3548444c'
+infra_aws_instance_nb: 1
+infra_aws_key_name: 'ssh-key'
+infra_aws_ssh_private_key_file: '~/.ssh/id_rsa'
+infra_aws_ssh_user: 'centos'
 # Default config_repository structure
-r_libre_repository_userconf_default:
-  url: "{{ repository_url | default('https://github.com/startxfr/libre') | string }}"
-  branch: "{{ repository_branch | default('master') | string }}"
-  base: "{{ repository_base | default('/courses-samples') | string }}"
-  local: "{{ repository_local | default('/var/local/libre.repo') | string }}"
+repository_url: 'https://github.com/startxfr/libre'
+repository_branch: 'master'
+repository_base: '/courses-samples'
+repository_local: '/var/local/libre.repo'
 
 # Default libre_hardware structure
-r_libre_minhw:
-  architecure: "{{ libre_minhw_architecure | default('x86_64') | string }}"
-  cpu:
-    physical: "{{ libre_minhw_cpu_physical | default(1) | int }}"
-    cores: "{{ libre_minhw_cpu_cores | default(1) | int }}"
-    vcpus: "{{ libre_minhw_cpu_vcpus | default(2) | int }}"
-  memory:
-    total: "{{ libre_minhw_memory_total | default(4096) | int }}"
-    free: "{{ libre_minhw_memory_free | default(1024) | int }}"
-  storage:
-    percent: "{{ libre_minhw_storage_percent | default(20) | int }}"
-    capacity: "{{ libre_minhw_storage_capacity | default(4096) | int }}"
-
-# List of LIBRE library files
-r_libre_files_library:
-  - "libre-chapter"
-  - "libre-chapter.txt"
-  - "libre-infra"
-  - "libre-infra.txt"
-  - "libre-core"
-  - "libre-instructor"
-  - "libre-instructor.txt"
-  - "libre-repository"
-  - "libre-repository.txt"
-  - "libre-lab"
-  - "libre-lab.txt"
-  - "libre-session"
-  - "libre-session.txt"
-  - "libre-student"
-  - "libre-student.txt"
-
-# List of LIBRE binary files for all installation
-r_libre_files_binary_all:
-  - "libre-chapter"
-  - "libre-infra"
-  - "libre-instructor"
-  - "libre-repository"
-  - "libre-lab"
-  - "libre-session"
-  - "libre-student"
-
-# List of LIBRE binary files for instructor
-r_libre_files_binary_instructor:
-  - "libre-chapter"
-  - "libre-infra"
-  - "libre-instructor"
-  - "libre-repository"
-  - "libre-lab"
-  - "libre-session"
-
-# List of LIBRE binary files for student
-r_libre_files_binary_student:
-  - "libre-lab"
-  - "libre-student"
+libre_minhw_architecure: 'x86_64'
+libre_minhw_cpu_physical: 1
+libre_minhw_cpu_cores: 1
+libre_minhw_cpu_vcpus: 2
+libre_minhw_memory_total: 4096
+libre_minhw_memory_free: 1024
+libre_minhw_storage_percent: 20
+libre_minhw_storage_capacity: 4096
