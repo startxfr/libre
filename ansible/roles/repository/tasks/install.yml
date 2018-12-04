@@ -1,7 +1,8 @@
 ---
 # Install pre-tasks
 - name: "install : Start repository pre-installation checks"
-  include_tasks: "install-precheck.yml"
+  include_tasks: install-precheck.yml
+
 # Install tasks
 - name: "install : Start LIBRE install sequence"
   block:
@@ -10,29 +11,36 @@
         name: libre
         tasks_from: install-postcheck
   rescue:
+    - debug:
+        msg: Failing back to installing LIBRE first
+
     - name: "install : Start LIBRE install"
       include_role:
         name: libre
         tasks_from: install
+
 - name: "install : Clone course materials from {{ config_repository.url }} to {{ config_repository.local }}"
   git:
     clone: yes
     repo: "{{ config_repository.url }}"
     dest: "{{ config_repository.local }}"
     version: "{{ config_repository.branch }}"
-  when: r_repository_details.stat.exists != true
+  when: not r_repository_details.stat.exists
+
 - name: "install : Update {{ config_repository.local }} directory details"
   stat:
     path: "{{ config_repository.local }}"
   register: r_repository_details
+
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
   become: no
+
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-install.j2
+    src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
@@ -40,4 +48,4 @@
 
 # Install post-tasks
 - name: "install : Start repository post-installation checks"
-  include_tasks: "install-postcheck.yml"
+  include_tasks: install-postcheck.yml

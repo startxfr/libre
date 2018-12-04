@@ -5,21 +5,24 @@
     state: absent
     path: "{{ config_repository.local }}"
   when: 
-    - r_repository_details.stat.exists == true
-    - r_repository_uninstall_deep == true
+    - r_repository_details.stat.exists
+    - r_repository_uninstall_deep
+
 - name: "uninstall : Start LIBRE uninstall"
   include_role:
     name: libre
     tasks_from: uninstall
-  when: r_repository_uninstall_deep == true
+  when: r_repository_uninstall_deep
+
 - name: "uninstall : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
   become: no
+
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
-    src: templates/libre_report-uninstall.j2
+    src: libre_report-uninstall.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost

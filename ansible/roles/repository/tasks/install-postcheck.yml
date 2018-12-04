@@ -1,8 +1,11 @@
 ---
-- name: "install-postcheck : Local training repository {{ config_repository.local }} exist"
+- name: "install-postcheck : Local training repository {{ config_repository.local }} exists"
   assert:
+    that: r_repository_details.stat.exists
     msg: "Local training repository {{ config_repository.local }} doesn't exist"
-    that: r_repository_details.stat.exists == true
-  when: repository_install_postcheck is undefined or repository_install_postcheck != true
+  when: not repository_install_postcheck or
+            repository_install_postcheck is undefined
+
 - name: "install-postcheck : Mark repository install-postcheck as done"
-  set_fact: repository_install_postcheck=true
+  set_fact:
+    repository_install_postcheck: True
