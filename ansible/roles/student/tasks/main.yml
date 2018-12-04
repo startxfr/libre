@@ -4,6 +4,6 @@
   assert:
     msg: "Action {{ r_do | default('load') | string }} in student role is not supported"
     that: r_do|default('load')|string in ['load','status','install','uninstall']
-- name: "{{ r_do | default('load') | string }} student environement"
+- name: "{{ r_do | default('load') | string }} student environment"
   include_tasks: "{{ r_do | default('load') | string }}.yml"
   when: r_do|default('load')|string in ['load','status','install','uninstall']
