@@ -12,7 +12,7 @@ libre_dest_lib: '/usr/local/lib'
 # Set LIBRE destination directory for LIBRE binary
 libre_dest_bin: '/usr/local/bin'
 # Set LIBRE destination directory for ansible content
-libre_dest_ansible: '/usr/local/lib/libre-ansible'
+libre_dest_ansible: '{{ libre_dest_lib }}/libre-ansible'
 
 # Config file for hardware
 libre_config_file_hw: 'hardware.json'
@@ -34,11 +34,11 @@ libre_myconfile_repository: 'repository.yml'
 # Default directory used for delivering training
 training_dir: '/libre'
 # Course directory used for delivering training
-training_dir_course: '/libre/course'
+training_dir_course: '{{ training_dir }}/course'
 # Configuration directory used for delivering training
-training_dir_conf: '/libre/conf'
+training_dir_conf: '{{ training_dir }}/conf'
 # Collect directory used for collecting training activity
-training_dir_collect: '/libre/collect'
+training_dir_collect: '{{ training_dir }}/collect'
 # Set LIBRE source temporary directory for exchange with LIBRE command line
 libre_tmp: '/tmp'
 # Set LIBRE filename used as temporary buffer to send content to the LIBRE command line
@@ -52,7 +52,7 @@ libre_debug: True
 libre_source_url: 'https://github.com/startxfr/libre'
 libre_source_branch: 'master'
 libre_source_base: '/'
-libre_source_tmp: '/tmp/libre'
+libre_source_tmp: '{{ libre_tmp }}/libre'
 # Default config_session structure
 libre_session_type: 'sample'
 libre_session_gapi: 'https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec'
