@@ -193,7 +193,7 @@ function runLibrePlaybook {
       echoError "Playbook ${libretype}/${libreaction} ended with error"
     fi
     if [ -f $ANSIBLE_RETURN ]; then
-      cat $ANSIBLE_RETURN
+      cat $ANSIBLE_RETURN | xargs --null echo -ne
       rm -f $ANSIBLE_RETURN
     fi
     return $retc
@@ -210,7 +210,7 @@ function runLibrePlaybook {
       echoError "Playbook ${libretype}/${libreaction} ended with error"
     fi
     if [ -f $ANSIBLE_RETURN ]; then
-      cat $ANSIBLE_RETURN
+      cat $ANSIBLE_RETURN | xargs --null echo -ne
       rm -f $ANSIBLE_RETURN
     fi
     rm -f /tmp/a

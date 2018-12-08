@@ -2,11 +2,10 @@
 
 
 {% if libre_lab is defined and libre_lab.id is defined %}
-Lab          : {{ libre_lab.id }} - {{ libre_lab.name }}
+Lab          : \e[1m\e[32mstarted\e[0m        \e[1m{{ libre_lab.id }}\e[0m {{ libre_lab.name }}
 Duration     : {{ libre_lab.time }}min
 --------------
 {{ libre_lab.desc }}
 {% else %}
-Lab          : none
+Lab          : \e[1m\e[31mnot started\e[0m
 {% endif %}
-

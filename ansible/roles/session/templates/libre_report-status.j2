@@ -2,23 +2,21 @@
 
 
 {% if r_session_conf_details.stat.exists == true %}
-session conf : {{ r_session_config_file }}           {% if libre_session.id is defined %}[loaded]{% else %}[not loaded]{% endif %}
-
+session conf : {% if libre_session.id is defined %}\e[1m\e[32mloaded         \e[0m{% else %}\e[1m\e[31mnot loaded     \e[0m{% endif %}{{ r_session_config_file }}
 {% else %}
-session conf : none                   [not installed]
+session conf : \e[1m\e[31mnot installed\e[0m
 {% endif %}
 {% if libre_session.id is defined %}
-     Session : {{ libre_session.type }} {{ libre_session.id }}
-       State : {{ libre_session.state }}
-     Trainer : {{ libre_session.instructor }}
-       Start : {{ libre_session.start }}
+     Session : \e[1m\e[32mconfigured\e[0m     \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+       State :                {{ libre_session.state }}
+     Trainer :                {{ libre_session.instructor }}
+       Start :                {{ libre_session.start }}
 {% else %}
-     Session : none                   [not configured]
+     Session : \e[1m\e[31mnot configured\e[0m
 {% endif %}
 {% if libre_course.id is defined %}
-course       : {{ libre_course.id }} v{{ libre_course.version }}
-               {{ libre_course.name }}
+      Course : \e[1m\e[32mconfigured\e[0m     \e[1m{{ libre_course.id }}\e[0m v{{ libre_course.version }}
+                              {{ libre_course.name }}
 {% else %}
-course       : none                   [not configured]
+      Course : \e[1m\e[31mnot configured\e[0m
 {% endif %}
-

@@ -1,9 +1,9 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-{% if r_libre_repository_userconf_details.stat.exists == true and config_repository is defined %}
-course cache : {{ config_repository.local }}  [installed]
-course repo  : {{ config_repository.url }}{{ config_repository.base }} @{{ config_repository.branch }}
-{% else %}
-course repo  : none                   [not installed]
-{% endif %}
 
+{% if r_repository_details.stat.exists == true and config_repository is defined %}
+courses cache: \e[1m\e[32minstalled\e[0m      {{ config_repository.local }}
+courses repo :                {{ config_repository.url }}{{ config_repository.base }} @{{ config_repository.branch }}
+{% else %}
+courses repo : \e[1m\e[31mnot installed\e[0m
+{% endif %}

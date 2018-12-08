@@ -2,13 +2,12 @@
 
 
 {% if libre_chapter is defined and libre_chapter.id is defined %}
-Chapter      : {{ libre_chapter.id }} - {{ libre_chapter.name }}
+Chapter      : \e[1m\e[32mstarted\e[0m        \e[1m{{ libre_chapter.id }} -\e[0m {{ libre_chapter.name }}
 {% else %}
-Chapter      : none
+Chapter      : \e[1m\e[31mnot started\e[0m
 {% endif %}
 {% if libre_section is defined and libre_section.id is defined %}
-Section      : {{ libre_section.id }} - {{ libre_section.name }}
+Section      : \e[1m\e[32mstarted\e[0m        \e[1m{{ libre_section.id }} -\e[0m {{ libre_section.name }}
 {% else %}
-Section      : none
+Section      : \e[1m\e[31mnot started\e[0m
 {% endif %}
-
