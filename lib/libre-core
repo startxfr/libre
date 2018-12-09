@@ -2,7 +2,7 @@
 
 # Default config var
 CONFIG_DIR=/libre/conf
-CONFIG_FILE=$CONFIG_DIR/config.json
+CONFIG_FILE=~/.libre/config.yml
 INVENTORY_FILE=$CONFIG_DIR/inventory
 SESSION_FILE=$CONFIG_DIR/session.json
 LIBRE_VERBOSE=true
@@ -12,11 +12,11 @@ ANSIBLE_RETURN=/tmp/libre.txt
 # load init files
 function loadInits {
   if [[ -f $CONFIG_FILE ]] ; then
-    LIBRE_DEBUG=$(cat $CONFIG_FILE | jq -r '.application.debug')
-    LIBRE_VERBOSE=$(cat $CONFIG_FILE | jq -r '.application.verbose')
-    LIBRE_VERSION=$(cat $CONFIG_FILE | jq -r '.application.version')
-    LIBRE_TYPE=$(cat $CONFIG_FILE | jq -r '.application.type')
-    ANSIBLE_ROOT=$(cat $CONFIG_FILE | jq -r '.application.ansible')
+    LIBRE_DEBUG=$(cat $CONFIG_FILE | yq -r '.application.debug')
+    LIBRE_VERBOSE=$(cat $CONFIG_FILE | yq -r '.application.verbose')
+    LIBRE_VERSION=$(cat $CONFIG_FILE | yq -r '.application.version')
+    LIBRE_TYPE=$(cat $CONFIG_FILE | yq -r '.application.type')
+    ANSIBLE_ROOT=$(cat $CONFIG_FILE | yq -r '.application.ansible')
   fi
   if [[ -f $SESSION_FILE ]] ; then
     LIBREC_ID=$(cat $SESSION_FILE | jq -r '.course')

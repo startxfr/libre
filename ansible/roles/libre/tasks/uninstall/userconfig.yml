@@ -1,0 +1,14 @@
+---
+- when: 
+    - r_libre_userconfig_dir_details.stat.exists
+    - r_libre_uninstall_deep
+  block:
+  - name: "uninstall : userconfig : Archive user config directory {{ r_libre_userconfig_dir }}"
+    archive:
+      path: "{{ r_libre_userconfig_dir }}"
+      dest: "~/libre_config-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
+  - name: "uninstall : userconfig : Remove user config directory {{ r_libre_userconfig_dir }}"
+    file:
+      state: absent
+      path: "{{ r_libre_userconfig_dir }}"
+  become: no

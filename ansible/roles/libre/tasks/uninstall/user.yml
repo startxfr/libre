@@ -1,12 +1,12 @@
 ---
-- name: "uninstall_user : Remove the instructor user {{ r_libre_user }}"
+- name: "uninstall : user : Remove the instructor user {{ r_libre_user }}"
   user:
     name: "{{ r_libre_user }}"
     state: absent
     remove: yes
     force: yes
 
-- name: "uninstall_user : Remove the libre user group {{ r_libre_group }}"
+- name: "uninstall : user : Remove the libre user group {{ r_libre_group }}"
   group:
     name: "{{ r_libre_group }}"
     state: absent

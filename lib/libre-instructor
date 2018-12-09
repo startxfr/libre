@@ -18,6 +18,19 @@ function instructorPlaybook {
   exit 0;
 }
 
+# Call instructor uninstall playbook
+function instructorUninstallPlaybook {
+  instructorHeader
+  checkIfSession
+  if [[ "$1" == "deep" || "$1" == "all" || "$1" == true || "$1" == "true" || "$1" == "True" ]] ; then
+      deep=" -e libre_uninstall_deep=True"
+  else
+      deep=""
+  fi
+  runLibrePlaybook instructor uninstall $deep
+  exit 0;
+}
+
 # Display instructor info and exit
 function instructorInformation {
   instructorHeader
@@ -51,7 +64,8 @@ Usage:
 
 - Generic commands:
   install          install instructor environment
-  uninstall        uninstall instructor environment
+  uninstall        uninstall instructor environment after archiving (extra command 
+                   "deep" or "all" will remove user config directory)
   status           get status of the current instructor
   usage            get command line usage information
   info             give information about current libre installation

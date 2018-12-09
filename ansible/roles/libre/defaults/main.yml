@@ -2,7 +2,9 @@
 
 do: load
 
-# Configure uninstall to deeply remove all content (facts, training dir and LIBRE tools)
+# Configure uninstall to deeply remove all content 
+# uninstall libre will remove lib, bin, playbooks, repository and training dir (after backup if set)
+# deep uninstall will also remove user config directory
 libre_uninstall_deep: False
 # Used to force upgrading LIBRE lib
 libre_force_upgrade: False

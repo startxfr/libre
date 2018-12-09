@@ -6,6 +6,7 @@
     - libre
     - directory
     - user
+    - userconfig
 
 - name: "uninstall : Get previous report data"
   set_fact:

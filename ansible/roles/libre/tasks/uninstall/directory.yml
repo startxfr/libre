@@ -1,12 +1,12 @@
 ---
 - when: r_libre_dir_details.stat.exists
   block:
-  - name: "uninstall_directory : Archive training directory {{ config_libre.directory.base }}"
+  - name: "uninstall : directory : Archive training directory {{ config_libre.directory.base }}"
     archive:
       path: "{{ config_libre.directory.base }}"
-      dest: "/libre-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
-
-  - name: "uninstall_directory : Remove training directory {{ config_libre.directory.base }}"
+      dest: "~/libre-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
+    become: no
+  - name: "uninstall : directory : Remove training directory {{ config_libre.directory.base }}"
     file:
       state: absent
       path: "{{ config_libre.directory.base }}"

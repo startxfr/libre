@@ -6,7 +6,7 @@ source /usr/local/lib/libre-instructor
 case $1 in
     install)                instructorPlaybook install ;;
     update)                 instructorPlaybook update ;;
-    uninstall)              instructorPlaybook uninstall ;;
+    uninstall)              instructorUninstallPlaybook $2 ;;
     status)                 instructorPlaybook status ;;
     usage|help|--help|-h)   instructorUsage $@ ;;
     info|--info)            instructorInformation $@ ;;
