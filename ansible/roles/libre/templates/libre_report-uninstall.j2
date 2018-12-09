@@ -1,3 +1,4 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-LIBRE Toolkit uninstalled {% if r_libre_uninstall_deep == true %}(deep){% endif %}
+LIBRE Toolkit is \e[1m\e[32muninstalled\e[0m
+{% if r_libre_uninstall_deep == true %}LIBRE user config is \e[1m\e[32muninstalled\e[0m (deep uninstall){% endif %}

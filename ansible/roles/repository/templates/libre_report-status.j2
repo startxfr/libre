@@ -3,7 +3,7 @@
 
 {% if r_repository_details.stat.exists == true and config_repository is defined %}
 courses cache: \e[1m\e[32minstalled\e[0m      {{ config_repository.local }}
-courses repo :                {{ config_repository.url }}{{ config_repository.base }} @{{ config_repository.branch }}
+courses repo :                \e[1m{{ config_repository.branch }}\e[0m on {{ config_repository.url }}{{ config_repository.base }}
 {% else %}
 courses repo : \e[1m\e[31mnot installed\e[0m
 {% endif %}

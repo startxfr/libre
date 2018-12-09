@@ -1,5 +1,5 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-Lab {{ libre_lab.id }}. {{ libre_lab.name }} is started
+Lab \e[1m{{ libre_lab.id }}\e[0m. {{ libre_lab.name }} is \e[1m\e[32mstarted\e[0m
 ----------------------
 {{ libre_lab.desc }}
