@@ -9,7 +9,7 @@ app:
   volumes:
     - "./sxapi.json:/conf/sxapi.json:z"
     - "./static:/usr/src/app/static:z"
-    - "/libre/conf:/usr/src/app/config:z"
-    - "/libre/course:/usr/src/app/course:z"
-    - "/libre/collect:/data:z"
+    - "/usr/share/libre/conf:/usr/src/app/config:z"
+    - "/usr/share/libre/course:/usr/src/app/course:z"
+    - "/usr/share/libre/collect:/data:z"
 

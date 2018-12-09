@@ -4,7 +4,7 @@ As soon as you have [installed libre TMS](installer.md), [configured your enviro
  [synchronized your courses materials](libre-repository.md) and
  [configured your session](session-config.md), you can install your session. 
 
-Remember that the course session is defined in the `/libre/conf/session.json` configuration file.
+Remember that the course session is defined in the `/usr/share/libre/conf/session.json` configuration file.
 
 The `libre-session` command will help you interact with the configured session and start runing your course. 
 You can use the following commands :
@@ -21,7 +21,7 @@ You can use the following commands :
 
 ## Deploy course session to deliver (manual)
 
-Simply run `libre-session install` command. According to the configuration defined in `/libre/conf/session.json` 
+Simply run `libre-session install` command. According to the configuration defined in `/usr/share/libre/conf/session.json` 
 Course will be installed into your instructor installation. 
 After a successfull execution, course will be ready to be run on instructor machine and deploy into the 
 classroom infrastructure. 
@@ -35,7 +35,7 @@ uninstall will be automatically performed when invoking command `libre-instructo
 
 ## After session installation
 
-When your session is installed and your `/libre/course` directory is filled with course content material, you can :
+When your session is installed and your `/usr/share/libre/course` directory is filled with course content material, you can :
 
 1. [Deploy a classroom](infra-deploy.md)
 2. [Start a course session](session-start.md)

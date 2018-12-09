@@ -22,7 +22,7 @@ You can use the following commands :
 
 Simply run `libre-session config` command. According to the configuration defined in `~/.libre/session.yml` you
 will be warned for additionnals informations. After a successfull execution, you will find the course session configuration
-file in `/libre/conf/session.json`. This file define the course session you are going to deliver, if you need to perform 
+file in `/usr/share/libre/conf/session.json`. This file define the course session you are going to deliver, if you need to perform 
 adjustement, you can modify this file manually.
 Run `libre-session status` after configuration to check and display your configured course session.
 

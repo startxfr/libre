@@ -7,6 +7,6 @@ do: load
 lab_config_current: 'current-lab.txt'
 
 # Course directory used for delivering training
-lab_dir_course: "{{ training_dir_course | default('/libre/course') }}"
+lab_dir_course: "{{ training_dir_course | default('/usr/share/libre/course') }}"
 # Lab directory inside the course directory
 lab_dir_course_labs: 'playbooks/labs'

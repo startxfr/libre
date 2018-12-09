@@ -34,7 +34,7 @@ libre_myconfile_infra: 'infra.yml'
 # Config file for repository
 libre_myconfile_repository: 'repository.yml'
 # Default directory used for delivering training
-training_dir: '/libre'
+training_dir: '/usr/share/libre'
 # Course directory used for delivering training
 training_dir_course: '{{ training_dir }}/course'
 # Configuration directory used for delivering training

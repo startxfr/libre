@@ -203,7 +203,7 @@
       - "  - Size: {{ libre_infra.ec2.instance_nb }} workstations"
       - " "
       - "You must finish your installation by running the following command :"
-      - "  ansible-playbook -i /libre/conf/inventory playbooks/infra-aws/provision-post.yml"
+      - "  ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml"
       - " "
       - " Have a happy setup ;)"
 #- name: "provision : Send a mail for notification"
@@ -225,7 +225,7 @@
 #        - Size: {{ libre_infra.ec2.instance_nb }} workstations
 #
 #     You must finish your installation by running the following command :
-#       ansible-playbook -i /libre/conf/inventory playbooks/infra-aws/provision-post.yml
+#       ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml
 #
 #     Have a happy setup ;)
 

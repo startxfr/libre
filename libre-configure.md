@@ -49,7 +49,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.5.32"
+  version: "0.5.33"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"
@@ -59,10 +59,10 @@ application:
     base: "/"
     tmp: "/tmp/libre"
 directory:
-  base: "/libre"
-  conf: "/libre/conf"
-  course: "/libre/course"
-  collect: "/libre/collect"
+  base: "/usr/share/libre"
+  conf: "/usr/share/libre/conf"
+  course: "/usr/share/libre/course"
+  collect: "/usr/share/libre/collect"
 ```
 
 

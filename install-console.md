@@ -21,7 +21,7 @@ git checkout master
 ## 3. Test console
 
 ```bash
-ansible -i /libre/conf/inventory --list-hosts all
+ansible -i /usr/share/libre/conf/inventory --list-hosts all
 ```
 
 Should return

@@ -105,7 +105,7 @@ you must configure the course and session to be delivered
 ### 3.3. Session configuration
 
 Setup the session to be delivered. This process will check through an API if this training session
-exist, get session detail from it and fill the /libre/conf/libre-session.yml config file.
+exist, get session detail from it and fill the /usr/share/libre/conf/libre-session.yml config file.
 You will need to get the `session_id` and `session_token` from the training provider.
 
 ```bash

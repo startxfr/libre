@@ -1,7 +1,7 @@
 ## common configuration vars for all groups
 ---
 # LIBRE software version 
-libre_version: 0.5.32
+libre_version: 0.5.33
 # Enable verbose configuration
 #libre_verbose: true
 # Enable debug configuration
@@ -71,13 +71,13 @@ libre_version: 0.5.32
 #libre_minhw_storage_capacity: 4096
 
 # Default directory used for delivering training
-#training_dir: /libre
+#training_dir: /usr/share/libre
 # Configuration directory used for delivering training
-#training_dir_conf: /libre/conf
+#training_dir_conf: /usr/share/libre/conf
 # Collect directory used for collecting training activity
-#training_dir_collect: /libre/collect
+#training_dir_collect: /usr/share/libre/collect
 # Course directory used for delivering training
-#training_dir_course: /libre/course
+#training_dir_course: /usr/share/libre/course
 # Lab directory inside the course directory
 #training_dir_course_lab: playbooks/labs
 # playbooks directory inside the course directory

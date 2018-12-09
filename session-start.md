@@ -5,7 +5,7 @@ As soon as you have [installed libre TMS](installer.md), [configured your enviro
  [configured](session-config.md) and [installed your session](session-config.md) and
  [deployed your classroom](infra-deploy.md), you can start your session. 
 
-Remember that the course session is defined in the `/libre/conf/session.json` configuration file.
+Remember that the course session is defined in the `/usr/share/libre/conf/session.json` configuration file.
 
 The `libre-session` command will help you interact with the configured session and start runing your course. 
 You can use the following commands :
@@ -22,7 +22,7 @@ You can use the following commands :
 
 ## Start delivering your course session (manual)
 
-Simply run `libre-session start` command. According to the configuration defined in `/libre/conf/session.json` 
+Simply run `libre-session start` command. According to the configuration defined in `/usr/share/libre/conf/session.json` 
 course componet will be launched and main services will be enabled.
 Run `libre-session status` after configuration to check and display your configured course session status.
 
