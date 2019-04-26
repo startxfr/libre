@@ -118,6 +118,10 @@ function install_deps {
         echo "Updating OS $OS installation (cloud take minutes...)"
         yum update -y &> /dev/null
     fi
+    echo "Removing packages for $OS"
+    (
+        yum remove -y PyYAML # it will be reinstalled with yq
+    ) &> /dev/null
     echo "Installing packages for $OS"
     (
         yum install -y epel-release                &&
