@@ -25,7 +25,7 @@
 
 - name: "install_libre : move LIBRE auto-completion script to /etc/bash_completion.d/libre"
   copy:
-    src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/lib/completion"
+    src: "../../files/completion"
     dest: "/etc/bash_completion.d/libre"
     remote_src: yes
     mode: 0775
