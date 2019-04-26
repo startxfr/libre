@@ -24,3 +24,7 @@
   file:
     state: absent
     path: /etc/bash_completion.d/libre
+- name: "uninstall : libre : Remove profile script to /etc/profile.d/libre.sh"
+  file:
+    state: absent
+    path: /etc/profile.d/libre.sh
