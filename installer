@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.5.34"
+LIBREI_VERSION="0.5.35"
+LIBREI_DEBUG=true
 LIBREI_REQUIREMENTS_CENTOS="git curl jq ansible"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
@@ -30,10 +31,47 @@ unset ANSIBLE_CONFIG
 # use xterm
 export TERM=xterm
 
+# return if debug is activated
+function isDebug {
+    if [[ "$LIBREI_DEBUG" == true || "$LIBREI_DEBUG" == "true" || "$LIBREI_DEBUG" == "True" ]] ; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+# echo if debug if activated
+function echoDebug {
+    if [[ "$LIBREI_DEBUG" == true || "$LIBREI_DEBUG" == "true" || "$LIBREI_DEBUG" == "True"  ]] ; then
+        echo "$@"
+    fi
+}
+
+# echo an error
+function echoError {
+    echo "  ERROR ! $@"
+}
+
+# echo an error and exit
+function echoFatal {
+    echo "  FATAL ! $@"
+    exit 1;
+}
+
+# echo an error and exit
+function echoWarn {
+    echo "  WARN  ! $@"
+}
+
+# echo an error and exit
+function echoOK {
+    echo "SUCCESS : $@"
+}
+
 # check for super-user identity
 if [ "$(id -u)" != "0" ]; then
-    echo "  ERROR ! This script must be run as root or you must have sudo"
-    echo "  ERROR ! Try to execute 'sudo -i' and run again this command"
+    echoError "This script must be run as root or you must have sudo"
+    echoError "Try to execute 'sudo -i' and run again this command"
     exit 1
 fi
 
@@ -83,16 +121,16 @@ function prep_dir {
     local dir="$1"
 
     #if [ -w $dir/.. ]; then
-    #    echo "Remove previous $dir directory"
     #    rm -rf $dir
+    #    echoOK "Remove previous $dir directory"
     #fi
 
     mkdir -p "$dir" &> /dev/null || {
-        echo "  ERROR ! Unable to create $dir"
+        echoError "Unable to create $dir"
         return 2
     }
     if [ ! -w "$dir" ]; then
-        echo "  ERROR ! $dir is not writable"
+        echoError "$dir is not writable"
         return 3
     fi
 
@@ -118,21 +156,21 @@ function install_deps {
         echo "Updating OS $OS installation (cloud take minutes...)"
         yum update -y &> /dev/null
     fi
-    echo "Removing packages for $OS"
+    echo "Removing package PyYAML"
     (
         yum remove -y PyYAML # it will be reinstalled with yq
-    ) &> /dev/null
+    ) &> /dev/null                                 || {
+        echoFatal "Unable to uninstall PyYAML"
+    }
     echo "Installing packages for $OS"
     (
-        yum install -y epel-release                &&
-	yum install -y python-pip		   &&
+        yum install -y epel-release python-pip	   &&
         pip install --upgrade pip                  &&
         pip install --upgrade yq                   &&
         pip install --upgrade Jinja2		   &&
         yum install -y $LIBREI_REQUIREMENTS_CENTOS
     ) &> /dev/null                                 || {
-        echo "  ERROR ! Unable to install dependencies"
-        exit 1
+        echoFatal "Unable to install dependencies"
     }
 }
 
@@ -159,7 +197,7 @@ function clean_installer {
 # installer check post-installation
 function check_installation {
     if [ ! -d $ANSIBLE_DEST ]; then
-        echo "  ERROR ! $ANSIBLE_DEST doesn't exist"
+        echoFatal "$ANSIBLE_DEST doesn't exist"
     fi
 }
 
@@ -170,8 +208,10 @@ function install_libre {
 
     pushd $ANSIBLE_DEST &> /dev/null
 
+    echo "Start $LIBRE_TYPE installation"
     ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml
 
+    echo "Reload bash profile"
     source /etc/profile.d/libre.sh
 
     read -p "Do you want to continue by installing training session (y/N) : " doInstall
@@ -219,11 +259,12 @@ function reinstall_libre {
 
 # Display installer usage
 function print_usage {
+    print_header 
     cat <<-EOF
 	Startx Formation training environment installer
 
 	Usage:
-	  $0 [-t INSTALL_TYPE] [-u] [command]
+	  $0 sub-command [-t INSTALL_TYPE] [-u] [command]
 
 	Options:
 	     -t INSTALL_TYPE  install LIBRE_TYPE training environment
@@ -233,7 +274,7 @@ function print_usage {
 	     -K               prompt for Ansible's privilege escalation password
 	     -u               fully update the system during installation
 
-	Availables commands:
+	Availables sub-commands:
 	     install          install LIBRE TMS and instructor or student training
 	                      environment (interactive)
 	     uninstall        uninstall LIBRE TMS and training environment
@@ -248,7 +289,7 @@ while getopts :Kt:u c; do
             ;;
         t)
             check_type "$OPTARG" || {
-                echo "  ERROR ! Invalid argument for option -t : $OPTARG"
+                echoError "Invalid argument for option -t : $OPTARG"
                 print_usage
                 exit 1
             }
@@ -258,7 +299,7 @@ while getopts :Kt:u c; do
             UPDATE=y
             ;;
         '?')
-            echo "  ERROR ! Unsupported option : -$OPTARG"
+            echoError "Unsupported option : -$OPTARG"
             print_usage
             exit 1
             ;;
