@@ -25,7 +25,7 @@
 
 - name: "install_libre : move LIBRE auto-completion script to /etc/bash_completion.d/libre"
   copy:
-    src: "../../files/completion"
+    src: "{{ role_path }}/files/completion"
     dest: "/etc/bash_completion.d/libre"
     remote_src: yes
     mode: 0775
@@ -37,7 +37,7 @@
 
 - name: "install_libre : move LIBRE profile script to /etc/profile.d/libre.sh"
   template:
-    src: "../../templates/bash_profile.j2"
+    src: "{{ role_path }}/templates/bash_profile.j2"
     dest: "/etc/profile.d/libre.sh"
     remote_src: yes
     mode: 0664
