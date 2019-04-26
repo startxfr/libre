@@ -1,7 +1,9 @@
 #!/bin/bash
 
+ROOT_DIR=/usr/share/libre
+
 # Default config var
-CONFIG_DIR=/usr/share/libre/conf
+CONFIG_DIR=$ROOT_DIR/conf
 CONFIG_FILE=~/.libre/config.yml
 INVENTORY_FILE=$CONFIG_DIR/inventory
 SESSION_FILE=$CONFIG_DIR/session.json
@@ -105,7 +107,7 @@ function echoEnv {
 
 # status if libre install is done
 function checkIfLibre {
-  if [[ ! -d /libre ]] ; then
+  if [[ ! -d "$ROOT_DIR" ]] ; then
     echoError "LIBRE is not installed";
     echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/master/installer.md";
     echoError "for more information on how to install LIBRE";
