@@ -172,6 +172,8 @@ function install_libre {
 
     ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml
 
+    source /etc/profile.d/libre.sh
+
     read -p "Do you want to continue by installing training session (y/N) : " doInstall
     if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
         libre-session install
