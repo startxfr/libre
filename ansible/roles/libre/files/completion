@@ -30,7 +30,7 @@ _libre_chapter()
 _libre_infra()
 {
   local available="aws prem self"
-  local available2="setup provision post-provision deprovision status usage info version"
+  local available2="config provision post-provision deprovision status usage info version"
   local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
   local suggestions2=($(compgen -W "$available2" "${COMP_WORDS[2]}"))
   echo "count  : ${COMP_CWORD}" >> /tmp/toto
@@ -79,7 +79,7 @@ _libre_instructor()
 # Auto-completion for lab
 _libre_lab()
 {
-  local available="setup start stop reset grade status usage info version"
+  local available="config start stop reset grade status usage info version"
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
   fi

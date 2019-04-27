@@ -52,3 +52,8 @@ course dir   : \e[1m\e[32minstalled\e[0m      {{ config_libre.directory.course }
 {% else %}
 course dir   : \e[1m\e[31mnot installed\e[0m
 {% endif %}
+{% if r_libre_dir_collect_details.stat.exists == true %}
+collect dir  : \e[1m\e[32minstalled\e[0m      {{ config_libre.directory.collect }}
+{% else %}
+collect dir  : \e[1m\e[31mnot installed\e[0m
+{% endif %}
