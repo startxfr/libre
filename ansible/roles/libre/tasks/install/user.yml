@@ -9,4 +9,5 @@
     name: "{{ r_libre_user }}"
     comment: "LIBRE {{ r_libre_user }}"
     group: "{{ r_libre_group }}"
+    uid: 1001
     state: present
