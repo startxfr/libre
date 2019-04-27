@@ -62,17 +62,17 @@ Usage:
 
 - Infrastructure type and commands:
   aws               AWS infrastructure
-    setup           setup AWS infrastructure environement
+    config          configure AWS infrastructure environement
     provision       provision AWS infrastructure environment
     post-provision  exectute AWS post-provisionning task
     deprovision     deprovision AWS infrastructure environment
   prem              On-premise infrastructure
-    setup           setup On-premise infrastructure environement
+    config          configure On-premise infrastructure environement
     provision       provision On-premise infrastructure environment
     post-provision  exectute On-premise post-provisionning task
     deprovision     deprovision On-premise infrastructure environment
   self              Self-hosted infrastructure
-    setup           setup Self-Hosted infrastructure environement
+    config          configure Self-Hosted infrastructure environement
     provision       provision Self-Hosted infrastructure environment
     post-provision  exectute Self-Hosted post-provisionning task
     deprovision     deprovision Self-Hosted infrastructure environment
