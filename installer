@@ -173,7 +173,7 @@ function install_deps {
     ) &> /dev/null                                 || {
         echoFatal "Unable to uninstall PyYAML"
     }
-    echo "Installing packages for $OS"
+    echo "Installing packages for $OS (could take minutes on fresh install or slow internet)"
     (
         yum install -y epel-release python-pip	   &&
         pip install --upgrade pip                  &&
@@ -355,5 +355,5 @@ case "$1" in
     "install")        install_libre ;;
     "uninstall")      uninstall_libre ;;
     "reinstall")      reinstall_libre ;;
-    *)                print_usage; exit 1 ;;
+    *)                print_usage ;;
 esac

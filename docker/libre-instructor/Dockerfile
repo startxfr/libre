@@ -1,4 +1,4 @@
-FROM startx/sxapi:0.2.21
+FROM startx/sxapi:0.3.3
 MAINTAINER STARTX "dev@startx.fr"
 
 ENV LIBRE_VERSION=0.5.40 \
@@ -25,6 +25,6 @@ LABEL name="startx/libre-$LIBRE_VERSION" \
       io.openshift.expose-services="8080:http" \
       fr.startx.component="$SX_ID:$LIBRE_VERSION"
 
-COPY ./sxapi.json $CONF_PATH/sxapi.json
+COPY ./sxapi.yml $CONF_PATH/sxapi.yml
 COPY ./static $APP_PATH/static
 
