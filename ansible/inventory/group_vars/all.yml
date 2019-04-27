@@ -18,7 +18,7 @@ libre_version: 0.5.39
 # Set repository URL for course material
 #libre_source_url: https://github.com/startxfr/libre
 # Set repository branch containing course material
-#libre_source_branch: stable
+#libre_source_branch: v0.5.39
 # Set LIBRE source directory containing LIBRE application material
 #libre_source_base: /
 # Set LIBRE source temporary directory for hosting copied LIBRE source content
@@ -87,7 +87,7 @@ libre_version: 0.5.39
 # Set training material repository URL containing course material
 #repository_url: https://github.com/startxfr/libre
 # Set training material repository branch containing course material
-#repository_branch: stable
+#repository_branch: v0.5.39
 # Set training material repository directory containing course material
 #repository_base: /courses-samples
 # Set LIBRE local directory for hosting course content copy
