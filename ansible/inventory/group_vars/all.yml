@@ -12,7 +12,7 @@ libre_version: 0.5.39
 # Configure a session ID (used during session config)
 #session_id: "0001"
 # Configure a session token (used during session config)
-#session_token: "stable"
+#session_token: "dev"
 
 
 # Set repository URL for course material
