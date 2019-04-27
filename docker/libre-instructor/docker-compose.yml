@@ -7,9 +7,9 @@ app:
   ports:
     - "1900:8080"
   volumes:
-    - "./sxapi.json:/conf/sxapi.json:z"
+    - "./sxapi.yml:/conf/sxapi.yml:z"
     - "./static:/usr/src/app/static:z"
     - "/usr/share/libre/conf:/usr/src/app/config:z"
     - "/usr/share/libre/course:/usr/src/app/course:z"
-    - "/usr/share/libre/collect:/data:z"
+    - "/usr/share/libre/collect:/libre-collect:z"
 
