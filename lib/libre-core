@@ -181,7 +181,7 @@ function runLibrePlaybook {
   fi
   cd $ANSIBLE_ROOT
   if [[ ! -r $INVENTORY_FILE ]] ; then
-    INVENTORY_FILE="inventory.yml";
+    INVENTORY_FILE="inventory";
   fi
   export ANSIBLE_STDOUT_CALLBACK=yaml
   isDebug

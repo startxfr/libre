@@ -6,8 +6,8 @@
     image: startx/libre-instructor:latest
     state: started
     volumes:
-     - "/usr/share/libre/conf:/usr/src/app/config:z"
-     - "/usr/share/libre/course:/usr/src/app/course:z"
+     - "/usr/share/libre/conf:/usr/src/app/config:ro"
+     - "/usr/share/libre/course:/usr/src/app/course:ro"
      - "/usr/share/libre/collect:/data:z"
     ports:
      - "80:8080"
