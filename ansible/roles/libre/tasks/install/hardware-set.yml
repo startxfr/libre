@@ -31,13 +31,20 @@
 #  set_fact:
 #    mount: "{{ ansible_mounts | selectattr('mount','equalto','/') | list | first }}"
 #
-#- name: "install_hardware : Ensure that storage on / is more than {{ r_libre_minhw.storage.percent }}%"
+#- name: "install_hardware : Load Storage on / is more than {{ r_libre_minhw.storage.percent }}%"
 #  set_fact:
 #    libre_hardware_storage_total: "{{ mount.size_total / 1024 / 1024 }}Gb"
 #
 #- name: "install_hardware : Load Storage space left on / is more than  {{ r_libre_minhw.storage.capacity|int }}Mb"
 #  set_fact:
 #    libre_hardware_storage_free: "{{ mount.size_available|int / 1024 / 1024 }}Gb"
+- name: "install_hardware : TODO extract storage capacity"
+  set_fact:
+    libre_hardware_storage_total: "???Gb"
+
+- name: "install_hardware : TODO extract storage free space"
+  set_fact:
+    libre_hardware_storage_free: "???Gb"
 
 #- name: "install_hardware : Load Network interfaces"
 #  debug:
