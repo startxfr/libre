@@ -6,7 +6,7 @@ source /usr/local/lib/libre-infra
 case $1 in
     aws)
     case $2 in
-        setup)              infraPlaybook $1 $2 ;;
+        config)             infraPlaybook $1 $2 ;;
         provision)          infraPlaybookWithInfraInventory $1 $2 ;;
         post-provision)     infraPlaybook $1 provision-post classroom ;;
         deprovision)        infraPlaybookWithInfraInventory $1 $2 ;;
@@ -14,7 +14,7 @@ case $1 in
     esac;;
     prem)
     case $2 in
-        setup)              infraPlaybook $1 $2 ;;
+        config)             infraPlaybook $1 $2 ;;
         provision)          infraPlaybookWithInfraInventory $1 $2 ;;
         post-provision)     infraPlaybook $1 provision-post classroom ;;
         deprovision)        infraPlaybookWithInfraInventory $1 $2 ;;
@@ -22,7 +22,7 @@ case $1 in
     esac;;
     self)
     case $2 in
-        setup)              infraPlaybook $1 $2 ;;
+        config)             infraPlaybook $1 $2 ;;
         provision)          infraPlaybookWithInfraInventory $1 $2 ;;
         post-provision)     infraPlaybook $1 provision-post classroom ;;
         deprovision)        infraPlaybookWithInfraInventory $1 $2 ;;
