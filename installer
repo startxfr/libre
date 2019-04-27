@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.5.35"
+LIBREI_VERSION="0.5.36"
 LIBREI_DEBUG=true
 LIBREI_REQUIREMENTS_CENTOS="git curl jq ansible"
 TMP_DEST=/tmp/libre
@@ -211,14 +211,20 @@ function install_libre {
     echo "Start $LIBRE_TYPE installation"
     ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml
 
-    echo "Reload bash profile"
-    source /etc/profile.d/libre.sh
-
-    read -p "Do you want to continue by installing training session (y/N) : " doInstall
-    if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
-        libre-session install
+    if [ "$?" -eq 0 ]; then
+	    echo "Reload bash profile"
+	    source /etc/profile.d/libre.sh
+	    if [[ "$LIBRE_TYPE" == "instructor" ]]; then
+	      read -p "Do you want to continue by installing training session (y/N) : " doInstall
+	      if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
+		  libre-session install
+	      fi
+	    fi
+    else
+        echoFatal "libre $LIBRE_TYPE installation failed to completed"
+        echoFatal "try to run again ./libre-installer install $LIBRE_TYPE"
+        echoFatal "or report bug to support team"
     fi
-
     popd &> /dev/null
 }
 
