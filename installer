@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.5.36"
-LIBREI_DEBUG=true
+LIBREI_VERSION="0.5.37"
+LIBREI_DEBUG_DEFAULT=true
 LIBREI_REQUIREMENTS_CENTOS="git curl jq ansible"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
@@ -31,9 +31,15 @@ unset ANSIBLE_CONFIG
 # use xterm
 export TERM=xterm
 
+
+if [[ "$LIBREI_DEBUG" == true || "$LIBREI_DEBUG" == "true" || "$LIBREI_DEBUG" == "True" || "$LIBREI_DEBUG" == false || "$LIBREI_DEBUG" == "false" || "$LIBREI_DEBUG" == "False" ]] ; then
+  LBI_DEBUG=$LIBREI_DEBUG
+else
+  LBI_DEBUG=$LIBREI_DEBUG_DEFAULT
+fi
 # return if debug is activated
 function isDebug {
-    if [[ "$LIBREI_DEBUG" == true || "$LIBREI_DEBUG" == "true" || "$LIBREI_DEBUG" == "True" ]] ; then
+    if [[ "$LBI_DEBUG" == true || "$LBI_DEBUG" == "true" || "$LBI_DEBUG" == "True" ]] ; then
         return 1
     else
         return 0
@@ -42,7 +48,7 @@ function isDebug {
 
 # echo if debug if activated
 function echoDebug {
-    if [[ "$LIBREI_DEBUG" == true || "$LIBREI_DEBUG" == "true" || "$LIBREI_DEBUG" == "True"  ]] ; then
+    if [[ "$LBI_DEBUG" == true || "$LBI_DEBUG" == "true" || "$LBI_DEBUG" == "True"  ]] ; then
         echo "$@"
     fi
 }
@@ -91,9 +97,14 @@ function print_header {
 function print_info {
     print_header
     echo "installer : v$LIBREI_VERSION"
-    echo "repo      : $LIBRE_TOOLREPO_URL"
-    echo "branch    : $LIBRE_TOOLREPO_BRANCH"
-    echo "base      : $LIBRE_TOOLREPO_BASE"
+    isDebug
+    if [ "$?" -eq 1 ] ; then
+      echo "repo      : $LIBRE_TOOLREPO_URL"
+      echo "branch    : $LIBRE_TOOLREPO_BRANCH"
+      echo "base      : $LIBRE_TOOLREPO_BASE"
+    else
+      echo "libre-src : $LIBRE_TOOLREPO_URL @$LIBRE_TOOLREPO_BRANCH$LIBRE_TOOLREPO_BASE"
+    fi
     echo "OS        : $OS_NAME"
     echo "host      : $HOSTNAME"
     echo "type      : $LIBRE_TYPE"
@@ -178,10 +189,20 @@ function install_deps {
 function fetch_installer {
     pushd $TMP_DEST &> /dev/null
     echo "Clone tools repository $LIBRE_TOOLREPO_URL"
-    git clone $LIBRE_TOOLREPO_URL .
+    isDebug
+    if [ "$?" -eq 1 ] ; then
+        git clone $LIBRE_TOOLREPO_URL .
+    else
+        git clone $LIBRE_TOOLREPO_URL . &> /dev/null
+    fi
     if [ "$?" -eq 0 ]; then
         echo "Change branch for $LIBRE_TOOLREPO_BRANCH"
-        git checkout $LIBRE_TOOLREPO_BRANCH &> /dev/null
+        isDebug
+        if [ "$?" -eq 1 ] ; then
+	    git checkout $LIBRE_TOOLREPO_BRANCH
+        else
+            git checkout $LIBRE_TOOLREPO_BRANCH &> /dev/null
+        fi
         echo "Copy libre playbook into $ANSIBLE_DEST"
         cp -r $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
     fi
@@ -209,21 +230,31 @@ function install_libre {
     pushd $ANSIBLE_DEST &> /dev/null
 
     echo "Start $LIBRE_TYPE installation"
-    ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml
-
+    isDebug
+    if [ "$?" -eq 1 ] ; then
+        ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml
+    else
+        ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml &> /dev/null
+    fi
     if [ "$?" -eq 0 ]; then
 	    echo "Reload bash profile"
-	    source /etc/profile.d/libre.sh
-	    if [[ "$LIBRE_TYPE" == "instructor" ]]; then
+	    source /etc/profile.d/libre.sh &> /dev/null
+	    echo -e $(cat /tmp/libre.txt)
+	    if [[ "$LIBRE_TYPE" == "instructor" && "$IS_INTERACTIVE" == "yes" ]]; then
 	      read -p "Do you want to continue by installing training session (y/N) : " doInstall
 	      if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
-		  libre-session install
+		    libre-session install
+	        echo -e $(cat /tmp/libre.txt)
 	      fi
+	    else
+		  echoOK "You can continue by running libre-session install"
 	    fi
     else
-        echoFatal "libre $LIBRE_TYPE installation failed to completed"
-        echoFatal "try to run again ./libre-installer install $LIBRE_TYPE"
-        echoFatal "or report bug to support team"
+	  echo -e $(cat /tmp/libre.txt)
+        echoError "libre $LIBRE_TYPE installation failed to completed"
+        echoError "try to run again ./libre-installer install $LIBRE_TYPE"
+        echoError "or report bug to support team"
+        exit 1;
     fi
     popd &> /dev/null
 }
@@ -270,7 +301,7 @@ function print_usage {
 	Startx Formation training environment installer
 
 	Usage:
-	  $0 sub-command [-t INSTALL_TYPE] [-u] [command]
+	  $0 sub-command [-t INSTALL_TYPE] [-Kiu] [command]
 
 	Options:
 	     -t INSTALL_TYPE  install LIBRE_TYPE training environment
@@ -278,6 +309,7 @@ function print_usage {
 	                                                    - instructor (default)
 	                                                    - student
 	     -K               prompt for Ansible's privilege escalation password
+	     -i               interactive and prompt for session setup on instructor post-install 
 	     -u               fully update the system during installation
 
 	Availables sub-commands:
@@ -292,6 +324,9 @@ while getopts :Kt:u c; do
     case "$c" in
         K)
             ASK_BECOME_PASS="-K"
+            ;;
+        i)
+            IS_INTERACTIVE="yes"
             ;;
         t)
             check_type "$OPTARG" || {
