@@ -79,7 +79,7 @@ _libre_instructor()
 # Auto-completion for lab
 _libre_lab()
 {
-  local available="config start stop reset grade status usage info version"
+  local available="start stop reset grade status usage info version"
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
   fi

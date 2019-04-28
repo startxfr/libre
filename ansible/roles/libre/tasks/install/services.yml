@@ -4,7 +4,6 @@
     name:
     - git
     - ansible
-    - qemu-kvm
     - docker
     - bind-utils
     - rng-tools
