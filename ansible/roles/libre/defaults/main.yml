@@ -50,7 +50,7 @@ libre_tmpfile: 'libre.txt'
 libre_type: 'instructor'
 libre_version: '0.1-devel'
 libre_verbose: True
-libre_debug: True
+libre_debug: False
 libre_source_url: 'https://github.com/startxfr/libre'
 libre_source_branch: 'stable'
 libre_source_base: '/'
