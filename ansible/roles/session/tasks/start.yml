@@ -3,12 +3,12 @@
 - name: Start LIBRE-instructor web application
   docker_container:
     name: libre-instructor
-    image: startx/libre-instructor:latest
+    image: startx/libre-instructor:stable
     state: started
     volumes:
      - "/usr/share/libre/conf:/usr/src/app/config:ro"
      - "/usr/share/libre/course:/usr/src/app/course:ro"
-     - "/usr/share/libre/collect:/data:z"
+     - "/usr/share/libre/collect:/libre-collect:z"
     ports:
      - "80:8080"
   become: yes
