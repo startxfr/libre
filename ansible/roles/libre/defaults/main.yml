@@ -52,7 +52,7 @@ libre_version: '0.1-devel'
 libre_verbose: True
 libre_debug: False
 libre_source_url: 'https://github.com/startxfr/libre'
-libre_source_branch: 'v0.5.40'
+libre_source_branch: 'v0.5.42'
 libre_source_base: '/'
 libre_source_tmp: '{{ libre_tmp }}/libre'
 # Default config_session structure
@@ -78,7 +78,7 @@ infra_aws_ssh_private_key_file: '~/.ssh/id_rsa'
 infra_aws_ssh_user: 'centos'
 # Default config_repository structure
 repository_url: 'https://github.com/startxfr/libre'
-repository_branch: 'v0.5.40'
+repository_branch: 'v0.5.42'
 repository_base: '/courses-samples'
 repository_local: '/var/local/libre.repo'
 
