@@ -25,6 +25,11 @@
   vars:
     qry: 'labs[?id==`{{lab_current}}`] | [0]'
 
+- name: "load : Check if lab {{lab_current}} exist"
+  assert:
+    that: libre_lab is defined and libre_lab.id is defined
+    msg: "Lab {{ lab_current }} could not be found in {{ r_lab_dir_course }}/manifest.yml"
+
 - name: "load : {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} directory details"
   stat:
     path: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}"
