@@ -1,8 +1,0 @@
----
-- name: "Configure classroom infrastructure on instructor"
-  hosts: 'instructor'
-  gather_facts: true
-
-  roles:
-    - { role: infra, do: load }
-    - { role: infra, do: config, become: yes }
