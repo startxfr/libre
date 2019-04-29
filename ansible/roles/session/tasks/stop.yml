@@ -25,6 +25,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Session is stopped"
+    log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is stopped"
     log_component: session
     log_action: stop

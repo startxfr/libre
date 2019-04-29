@@ -1,8 +1,8 @@
 ## LIBRE infra_aws role tasks
 ---
-- name: "{{ infra_type | string }} infrastructure environement"
+- name: "Set libre_infra if infra_type is set"
   set_fact:
-    libre_infra: "{{ infra_type }}"
+    libre_infra_type: "{{ infra_type }}"
   when: infra_type|string in ['self','aws','prem']
 - name: "Action {{ do | default('load') | string }} in infrastructure role is supported"
   assert:
