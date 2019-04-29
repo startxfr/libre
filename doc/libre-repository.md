@@ -36,5 +36,5 @@ When your course cache content is filled with course materials, you can :
 
 1. [Setup a course session](session-config.md)
 2. [Install a course session](session-install.md)
-3. [Deploy a classroom](infra-deploy.md)
+3. [Deploy a classroom](classroom-deploy.md)
 4. [Start a course session](session-start.md)
