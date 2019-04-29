@@ -94,7 +94,7 @@
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
-- name: "self : provision : Log provision action"
+- name: "infra : self : provision : Log provision action"
   include_role:
     name: libre
     tasks_from: lib/log

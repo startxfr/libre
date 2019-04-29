@@ -10,6 +10,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Session is configured"
+    log_name: "Session  {{ config_session.type }} is configured"
     log_component: session
     log_action: config

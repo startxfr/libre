@@ -1,3 +1,3 @@
 ---
 - name: "provision-post : Post-Provision {{ libre_infra.type }} infrastructure"
-  include_tasks: "{{ libre_infra.type }}/provision.yml"
+  include_tasks: "{{ libre_infra.type }}/provision-post.yml"

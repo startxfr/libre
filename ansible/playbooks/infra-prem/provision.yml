@@ -1,0 +1,8 @@
+---
+- name: "Provision classroom infrastructure on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+
+  roles:
+    - { role: infra, do: load, infra_type: prem }
+    - { role: infra, do: provision, infra_type: prem, become: yes }

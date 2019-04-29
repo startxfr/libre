@@ -77,7 +77,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Session is installed"
+    log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is installed"
     log_component: session
     log_action: install
 

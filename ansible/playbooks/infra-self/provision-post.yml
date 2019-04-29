@@ -4,5 +4,5 @@
   gather_facts: true
 
   roles:
-    - { role: infra, do: load }
-    - { role: infra, do: provision-post, become: yes }
+    - { role: infra, do: load, infra_type: self }
+    - { role: infra, do: provision-post, infra_type: self, become: yes }

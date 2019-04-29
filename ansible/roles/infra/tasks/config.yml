@@ -3,9 +3,11 @@
   pause:
    prompt: "What kind of infrastructure backend do you whan to use (self,prem,aws) ?"
   register: infra_type 
+  when: libre_infra is undefined or libre_infra_type is undefined
 - name: "aws : config : Set libre_infra fact from default {{infra_type.user_input}} infra"
   set_fact:
-    libre_infra: "{{ config_infra[infra_type.user_input] }}"
+    libre_infra: "{{ config_infra[libre_infra_type|infra_type.user_input] }}"
+  when: infra_type is defined or libre_infra_type is defined
 - name: "config : Config {{ libre_infra.type }} infrastructure"
   include_tasks: "{{ libre_infra.type }}/config.yml"
 - name: "config : Reload infra configuration file details"
