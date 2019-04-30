@@ -1,4 +1,8 @@
 ---
+- stat:
+    path: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/stop.yml"
+  register: r_lab_stop_file_details
+
 # Reset pre-tasks
 
 - name: "reset : Course description is loaded"
@@ -6,7 +10,7 @@
     that: libre_course is defined
     msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
 
-- name: "reset : Course description is loaded"
+- name: "reset : Lab description is loaded"
   assert:
     that:
     - libre_lab is defined
@@ -29,6 +33,7 @@
 
 - name: "reset : Stop lab {{ libre_lab.id }} {{ libre_lab.name }}"
   include_tasks: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/stop.yml"
+  when: r_lab_stop_file_details.stat.exists
 
 - name: "reset : Start lab {{ libre_lab.id }} {{ libre_lab.name }}"
   include_tasks: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/start.yml"
