@@ -65,6 +65,6 @@ Right after installing libre TMS, you can :
 2. [Synchronize course repository](libre-repository.md)
 3. [Setup a course session](session-config.md)
 4. [Install a course session](session-install.md)
-5. [Deploy a classroom](infra-deploy.md)
+5. [Deploy a classroom](classroom-deploy.md)
 6. [Start a course session](session-start.md)
 

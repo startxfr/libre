@@ -1,4 +1,8 @@
 ---
+- stat:
+    path: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/stop.yml"
+  register: r_lab_stop_file_details
+
 # Stop pre-tasks
 
 - name: "stop : Course description is loaded"
@@ -29,6 +33,7 @@
 
 - name: "stop : Cleaning lab {{ libre_lab.id }} {{ libre_lab.name }}"
   include_tasks: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/stop.yml"
+  when: r_lab_stop_file_details.stat.exists
 
 - name: "stop : Get previous report data"
   set_fact:

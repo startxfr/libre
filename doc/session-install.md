@@ -37,5 +37,5 @@ uninstall will be automatically performed when invoking command `libre-instructo
 
 When your session is installed and your `/usr/share/libre/course` directory is filled with course content material, you can :
 
-1. [Deploy a classroom](infra-deploy.md)
+1. [Deploy a classroom](classroom-deploy.md)
 2. [Start a course session](session-start.md)
