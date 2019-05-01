@@ -138,7 +138,7 @@
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
-- name: "aws : provision-post : Log post-provision action"
+- name: "infra : aws : provision-post : Log post-provision action"
   include_role:
     name: libre
     tasks_from: lib/log

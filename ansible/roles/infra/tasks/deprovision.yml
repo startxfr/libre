@@ -1,3 +1,6 @@
 ---
+- name: "provision : Start infrastructure configuration"
+  include_tasks: "config.yml"
+  when: r_infra_conf_details.stat.exists != true or libre_infra is undefined
 - name: "deprovision : Deprovision {{ libre_infra.type }} infrastructure"
   include_tasks: "{{ libre_infra.type }}/deprovision.yml"

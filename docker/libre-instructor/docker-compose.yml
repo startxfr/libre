@@ -11,5 +11,5 @@ app:
     - "./static:/usr/src/app/static:z"
     - "/usr/share/libre/conf:/usr/src/app/config:z"
     - "/usr/share/libre/course:/usr/src/app/course:z"
-    - "/usr/share/libre/collect:/libre-collect:z"
+    - "/usr/share/libre/collect:/usr/src/app/data:z"
 
