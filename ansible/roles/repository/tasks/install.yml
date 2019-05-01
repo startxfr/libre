@@ -22,10 +22,10 @@
 - name: "install : Clone course materials from {{ config_repository.url }} to {{ config_repository.local }}"
   git:
     clone: yes
+    force: yes
     repo: "{{ config_repository.url }}"
     dest: "{{ config_repository.local }}"
     version: "{{ config_repository.branch }}"
-  when: not r_repository_details.stat.exists
 
 - name: "install : Update {{ config_repository.local }} directory details"
   stat:
