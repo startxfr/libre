@@ -36,11 +36,9 @@ app = {
           if (ok) {
             app.api.session = response;
             $("#courseID").text(app.api.session.course);
-            console.log(app.api.session);
             app.api.getFree("course-data/manifest.yml", null, function (ok, response) {
               if (ok) {
                 app.api.course = jsyaml.load(response);
-                console.log(app.api.course);
                 if (typeof cb === "function")
                   cb();
               }
@@ -70,13 +68,11 @@ app = {
   initInfo: function () {
     app.init(function () {
       app.infoPage.init();
-      console.log("init infoPage done");
     });
   },
   initSurvey: function () {
     app.init(function () {
       app.survey.init();
-      console.log("init survey done");
     });
   },
   initSignsheet: function () {
@@ -145,7 +141,6 @@ app = {
       $.ajax(config)
       .always(function (response, status) {
         if (status === "success") {
-          console.log(response);
           if (response.code === "ok") {
             callback(true, response.data);
           }
@@ -185,7 +180,6 @@ app = {
         });
         $("#surveyContainer button.btn-primary").click(function () {
           var jd = $("#surveyContainer form").serializeFormJSON();
-          console.log(jd);
           var errMsg = "You must give";
           if (!jd.id || jd.id === "") {
             errMsg = "Your student ID is not defined, please <b>report to your instructor</b>, " + errMsg;
@@ -238,6 +232,7 @@ app = {
     }
   },
   signsheet: {
+    pad: null,
     init: function () {
       if (app.api.session !== undefined) {
         this.generateUserTable("#usersList .table");
@@ -247,19 +242,18 @@ app = {
       }
       $("#userSignsheet").show();
       var el = document.getElementById('userSketchpad');
-      var pad = new Sketchpad(el);
-      pad.setLineColor('#888');
-      pad.setLineSize(5);
+      app.signsheet.pad = new Sketchpad(el, {width: 500, height: 250});
+      app.signsheet.pad.setLineColor('#000e44');
+      app.signsheet.pad.setLineSize(5);
       window.onresize = function (e) {
-        pad.resize(el.offsetWidth);
+        app.signsheet.pad.resize(el.offsetWidth);
       };
       $("#userSignsheet").dialog({
         autoOpen: false,
         modal: true,
         resizable: true,
-        minHeight: 150,
-        height: 'auto',
-        width: '500px',
+        height: 400,
+        width: 550,
         show: {
           effect: "fade",
           duration: 600
@@ -270,20 +264,58 @@ app = {
         },
         buttons: {
           Undo: function () {
-            pad.undo();
+            app.signsheet.pad.undo();
           },
           Clear: function () {
-            pad.clear();
+            app.signsheet.pad.clear();
           },
           Close: function () {
             $(this).dialog("close");
           },
           Validate: function () {
-            $(this).dialog("close");
+            var student = $("#userSignsheet #signsheet_student").val(),
+            day = $("#userSignsheet #signsheet_day").val(),
+            daypart = $("#userSignsheet #signsheet_daypart").val(),
+            dial = $(this);
+            var svgid = 'signsheet-' + student + '-' + day + '-' + daypart;
+            var svgcontent = app.signsheet.generateSVGSignature(svgid);
+            var filename = "collect/" + svgid + ".svg";
+            app.api.post(filename, svgcontent, function (ok, response) {
+              if (ok) {
+                app.signsheet.updateSignsheetSingleSignature(student, day, daypart);
+                dial.dialog("close");
+              }
+            });
           }
         }
       });
       $("#userSignsheet").hide();
+    },
+    generateSVGSignature: function (svgid) {
+      var json = app.signsheet.pad.toJSON();
+      var svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n';
+      var width = 500, height = 250;
+      svg += '<svg width="' + width + 'px" height="' + height + 'px" id="' + svgid + '" version="1.1" xmlns="http://www.w3.org/2000/svg">\n';
+      for (var i in json.strokes) {
+        var stroke = json.strokes[i];
+        var path = '';
+        for (var j in stroke.points) {
+          var point = stroke.points[j];
+          var x = Math.round(width * point.x);
+          var y = Math.round(height * point.y);
+          if (path === '') {
+            path += 'M' + x + ' ' + y;
+          }
+          else {
+            path += ' L ' + x + ' ' + y;
+            path += ' M' + x + ' ' + y;
+          }
+        }
+        path += ' Z';
+        svg += '<path id="path' + i + '" d="' + path + '" stroke="#000000" stroke-width="5" style="stroke-linejoin:round;stroke-linecap:round"/>\n';
+      }
+      svg += '</svg>\n';
+      return svg;
     },
     generateUserTable: function (tableSelector) {
       var table = $(tableSelector);
@@ -338,16 +370,7 @@ app = {
           if (student.id !== undefined) {
             $(scanUserSignsheet).each(function (index, period) {
               if (period.day !== undefined) {
-                var filename = "collect/signsheet-" + student.id + "-" + period.day + "-" + period.slice + ".svg";
-                console.log(filename)
-                app.api.getFree(filename, null, function (ok, response) {
-                  if (ok) {
-                    var td = $("#signsheet-cell-" + period.day + "-" + period.slice);
-                    var imgTag = '<img src="/' + filename + '"/>';
-                    td.children().remove();
-                    td.html(imgTag);
-                  }
-                });
+                app.signsheet.updateSignsheetSingleSignature(student.id, period.day, period.slice);
               }
             });
           }
@@ -355,11 +378,26 @@ app = {
         }
       });
     },
+    updateSignsheetSingleSignature: function (student, day, daypart) {
+      if (student !== undefined && day !== undefined && daypart !== undefined) {
+        var filename = "collect/signsheet-" + student + "-" + day + "-" + daypart + ".svg";
+        app.api.getFree(filename, null, function (ok) {
+          if (ok) {
+            var td = $("#signsheet-cell-" + day + "-" + daypart);
+            var imgTag = '<img src="/' + filename + '"/>';
+            td.children().remove();
+            td.html(imgTag);
+          }
+        });
+      }
+    },
     onClickSelectDate: function (d, p) {
       if (app.api.course.schedule !== undefined && app.api.course.schedule.timetable !== undefined) {
         $(app.api.course.schedule.timetable).each(function (index, item) {
           if ('' + item.day === d) {
-            $("#userSignsheet #signsheet_day").val(d);
+            var date = new Date(Date.parse(app.api.session.start) + ((item.day - 1) * 24 * 60 * 60 * 1000));
+            var dateID = date.toISOString().substring(0, 10);
+            $("#userSignsheet #signsheet_day").val(dateID);
             $("#userSignsheet #signsheet_daypart").val(p);
             $("#userSignsheet").dialog("open");
           }

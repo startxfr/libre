@@ -2,7 +2,12 @@
  * source: http://theisensanders.com/responsive-sketchpad/assets/custom.css
  * information: http://theisensanders.com/responsive-sketchpad/
  */
-#userSketchpad {border:1px solid #eee;cursor:crosshair; height: 250px}
+#userSketchpad {
+  border:1px solid #eee;
+  cursor: url('../images/pen.svg') 24 24, crosshair; 
+  width: 500px; 
+  height: 250px; 
+}
 
 .ui-draggable, .ui-droppable {
 	background-position: top;
@@ -10,4 +15,5 @@
 
 #usersTimetable table img {
   width: 150px;
+  
 }
