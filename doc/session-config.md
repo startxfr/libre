@@ -38,5 +38,5 @@ uninstall will be automatically performed when invoking command `libre-instructo
 When your course session is configured, you can :
 
 1. [Install a course session](session-install.md)
-2. [Deploy a classroom](infra-deploy.md)
+2. [Deploy a classroom](classroom-deploy.md)
 3. [Start a course session](session-start.md)

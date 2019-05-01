@@ -6,7 +6,7 @@
     that: libre_course is defined
     msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
 
-- name: "start : Course description is loaded"
+- name: "start : Lab description is loaded"
   assert:
     that:
     - libre_lab is defined
