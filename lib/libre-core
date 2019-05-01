@@ -109,7 +109,7 @@ function echoEnv {
 function checkIfLibre {
   if [[ ! -d "$ROOT_DIR" ]] ; then
     echoError "LIBRE is not installed";
-    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/v0.5.42/installer.md";
+    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/v0.5.44/installer.md";
     echoError "for more information on how to install LIBRE";
     exit 1;
   fi
@@ -119,7 +119,7 @@ function checkIfLibre {
 function checkIfSession {
   if [[ ! -f $CONFIG_FILE ]] ; then
     echoError "LIBRE session is not configured";
-    echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/v0.5.42/session.md";
+    echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/v0.5.44/session.md";
     echoError "for more information on how to setup LIBRE session";
     exit 1;
   fi

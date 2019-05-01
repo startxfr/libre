@@ -12,7 +12,7 @@ THIS_SCRIPT="$(realpath $0)"
 
 # config var
 LIBRE_TOOLREPO_URL=https://github.com/startxfr/libre
-LIBRE_TOOLREPO_BRANCH=v0.5.42
+LIBRE_TOOLREPO_BRANCH=v0.5.44
 LIBRE_TOOLREPO_BASE=/
 
 # default command line options
