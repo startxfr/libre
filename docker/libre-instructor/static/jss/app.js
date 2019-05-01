@@ -302,20 +302,17 @@ app = {
     generateTimetableTable: function (tableSelector) {
       var displayOpt = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
       var displayLang = "fr-FR";
-      var startDate = new Date(Date.parse(app.api.session.start));
-      var startWK = (startDate.getDay() === 0 || startDate.getDay() === 6) ? 'yes' : 'no';
-      var startDisplay = startDate.toLocaleDateString(displayLang, displayOpt);
       var table = $(tableSelector);
       $('thead', table).remove();
+      var cellBtn = "<tr>";
       if (app.api.course.schedule !== undefined && app.api.course.schedule.timetable !== undefined) {
-        var cellBtn = "<tr>";
         $(app.api.course.schedule.timetable).each(function (index, courseday) {
           var startSubDate = new Date(Date.parse(app.api.session.start) + ((courseday.day - 1) * 24 * 60 * 60 * 1000));
-          var startSubWK = (startSubDate.getDay() === 0 || startSubDate.getDay() === 6) ? 'yes' : 'no';
-          var startSubDisplay = startSubDate.toLocaleDateString(displayLang, displayOpt)
+          var startSubDisplay = startSubDate.toLocaleDateString(displayLang, displayOpt);
+          var startSubID = startSubDate.toISOString().substring(0, 10);
           cellBtn += "<th>" + startSubDisplay + "</th>";
-          cellBtn += "<td><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + courseday.day + "','am')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> AM</a></td>";
-          cellBtn += "<td><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + courseday.day + "','pm')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> PM</a></td>";
+          cellBtn += "<td id=\"signsheet-cell-" + startSubID + "-am\"><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + courseday.day + "','am')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> AM</a></td>";
+          cellBtn += "<td id=\"signsheet-cell-" + startSubID + "-pm\"><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + courseday.day + "','pm')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> PM</a></td>";
           cellBtn += "</tr><tr>";
         });
         table.append(cellBtn + "</tr>");
@@ -325,10 +322,35 @@ app = {
       }
     },
     onClickSelectStudent: function (i) {
+      var scanUserSignsheet = [];
+      if (app.api.course.schedule !== undefined && app.api.course.schedule.timetable !== undefined) {
+        $(app.api.course.schedule.timetable).each(function (index, courseday) {
+          var startSubDate = new Date(Date.parse(app.api.session.start) + ((courseday.day - 1) * 24 * 60 * 60 * 1000));
+          var startSubID = startSubDate.toISOString().substring(0, 10);
+          scanUserSignsheet.push({day: startSubID, slice: 'am'});
+          scanUserSignsheet.push({day: startSubID, slice: 'pm'});
+        });
+      }
       $(app.api.session.students).each(function (index, student) {
         if (student.id === i) {
           $("#userSignsheet #signsheet_student").val(student.id);
           $("#usersTimetable .courseInfoName .form-control-static").text(student.name);
+          if (student.id !== undefined) {
+            $(scanUserSignsheet).each(function (index, period) {
+              if (period.day !== undefined) {
+                var filename = "collect/signsheet-" + student.id + "-" + period.day + "-" + period.slice + ".svg";
+                console.log(filename)
+                app.api.getFree(filename, null, function (ok, response) {
+                  if (ok) {
+                    var td = $("#signsheet-cell-" + period.day + "-" + period.slice);
+                    var imgTag = '<img src="/' + filename + '"/>';
+                    td.children().remove();
+                    td.html(imgTag);
+                  }
+                });
+              }
+            });
+          }
           $("#usersTimetable").show();
         }
       });
