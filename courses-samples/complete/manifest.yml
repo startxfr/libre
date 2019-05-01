@@ -4,11 +4,16 @@ provider: STARTX
 familly: examples
 name: Training course example
 desc: A simple sample of a course description. You can describe here your course content
-time:
+schedule:
   days: 1
   hours: 7
   start: "9am"
   end: "5pm"
+  timetable:
+    - day: 1
+      hours: 6
+      start: "10am"
+      end: "5pm"
 url: 
   public: https://formation.startx.fr/cours/startx/courses-samples/complete.html
   course: https://instructor.classroom.example.com/book/index.html

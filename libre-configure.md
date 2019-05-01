@@ -49,7 +49,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.5.43"
+  version: "0.5.44"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"
