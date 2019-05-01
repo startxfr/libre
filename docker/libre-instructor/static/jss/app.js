@@ -283,6 +283,7 @@ app = {
             app.api.post(filename, svgcontent, function (ok, response) {
               if (ok) {
                 app.signsheet.updateSignsheetSingleSignature(student, day, daypart);
+                app.signsheet.pad.clear();
                 dial.dialog("close");
               }
             });
@@ -343,8 +344,8 @@ app = {
           var startSubDisplay = startSubDate.toLocaleDateString(displayLang, displayOpt);
           var startSubID = startSubDate.toISOString().substring(0, 10);
           cellBtn += "<th>" + startSubDisplay + "</th>";
-          cellBtn += "<td id=\"signsheet-cell-" + startSubID + "-am\"><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + courseday.day + "','am')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> AM</a></td>";
-          cellBtn += "<td id=\"signsheet-cell-" + startSubID + "-pm\"><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + courseday.day + "','pm')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> PM</a></td>";
+          cellBtn += "<td id=\"signsheet-cell-" + startSubID + "-am\">" + app.signsheet.generateTimetableTableButton(startSubID,'am') + "</td>";
+          cellBtn += "<td id=\"signsheet-cell-" + startSubID + "-pm\">" + app.signsheet.generateTimetableTableButton(startSubID,'pm') + "</td>";
           cellBtn += "</tr><tr>";
         });
         table.append(cellBtn + "</tr>");
@@ -352,6 +353,9 @@ app = {
       else {
         table.append("<thead><tr><td><i>No scheduled timetable</i></td></tr></thead>");
       }
+    },
+    generateTimetableTableButton: function (day,daypart) {
+      return "<a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + day + "','" + daypart + "')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> " + daypart + "</a>";    
     },
     onClickSelectStudent: function (i) {
       var scanUserSignsheet = [];
@@ -382,11 +386,14 @@ app = {
       if (student !== undefined && day !== undefined && daypart !== undefined) {
         var filename = "collect/signsheet-" + student + "-" + day + "-" + daypart + ".svg";
         app.api.getFree(filename, null, function (ok) {
-          if (ok) {
             var td = $("#signsheet-cell-" + day + "-" + daypart);
-            var imgTag = '<img src="/' + filename + '"/>';
             td.children().remove();
+          if (ok) {
+            var imgTag = '<img src="/' + filename + '"/>';
             td.html(imgTag);
+          }
+          else {
+            td.html(app.signsheet.generateTimetableTableButton(day,daypart));
           }
         });
       }
@@ -394,10 +401,10 @@ app = {
     onClickSelectDate: function (d, p) {
       if (app.api.course.schedule !== undefined && app.api.course.schedule.timetable !== undefined) {
         $(app.api.course.schedule.timetable).each(function (index, item) {
-          if ('' + item.day === d) {
-            var date = new Date(Date.parse(app.api.session.start) + ((item.day - 1) * 24 * 60 * 60 * 1000));
-            var dateID = date.toISOString().substring(0, 10);
-            $("#userSignsheet #signsheet_day").val(dateID);
+          var startSubDate = new Date(Date.parse(app.api.session.start) + ((item.day - 1) * 24 * 60 * 60 * 1000));
+          var startSubID = startSubDate.toISOString().substring(0, 10);
+          if (startSubID === d) {
+            $("#userSignsheet #signsheet_day").val(startSubID);
             $("#userSignsheet #signsheet_daypart").val(p);
             $("#userSignsheet").dialog("open");
           }
