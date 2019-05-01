@@ -1,0 +1,9 @@
+/* 
+ * source: http://theisensanders.com/responsive-sketchpad/assets/custom.css
+ * information: http://theisensanders.com/responsive-sketchpad/
+ */
+#userSketchpad {border:1px solid #eee;cursor:crosshair; height: 250px}
+
+.ui-draggable, .ui-droppable {
+	background-position: top;
+}

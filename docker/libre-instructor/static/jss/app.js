@@ -70,12 +70,18 @@ app = {
   initInfo: function () {
     app.init(function () {
       app.infoPage.init();
+      console.log("init infoPage done");
     });
   },
   initSurvey: function () {
     app.init(function () {
       app.survey.init();
-      console.log("done");
+      console.log("init survey done");
+    });
+  },
+  initSignsheet: function () {
+    app.init(function () {
+      app.signsheet.init();
     });
   },
   api: {
@@ -158,7 +164,7 @@ app = {
       if (app.api.course !== undefined) {
         $(".courseInfoID .form-control-static").text(app.api.course.id + " v" + app.api.course.version);
         $(".courseInfoName .form-control-static").text(app.api.course.name);
-        $(".courseInfoFormat .form-control-static").text(app.api.course.time.days + "days (" + app.api.course.time.hours + " hours)");
+        $(".courseInfoFormat .form-control-static").text(app.api.course.schedule.days + "days (" + app.api.course.schedule.hours + " hours)");
       }
       if (app.api.session !== undefined) {
         $(".sessionInfoInstructor .form-control-static").text(app.api.session.instructor);
@@ -217,9 +223,6 @@ app = {
           else {
             $(app.tools.alertBox("danger", errMsg.substring(0, errMsg.length - 1) + ".")).prependTo("#surveyContainer form");
           }
-
-
-
         });
       }
     },
@@ -234,18 +237,126 @@ app = {
       });
     }
   },
+  signsheet: {
+    init: function () {
+      if (app.api.session !== undefined) {
+        this.generateUserTable("#usersList .table");
+        if (app.api.course !== undefined) {
+          this.generateTimetableTable("#usersTimetable .table");
+        }
+      }
+      $("#userSignsheet").show();
+      var el = document.getElementById('userSketchpad');
+      var pad = new Sketchpad(el);
+      pad.setLineColor('#888');
+      pad.setLineSize(5);
+      window.onresize = function (e) {
+        pad.resize(el.offsetWidth);
+      };
+      $("#userSignsheet").dialog({
+        autoOpen: false,
+        modal: true,
+        resizable: true,
+        minHeight: 150,
+        height: 'auto',
+        width: '500px',
+        show: {
+          effect: "fade",
+          duration: 600
+        },
+        hide: {
+          effect: "fade",
+          duration: 300
+        },
+        buttons: {
+          Undo: function () {
+            pad.undo();
+          },
+          Clear: function () {
+            pad.clear();
+          },
+          Close: function () {
+            $(this).dialog("close");
+          },
+          Validate: function () {
+            $(this).dialog("close");
+          }
+        }
+      });
+      $("#userSignsheet").hide();
+    },
+    generateUserTable: function (tableSelector) {
+      var table = $(tableSelector);
+      if (app.api.session !== undefined && app.api.session.students !== undefined) {
+        $(app.api.session.students).each(function (index, item) {
+          var row = "<tr><td>" + item.name + "</td>";
+          row += "<td><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectStudent('" + item.id + "')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Sign</a></td>";
+          row += "</tr>";
+          table.append(row);
+        });
+      }
+      else {
+        table.append("<tr><td><i>No users</i></td></tr>");
+      }
+    },
+    generateTimetableTable: function (tableSelector) {
+      var displayOpt = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+      var displayLang = "fr-FR";
+      var startDate = new Date(Date.parse(app.api.session.start));
+      var startWK = (startDate.getDay() === 0 || startDate.getDay() === 6) ? 'yes' : 'no';
+      var startDisplay = startDate.toLocaleDateString(displayLang, displayOpt);
+      var table = $(tableSelector);
+      $('thead', table).remove();
+      if (app.api.course.schedule !== undefined && app.api.course.schedule.timetable !== undefined) {
+        var cellBtn = "<tr>";
+        $(app.api.course.schedule.timetable).each(function (index, courseday) {
+          var startSubDate = new Date(Date.parse(app.api.session.start) + ((courseday.day - 1) * 24 * 60 * 60 * 1000));
+          var startSubWK = (startSubDate.getDay() === 0 || startSubDate.getDay() === 6) ? 'yes' : 'no';
+          var startSubDisplay = startSubDate.toLocaleDateString(displayLang, displayOpt)
+          cellBtn += "<th>" + startSubDisplay + "</th>";
+          cellBtn += "<td><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + courseday.day + "','am')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> AM</a></td>";
+          cellBtn += "<td><a class=\"btn btn-primary btn-sm\" href=\"#\" onclick=\"app.signsheet.onClickSelectDate('" + courseday.day + "','pm')\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-check\" aria-hidden=\"true\"></span> PM</a></td>";
+          cellBtn += "</tr><tr>";
+        });
+        table.append(cellBtn + "</tr>");
+      }
+      else {
+        table.append("<thead><tr><td><i>No scheduled timetable</i></td></tr></thead>");
+      }
+    },
+    onClickSelectStudent: function (i) {
+      $(app.api.session.students).each(function (index, student) {
+        if (student.id === i) {
+          $("#userSignsheet #signsheet_student").val(student.id);
+          $("#usersTimetable .courseInfoName .form-control-static").text(student.name);
+          $("#usersTimetable").show();
+        }
+      });
+    },
+    onClickSelectDate: function (d, p) {
+      if (app.api.course.schedule !== undefined && app.api.course.schedule.timetable !== undefined) {
+        $(app.api.course.schedule.timetable).each(function (index, item) {
+          if ('' + item.day === d) {
+            $("#userSignsheet #signsheet_day").val(d);
+            $("#userSignsheet #signsheet_daypart").val(p);
+            $("#userSignsheet").dialog("open");
+          }
+        });
+      }
+    }
+  },
   infoPage: {
     init: function () {
       if (app.api.course !== undefined) {
         $("#courseInfoID .form-control-static").text(app.api.course.id + " v" + app.api.course.version);
         $("#courseInfoName .form-control-static").text(app.api.course.name);
         $("#courseInfoDesc .form-control-static").text(app.api.course.desc);
-        $("#courseInfoFormat .form-control-static").text(app.api.course.time.days + "days (" + app.api.course.time.hours + " hours)");
+        $("#courseInfoFormat .form-control-static").text(app.api.course.schedule.days + "days (" + app.api.course.schedule.hours + " hours)");
         $("#courseInfoUrlPub .form-control-static").html("<a class=\"btn btn-primary btn-sm\" href=\"" + app.api.course.url.public + "\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span> Learn more on this course</a>");
         $("#courseInfoUrlManual .form-control-static").html("<a class=\"btn btn-primary btn-sm\" href=\"" + app.api.course.url.course + "\" target=\"blank\" role=\"button\"><span class=\"glyphicon glyphicon-bookmark\" aria-hidden=\"true\"></span> Learn more on this course</a>");
         var table = $("#courseInfo .table");
         $(app.api.course.content).each(function (index, item) {
-          var row = "<tr><td>" + item.id + "</td>";
+          var row = "<tr><td>" + item.id + "</tdtime>";
           row += "<td>" + item.name + "</td><td>" + item.time + "min</td></tr>";
           table.append(row);
         });

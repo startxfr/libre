@@ -1,0 +1,26 @@
+{
+  "id" : "libredev01",
+  "course" : "LIBRE-DV01",
+  "instructor" : "Christophe LARUE",
+  "start" : "2019-04-28T00:00:00.000Z",
+  "stop" : "2019-05-02T00:00:00.000Z",
+  "type" : "Intra",
+  "state" : "terminated",
+  "commentToTrainer" : "No given trainer comment",
+  "commentToFacility" : "No given facility comment",
+  "commentFromTrainer" : "No comment from trainer",
+  "students" : [
+    {
+      "id" : "ST1",
+      "name" : "Student UN",
+      "workstation" : "1"
+    } ,     {
+      "id" : "ST2",
+      "name" : "Student DEUX",
+      "workstation" : "6"
+    } ,     {
+      "id" : "ST3",
+      "name" : "Student TROIS",
+      "workstation" : "3"
+    }   ]
+}
