@@ -4,5 +4,5 @@
   gather_facts: true
 
   roles:
-    - { role: infra, do: load }
-    - { role: infra, do: provision, become: yes }
+    - { role: infra, do: load, infra_type: aws }
+    - { role: infra, do: status, infra_type: aws }

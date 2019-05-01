@@ -5,11 +5,13 @@
   register: sessionID
   delegate_to: localhost
   when: session_id is undefined
-
 - name: "config : gapi : Session ID doesn't match a good number"
   fail:
     msg: "You must give a good Session ID"
   when: sessionID.user_input | default('') | string == ""
+- name: "config : gapi : Register session_id fact"
+  set_fact:
+    session_id: "{{ sessionID.user_input }}"
 
 - name: "config : gapi : Configure the session token"
   pause:
@@ -18,16 +20,10 @@
   register: sessionToken
   delegate_to: localhost
   when: session_token is undefined
-
 - name: "config : gapi : Session token doesn't match a good token"
   fail:
     msg: "You must give a good Session token"
-  when: session_token | default('') | string == ""
-
-- name: "config : gapi : Register session_id fact"
-  set_fact:
-    session_id: "{{ sessionID.user_input }}"
-
+  when: sessionToken.user_input | default('') | string == ""
 - name: "config : gapi : Register session_token fact"
   set_fact:
     session_token: "{{ sessionToken.user_input }}"
@@ -39,7 +35,7 @@
 
 - name: "config : gapi : Extract Google API returned data"
   set_fact:
-    course_id: "{{ gapiReturn.course }}"
+    course_id: "{{ gapiReturn.cours }}"
     session_id: "{{ gapiReturn.id }}"
     session_instructor: "{{ gapiReturn.instructor }}"
     session_type: "{{ gapiReturn.type }}"

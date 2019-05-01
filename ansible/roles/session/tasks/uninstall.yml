@@ -5,11 +5,11 @@
   when: r_session_dir_course_playbooks_details.stat.exists
 
 # Uninstall tasks
-- name: "uninstall : Start instructor uninstall"
-  include_role:
-    name: instructor
-    tasks_from: uninstall
-  become: yes
+#- name: "uninstall : Start instructor uninstall"
+#  include_role:
+#    name: instructor
+#    tasks_from: uninstall
+#  become: yes
 
 - name: "uninstall : Remove course directory content {{ r_session_dir_course }}"
   file:
@@ -38,6 +38,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Session is uninstalled"
+    log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is uninstalled"
     log_component: session
     log_action: uninstall

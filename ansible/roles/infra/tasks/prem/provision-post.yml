@@ -11,7 +11,7 @@
     mode: 0664
   delegate_to: localhost
   run_once: true
-- name: "prem : provision-post : Log post-provision action"
+- name: "infra : prem : provision-post : Log post-provision action"
   include_role:
     name: libre
     tasks_from: lib/log
@@ -23,7 +23,7 @@
 - name: "prem : provision-post : Post-provisionning is finish"
   debug:
     msg:
-      - "We are happy to report that on-premise infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully ppost-provisioned on Self-Hosted infrastructure"
+      - "We are happy to report that on-premise infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully post-provisioned on Self-Hosted infrastructure"
       - " "
       - "Here are some interesting characteristics of this infrastructure:"
       - " "

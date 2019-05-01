@@ -1,8 +1,8 @@
 ---
 # Start pre-tasks
-- name: Start LIBRE-instructor web application
+- name: "start : Start LIBRE-instructor web application for session {{ libre_session.id }}"
   docker_container:
-    name: libre-instructor
+    name: "libre-instructor-{{ libre_session.id }}"
     image: startx/libre-instructor:stable
     state: started
     volumes:
@@ -22,19 +22,17 @@
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
-
 - name: "start : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-start.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
-
 - name: "start : Log start action"
   include_role:
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Session is started"
+    log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is started"
     log_component: session
     log_action: start

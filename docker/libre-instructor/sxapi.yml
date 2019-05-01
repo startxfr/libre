@@ -1,14 +1,14 @@
 name: libre-instructor
 description: Web-application used to serve course materials and tools for training
   delivery
-version: 0.5.42
+version: 0.5.44
 debug: true
 resources:
   serviceinfo:
     _class: serviceinfo
   data-files:
     _class: localfs
-    directory: "/libre-collect/"
+    directory: "/usr/src/app/data/"
 log:
   filters:
     level: '0,1,2,3,4'
@@ -36,6 +36,14 @@ server:
     desc: Ping the application. Return a sample message in text
     code: '200'
     body: pong
+  - path: "/collect"
+    method: GET
+    endpoint: list
+    resource: data-files
+  - path: "/collect/:id"
+    method: GET
+    endpoint: read
+    resource: data-files
   - path: "/collect/:id"
     method: POST
     endpoint: create
