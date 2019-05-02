@@ -51,6 +51,10 @@
     mode: 0777
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
+    serole: object_r
+    setype: svirt_sandbox_file_t
+    seuser: system_u
+    unsafe_writes: yes
     recurse: yes
   when: not r_libre_dir_collect_details.stat.exists
 - name: "install_directory : Reload {{ config_libre.directory.collect }} directory details"
