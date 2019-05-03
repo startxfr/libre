@@ -11,7 +11,7 @@
       Name: "{{ libre_session.id }}-vpc"
       Project: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
-      Instructor: "{{ session.instructor }}"
+      Instructor: "{{ libre_session.instructor }}"
   register: libre_vpc
 - name: "aws : provision : Create classroom subnet in {{ libre_session.id }}-vpc"
   ec2_vpc_subnet:
@@ -26,7 +26,7 @@
       Name: "{{ libre_session.id }}-subnet-classroom"
       Project: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
-      Instructor: "{{ session.instructor }}"
+      Instructor: "{{ libre_session.instructor }}"
   register: classroom_subnet
   when: libre_vpc.vpc.id is defined
 - name: "aws : provision : Create Internet Gateway in {{ libre_session.id }}-vpc"
@@ -40,7 +40,7 @@
       Name: "{{ libre_session.id }}-igw"
       Project: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
-      Instructor: "{{ session.instructor }}"
+      Instructor: "{{ libre_session.instructor }}"
   register: igw
   when: libre_vpc.vpc.id is defined
 - name: "aws : provision : Create public route table to classroom subnet in {{ libre_session.id }}-vpc"
@@ -54,7 +54,7 @@
       Name: "{{ libre_session.id }}-route-public"
       Project: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
-      Instructor: "{{ session.instructor }}"
+      Instructor: "{{ libre_session.instructor }}"
     subnets:
       - "{{ classroom_subnet.subnet.id }}"
     routes:
@@ -75,7 +75,7 @@
       Name: "{{ libre_session.id }}-sg-all"
       Project: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
-      Instructor: "{{ session.instructor }}"
+      Instructor: "{{ libre_session.instructor }}"
     rules:
       - proto: all
         from_port: 22
@@ -102,7 +102,7 @@
       Name: "{{ libre_session.id }}-workstation"
       Project: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
-      Instructor: "{{ session.instructor }}"
+      Instructor: "{{ libre_session.instructor }}"
     volumes:
       - device_name: /dev/xvda
         volume_type: gp2
@@ -186,6 +186,21 @@
     log_name: "AWS infrastructure is Provisionned"
     log_component: infra-aws
     log_action: provision
+- name: "aws : provision : Copy ssh private key {{ libre_infra_aws_ssh_private_key_file }} to {{config_libre.directory.conf}}/infra_rsa"
+  copy:
+    src: "{{r_libre_userconfig_dir}}/infra-aws_rsa"
+    dest: "{{config_libre.directory.conf}}/infra-aws_rsa"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "aws : provision : Copy ssh public key {{ libre_infra_aws_ssh_public_key_file }} to {{config_libre.directory.conf}}/infra_rsa.pub"
+  copy:
+    src: "{{r_libre_userconfig_dir}}/infra-aws_rsa.pub"
+    dest: "{{config_libre.directory.conf}}/infra-aws_rsa.pub"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    
 - name: "aws : provision : Infrastructure provisionning is finish"
   debug:
     msg:
