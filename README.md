@@ -41,18 +41,18 @@ libre-lab start <lab_id>
 In order to get a fully installed training classroom, user must follow the following
 workflow
 
-1. [Install LIBRE on instructor workstation](installer.md)
-2. [Install course materials on instructor workstation](libre-repository.md)
-3. [Configure session on instructor workstation](session-config.md)
-4. [Provision classroom workstation](infra-provision.md)
-5. [Deploy course materials on students workstation](session-install.md)
-6. [Start course service on instructor](session-start.md)
+1. [Install LIBRE on instructor workstation](doc/installer.md)
+2. [Install course materials on instructor workstation](doc/libre-repository.md)
+3. [Configure session on instructor workstation](doc/session-config.md)
+4. [Provision classroom workstation](doc/classroom-provision.md)
+5. [Deploy course materials on students workstation](doc/session-install.md)
+6. [Start course service on instructor](doc/session-start.md)
 
 
 ### 3.1. LIBRE installation
 
 An installer is provided to help you deploy LIBRE environement. You will find more
-information about this installer on [the installer instruction](installer.md).
+information about this installer on [the installer instruction](doc/installer.md).
 
 The simpliest way is to run the following script on your workstation.
 
@@ -97,7 +97,7 @@ individually) you can add `student` to the installer script
 
 Only instructor setup can deploy course material to a student workstation
 
-## 3.2. Instructor configuration
+### 3.2. Instructor configuration
 
 After the instructor installation (or in parallel, as long as LIBRE is installed)
 you must configure the course and session to be delivered
@@ -112,10 +112,14 @@ You will need to get the `session_id` and `session_token` from the training prov
 libre-session config <session_id> <session_token>
 ```
 
-## 3.4. Install instructor course material
+### 3.4. Install instructor course material
 
 After the instructor session configuration, you can install course material on your instructor workstation
 
 ```bash
 libre-session install
 ```
+
+# 4. Release notes
+
+To see the full release list, please refer to the [release page](doc/RELEASES.md). Release name are based on constellation name as described in the [release sytem](doc/RELEASES.md#release-naming-rules)

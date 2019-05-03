@@ -3,7 +3,7 @@
 As soon as you have [installed libre TMS](installer.md), [configured your environement](libre-configure.md),
  [synchronized your courses materials](libre-repository.md) and
  [configured](session-config.md) and [installed your session](session-config.md) and
- [deployed your classroom](infra-deploy.md), you can start your session. 
+ [deployed your classroom](classroom-deploy.md), you can start your session. 
 
 Remember that the course session is defined in the `/usr/share/libre/conf/session.json` configuration file.
 
