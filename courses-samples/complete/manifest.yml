@@ -60,13 +60,14 @@ content:
         time: 5
 labs:
   - id: 1
-    idn: "example1"
+    idn: example-1
     name: "First Lab"
     desc: |
       Description of the exercice
       and step to execute
     time: 20
   - id: 2
+    idn: example-2
     name: "Second Lab"
     desc: |
       Description of the exercice

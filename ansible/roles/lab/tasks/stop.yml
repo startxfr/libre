@@ -1,6 +1,6 @@
 ---
 - stat:
-    path: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/stop.yml"
+    path: "{{ r_current_lab_dir }}/stop.yml"
   register: r_lab_stop_file_details
 
 # Stop pre-tasks
@@ -13,16 +13,16 @@
 - name: "stop : Course description is loaded"
   assert:
     that:
-    - libre_lab is defined
-    - libre_lab.id is defined
+    - current_lab is defined
+    - current_lab.id is defined
     msg: "Lab description {{ lab_current }} doesn't exist"
 
-- name: "stop : Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} exists"
+- name: "stop : Ansible lab directory {{ r_current_lab_dir }} exists"
   assert:
     that:
-    - r_lab_currentlab_ansible_details is defined
-    - r_lab_currentlab_ansible_details.stat.exists
-    msg: "Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} doesn't exist"
+    - r_current_lab_dir_details is defined
+    - r_current_lab_dir_details.stat.exists
+    msg: "Ansible lab directory {{ r_current_lab_dir }} doesn't exist"
 
 # Stop tasks
 
@@ -31,8 +31,8 @@
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
 
-- name: "stop : Cleaning lab {{ libre_lab.id }} {{ libre_lab.name }}"
-  include_tasks: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/stop.yml"
+- name: "stop : Cleaning lab {{ current_lab.id }} {{ current_lab.name }}"
+  include_tasks: "{{ r_current_lab_dir }}/stop.yml"
   when: r_lab_stop_file_details.stat.exists
 
 - name: "stop : Get previous report data"
@@ -52,6 +52,11 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Stop lab {{ libre_lab.id }} {{ libre_lab.name }}"
+    log_name: "Stop lab {{ current_lab.id }} {{ current_lab.name }}"
     log_component: lab
     log_action: stop
+
+- name: "stop : {{ config_libre.directory.conf }}/{{ r_lab_config_current }} doesn't exists"
+  file:
+    state: absent
+    path: "{{ config_libre.directory.conf }}/{{ r_lab_config_current }}"
