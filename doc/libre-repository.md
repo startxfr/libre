@@ -1,3 +1,5 @@
+<img align="right" height="50" src="https://raw.githubusercontent.com/startxfr/libre/dev/doc/assets/logo.svg?sanitize=true">
+
 # Synchronize libre TMS
 
 As soon as you have [installed libre TMS](installer.md) and [configured](libre-configure.md) your 
