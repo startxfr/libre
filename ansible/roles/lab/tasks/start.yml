@@ -6,19 +6,24 @@
     that: libre_course is defined
     msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
 
-- name: "start : Course description is loaded"
+- name: "start : Lab description is loaded"
   assert:
     that:
-    - libre_lab is defined
-    - libre_lab.id is defined
+    - current_lab is defined
+    - current_lab.id is defined
     msg: "Lab description {{ lab_current }} doesn't exist"
 
-- name: "start : Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} exists"
+- name: "start : Ansible lab directory {{ r_current_lab_dir }} exists"
   assert:
     that:
-    - r_lab_currentlab_ansible_details is defined
-    - r_lab_currentlab_ansible_details.stat.exists
-    msg: "Ansible lab directory {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} doesn't exist"
+    - r_current_lab_dir_details is defined
+    - r_current_lab_dir_details.stat.exists
+    msg: "Ansible lab directory {{ r_current_lab_dir }} doesn't exist"
+
+- name: "start : Save the current lab id in {{ config_libre.directory.conf }}/{{ r_lab_config_current }}"
+  copy:
+    dest: "{{ config_libre.directory.conf }}/{{ r_lab_config_current }}"
+    content: "{{ current_lab.idn }}"
 
 # Start tasks
 
@@ -27,8 +32,8 @@
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
   delegate_to: localhost
 
-- name: "start : Start creating lab {{ libre_lab.id }} {{ libre_lab.name }}"
-  include_tasks: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}/start.yml"
+- name: "start : Start creating lab {{ current_lab.id }} {{ current_lab.name }}"
+  include_tasks: "{{ r_current_lab_dir }}/start.yml"
 
 - name: "start : Get previous report data"
   set_fact:
@@ -47,6 +52,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Start lab {{ libre_lab.id }} {{ libre_lab.name }}"
+    log_name: "Start lab {{ current_lab.id }} {{ current_lab.name }}"
     log_component: lab
     log_action: start

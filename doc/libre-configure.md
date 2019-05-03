@@ -49,7 +49,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.5.44"
+  version: "0.5.99"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"
@@ -208,5 +208,5 @@ Right after configuring your libre TMS, you can :
 1. [Synchronize course repository](libre-repository.md)
 2. [Setup a course session](session-config.md)
 3. [Install a course session](session-install.md)
-4. [Deploy a classroom](infra-deploy.md)
+4. [Deploy a classroom](classroom-deploy.md)
 5. [Start a course session](session-start.md)
