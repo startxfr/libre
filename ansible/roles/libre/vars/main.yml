@@ -45,7 +45,7 @@ r_libre_session_userconf_default:
   type: "{{ libre_session_type | string }}"
   gapi: "{{ libre_session_gapi | string }}"
 r_libre_infra_userconf_default:
-  default: "{{ libre_infra_type | string }}"
+  default: "{{ libre_infra_default | string }}"
   self:
     type: "self"
     network:

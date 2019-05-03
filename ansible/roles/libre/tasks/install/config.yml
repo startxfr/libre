@@ -7,13 +7,11 @@
   when: not r_libre_libre_userconf_details.stat.exists or
             r_libre_force_upgrade
   become: no
-
 - name: "install_config : Reload user libre configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   register: r_libre_libre_userconf_details
   become: no
-
 - name: "install_config : Reload user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   set_fact:
     config_libre: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_libre) | from_yaml | default('') }}"
@@ -27,33 +25,29 @@
   when: not r_libre_session_userconf_details.stat.exists or
             r_libre_force_upgrade
   become: no
-
 - name: "install_config : Reload user session configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   register: r_libre_session_userconf_details
   become: no
-
 - name: "install_config : Reload user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   set_fact:
     config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_session) | from_yaml | default('') }}"
   become: no
 
-- name: "install_config : Generate user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
+- name: "install_config : Generate user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   template:
-    src: repository.j2
-    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
+    src: session.j2
+    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
     mode: 0664
-  when: not r_libre_repository_userconf_details.stat.exists or
+  when: not r_libre_session_userconf_details.stat.exists or
             r_libre_force_upgrade
   become: no
-
 - name: "install_config : Reload user repository configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   register: r_libre_repository_userconf_details
   become: no
-
 - name: "install_config : Reload user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   set_fact:
     config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository) | from_yaml | default('') }}"
@@ -67,14 +61,72 @@
   when: not r_libre_infra_userconf_details.stat.exists or
             r_libre_force_upgrade
   become: no
-
 - name: "install_config : Reload user infra configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
   become: no
-
 - name: "install_config : Reload user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   set_fact:
     config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra) | from_yaml | default('') }}"
   become: no
+
+- name: "install_config : Copy ssh private key at {{ infra_prem_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/libre_prem.rsa"
+  copy:
+    src: infra_prem_ssh_private_key_file
+    dest: "{{r_libre_userconfig_dir}}/libre_prem.rsa"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+  when: infra_prem_ssh_private_key_file is defined
+- name: "install_config : Copy ssh private key at {{ infra_aws_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/libre_aws.rsa"
+  copy:
+    src: infra_aws_ssh_private_key_file
+    dest: "{{r_libre_userconfig_dir}}/libre_aws.rsa"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+  when: infra_aws_ssh_private_key_file is defined
+
+- name: "install_config : Copy Self ssh private key {{ libre_infra_self_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/infra-self_rsa"
+  copy:
+    src: libre_infra_self_ssh_private_key_file
+    dest: "{{r_libre_userconfig_dir}}/infra-self_rsa"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "install_config : Copy Self ssh public key {{ libre_infra_self_ssh_public_key_file }} to {{r_libre_userconfig_dir}}/infra-self_rsa.pub"
+  copy:
+    src: libre_infra_self_ssh_public_key_file
+    dest: "{{r_libre_userconfig_dir}}/infra-self_rsa.pub"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "install_config : Copy Prem ssh private key {{ libre_infra_prem_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/infra-prem_rsa"
+  copy:
+    src: libre_infra_prem_ssh_private_key_file
+    dest: "{{r_libre_userconfig_dir}}/infra-prem_rsa"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "install_config : Copy Prem ssh public key {{ libre_infra_prem_ssh_public_key_file }} to {{r_libre_userconfig_dir}}/infra-prem_rsa.pub"
+  copy:
+    src: libre_infra_prem_ssh_public_key_file
+    dest: "{{r_libre_userconfig_dir}}/infra-prem_rsa.pub"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "install_config : Copy AWS ssh private key {{ libre_infra_aws_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/infra-aws_rsa"
+  copy:
+    src: libre_infra_aws_ssh_private_key_file
+    dest: "{{r_libre_userconfig_dir}}/infra-aws_rsa"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "install_config : Copy AWS ssh public key {{ libre_infra_aws_ssh_public_key_file }} to {{r_libre_userconfig_dir}}/infra-aws_rsa.pub"
+  copy:
+    src: libre_infra_aws_ssh_public_key_file
+    dest: "{{r_libre_userconfig_dir}}/infra-aws_rsa.pub"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
