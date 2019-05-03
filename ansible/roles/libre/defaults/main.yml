@@ -59,7 +59,7 @@ libre_source_tmp: '{{ libre_tmp }}/libre'
 libre_session_type: 'sample'
 libre_session_gapi: 'https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec'
 # Default config_infra structure
-libre_infra_type: 'self'
+libre_infra_default: 'self'
 infra_self_dns_zone: 'classroom.example.com'
 infra_associated_ip: '127.0.0.1'
 infra_prem_dns_zone: 'training.example.com'

@@ -60,6 +60,7 @@ content:
         time: 5
 labs:
   - id: 1
+    idn: "example1"
     name: "First Lab"
     desc: |
       Description of the exercice
