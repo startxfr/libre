@@ -1,3 +1,5 @@
+<img align="right" height="50" src="https://raw.githubusercontent.com/startxfr/libre/dev/doc/assets/logo.svg?sanitize=true">
+
 # Configure libre TMS
 
 As soon as you have installed libre TMS using the [libre installer](installer.md) your curent user 
