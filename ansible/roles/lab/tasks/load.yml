@@ -10,30 +10,39 @@
     lab_current: "{{ lookup('file', config_libre.directory.conf+'/'+r_lab_config_current) | default('1') }}"
   when:
   - r_lab_config_current_details.stat.exists
-  - lab_current is undefined
+  - lab_current is not defined
 
 - name: "load : No current lab found in {{ config_libre.directory.conf }}/{{ r_lab_config_current }}, Set default to lab 1"
   set_fact:
     lab_current: "1"
   when:
   - not r_lab_config_current_details.stat.exists
-  - lab_current is undefined
+  - lab_current is not defined
 
 - name: "load : Extract lab list from {{ r_lab_dir_course }}/manifest.yml"
   set_fact:
-    libre_lab: "{{ libre_course | default({}) | json_query(qry) }}"
+    current_lab: "{{ libre_course | default({}) | json_query(qry) }}"
+  vars:
+    qry: 'labs[?idn==`{{lab_current}}`] | [0]'
+
+- set_fact:
+    current_lab: "{{ libre_course | default({}) | json_query(qry) }}"
   vars:
     qry: 'labs[?id==`{{lab_current}}`] | [0]'
+  when: current_lab is not defined or current_lab.id is not defined
 
 - name: "load : Check if lab {{lab_current}} exist"
   assert:
-    that: libre_lab is defined and libre_lab.id is defined
+    that: current_lab is defined and current_lab.id is defined
     msg: "Lab {{ lab_current }} could not be found in {{ r_lab_dir_course }}/manifest.yml"
 
-- name: "load : {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }} directory details"
+- set_fact:
+    r_current_lab_dir: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ current_lab.id }}"
+
+- name: "load : {{ r_current_lab_dir }} directory details"
   stat:
-    path: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ libre_lab.id }}"
-  register: r_lab_currentlab_ansible_details
+    path: "{{ r_current_lab_dir }}"
+  register: r_current_lab_dir_details
   when:
-  - libre_lab is defined
-  - libre_lab.id is defined
+  - current_lab is defined
+  - current_lab.id is defined

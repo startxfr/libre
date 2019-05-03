@@ -1,11 +1,11 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
 
-{% if libre_lab is defined and libre_lab.id is defined %}
-Lab          : \e[1m\e[32mstarted\e[0m        \e[1m{{ libre_lab.id }}\e[0m {{ libre_lab.name }}
-Duration     : {{ libre_lab.time }}min
+{% if current_lab is defined and current_lab.id is defined %}
+Lab          : \e[1m\e[32mstarted\e[0m        \e[1m{{ current_lab.id }}\e[0m {{ current_lab.name }}
+Duration     : {{ current_lab.time }}min
 --------------
-{{ libre_lab.desc }}
+{{ current_lab.desc }}
 {% else %}
 Lab          : \e[1m\e[31mnot started\e[0m
 {% endif %}
