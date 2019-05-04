@@ -179,7 +179,7 @@ prem:
   network:
     dns: "training.example.com"
   ssh:
-    privateKey_file: "~/my-ssh-key.pem"
+    privateKey_file: "~/.libre/infra-prem_rsa"
     user: "root"
 aws: 
   type: "aws"
@@ -195,8 +195,8 @@ aws:
     image: "ami-3548444c"
     instance_nb: "1"
   ssh:
-    keyname: "ssh-key"
-    privateKey_file: "~/.ssh/id_rsa"
+    keyname: "libre-instructor"
+    privateKey_file: "~/.libre/infra-aws_rsa"
     user: "centos"
 ```
 
