@@ -186,20 +186,6 @@
     log_name: "AWS infrastructure is Provisionned"
     log_component: infra-aws
     log_action: provision
-- name: "aws : provision : Copy ssh private key {{ libre_infra_aws_ssh_private_key_file }} to {{config_libre.directory.conf}}/infra_rsa"
-  copy:
-    src: "{{r_libre_userconfig_dir}}/infra-aws_rsa"
-    dest: "{{config_libre.directory.conf}}/infra-aws_rsa"
-    mode: 0644
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-- name: "aws : provision : Copy ssh public key {{ libre_infra_aws_ssh_public_key_file }} to {{config_libre.directory.conf}}/infra_rsa.pub"
-  copy:
-    src: "{{r_libre_userconfig_dir}}/infra-aws_rsa.pub"
-    dest: "{{config_libre.directory.conf}}/infra-aws_rsa.pub"
-    mode: 0644
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
     
 - name: "aws : provision : Infrastructure provisionning is finish"
   debug:

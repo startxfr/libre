@@ -95,6 +95,7 @@
     state: absent
     aws_access_key: "{{ libre_infra.auth.access_key }}"
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    region: "{{ libre_infra.ec2.region }}"
     vpc_id: "{{ libre_vpcs.vpcs[0].id }}"
     route_table_id: "{{ item.id }}"
     lookup: id
