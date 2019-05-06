@@ -16,6 +16,20 @@
     libre_infra: "{{ libre_infra|combine({'auth': {'secret_key': aws_secret_key.user_input }}, recursive=True) }}"
   when: aws_secret_key.user_input is defined
 
+- name: "aws : config : Copy infra ssh private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{config_libre.directory.conf}}/infra-id_rsa"
+  copy:
+    src: "{{r_libre_userconfig_dir}}/infra-id_rsa"
+    dest: "{{config_libre.directory.conf}}/infra-id_rsa"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "aws : config : Copy infra ssh public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{config_libre.directory.conf}}/infra-id_rsa.pub"
+  copy:
+    src: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
+    dest: "{{config_libre.directory.conf}}/infra-id_rsa.pub"
+    mode: 0644
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
 - name: "aws : config : Generate infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
