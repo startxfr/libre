@@ -37,7 +37,7 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
-| 0.6.0    | 2019-05-03 | Stable release for infra deployment in aws environment
+| 0.6.0    | 2019-05-06 | Stable release for infra deployment in aws environment
 
 ## version 0.5.x (Cetus)
 

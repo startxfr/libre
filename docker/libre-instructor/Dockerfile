@@ -1,7 +1,7 @@
 FROM startx/sxapi:0.3.3
 MAINTAINER STARTX "dev@startx.fr"
 
-ENV LIBRE_VERSION=0.5.99 \
+ENV LIBRE_VERSION=0.6.0 \
     SX_ID="startx/libre" \
     SX_SERVICE="libre" \
     SX_NAME="Startx LIBRE (alpine)" \
