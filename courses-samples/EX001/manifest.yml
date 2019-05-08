@@ -73,3 +73,50 @@ labs:
       Description of the exercice
       and step to execute
     time: 30
+classroomInfra:
+  workstations:
+    - name: workstation
+      group_name: workstations
+      desc: Workstation used for lab environement
+      scripts:
+        provision: provision-workstation.yml
+        deprovision: deprovision-workstation.yml
+      infra_aws:
+        type: "t2.micro"
+        image: "ami-3548444c"
+        ssh_keyname: "ssh-libre-instructor"
+        ssh_privateKey_file: "/usr/share/libre/conf/libre_aws.rsa"
+        ssh_user: "centos"
+      infra_prem:
+        ssh_privateKey_file: "/usr/share/libre/conf/libre_prem.rsa"
+        ssh_user: "root"
+    - name: nodeA
+      group_name: nodesA
+      desc: First node server used for lab environement
+      scripts:
+        provision: provision-nodeA.yml
+        deprovision: deprovision-nodeA.yml
+      infra_aws:
+        type: "t2.micro"
+        image: "ami-3548444c"
+        ssh_keyname: "ssh-libre-instructor"
+        ssh_privateKey_file: "/usr/share/libre/conf/libre_aws.rsa"
+        ssh_user: "centos"
+      infra_prem:
+        ssh_privateKey_file: "/usr/share/libre/conf/libre_prem.rsa"
+        ssh_user: "root"
+    - name: nodeB
+      group_name: nodesB
+      desc: Second node server used for lab environement
+      scripts:
+        provision: provision-nodeA.yml
+        deprovision: deprovision-nodeA.yml
+      infra_aws:
+        type: "t2.micro"
+        image: "ami-3548444c"
+        ssh_keyname: "ssh-libre-instructor"
+        ssh_privateKey_file: "/usr/share/libre/conf/libre_aws.rsa"
+        ssh_user: "centos"
+      infra_prem:
+        ssh_privateKey_file: "/usr/share/libre/conf/libre_prem.rsa"
+        ssh_user: "root"

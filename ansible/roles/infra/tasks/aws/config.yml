@@ -1,4 +1,8 @@
 ---
+- debug: var=libre_session
+- debug: var=libre_course
+- fail: msg=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
+
 - name: "aws : config : Configure AWS access key"
   pause:
    prompt: "What is your AWS Access key ?"

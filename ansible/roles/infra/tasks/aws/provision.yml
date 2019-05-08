@@ -1,4 +1,6 @@
 ---
+
+
 - name: "aws : provision : Create VPC {{ libre_session.id }}-vpc in {{ libre_infra.ec2.region }}"
   ec2_vpc_net:
     state: present

@@ -12,7 +12,32 @@
     "region" : "{{ libre_infra.ec2.region }}",
     "type" : "{{ libre_infra.ec2.type }}",
     "image" : "{{ libre_infra.ec2.image }}",
-    "instance_nb" : "{{ libre_infra.ec2.instance_nb }}"
+    "instance_nb" : "{{ libre_infra.ec2.instance_nb }}",
+    "classroom" : [
+{% if libre_course.classroomInfra is defined and libre_course.classroomInfra.workstations is defined %}
+{% for ws in libre_course.classroomInfra.workstations %}
+    {
+      "name" : "{{ ws.name }}",
+      "group" : "{{ ws.group_name }}"
+{% if ws.infra_aws is defined and ws.infra_aws.type is defined %}
+      , "type" : "{{ ws.infra_aws.type }}"
+{% endif %}
+{% if ws.infra_aws is defined and ws.infra_aws.image is defined %}
+      , "image" : "{{ ws.infra_aws.image }}"
+{% endif %}
+{% if ws.infra_aws is defined and ws.infra_aws.ssh_keyname is defined %}
+      , "ssh_keyname" : "{{ ws.infra_aws.ssh_keyname }}"
+{% endif %}
+{% if ws.infra_aws is defined and ws.infra_aws.ssh_privateKey_file is defined %}
+      , "ssh_privateKey_file" : "{{ ws.infra_aws.ssh_privateKey_file }}"
+{% endif %}
+{% if ws.infra_aws is defined and ws.infra_aws.ssh_user is defined %}
+      , "ssh_user" : "{{ ws.infra_aws.ssh_user }}"
+{% endif %}
+    } {% if not loop.last %}, {%endif%}
+{% endfor %}
+{% endif %}
+    ]
   },
   "ssh" : {
     "keyname" : "{{ libre_infra.ssh.keyname }}",

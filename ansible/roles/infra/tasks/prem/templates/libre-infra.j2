@@ -3,6 +3,22 @@
   "network" : {
     "dns" : "{{ libre_infra.network.dns }}"
   },
+    "classroom" : [
+{% if libre_course.classroomInfra is defined and libre_course.classroomInfra.workstations is defined %}
+{% for ws in libre_course.classroomInfra.workstations %}
+    {
+      "name" : "{{ ws.name }}",
+      "group" : "{{ ws.group_name }}"
+{% if ws.infra_prem is defined and ws.infra_prem.ssh_privateKey_file is defined %}
+      , "ssh_privateKey_file" : "{{ ws.infra_prem.ssh_privateKey_file }}"
+{% endif %}
+{% if ws.infra_prem is defined and ws.infra_prem.ssh_user is defined %}
+      , "ssh_user" : "{{ ws.infra_prem.ssh_user }}"
+{% endif %}
+    } {% if not loop.last %}, {%endif%}
+{% endfor %}
+{% endif %}
+    ],
   "ssh" : {
     "privateKey_file" : "{{ libre_infra.ssh.privateKey_file }}",
     "user" : "{{ libre_infra.ssh.user }}"
