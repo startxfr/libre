@@ -1,4 +1,4 @@
-id: complete
+id: EX001
 version: 0.0.1
 provider: STARTX
 familly: examples
@@ -15,7 +15,7 @@ schedule:
       start: "10am"
       end: "5pm"
 url: 
-  public: https://formation.startx.fr/cours/startx/courses-samples/complete.html
+  public: https://formation.startx.fr/cours/startx/courses-samples/EX001.html
   course: https://instructor.classroom.example.com/book/index.html
 content: 
   - id: "1"
