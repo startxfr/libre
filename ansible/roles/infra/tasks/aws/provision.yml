@@ -1,6 +1,4 @@
 ---
-
-
 - name: "aws : provision : Create VPC {{ libre_session.id }}-vpc in {{ libre_infra.ec2.region }}"
   ec2_vpc_net:
     state: present
@@ -96,7 +94,7 @@
     group_id: "{{ security_group.group_id }}"
     vpc_subnet_id: "{{ classroom_subnet.subnet.id }}"
     assign_public_ip: yes
-    exact_count: "{{ libre_infra.ec2.instance_nb }}"
+    exact_count: "{{ libre_infra.ec2.environements_nb }}"
     count_tag: Name
     wait: yes
     wait_timeout: 60
@@ -203,7 +201,7 @@
       - "  - Region: {{ libre_infra.ec2.region }}"
       - "  - SSH User: {{ libre_infra.ssh.user }}"
       - "  - SSH Key: {{ libre_infra.ssh.keyname }}.pem"
-      - "  - Size: {{ libre_infra.ec2.instance_nb }} workstations"
+      - "  - Size: {{ libre_infra.ec2.environements_nb }} workstations"
       - " "
       - "You must finish your installation by running the following command :"
       - "  ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml"
@@ -225,7 +223,7 @@
 #        - Region: {{ libre_infra.ec2.region }}
 #        - SSH User: {{ libre_infra.ssh.user }}
 #        - SSH Key: {{ libre_infra.ssh.keyname }}.pem
-#        - Size: {{ libre_infra.ec2.instance_nb }} workstations
+#        - Size: {{ libre_infra.ec2.environements_nb }} workstations
 #
 #     You must finish your installation by running the following command :
 #       ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml

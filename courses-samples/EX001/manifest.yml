@@ -74,6 +74,7 @@ labs:
       and step to execute
     time: 30
 classroomInfra:
+  spare: 1
   workstations:
     - name: workstation
       group_name: workstations

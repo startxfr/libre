@@ -70,7 +70,6 @@ r_libre_infra_userconf_default:
       region: "{{ infra_aws_region | string }}"
       type: "{{ infra_aws_instance_type | string }}"
       image: "{{ infra_aws_image | string }}"
-      instance_nb: "{{ infra_aws_instance_nb | int }}"
     ssh:
       keyname: "{{ infra_aws_key_name | string }}"
       privateKey_file: "{{ infra_aws_ssh_private_key_file | string }}"

@@ -8,7 +8,7 @@
     record: "workstation{{item}}.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
     type: A
   register: route53_facts
-  with_sequence: start=0 end={{ libre_infra.ec2.instance_nb }}
+  with_sequence: start=0 end={{ libre_infra.ec2.environements_nb }}
 - name: "aws : deprovision : Get {{ libre_session.id }}-vpc VPC facts in {{ libre_infra.ec2.region }}"
   ec2_vpc_net_facts:
     aws_access_key: "{{ libre_infra.auth.access_key }}"
