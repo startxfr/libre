@@ -1,0 +1,48 @@
+---
+- name: "aws : provision : instance : Create {{libre_infra.ec2.classroom|length|default(0)}} ec2 instances for student {{labenv}}"
+  ec2:
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    region: "{{ libre_infra.ec2.region }}"
+    instance_type: "{{ station.type|default(libre_infra.ec2.type) }}"
+    image: "{{ station.image|default(libre_infra.ec2.image) }}"
+    key_name: "{{ station.ssh_keyname|default(libre_infra.ssh.keyname) }}"
+    group_id: "{{ list_networks[0].security_group_id }}"
+    vpc_subnet_id: "{{ list_networks[0].vpc_subnet_id }}"
+    assign_public_ip: yes
+    exact_count: 1
+    count_tag: 
+      Name: "{{ libre_session.id }}-env{{labenv}}-{{station.name}}"
+    wait: yes
+#    wait_timeout: 10
+    instance_tags:
+      Name: "{{ libre_session.id }}-env{{labenv}}-{{station.name}}"
+      Type: "{{station.name}}"
+      Session: "{{ libre_session.id }}"
+      Group: "{{ libre_session.id }}-{{station.group|default('default')}}"
+      Labenv: "{{ labenv }}"
+      Course: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
+      Instructor: "{{ libre_session.instructor }}"
+    volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 8
+        delete_on_termination: true
+      - device_name: /dev/sdb
+        volume_type: io1
+        iops: 100
+        volume_size: 10
+        delete_on_termination: true
+  loop: "{{ libre_infra.ec2.classroom }}"
+  loop_control:
+    loop_var: station
+    label: "{{ station.name }}"
+  register: ec2
+- name: "aws : provision : instance : Add student {{labenv}} instances description to list_instances"
+  set_fact:
+    list_instances: "{{ list_instances + station.tagged_instances }}"
+  loop: "{{ ec2.results }}"
+  loop_control:
+    loop_var: station
+    label: "{{ station.station.name }}"
