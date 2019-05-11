@@ -2,12 +2,15 @@
 
 
 {% if r_infra_conf_details.stat.exists == true %}
-infra conf   : {% if libre_infra is defined %}\e[1m\e[32mloaded         \e[0m{% else %}\e[1m\e[31mnot loaded     \e[0m{% endif %}{{ r_infra_config_file }}
+  infra conf : {% if libre_infra is defined %}\e[1m\e[32mloaded         \e[0m{% else %}\e[1m\e[31mnot loaded     \e[0m{% endif %}{{ r_infra_config_file }}
 {% else %}
-infra conf   : \e[1m\e[31mnot installed\e[0m
+  infra conf : \e[1m\e[31mnot installed\e[0m
 {% endif %}
 {% if libre_infra.type is defined %}
         type : \e[1m\e[32mconfigured\e[0m     {{ libre_infra.type }}
 {% else %}
         type : \e[1m\e[31mnot configured\e[0m
+{% endif %}
+{% if libre_infra.network is defined %}
+          IP : {{ libre_infra.network.associated_ip }}
 {% endif %}

@@ -1,5 +1,5 @@
 ---
-- name: "Provision classroom infrastructure on instructor"
+- name: "Check classroom Prem infrastructure on instructor"
   hosts: 'instructor'
   gather_facts: true
 

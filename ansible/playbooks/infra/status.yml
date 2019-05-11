@@ -1,9 +1,8 @@
 ---
-- name: "Check chapter on local"
-  hosts: 'local'
+- name: "Check classroom infrastructure on instructor"
+  hosts: 'instructor'
   gather_facts: true
-  user: root
 
   roles:
-    - { role: chapter, do: load }
-    - { role: chapter, do: status }
+    - { role: infra, do: load }
+    - { role: infra, do: status }
