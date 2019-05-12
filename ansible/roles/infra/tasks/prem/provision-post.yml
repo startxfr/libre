@@ -1,4 +1,22 @@
 ---
+- debug: var=groups
+- name: "prem : provision-post : Installing student environment on classroom hosts"
+  include_role:
+    name: libre
+    tasks_from: install
+  delegate_to: "{{hname}}"
+  delegate_facts: True
+  loop: "{{groups['classroom']}}"
+  loop_control:
+    loop_var: hname
+  register: test
+- debug: var=test
+- fail:
+
+
+
+
+
 - name: "prem : provision-post : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"

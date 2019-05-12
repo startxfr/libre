@@ -128,7 +128,7 @@ function checkIfConfig {
 # status if session install is done
 function checkIfSession {
   if [[ ! -f $SESSION_FILE ]] ; then
-    echoError "LIBRE configuration doesn't exist in $SESSION_FILE";
+    echoError "Session configuration doesn't exist in $SESSION_FILE";
     echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/master/session.md";
     echoError "for more information on how to setup LIBRE session";
     exit 1;

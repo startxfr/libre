@@ -7,7 +7,6 @@
     status_code: 200
     return_content: yes
     follow_redirects: all
-  delegate_to: localhost
   run_once: true
   register: gapi_return
   when: config_session.type == 'gapi'
