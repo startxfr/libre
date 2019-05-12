@@ -1,19 +1,12 @@
 ---
-- name: "prem : provision-post : Generate instructor inventory {{config_libre.directory.conf}}/inventory/instructor.yml"
+- name: "prem : provision-post : Set infrastructure state to provisionned"
+  set_fact:
+    libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+- name: "prem : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
-    src: "templates/inventory-instructor.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/instructor.yml"
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-- name: "prem : provision-post : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
-  template:
-    src: "templates/inventory-students.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/students.yml"
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-
+    src: templates/libre-infra.j2
+    dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  become: yes
 - name: "prem : provision-post : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
@@ -26,7 +19,7 @@
     mode: 0664
   delegate_to: localhost
   run_once: true
-- name: "infra : prem : provision-post : Log post-provision action"
+- name: "prem : provision-post : Log post-provision action"
   include_role:
     name: libre
     tasks_from: lib/log

@@ -10,3 +10,30 @@
 - name: "prem : deprovision : TODO !!!"
   debug:
     msg: "prem : deprovision : TODO !!!"
+- name: "prem : deprovision : Set infrastructure state to provisionned"
+  set_fact:
+    libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"
+- name: "prem : deprovision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  template:
+    src: templates/libre-infra.j2
+    dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  become: yes
+- name: "prem : deprovision : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+  delegate_to: localhost
+- name: "prem : deprovision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+  template:
+    src: templates/libre_report-deprovision.j2
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+- name: "prem : deprovision : Log deprovision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "On-Prem infrastructure is Deprovisionned"
+    log_component: infra-prem
+    log_action: deprovision
+
