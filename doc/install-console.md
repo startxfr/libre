@@ -1,3 +1,5 @@
+<img align="right" height="50" src="https://raw.githubusercontent.com/startxfr/libre/dev/doc/assets/logo.svg?sanitize=true">
+
 # LIBRE Console installation
 
 LIBRE console allow LIBRE user to handle low level action like infrastructure deployement
