@@ -128,6 +128,14 @@
     tasks_from: install
   become: yes
   when: inventory_hostname in groups.students
+- name: "aws : provision-post : Set infrastructure state to provisionned"
+  set_fact:
+    libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+- name: "aws : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  template:
+    src: templates/libre-infra.j2
+    dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  become: yes
 - name: "aws : provision-post : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
@@ -138,7 +146,7 @@
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
-- name: "infra : aws : provision-post : Log post-provision action"
+- name: "aws : provision-post : Log post-provision action"
   include_role:
     name: libre
     tasks_from: lib/log

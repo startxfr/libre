@@ -1,14 +1,7 @@
 ---
-- name: "load_report : Get {{ r_libre_tmp }}/{{ r_libre_tmpfile  }} report file details"
-  stat:
-    path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile  }}"
-  register: r_libre_tmpfile_details
-  delegate_to: localhost
-
 - name: "load_report : Touch report file {{ r_libre_tmp }}/{{ r_libre_tmpfile  }}"
   file:
     path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     state: touch
     mode: 0666
   delegate_to: localhost
-  when: not r_libre_tmpfile_details.stat.exists

@@ -1,3 +1,5 @@
+<img align="right" height="50" src="https://raw.githubusercontent.com/startxfr/libre/dev/doc/assets/logo.svg?sanitize=true">
+
 # Configure libre TMS
 
 As soon as you have installed libre TMS using the [libre installer](installer.md) your curent user 
@@ -49,7 +51,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.5.99"
+  version: "0.6.3"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"
@@ -157,7 +159,6 @@ Describe and configure the aws infrastructure backend
 | ec2.region          | AWS EC2 region to use
 | ec2.type            | AWS EC2 compute type to provision
 | ec2.image           | AWS EC2 image used to boot (must be available in your region)
-| ec2.instance_nb     | AWS number of compute instance to provision (will be overwrited by session configuration)
 | ssh.keyname         | AWS EC2 key name coresponding to the private key file 
 | ssh.privateKey_file | ssh private key file location
 | ssh.user            | ssh user used to connect
@@ -177,7 +178,7 @@ prem:
   network:
     dns: "training.example.com"
   ssh:
-    privateKey_file: "~/my-ssh-key.pem"
+    privateKey_file: "~/.libre/infra-prem_rsa"
     user: "root"
 aws: 
   type: "aws"
@@ -191,10 +192,9 @@ aws:
     region: "eu-west-1"
     type: "t2.micro"
     image: "ami-3548444c"
-    instance_nb: "1"
   ssh:
-    keyname: "ssh-key"
-    privateKey_file: "~/.ssh/id_rsa"
+    keyname: "libre-instructor"
+    privateKey_file: "~/.libre/infra-aws_rsa"
     user: "centos"
 ```
 

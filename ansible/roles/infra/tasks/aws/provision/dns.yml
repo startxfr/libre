@@ -1,0 +1,30 @@
+---
+- name: "aws : provision : dns : Register public DNS for workstations"
+  route53:
+    state: present
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    zone: "{{ libre_infra.route53.zone }}"
+    record: "{{station.tags.Type}}-env{{station.tags.Labenv}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+    type: A
+    ttl: 30
+    overwrite: yes
+    value: "{{ station.public_ip }}"
+  loop: "{{ list_instances }}"
+  loop_control:
+    loop_var: station
+    label: "{{ station.tags.Name }}"
+  register: list_dns
+- name: "aws : provision : dns : Register a public DNS for instructor"
+  route53:
+    state: present
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    zone: "{{ libre_infra.route53.zone }}"
+    record: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+    type: CNAME
+    ttl: 30
+    overwrite: yes
+    value: "workstation-env0.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+#    wait: yes
+  register: route53_instructor

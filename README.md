@@ -1,3 +1,5 @@
+<img align="right" height="50" src="https://raw.githubusercontent.com/startxfr/libre/dev/doc/assets/logo.svg?sanitize=true">
+
 # LIBRE Training Management System
 
 This project define a complete training management system to help you build and run simple
@@ -22,15 +24,19 @@ chmod +x /tmp/installer-libre
 # install LIBRE
 /tmp/installer-libre install
 # install course environement
-libre-session install <session_id> <session_token>
+libre-session config
+libre-session install
 # provision course environement (self-host)
+libre-infra self config
 libre-infra self provision
 # provision course environement (on-premise)
+#libre-infra prem config
 # libre-infra prem provision
 # provision course environement (aws)
-# libre-infra aws setup
+# libre-infra aws config
 # libre-infra aws provision
 # Start course
+libre-session start
 libre-chapter start
 # Start lab on each workstation
 libre-lab start <lab_id>
@@ -76,13 +82,16 @@ After installing LIBRE, if you need to setup a training session before provision
 
 ```bash
 # change setup before default install
-libre-session install <session_id> <session_token>
+libre-session config
+libre-session install
 # install course environement (self-host)
+libre-infra self config
 libre-infra self provision
 # install course environement (on-premise)
+# libre-infra prem config
 # libre-infra prem provision
 # install course environement (aws)
-# libre-infra aws setup
+# libre-infra aws config
 # libre-infra aws provision
 ```
 
@@ -95,7 +104,7 @@ individually) you can add `student` to the installer script
 /tmp/installer-libre -t student install
 ```
 
-Only instructor setup can deploy course material to a student workstation
+! Only instructor setup can deploy course material to a student workstation
 
 ### 3.2. Instructor configuration
 
@@ -109,7 +118,7 @@ exist, get session detail from it and fill the /usr/share/libre/conf/libre-sessi
 You will need to get the `session_id` and `session_token` from the training provider.
 
 ```bash
-libre-session config <session_id> <session_token>
+libre-session config
 ```
 
 ### 3.4. Install instructor course material

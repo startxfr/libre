@@ -1,3 +1,5 @@
+<img align="right" height="50" src="https://raw.githubusercontent.com/startxfr/libre/dev/doc/assets/logo.svg?sanitize=true">
+
 # Contributing to LIBRE
 
 When contributing to this repository, please first discuss the change you wish to make via issue,

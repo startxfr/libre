@@ -1,4 +1,20 @@
 ---
+- name: "prem : provision : Install TFTP packages"
+  yum:
+    name:
+    - tftp
+    - tftp-server*
+    - xinetd*
+- name: "prem : provision : Enable service tftp"
+  systemd:
+    name: tftp
+    enabled: yes
+    state: started 
+- name: "prem : provision : Enable service xinetd"
+  systemd:
+    name: xinetd
+    enabled: yes
+    state: started 
 - name: "prem : provision : Generate instructor inventory {{config_libre.directory.conf}}/inventory/instructor.yml"
   template:
     src: "templates/inventory-instructor.j2"
@@ -13,20 +29,47 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-- name: "prem : provision : Copy ssh private key {{ libre_infra_prem_ssh_private_key_file }} to {{config_libre.directory.conf}}/infra_rsa"
-  copy:
-    src: "{{r_libre_userconfig_dir}}/infra-prem_rsa"
-    dest: "{{config_libre.directory.conf}}/infra-prem_rsa"
-    mode: 0644
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-- name: "prem : provision : Copy ssh public key {{ libre_infra_prem_ssh_public_key_file }} to {{config_libre.directory.conf}}/infra_rsa.pub"
-  copy:
-    src: "{{r_libre_userconfig_dir}}/infra-prem_rsa.pub"
-    dest: "{{config_libre.directory.conf}}/infra-prem_rsa.pub"
-    mode: 0644
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-- name: "prem : provision : TODO !!!"
+- name: "prem : provision : Set infrastructure state to provisionned"
+  set_fact:
+    libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
+- name: "prem : provision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  template:
+    src: templates/libre-infra.j2
+    dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  become: yes
+- name: "prem : provision : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+  delegate_to: localhost
+- name: "prem : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+  template:
+    src: templates/libre_report-provision.j2
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    mode: 0664
+  delegate_to: localhost
+- name: "prem : provision : Log provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "Self-Hosted infrastructure is Provisionned"
+    log_component: infra-prem
+    log_action: provision
+- name: "prem : provision : Infrastructure provisionning is finish"
   debug:
-    msg: "prem : provision : TODO !!!"
+    msg:
+      - "We are happy to report that prem infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully provisioned on On-Prem infrastructure"
+      - " "
+      - "Here are some interesting characteristics of this infrastructure:"
+      - " "
+      - " "
+      - " You can continue this process by :"
+      - " "
+      - "1. Review and complete the generated inventory {{config_libre.directory.conf}}/inventory/*.yml"
+      - "2. Start post-provisionning your infrastructure by executing the following command :"
+      - "   $ libre-infra prem post-provision"
+      - " "
+      - "You can also check in {{ r_libre_dest_ansible }}/inventory for sample inventory to use"
+      - "before lauching infrastructure post-provisionning."
+      - " "
+      - " Have an happy training ;)"

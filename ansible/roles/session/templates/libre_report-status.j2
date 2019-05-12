@@ -7,7 +7,7 @@ session conf : {% if libre_session.id is defined %}\e[1m\e[32mloaded         \e[
 session conf : \e[1m\e[31mnot installed\e[0m
 {% endif %}
 {% if libre_session.id is defined %}
-     Session : \e[1m\e[32mconfigured\e[0m     \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+     Session : \e[1m\e[34mconfigured\e[0m     \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
        State :                {{ libre_session.state }}
      Trainer :                {{ libre_session.instructor }}
        Start :                {{ libre_session.start }}
@@ -15,7 +15,7 @@ session conf : \e[1m\e[31mnot installed\e[0m
      Session : \e[1m\e[31mnot configured\e[0m
 {% endif %}
 {% if libre_course.id is defined %}
-      Course : \e[1m\e[32mconfigured\e[0m     \e[1m{{ libre_course.id }}\e[0m v{{ libre_course.version }}
+      Course : \e[1m\e[34mconfigured\e[0m     \e[1m{{ libre_course.id }}\e[0m v{{ libre_course.version }}
                               {{ libre_course.name }}
 {% else %}
       Course : \e[1m\e[31mnot configured\e[0m

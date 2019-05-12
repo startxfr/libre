@@ -1,4 +1,4 @@
-[![libre](https://raw.githubusercontent.com/startxfr/libre/dev/doc/assets/logo.svg?sanitize=true)](https://github.com/startxfr/sxapi-core)
+<img align="right" height="50" src="https://raw.githubusercontent.com/startxfr/libre/dev/doc/assets/logo.svg?sanitize=true">
 
 # Release convention
 
@@ -37,7 +37,9 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
-| 0.6.0    | 2019-05-03 | Stable release for infra deployment in aws environment
+| 0.6.3    | 2019-05-12 | Move self infra to kvm backend and introduce infra state
+| 0.6.1    | 2019-05-12 | Optimize loading sequence
+| 0.6.0    | 2019-05-06 | Stable release for infra deployment in aws environment
 
 ## version 0.5.x (Cetus)
 

@@ -4,9 +4,13 @@
    prompt: "What kind of infrastructure backend do you whan to use (self,prem,aws) ?"
   register: infra_type 
   when: libre_infra is undefined and infra_type is undefined
-- name: "aws : config : Set libre_infra fact from default {{infra_type}} infra"
+- name: "config : Set libre_infra fact from default {{infra_type}} infra"
   set_fact:
     libre_infra: "{{ config_infra[infra_type|default(libre_infra_default)] }}"
+  when: infra_type is defined
+- name: "config : Set libre_infra {{infra_type}} state to configured"
+  set_fact:
+    libre_infra: "{{ libre_infra|combine({'state': 'configured' }, recursive=True) }}"
   when: infra_type is defined
 - name: "config : Config {{ libre_infra.type }} infrastructure"
   include_tasks: "{{ libre_infra.type }}/config.yml"

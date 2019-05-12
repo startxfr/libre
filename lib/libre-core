@@ -115,11 +115,21 @@ function checkIfLibre {
   fi
 }
 
+# status if config file exist
+function checkIfConfig {
+  if [[ ! -f $CONFIG_FILE ]] ; then
+    echoError "LIBRE configuration doesn't exist in $CONFIG_FILE";
+    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/master/installer.md";
+    echoError "for more information on how to install LIBRE";
+    exit 1;
+  fi
+}
+
 # status if session install is done
 function checkIfSession {
-  if [[ ! -f $CONFIG_FILE ]] ; then
-    echoError "LIBRE session is not configured";
-    echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/v0.5.99/session.md";
+  if [[ ! -f $SESSION_FILE ]] ; then
+    echoError "LIBRE configuration doesn't exist in $SESSION_FILE";
+    echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/master/session.md";
     echoError "for more information on how to setup LIBRE session";
     exit 1;
   fi
@@ -208,7 +218,7 @@ function runLibrePlaybook {
       echoOK $ret
       echoOK "Playbook ${libretype}/${libreaction} ended"
     else
-      cat /tmp/a | grep -A 20 "^fatal:"
+      cat /tmp/a | grep -A 30 "^fatal:"
       echoError "Playbook ${libretype}/${libreaction} ended with error"
     fi
     if [ -f $ANSIBLE_RETURN ]; then
@@ -219,29 +229,6 @@ function runLibrePlaybook {
     return $retc
   fi
 }
-
-#function parse_yaml {
-#   local prefix=$2
-#   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
-#   sed -ne "s|^\($s\):|\1|" \
-#        -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
-#        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
-#   awk -F$fs '{
-#      indent = length($1)/2;
-#      vname[indent] = $2;
-#      for (i in vname) {if (i > indent) {delete vname[i]}}
-#      if (length($3) > 0) {
-#         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
-#         printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
-#      }
-#   }'
-#}
-
-## update env var stored in libre.yml file
-#function updateConfigfileVar {
-#  yaml_cli -f $CONFIG_FILE -s $1 $2
-#  echoOK "Key $1 in config file $CONFIG_FILE is updated"
-#}
 
 # Display libre-* generic usage
 function classroomGenericUsageSubcmd {
@@ -257,3 +244,4 @@ EOF
 
 loadInits
 checkIfLibre
+checkIfConfig
