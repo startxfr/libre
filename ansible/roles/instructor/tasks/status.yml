@@ -3,6 +3,10 @@
   include_role:
     name: repository
     tasks_from: status
+- name: "status : Get {{ config_libre.directory.conf }} directory details"
+  stat:
+    path: "{{ config_libre.directory.conf }}"
+  register: r_libre_dir_conf_details
 
 - name: "status : Get previous report data"
   set_fact:

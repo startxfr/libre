@@ -11,3 +11,8 @@ infra conf   : \e[1m\e[31mnot installed\e[0m
 {% else %}
         type : \e[1m\e[31mnot configured\e[0m
 {% endif %}
+{% if r_libre_dir_conf_details.stat.exists == true %}
+   inventory : \e[1m\e[32minstalled\e[0m      {{ config_libre.directory.conf }}/inventory
+{% else %}
+   inventory : \e[1m\e[31mnot installed\e[0m
+{% endif %}
