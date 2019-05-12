@@ -7,12 +7,6 @@
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
   delegate_to: localhost
-- name: "status : Status of AWS infrastructure"
-  include_tasks: "aws/status.yml"
-  when: libre_infra.type == 'aws'
-- name: "status : Status of On-Premise infrastructure"
-  include_tasks: "prem/status.yml"
-  when: libre_infra.type == 'prem'
-- name: "status : Status of Self-Hosted infrastructure"
-  include_tasks: "self/status.yml"
-  when: libre_infra.type == 'self'
+- name: "status : Status of {{ libre_infra.type }} infrastructure"
+  include_tasks: "{{ libre_infra.type }}/status.yml"
+  when: libre_infra.type is defined

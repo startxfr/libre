@@ -51,7 +51,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.6.0"
+  version: "0.6.3"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"
@@ -159,7 +159,6 @@ Describe and configure the aws infrastructure backend
 | ec2.region          | AWS EC2 region to use
 | ec2.type            | AWS EC2 compute type to provision
 | ec2.image           | AWS EC2 image used to boot (must be available in your region)
-| ec2.instance_nb     | AWS number of compute instance to provision (will be overwrited by session configuration)
 | ssh.keyname         | AWS EC2 key name coresponding to the private key file 
 | ssh.privateKey_file | ssh private key file location
 | ssh.user            | ssh user used to connect
@@ -193,7 +192,6 @@ aws:
     region: "eu-west-1"
     type: "t2.micro"
     image: "ami-3548444c"
-    instance_nb: "1"
   ssh:
     keyname: "libre-instructor"
     privateKey_file: "~/.libre/infra-aws_rsa"

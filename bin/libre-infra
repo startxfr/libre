@@ -6,29 +6,33 @@ source /usr/local/lib/libre-infra
 case $1 in
     aws)
     case $2 in
-        config)             infraPlaybook $1 $2 ;;
-        provision)          infraPlaybookWithInfraInventory $1 $2 ;;
-        post-provision)     infraPlaybook $1 provision-post classroom ;;
-        deprovision)        infraPlaybookWithInfraInventory $1 $2 ;;
+        config)             infraTypePlaybook $1 $2 ;;
+        provision)          infraTypePlaybook $1 $2 ;;
+        post-provision)     infraTypePlaybookWithInfraInventory $1 $2 classroom ;;
+        deprovision)        infraTypePlaybook $1 $2 ;;
+        status)             infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;
     esac;;
     prem)
     case $2 in
-        config)             infraPlaybook $1 $2 ;;
-        provision)          infraPlaybookWithInfraInventory $1 $2 ;;
-        post-provision)     infraPlaybook $1 provision-post classroom ;;
-        deprovision)        infraPlaybookWithInfraInventory $1 $2 ;;
+        config)             infraTypePlaybook $1 $2 ;;
+        provision)          infraTypePlaybook $1 $2 ;;
+        post-provision)     infraTypePlaybookWithInfraInventory $1 $2 classroom ;;
+        deprovision)        infraTypePlaybook $1 $2 ;;
+        status)             infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;
     esac;;
     self)
     case $2 in
-        config)             infraPlaybook $1 $2 ;;
-        provision)          infraPlaybookWithInfraInventory $1 $2 ;;
-        post-provision)     infraPlaybook $1 provision-post classroom ;;
-        deprovision)        infraPlaybookWithInfraInventory $1 $2 ;;
+        config)             infraTypePlaybook $1 $2 ;;
+        provision)          infraTypePlaybook $1 $2 ;;
+        post-provision)     infraTypePlaybookWithInfraInventory $1 $2 classroom ;;
+        deprovision)        infraTypePlaybook $1 $2 ;;
+        status)             infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;
     esac;;
     usage|help|--help|-h)   infraUsage $@ ;;
+    status)                 infraPlaybook status ;;
     info|--info)            infraInformation $@ ;;
     version|--version)      infraVersion $@ ;;
     *)                      infraWelcome $@ ;;

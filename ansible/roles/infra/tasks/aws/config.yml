@@ -1,4 +1,11 @@
 ---
+- name: "aws : config : Set spare lab-environement to {% if 'classroomInfra' in libre_course and 'spare' in libre_course.classroomInfra %}{{(libre_course.classroomInfra.spare|int|default(1))}}{% else %}1{% endif %}"
+  set_fact:
+    spare_nb: "{% if 'classroomInfra' in libre_course and 'spare' in libre_course.classroomInfra %}{{(libre_course.classroomInfra.spare|int|default(1))}}{% else %}1{% endif %}"
+- name: "aws : config : Set environements_nb to create to {{ (libre_session.students|length|default(0))+ (spare_nb|int) + 1 }}"
+  set_fact:
+    libre_infra: "{{ libre_infra|combine({'ec2': {'environements_nb': (libre_session.students|length|default(0))+ (spare_nb|int) + 1 }}, recursive=True) }}"
+
 - name: "aws : config : Configure AWS access key"
   pause:
    prompt: "What is your AWS Access key ?"
@@ -30,6 +37,7 @@
     mode: 0644
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
+
 - name: "aws : config : Generate infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -38,6 +46,7 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   become: yes
+
 - name: "aws : config : Succesfull config for Public-Cloud AWS infrastructure"
   debug:
     msg:

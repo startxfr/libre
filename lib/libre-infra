@@ -14,16 +14,24 @@ function infraHeader {
 function infraPlaybook {
   infraHeader
   checkIfSession
+  runLibrePlaybook infra $2
+  exit 0;
+}
+
+# Call infra playbook
+function infraTypePlaybook {
+  infraHeader
+  checkIfSession
   runLibrePlaybook infra-$1 $2 $3
   exit 0;
 }
 
 # Call infra playbook with infra inventory
-function infraPlaybookWithInfraInventory {
+function infraTypePlaybookWithInfraInventory {
   infraHeader
   checkIfSession
   TMPINV="$INVENTORY_FILE";
-  INVENTORY_FILE=$CONFIG_DIR/inventory-infra_$1.yml
+  INVENTORY_FILE=$CONFIG_DIR/inventory/$1.yml
   runLibrePlaybook infra-$1 $2
   INVENTORY_FILE="$TMPINV";
   exit 0;
@@ -66,18 +74,22 @@ Usage:
     provision       provision AWS infrastructure environment
     post-provision  exectute AWS post-provisionning task
     deprovision     deprovision AWS infrastructure environment
+    status          get status of the AWS infrastructure
   prem              On-premise infrastructure
     config          configure On-premise infrastructure environement
     provision       provision On-premise infrastructure environment
     post-provision  exectute On-premise post-provisionning task
     deprovision     deprovision On-premise infrastructure environment
+    status          get status of the On-Prem infrastructure
   self              Self-hosted infrastructure
     config          configure Self-Hosted infrastructure environement
     provision       provision Self-Hosted infrastructure environment
     post-provision  exectute Self-Hosted post-provisionning task
     deprovision     deprovision Self-Hosted infrastructure environment
+    status          get status of the Self infrastructure
 
 - Generic commands:
+  status            get status of the current infrastructure
   usage             get command line usage information
   info              give information about current libre installation
   version           give information about current libre version

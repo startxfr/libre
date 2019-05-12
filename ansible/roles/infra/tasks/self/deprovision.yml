@@ -59,6 +59,14 @@
     - id_rsa
   loop_control:
     loop_var: keyf
+- name: "self : deprovision : Set infrastructure state to provisionned"
+  set_fact:
+    libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"
+- name: "self : deprovision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  template:
+    src: templates/libre-infra.j2
+    dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  become: yes
 - name: "self : deprovision : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
@@ -69,7 +77,7 @@
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
-- name: "infra : self : deprovision : Log deprovision action"
+- name: "self : deprovision : Log deprovision action"
   include_role:
     name: libre
     tasks_from: lib/log
