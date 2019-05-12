@@ -1,7 +1,38 @@
 {
   "type" : "{{ libre_infra.type }}",
+  "kvm" : {
+    "image" : "{{ libre_infra.image }}",
+    "classroom" : [
+{% if libre_course.classroomInfra is defined and libre_course.classroomInfra.workstations is defined %}
+{% for ws in libre_course.classroomInfra.workstations %}
+    {
+      "name" : "{{ ws.name }}",
+      "group" : "{{ ws.group_name }}"
+{% if ws.infra_self is defined and ws.infra_self.type is defined %}
+      , "type" : "{{ ws.infra_self.type }}"
+{% endif %}
+{% if ws.infra_self is defined and ws.infra_self.image is defined %}
+      , "image" : "{{ ws.infra_self.image }}"
+{% endif %}
+{% if ws.infra_self is defined and ws.infra_self.ssh_keyname is defined %}
+      , "ssh_keyname" : "{{ ws.infra_self.ssh_keyname }}"
+{% endif %}
+{% if ws.infra_self is defined and ws.infra_self.ssh_privateKey_file is defined %}
+      , "ssh_privateKey_file" : "{{ ws.infra_self.ssh_privateKey_file }}"
+{% endif %}
+{% if ws.infra_self is defined and ws.infra_self.ssh_user is defined %}
+      , "ssh_user" : "{{ ws.infra_self.ssh_user }}"
+{% endif %}
+    } {% if not loop.last %}, {%endif%}
+
+{% endfor %}
+{% endif %}
+    ]
+  },
   "network" : {
     "dns" : "{{ libre_infra.network.dns }}",
     "associated_ip" : "{{ libre_infra.network.associated_ip }}"
   }
 }
+
+

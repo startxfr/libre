@@ -65,6 +65,7 @@ libre_session_gapi: 'https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXX
 # Default config_infra structure
 libre_infra_default: 'self'
 infra_self_dns_zone: 'classroom.example.com'
+infra_self_image: "/example/myimage.qcow"
 infra_associated_ip: '127.0.0.1'
 infra_prem_dns_zone: 'training.example.com'
 infra_prem_ssh_private_key_file: '/usr/share/libre/conf/infra-id_rsa'
