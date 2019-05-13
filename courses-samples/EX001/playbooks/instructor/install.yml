@@ -1,0 +1,4 @@
+---
+- name: "install : Install course sample EX001"
+  debug: msg="TODO !!! must implement course sample EX001 install process"
+

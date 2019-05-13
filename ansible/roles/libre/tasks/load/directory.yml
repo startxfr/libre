@@ -11,12 +11,3 @@
   stat:
     path: "{{ config_libre.directory.collect }}"
   register: r_libre_dir_collect_details
-- name: "load_directory : Get {{ config_libre.directory.conf }} directory details"
-  stat:
-    path: "{{ config_libre.directory.conf }}"
-  register: r_libre_dir_conf_details
-- name: "load_directory : Get configuration directory {{ r_libre_userconfig_dir }}"
-  stat:
-    path: "{{ r_libre_userconfig_dir }}"
-  register: r_libre_userconfig_dir_details
-  become: no

@@ -1,4 +1,24 @@
 ---
+- name: "install_config : Get user libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
+  register: r_libre_libre_userconf_details
+  become: no
+- name: "install_config : Get user session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
+  register: r_libre_session_userconf_details
+  become: no
+- name: "install_config : Get user repository configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
+  register: r_libre_repository_userconf_details
+  become: no
+- name: "install_config : Get user infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  register: r_libre_infra_userconf_details
+  become: no
 - name: "install_config : Generate user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   template:
     src: libre.j2

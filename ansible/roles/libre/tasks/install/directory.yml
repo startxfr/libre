@@ -1,4 +1,8 @@
 ---
+- name: "install_directory : Get {{ config_libre.directory.conf }} directory details"
+  stat:
+    path: "{{ config_libre.directory.conf }}"
+  register: r_libre_dir_conf_details
 - name: "install_directory : Create training configuration directory {{ config_libre.directory.conf }}"
   file:
     state: directory
@@ -7,12 +11,12 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
-  when: r_libre_dir_conf_details.stat is undefined or not r_libre_dir_conf_details.stat.exists
+  when: not r_libre_dir_conf_details.stat.exists
 - name: "install_directory : Reload {{ config_libre.directory.conf }} directory details"
   stat:
     path: "{{ config_libre.directory.conf }}"
   register: r_libre_dir_conf_details
-  when: r_libre_dir_conf_details.stat is undefined or not r_libre_dir_conf_details.stat.exists
+  when: not r_libre_dir_conf_details.stat.exists
 
 - name: "install_directory : Create training directory {{ config_libre.directory.base }}"
   file:

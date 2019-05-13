@@ -4,6 +4,8 @@ default: "{{ config_infra.default }}"
 self:
   # Name of the infrastructure type (self)
   type: "{{ config_infra.self.type }}"
+  # Path to the default kvm image tu use for classroom VMs
+  image: "{{ config_infra.self.image }}"
   # Network configuration
   network:
     # Domain name to use for the instructor station
@@ -48,8 +50,6 @@ aws:
     type: "{{ config_infra.aws.ec2.type }}"
     # AWS EC2 image used to boot (must be available in your region)
     image: "{{ config_infra.aws.ec2.image }}"
-    # AWS number of compute instance to provision (will be overwrited by session configuration)
-    instance_nb: "{{ config_infra.aws.ec2.instance_nb }}"
   # SSH configuration
   ssh:
     # AWS EC2 key name coresponding to the private key file
