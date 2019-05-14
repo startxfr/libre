@@ -21,7 +21,6 @@ function sessionPlaybook {
 # Call session install playbook
 function sessionInstallPlaybook {
   sessionHeader
-  checkIfSession
   param="local"
   if [[ $2 != "" ]] ; then
     param="$param -e session_id=$2";
