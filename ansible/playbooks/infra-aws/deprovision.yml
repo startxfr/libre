@@ -1,5 +1,5 @@
 ---
-- name: "Deprovision classroom infrastructure on instructor"
+- name: "Deprovision classroom infrastructure"
   hosts: 'instructor'
   gather_facts: true
 

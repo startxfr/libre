@@ -17,7 +17,7 @@
   template:
     src: inventory-local.j2
     dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
-    remote_src: yes
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
@@ -38,7 +38,7 @@
   template:
     src: inventory-instructor.j2
     dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
-    remote_src: yes
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
@@ -59,7 +59,7 @@
   template:
     src: inventory-students.j2
     dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
-    remote_src: yes
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"

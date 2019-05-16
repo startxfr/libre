@@ -37,6 +37,7 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
+| 0.6.5    | 2019-05-12 | Change infra workflow and start classroom libre installation.
 | 0.6.3    | 2019-05-12 | Move self infra to kvm backend and introduce infra state. Improve all playbook runtime by reducing number of task performed during load sequence.
 | 0.6.1    | 2019-05-12 | Optimize loading sequence
 | 0.6.0    | 2019-05-06 | Stable release for infra deployment in aws environment
