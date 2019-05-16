@@ -1,6 +1,6 @@
 ## LIBRE role default variables
 
-libre_version: '0.6.3'
+libre_version: '0.6.5'
 
 r_do: "{{ do | string }}"
 
