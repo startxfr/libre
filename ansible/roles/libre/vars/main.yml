@@ -1,5 +1,7 @@
 ## LIBRE role default variables
 
+libre_version: '0.6.3'
+
 r_do: "{{ do | string }}"
 
 r_libre_uninstall_deep: "{{ libre_uninstall_deep | bool }}"
@@ -28,7 +30,6 @@ r_libre_tmpfile: "{{ libre_tmpfile | string }}"
 r_libre_libre_userconf_default:
   application:
     type: "{{ libre_type | string }}"
-    version: "{{ libre_version | string }}"
     verbose: "{{ libre_verbose | bool }}"
     debug: "{{ libre_debug | bool }}"
     source:
