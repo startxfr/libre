@@ -6,3 +6,11 @@
   roles:
     - { role: infra, do: load, infra_type: self }
     - { role: infra, do: provision-post, infra_type: self, become: yes }
+    
+- name: "Post-Provision classroom infrastructure on students"
+  hosts: 'students'
+  gather_facts: true
+  roles:
+    - { role: infra, do: load, infra_type: self }
+    - { role: infra, do: provision-post, infra_type: self, become: yes }
+
