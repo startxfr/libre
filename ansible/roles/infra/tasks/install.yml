@@ -4,77 +4,22 @@
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
   become: no
-- name: "install : Create inventory directory {{ config_libre.directory.conf }}/inventory"
-  file:
-    state: directory
-    path: "{{ config_libre.directory.conf }}/inventory"
-    mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-    recurse: yes
-- name: "install : Copy ssh default private key {{ libre_infra_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/infra-id_rsa"
-  copy:
-    src: '{{ libre_infra_ssh_private_key_file }}'
-    dest: "{{r_libre_userconfig_dir}}/infra-id_rsa"
-    mode: 0644
-  when: libre_infra_ssh_private_key_file is defined
-- name: "install : Copy ssh default public key {{ libre_infra_ssh_public_key_file }} to {{r_libre_userconfig_dir}}/infra-id_rsa.pub"
-  copy:
-    src: '{{ libre_infra_ssh_public_key_file }}'
-    dest: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
-    mode: 0644
-  when: libre_infra_ssh_public_key_file is defined
-- name: "install : Get {{ config_libre.directory.conf }}/inventory/local.yml inventory file details"
-  stat:
-    path: "{{ config_libre.directory.conf }}/inventory/local.yml"
-  register: r_libre_inventory_local_details
-- name: "install : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
+- name: "install : Generate user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   template:
-    src: inventory-local.j2
-    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
-#    remote_src: yes
+    src: infra.j2
+    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-  when: not r_libre_inventory_local_details.stat.exists
-- name: "install : Reload {{ config_libre.directory.conf }}/inventory/local.yml inventory file details"
+  when: not r_libre_infra_userconf_details.stat.exists or
+            r_libre_force_upgrade
+  become: no
+- name: "install : Reload user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  set_fact:
+    config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra, errors='ignore') | from_yaml | default(r_libre_infra_userconf_default, true) }}"
+  when: not r_libre_infra_userconf_details.stat.exists or
+            r_libre_force_upgrade
+  become: no
+- name: "install : Reload user infra configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} file details"
   stat:
-    path: "{{ config_libre.directory.conf }}/inventory/local.yml"
-  register: r_libre_inventory_local_details
-  when: not r_libre_inventory_local_details.stat.exists
-- name: "install : Get {{ config_libre.directory.conf }}/inventory/instructor.yml inventory file details"
-  stat:
-    path: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
-  register: r_libre_inventory_instructor_details
-- name: "install : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
-  template:
-    src: inventory-instructor.j2
-    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
-#    remote_src: yes
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-  when: not r_libre_inventory_instructor_details.stat.exists
-- name: "install : Reload {{ config_libre.directory.conf }}/inventory/instructor.yml inventory file details"
-  stat:
-    path: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
-  register: r_libre_inventory_instructor_details
-  when: not r_libre_inventory_instructor_details.stat.exists
-- name: "install : Get {{ config_libre.directory.conf }}/inventory/students.yml inventory file details"
-  stat:
-    path: "{{ config_libre.directory.conf }}/inventory/students.yml"
-  register: r_libre_inventory_students_details
-- name: "install : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
-  template:
-    src: inventory-students.j2
-    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
-#    remote_src: yes
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-  when: not r_libre_inventory_students_details.stat.exists
-- name: "install : Reload {{ config_libre.directory.conf }}/inventory/students.yml inventory file details"
-  stat:
-    path: "{{ config_libre.directory.conf }}/inventory/students.yml"
-  register: r_libre_inventory_students_details
-  when: not r_libre_inventory_students_details.stat.exists
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  register: r_libre_infra_userconf_details
+  become: no

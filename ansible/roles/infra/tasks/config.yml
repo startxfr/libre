@@ -1,20 +1,8 @@
 ---
-- name: "config : Generate user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-  template:
-    src: infra.j2
-    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-    mode: 0664
-  when: not r_libre_infra_userconf_details.stat.exists or
-            r_libre_force_upgrade
-  become: no
-- name: "config : Reload user infra configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} file details"
+- name: "config : Get user infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
-  become: no
-- name: "config : Reload user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-  set_fact:
-    config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra) | from_yaml | default('') }}"
   become: no
 - name: "config : Configure infrastructure type"
   pause:

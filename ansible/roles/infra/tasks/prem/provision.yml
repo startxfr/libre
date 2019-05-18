@@ -16,13 +16,51 @@
     enabled: yes
     state: started 
 - debug: var=libre_infra
-- name: "prem : provision : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
+- name: "prem : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
+  file:
+    state: directory
+    path: "{{ config_libre.directory.conf }}/inventory"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "prem : provision : Copy ssh default private key {{ libre_infra_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/infra-id_rsa"
+  copy:
+    src: '{{ libre_infra_ssh_private_key_file }}'
+    dest: "{{r_libre_userconfig_dir}}/infra-id_rsa"
+    mode: 0644
+  when: libre_infra_ssh_private_key_file is defined
+- name: "prem : provision : Copy ssh default public key {{ libre_infra_ssh_public_key_file }} to {{r_libre_userconfig_dir}}/infra-id_rsa.pub"
+  copy:
+    src: '{{ libre_infra_ssh_public_key_file }}'
+    dest: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
+    mode: 0644
+  when: libre_infra_ssh_public_key_file is defined
+- name: "prem : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
   template:
-    src: "templates/inventory-students.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/students.yml"
+    src: inventory-local.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
+- name: "prem : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
+  template:
+    src: inventory-instructor.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "prem : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
+  template:
+    src: inventory-students.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+
 - name: "prem : provision : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"

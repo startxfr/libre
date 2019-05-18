@@ -1,6 +1,6 @@
 ---
-{% if libre_infra.classroom is defined %}
-{% for nodekind in libre_infra.classroom %}
+{% if libre_infra.kvm.classroom is defined %}
+{% for nodekind in libre_infra.kvm.classroom %}
 {{nodekind.group|default('default')}}:
   hosts:
     localhost:
@@ -13,8 +13,8 @@
 
 students:
   children:
-{% if libre_infra.classroom is defined %}
-{% for nodekind in libre_infra.classroom %}
+{% if libre_infra.kvm.classroom is defined %}
+{% for nodekind in libre_infra.kvm.classroom %}
     {{ nodekind.group|default('default') }}:
 {% endfor %}
 {% endif %}
