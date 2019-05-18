@@ -1,10 +1,4 @@
 ---
-- name: "install-precheck : Start repository pre-installation checks"
-  include_role:
-    name: libre
-    tasks_from: install-precheck
-  when: not repository_install_precheck or
-            repository_install_precheck is undefined
 
 - name: "install-precheck : Mark repository install-precheck as done"
   set_fact:

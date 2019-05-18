@@ -32,13 +32,6 @@
     loop_var: station
     label: "{{ station.name }}"
 
-- name: "self : provision : Generate instructor inventory {{config_libre.directory.conf}}/inventory/instructor.yml"
-  template:
-    src: "templates/inventory-instructor.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/instructor.yml"
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
 - name: "self : provision : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "templates/inventory-students.j2"

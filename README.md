@@ -29,12 +29,16 @@ libre-session install
 # provision course environement (self-host)
 libre-infra self config
 libre-infra self provision
-# provision course environement (on-premise)
+## provision course environement (on-premise)
 #libre-infra prem config
-# libre-infra prem provision
-# provision course environement (aws)
-# libre-infra aws config
-# libre-infra aws provision
+#libre-infra prem provision
+## post-provision course environement (after classroom provisionning)
+# libre-infra prem post-provision
+## provision course environement (aws)
+#libre-infra aws config
+#libre-infra aws provision
+## post-provision course environement (after instance provisionning)
+# libre-infra aws post-provision
 # Start course
 libre-session start
 libre-chapter start
@@ -83,16 +87,6 @@ After installing LIBRE, if you need to setup a training session before provision
 ```bash
 # change setup before default install
 libre-session config
-libre-session install
-# install course environement (self-host)
-libre-infra self config
-libre-infra self provision
-# install course environement (on-premise)
-# libre-infra prem config
-# libre-infra prem provision
-# install course environement (aws)
-# libre-infra aws config
-# libre-infra aws provision
 ```
 
 #### 3.1.2. Student installation
@@ -127,6 +121,39 @@ After the instructor session configuration, you can install course material on y
 
 ```bash
 libre-session install
+```
+
+### 3.5. Install infrastructure
+
+After session installation, you must create a classroom environement
+
+```bash
+## provision course environement (self-hosted)
+#libre-infra self config
+#libre-infra self provision
+## provision course environement (on-premise)
+#libre-infra prem config
+#libre-infra prem provision
+## post-provision course environement (after classroom provisionning)
+# libre-infra prem post-provision
+## provision course environement (aws)
+#libre-infra aws config
+#libre-infra aws provision
+## post-provision course environement (after instance provisionning)
+# libre-infra aws post-provision
+```
+
+### 3.6. Start session classroom
+
+After infrastructure deployment, you can start your session and begin learning to students
+
+```bash
+# Start session tools
+libre-session start
+# Start learning a course chapter
+libre-chapter start
+# Start a lab on workstations
+libre-lab start <lab_id>
 ```
 
 # 4. Release notes

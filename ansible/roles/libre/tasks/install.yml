@@ -16,20 +16,20 @@
     - homedir
     - config
     - hardware
-    - inventory
 
+- stat: path="{{r_libre_tmp + '/' + r_libre_tmpfile}}"
+- stat: path="{{r_libre_tmp + '/' + r_libre_tmpfile}}"
+  delegate_to: localhost
 - name: "install : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
-  delegate_to: localhost
   become: no
-
+  delegate_to: localhost
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
   become: no
 
 # Install post-tasks

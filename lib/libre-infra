@@ -26,17 +26,6 @@ function infraTypePlaybook {
   exit 0;
 }
 
-# Call infra playbook with infra inventory
-function infraTypePlaybookWithInfraInventory {
-  infraHeader
-  checkIfSession
-  TMPINV="$INVENTORY_FILE";
-  INVENTORY_FILE=$CONFIG_DIR/inventory/$1.yml
-  runLibrePlaybook infra-$1 $2
-  INVENTORY_FILE="$TMPINV";
-  exit 0;
-}
-
 # Display infra info and exit
 function infraInformation {
   infraHeader

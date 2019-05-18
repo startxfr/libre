@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ROOT_DIR=/usr/share/libre
+LIBRE_VERSION="0.6.5"
 
 # Default config var
 CONFIG_DIR=$ROOT_DIR/conf
@@ -16,7 +17,6 @@ function loadInits {
   if [[ -f $CONFIG_FILE ]] ; then
     LIBRE_DEBUG=$(cat $CONFIG_FILE | yq -r '.application.debug')
     LIBRE_VERBOSE=$(cat $CONFIG_FILE | yq -r '.application.verbose')
-    LIBRE_VERSION=$(cat $CONFIG_FILE | yq -r '.application.version')
     LIBRE_TYPE=$(cat $CONFIG_FILE | yq -r '.application.type')
     ANSIBLE_ROOT=$(cat $CONFIG_FILE | yq -r '.application.ansible')
   fi
@@ -128,7 +128,7 @@ function checkIfConfig {
 # status if session install is done
 function checkIfSession {
   if [[ ! -f $SESSION_FILE ]] ; then
-    echoError "LIBRE configuration doesn't exist in $SESSION_FILE";
+    echoError "Session configuration doesn't exist in $SESSION_FILE";
     echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/master/session.md";
     echoError "for more information on how to setup LIBRE session";
     exit 1;

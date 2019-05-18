@@ -1,5 +1,28 @@
 ---
+{% if libre_infra.classroom is defined %}
+{% for nodekind in libre_infra.classroom %}
+{{nodekind.group|default('default')}}:
+{% if libre_infra.instances is defined and libre_infra.instances[nodekind.group|default('default')] is defined %}
+  hosts:
+{% for instance in libre_infra.instances[nodekind.group|default('default')] %}
+    {{ instance.network.dns }}:
+{% endfor %}
+{% endif %}
+  vars:
+    ansible_connection: ssh
+    ansible_user: "{{ nodekind.ssh_user|default(libre_infra.ssh.user) }}"
+    ansible_ssh_private_key_file: "{{ nodekind.ssh_privateKey_file|default(libre_infra.ssh.privateKey_file) }}"
+
+{% endfor %}
+{% endif %}
+
 students:
+  children:
+{% if libre_infra.classroom is defined %}
+{% for nodekind in libre_infra.classroom %}
+    {{ nodekind.group|default('default') }}:
+{% endfor %}
+{% endif %}
 {% if ec2.tagged_instances is defined %}
   hosts:
 {% for instance in ec2.tagged_instances %}
@@ -12,7 +35,3 @@ students:
 classroom:
   children:
     students:
-  vars:
-    ansible_connection: ssh
-    ansible_user: "{{ libre_infra.ssh.user }}"
-    ansible_ssh_private_key_file: "{{ libre_infra.ssh.privateKey_file }}"

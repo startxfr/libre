@@ -86,10 +86,10 @@ classroomInfra:
         type: "t2.micro"
         image: "ami-3548444c"
         ssh_keyname: "ssh-libre-instructor"
-        ssh_privateKey_file: "/usr/share/libre/conf/libre_aws.rsa"
+        ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "centos"
       infra_prem:
-        ssh_privateKey_file: "/usr/share/libre/conf/libre_prem.rsa"
+        ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "root"
     - name: nodeA
       group_name: nodesA
@@ -101,10 +101,10 @@ classroomInfra:
         type: "t2.micro"
         image: "ami-3548444c"
         ssh_keyname: "ssh-libre-instructor"
-        ssh_privateKey_file: "/usr/share/libre/conf/libre_aws.rsa"
+        ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "centos"
       infra_prem:
-        ssh_privateKey_file: "/usr/share/libre/conf/libre_prem.rsa"
+        ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "root"
     - name: nodeB
       group_name: nodesB
@@ -116,8 +116,8 @@ classroomInfra:
         type: "t2.micro"
         image: "ami-3548444c"
         ssh_keyname: "ssh-libre-instructor"
-        ssh_privateKey_file: "/usr/share/libre/conf/libre_aws.rsa"
+        ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "centos"
       infra_prem:
-        ssh_privateKey_file: "/usr/share/libre/conf/libre_prem.rsa"
+        ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "root"

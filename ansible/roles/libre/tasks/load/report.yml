@@ -4,4 +4,4 @@
     path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     state: touch
     mode: 0666
-  delegate_to: localhost
+  become: no

@@ -1,18 +1,13 @@
 ---
-
 - name: "status : Start LIBRE status"
   include_role:
     name: libre
     tasks_from: status
-
 - name: "status : Get previous report data"
   set_fact:
     previous_report: "{{lookup('file', r_libre_tmp + '/' + libre_tmpfile) }}"
-  delegate_to: localhost
-
 - name: "status : Generate student report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost

@@ -1,12 +1,23 @@
 ---
+- debug: var=groups
+- name: "prem : provision-post : Installing student environment on classroom hosts"
+  include_role:
+    name: student
+    tasks_from: install
+  register: test
+- debug: var=test
+- fail:
+  
 - name: "prem : provision-post : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+  delegate_to: localhost
 - name: "prem : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   become: yes
+  delegate_to: localhost
 - name: "prem : provision-post : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
@@ -28,6 +39,7 @@
     log_component: infra-prem
     log_action: post-provision
   run_once: true
+  delegate_to: localhost
 - name: "prem : provision-post : Post-provisionning is finish"
   debug:
     msg:

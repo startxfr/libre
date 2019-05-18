@@ -10,6 +10,13 @@ function sessionHeader {
   fi
 }
 
+# Call session playbook without checking that session is installed
+function sessionFreePlaybook {
+  sessionHeader
+  runLibrePlaybook session $1 $2
+  exit 0;
+}
+
 # Call session playbook
 function sessionPlaybook {
   sessionHeader
@@ -21,7 +28,6 @@ function sessionPlaybook {
 # Call session install playbook
 function sessionInstallPlaybook {
   sessionHeader
-  checkIfSession
   param="local"
   if [[ $2 != "" ]] ; then
     param="$param -e session_id=$2";

@@ -11,12 +11,11 @@
   when: not r_libre_binary_details.stat.exists or
         not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade
-
 - name: "install_libre : move LIBRE library content to {{ r_libre_dest_lib }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/lib/{{ libname }}"
     dest: "{{ r_libre_dest_lib }}"
-    remote_src: yes
+#    remote_src: yes
     mode: 0764
     owner: root
     group: root
@@ -26,33 +25,21 @@
   when: not r_libre_binary_details.stat.exists or
         not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade
-
-- name: "install_libre : move LIBRE auto-completion script to /etc/bash_completion.d/libre"
-  copy:
-    src: "{{ role_path }}/files/completion"
-    dest: "/etc/bash_completion.d/libre"
-    remote_src: yes
-    mode: 0775
-    owner: root
-    group: root
+- name: "install_libre : move LIBRE ansible content to {{ r_libre_dest_ansible }}"
+  synchronize:
+    src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/ansible/"
+    dest: "{{ r_libre_dest_ansible }}"
+    recursive: yes
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"
   when: not r_libre_binary_details.stat.exists or
         not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade
-
-- name: "install_libre : move LIBRE profile script to /etc/profile.d/libre.sh"
-  template:
-    src: "{{ role_path }}/templates/bash_profile.j2"
-    dest: "/etc/profile.d/libre.sh"
-    remote_src: yes
-    mode: 0664
-    owner: root
-    group: root
-
 - name: "install_libre : move LIBRE instructor binary content to {{ r_libre_dest_bin }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"
     dest: "{{ r_libre_dest_bin }}"
-    remote_src: yes
+#    remote_src: yes
     mode: 0775
     owner: root
     group: root
@@ -66,12 +53,11 @@
       not r_libre_binary_details.stat.executable or
           r_libre_force_upgrade
     )
-
 - name: "install_libre : move LIBRE student binary content to {{ r_libre_dest_bin }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"
     dest: "{{ r_libre_dest_bin }}"
-    remote_src: yes
+#    remote_src: yes
     mode: preserve
     owner: root
     group: root
@@ -85,18 +71,25 @@
       not r_libre_binary_details.stat.executable or
           r_libre_force_upgrade
     )
-
-- name: "install_libre : move LIBRE ansible content to {{ r_libre_dest_ansible }}"
-  synchronize:
-    src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/ansible/"
-    dest: "{{ r_libre_dest_ansible }}"
-    recursive: yes
-    delete: yes
-  delegate_to: "{{ inventory_hostname }}"
+- name: "install_libre : move LIBRE auto-completion script to /etc/bash_completion.d/libre"
+  copy:
+    src: "{{ role_path }}/files/completion"
+    dest: "/etc/bash_completion.d/libre"
+#    remote_src: yes
+    mode: 0775
+    owner: root
+    group: root
   when: not r_libre_binary_details.stat.exists or
         not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade
-
+- name: "install_libre : move LIBRE profile script to /etc/profile.d/libre.sh"
+  template:
+    src: "{{ role_path }}/templates/bash_profile.j2"
+    dest: "/etc/profile.d/libre.sh"
+#    remote_src: yes
+    mode: 0664
+    owner: root
+    group: root
 - name: "install_libre : Remove tempory LIBRE clone directory {{ config_libre.application.source.tmp }}"
   file:
     state: absent

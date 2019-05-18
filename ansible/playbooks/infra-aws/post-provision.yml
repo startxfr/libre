@@ -2,7 +2,13 @@
 - name: "Post-Provision classroom infrastructure on instructor"
   hosts: 'instructor'
   gather_facts: true
-
+  roles:
+    - { role: infra, do: load, infra_type: aws }
+    - { role: infra, do: provision-post, infra_type: aws, become: yes }
+    
+- name: "Post-Provision classroom infrastructure on students"
+  hosts: 'students'
+  gather_facts: true
   roles:
     - { role: infra, do: load, infra_type: aws }
     - { role: infra, do: provision-post, infra_type: aws, become: yes }
