@@ -1,12 +1,8 @@
 ---
 - name: "load_config : Load user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   set_fact:
-    config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository, errors='ignore') | from_yaml }}"
+    config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository, errors='ignore') | from_yaml | default(r_libre_repository_userconf_default, true) }}"
   become: no
-- name: "load_config : Load default user repository configuration"
-  set_fact:
-    config_repository: "{{ r_libre_repository_userconf_default }}"
-  when: config_repository == ''
 - name: "load : Get {{ config_repository.local }} directory details"
   stat:
     path: "{{ config_repository.local }}"
