@@ -17,7 +17,6 @@ r_libre_user: "{{ libre_user | string }}"
 r_libre_group: "{{ libre_group | string }}"
 r_libre_userconfig_dir: "{{ libre_userconfig_dir | string }}"
 r_libre_myconfile_libre: "{{ libre_myconfile_libre | string }}"
-r_libre_myconfile_repository: "{{ libre_myconfile_repository | string }}"
 r_libre_dir: "{{ training_dir | string }}"
 r_libre_dir_course: "{{ training_dir_course | string }}"
 r_libre_dir_conf: "{{ training_dir_conf | string }}"
@@ -40,11 +39,6 @@ r_libre_libre_userconf_default:
     conf: "{{ r_libre_dir_conf }}"
     course: "{{ r_libre_dir_course }}"
     collect: "{{ r_libre_dir_collect }}"
-r_libre_repository_userconf_default:
-  url: "{{ repository_url | string }}"
-  branch: "{{ repository_branch | string }}"
-  base: "{{ repository_base | string }}"
-  local: "{{ repository_local | string }}"
 
 r_libre_minhw:
   architecure: "{{ libre_minhw_architecure | string }}"

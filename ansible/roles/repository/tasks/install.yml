@@ -17,6 +17,28 @@
       include_role:
         name: libre
         tasks_from: install
+- name: "install : Get user repository configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
+  register: r_libre_repository_userconf_details
+  become: no
+- name: "install : Generate user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
+  template:
+    src: repository.j2
+    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
+    mode: 0664
+  when: not r_libre_repository_userconf_details.stat.exists or
+            r_libre_force_upgrade
+  become: no
+- name: "install : Reload user repository configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} file details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
+  register: r_libre_repository_userconf_details
+  become: no
+- name: "install : Reload user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
+  set_fact:
+    config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository) | from_yaml | default('') }}"
+  become: no
 
 - name: "install : Clone course materials from {{ config_repository.url }} to {{ config_repository.local }}"
   git:

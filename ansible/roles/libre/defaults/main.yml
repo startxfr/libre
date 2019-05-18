@@ -27,8 +27,6 @@ libre_group: 'libre'
 libre_userconfig_dir: '~/.libre'
 # Config file for LIBRE
 libre_myconfile_libre: 'config.yml'
-# Config file for repository
-libre_myconfile_repository: 'repository.yml'
 # Default directory used for delivering training
 training_dir: '/usr/share/libre'
 # Course directory used for delivering training
@@ -51,11 +49,6 @@ libre_source_url: 'https://github.com/startxfr/libre'
 libre_source_branch: 'master'
 libre_source_base: '/'
 libre_source_tmp: '{{ libre_tmp }}/libre'
-# Default config_repository structure
-repository_url: 'https://github.com/startxfr/libre'
-repository_branch: 'master'
-repository_base: '/courses-samples'
-repository_local: '/var/local/libre.repo'
 
 # Default libre_hardware structure
 libre_minhw_architecure: 'x86_64'

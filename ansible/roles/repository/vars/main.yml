@@ -1,1 +1,8 @@
 r_do: "{{ do | string }}"
+
+r_libre_myconfile_repository: "{{ libre_myconfile_repository | string }}"
+r_libre_repository_userconf_default:
+  url: "{{ repository_url | string }}"
+  branch: "{{ repository_branch | string }}"
+  base: "{{ repository_base | string }}"
+  local: "{{ repository_local | string }}"
