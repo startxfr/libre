@@ -3,7 +3,6 @@
   group:
     name: "{{ r_libre_group }}"
     state: present
-
 - name: "install_user : Create the instructor user {{ r_libre_user }}"
   user:
     name: "{{ r_libre_user }}"

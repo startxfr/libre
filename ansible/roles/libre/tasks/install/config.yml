@@ -18,7 +18,4 @@
   register: r_libre_libre_userconf_details
   become: no
 - name: "install_config : Reload user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
-  set_fact:
-    config_libre: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_libre) | from_yaml | default('') }}"
-  become: no
-    
+  include_tasks: ../load/config.yml
