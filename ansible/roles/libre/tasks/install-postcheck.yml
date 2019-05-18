@@ -18,11 +18,6 @@
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   register: r_libre_repository_userconf_details
   become: no
-- name: "install-postcheck : Get user infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} details"
-  stat:
-    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-  register: r_libre_infra_userconf_details
-  become: no
 - when: not libre_install_postcheck or
             libre_install_postcheck is undefined
   block:
@@ -74,15 +69,6 @@
     assert:
       that: config_repository is defined
       msg: "Session configuration {{ r_libre_myconfile_repository }} is not loaded"
-
-  - name: "install-postcheck : User infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} exist"
-    assert:
-      that: r_libre_infra_userconf_details.stat.exists
-      msg: "User infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} doesn't exist"
-  - name: "install-postcheck : User infra configuration is loaded"
-    assert:
-      that: config_infra is defined
-      msg: "Session configuration {{ r_libre_myconfile_infra }} is not loaded"
 
 - name: "install-precheck : Mark LIBRE install-postcheck as done"
   set_fact:

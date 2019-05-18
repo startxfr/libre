@@ -18,7 +18,6 @@ r_libre_group: "{{ libre_group | string }}"
 r_libre_userconfig_dir: "{{ libre_userconfig_dir | string }}"
 r_libre_myconfile_libre: "{{ libre_myconfile_libre | string }}"
 r_libre_myconfile_session: "{{ libre_myconfile_session | string }}"
-r_libre_myconfile_infra: "{{ libre_myconfile_infra | string }}"
 r_libre_myconfile_repository: "{{ libre_myconfile_repository | string }}"
 r_libre_dir: "{{ training_dir | string }}"
 r_libre_dir_course: "{{ training_dir_course | string }}"
@@ -45,37 +44,6 @@ r_libre_libre_userconf_default:
 r_libre_session_userconf_default:
   type: "{{ libre_session_type | string }}"
   gapi: "{{ libre_session_gapi | string }}"
-r_libre_infra_userconf_default:
-  default: "{{ libre_infra_default | string }}"
-  self:
-    type: "self"
-    image: "{{ infra_self_image | string }}"
-    network:
-      dns: "{{ infra_self_dns_zone | string }}"
-      associated_ip: "{{ infra_associated_ip | string }}"
-  prem:
-    type: "prem"
-    network:
-      dns: "{{ infra_prem_dns_zone | string }}"
-    ssh:
-      privateKey_file: "{{ infra_prem_ssh_private_key_file | string }}"
-      user: "{{ infra_prem_ssh_user | string }}"
-  aws:
-    type: "aws"
-    auth:
-      access_key: "{{ infra_aws_access_key }}"
-      secret_key: "{{ infra_aws_secret_key }}"
-    route53:
-      zone: "{{ infra_aws_route53_dns_zone | string }}"
-      domain: "{{ infra_aws_public_dns_zone | string }}"
-    ec2:
-      region: "{{ infra_aws_region | string }}"
-      type: "{{ infra_aws_instance_type | string }}"
-      image: "{{ infra_aws_image | string }}"
-    ssh:
-      keyname: "{{ infra_aws_key_name | string }}"
-      privateKey_file: "{{ infra_aws_ssh_private_key_file | string }}"
-      user: "{{ infra_aws_ssh_user | string }}"
 r_libre_repository_userconf_default:
   url: "{{ repository_url | string }}"
   branch: "{{ repository_branch | string }}"

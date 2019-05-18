@@ -8,3 +8,29 @@ r_infra_user_instructor: "{{ infra_user_instructor | default('instructor') | str
 r_infra_user_student: "{{ infra_user_student | default('student') | string }}"
 # Default system user group
 r_infra_usergroup: "{{ infra_usergroup | default('libre') | string }}"
+
+# Config file for infrastructure
+libre_myconfile_infra: 'infra.yml'
+# Default key for infra deployment
+libre_infra_ssh_public_key_file: '../../ssh/infra-id_rsa.pub'
+libre_infra_ssh_private_key_file: '../../ssh/infra-id_rsa'
+
+
+# Default config_infra structure
+libre_infra_default: 'self'
+infra_self_dns_zone: 'classroom.example.com'
+infra_self_image: "/example/myimage.qcow"
+infra_associated_ip: '127.0.0.1'
+infra_prem_dns_zone: 'training.example.com'
+infra_prem_ssh_private_key_file: '/usr/share/libre/conf/infra-id_rsa'
+infra_prem_ssh_user: 'root'
+infra_aws_access_key: false
+infra_aws_secret_key: false
+infra_aws_route53_dns_zone: 'startx.fr'
+infra_aws_public_dns_zone: 'libre.startx.fr'
+infra_aws_region: 'eu-west-1'
+infra_aws_instance_type: 't2.micro'
+infra_aws_image: 'ami-3548444c'
+infra_aws_key_name: 'ssh-libre-instructor'
+infra_aws_ssh_private_key_file: '/usr/share/libre/conf/infra-id_rsa'
+infra_aws_ssh_user: 'centos'

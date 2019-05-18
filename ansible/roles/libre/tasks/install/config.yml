@@ -14,11 +14,6 @@
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   register: r_libre_repository_userconf_details
   become: no
-- name: "install_config : Get user infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} details"
-  stat:
-    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-  register: r_libre_infra_userconf_details
-  become: no
 - name: "install_config : Generate user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   template:
     src: libre.j2
@@ -72,34 +67,4 @@
   set_fact:
     config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository) | from_yaml | default('') }}"
   become: no
-
-- name: "install_config : Generate user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-  template:
-    src: infra.j2
-    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-    mode: 0664
-  when: not r_libre_infra_userconf_details.stat.exists or
-            r_libre_force_upgrade
-  become: no
-- name: "install_config : Reload user infra configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} file details"
-  stat:
-    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-  register: r_libre_infra_userconf_details
-  become: no
-- name: "install_config : Reload user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
-  set_fact:
-    config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra) | from_yaml | default('') }}"
-  become: no
-  
-- name: "install_config : Copy ssh default private key {{ libre_infra_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/infra-id_rsa"
-  copy:
-    src: '{{ libre_infra_ssh_private_key_file }}'
-    dest: "{{r_libre_userconfig_dir}}/infra-id_rsa"
-    mode: 0644
-  when: libre_infra_ssh_private_key_file is defined
-- name: "install_config : Copy ssh default public key {{ libre_infra_ssh_public_key_file }} to {{r_libre_userconfig_dir}}/infra-id_rsa.pub"
-  copy:
-    src: '{{ libre_infra_ssh_public_key_file }}'
-    dest: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
-    mode: 0644
-  when: libre_infra_ssh_public_key_file is defined
+    
