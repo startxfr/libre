@@ -21,7 +21,7 @@ function instructorPlaybook {
 function instructorUninstallPlaybook {
   instructorHeader
   if [[ "$1" == "deep" || "$1" == "all" || "$1" == true || "$1" == "true" || "$1" == "True" ]] ; then
-      deep=" -e libre_uninstall_deep=True"
+      deep="local -e libre_uninstall_deep=True"
   else
       deep=""
   fi
