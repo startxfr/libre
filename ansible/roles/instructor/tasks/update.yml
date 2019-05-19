@@ -1,10 +1,4 @@
 ---
-# Update tasks
-- name: "update : Start updating repository"
-  include_role:
-    name: repository
-    tasks_from: update
-
 - name: "update : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"

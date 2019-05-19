@@ -6,9 +6,9 @@
             libre_instructor_install_precheck is undefined
 
 # Install tasks
-- name: "install : Start repository install"
+- name: "install : Start infrastructure install"
   include_role:
-    name: repository
+    name: infra
     tasks_from: install
 
 - name: "install : Get previous report data"

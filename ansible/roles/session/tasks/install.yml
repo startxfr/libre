@@ -8,19 +8,14 @@
 # Install tasks
 - name: "install : Start instructor install sequence"
   block:
-    - name: "install : Start libre install post-check"
-      include_role:
-        name: libre
-        tasks_from: install-postcheck
-
     - name: "install : Start instructor install post-check"
       include_role:
-        name: instructor
+        name: repository
         tasks_from: install-postcheck
   rescue:
     - name: "install : Start instructor install"
       include_role:
-        name: instructor
+        name: repository
         tasks_from: install
     
     - name: "install : Reload session"

@@ -1,4 +1,8 @@
 ---
+- name: "install-postcheck : Get {{ config_libre.directory.conf }} directory details"
+  stat:
+    path: "{{ config_libre.directory.conf }}"
+  register: r_libre_dir_conf_details
 - name: "install-postcheck : Get user session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"

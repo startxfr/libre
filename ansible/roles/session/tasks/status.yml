@@ -1,7 +1,7 @@
 ---
 - name: "status : Start instructor status"
   include_role:
-    name: instructor
+    name: repository
     tasks_from: status
 
 - name: "status : Get previous report data"

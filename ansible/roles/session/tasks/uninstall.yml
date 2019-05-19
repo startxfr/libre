@@ -7,7 +7,7 @@
 # Uninstall tasks
 #- name: "uninstall : Start instructor uninstall"
 #  include_role:
-#    name: instructor
+#    name: repository
 #    tasks_from: uninstall
 #  become: yes
 

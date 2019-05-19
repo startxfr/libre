@@ -1,4 +1,10 @@
 ---
+# Install pre-tasks
+- name: "install : Start infrastructure pre-installation checks"
+  include_tasks: install-precheck.yml
+  when: not libre_infra_install_precheck or
+            libre_infra_install_precheck is undefined
+
 - name: "install : Get user infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"

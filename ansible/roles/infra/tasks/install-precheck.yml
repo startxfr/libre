@@ -1,0 +1,4 @@
+---
+- name: "install-precheck : Mark infrastructure install-precheck as done"
+  set_fact:
+    libre_infra_install_precheck: True
