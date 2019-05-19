@@ -106,35 +106,16 @@
     name: "{{ inventory_hostname }}"
   become: yes
   when: inventory_hostname in groups.instructor
-- name: "aws : provision-post : Loading LIBRE for instructor"
-  include_role:
-    name: libre
-    tasks_from: load
-  when: inventory_hostname in groups.instructor
-- name: "aws : provision-post : Installing LIBRE for instructor"
-  include_role:
-    name: libre
-    tasks_from: install
-  become: yes
-  when: inventory_hostname in groups.instructor
-- name: "aws : provision-post : Loading LIBRE for students"
-  include_role:
-    name: libre
-    tasks_from: load
-  when: inventory_hostname in groups.students
-- name: "aws : provision-post : Installing LIBRE for students"
-  include_role:
-    name: libre
-    tasks_from: install
-  become: yes
-  when: inventory_hostname in groups.students
+
 - name: "aws : provision-post : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+  delegate_to: localhost
 - name: "aws : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  delegate_to: localhost
   become: yes
 - name: "aws : provision-post : Get previous report data"
   set_fact:
@@ -154,6 +135,7 @@
     log_name: "AWS infrastructure is Post-provisionned"
     log_component: infra-aws
     log_action: post-provision
+  delegate_to: localhost
 - name: "aws : provision-post : Post-provisionning is finish"
   debug:
     msg:

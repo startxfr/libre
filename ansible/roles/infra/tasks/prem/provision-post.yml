@@ -1,12 +1,6 @@
 ---
 - debug: var=groups
-- name: "prem : provision-post : Installing student environment on classroom hosts"
-  include_role:
-    name: student
-    tasks_from: install
-  register: test
-- debug: var=test
-- fail:
+  delegate_to: localhost
   
 - name: "prem : provision-post : Set infrastructure state to provisionned"
   set_fact:
@@ -38,8 +32,8 @@
     log_name: "Self-Hosted infrastructure is Post-provisionned"
     log_component: infra-prem
     log_action: post-provision
-  run_once: true
   delegate_to: localhost
+  run_once: true
 - name: "prem : provision-post : Post-provisionning is finish"
   debug:
     msg:

@@ -20,36 +20,13 @@
 #      You must run self infrastructure on workstation with virtualisation kernel module loaded.
 #  when:
 #  - cmd_return.rc == 1
+#  become: yes
 #- name: "self : provision : Enable service libvirtd"
 #  systemd:
 #    name: libvirtd
 #    enabled: yes
 #    state: started
-
-- debug:
-    var: config_infra
-- debug:
-    var: libre_course
-- debug:
-    var: libre_session
-- debug:
-    var: libre_infra
-- debug:
-    var: station
-  loop: "{{ libre_infra.kvm.classroom }}"
-  loop_control:
-    loop_var: station
-    label: "{{ station.name }}"
-- debug:
-    var: student
-  loop: "{{ libre_session.students }}"
-  loop_control:
-    loop_var: student
-    label: "{{ student.name }}"
-    
-    
-    
-
+#  become: yes
 - name: "self : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
   file:
     state: directory

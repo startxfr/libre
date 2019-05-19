@@ -2,11 +2,14 @@
 - name: "self : provision-post : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+  delegate_to: localhost
+- debug: var=libre_infra
+  delegate_to: localhost
 - name: "self : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
+  delegate_to: localhost
 - name: "self : provision-post : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
@@ -27,6 +30,7 @@
     log_name: "Self-Hosted infrastructure is Post-provisionned"
     log_component: infra-self
     log_action: post-provision
+  delegate_to: localhost
   run_once: true
 - name: "self : provision-post : Post-provisionning is finish"
   debug:

@@ -146,7 +146,6 @@
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
 - name: "aws : deprovision : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
