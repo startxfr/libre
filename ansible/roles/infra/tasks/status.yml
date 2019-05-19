@@ -6,7 +6,6 @@
 - name: "status : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
 - name: "status : Status of {{ libre_infra.type }} infrastructure"
   include_tasks: "{{ libre_infra.type }}/status.yml"
   when: libre_infra.type is defined

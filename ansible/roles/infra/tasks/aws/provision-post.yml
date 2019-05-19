@@ -110,23 +110,19 @@
 - name: "aws : provision-post : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
-  delegate_to: localhost
 - name: "aws : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  delegate_to: localhost
   become: yes
 - name: "aws : provision-post : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
 - name: "aws : provision-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision-post.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
 - name: "aws : provision-post : Log post-provision action"
   include_role:
     name: libre
@@ -135,7 +131,6 @@
     log_name: "AWS infrastructure is Post-provisionned"
     log_component: infra-aws
     log_action: post-provision
-  delegate_to: localhost
 - name: "aws : provision-post : Post-provisionning is finish"
   debug:
     msg:
@@ -148,5 +143,4 @@
       - "  libre-instructor install"
       - " "
       - " Have a happy setup ;)"
-  delegate_to: localhost
   run_once: true
