@@ -2,3 +2,5 @@
 ## LIBRE Student role default variables
 
 do: load
+
+libre_type: student

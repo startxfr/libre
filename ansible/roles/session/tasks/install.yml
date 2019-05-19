@@ -6,13 +6,16 @@
             session_install_precheck is undefined
 
 # Install tasks
-- name: "install : Start instructor install sequence"
+- name: "install : Start session install sequence"
   block:
-    - name: "install : Start instructor install post-check"
+    - name: "install : Start repository install post-check"
       include_role:
         name: repository
         tasks_from: install-postcheck
   rescue:
+    - name: "install : Repository post-check install is not valid"
+      debug:
+        msg: Failing back to installing repository first 
     - name: "install : Start instructor install"
       include_role:
         name: repository

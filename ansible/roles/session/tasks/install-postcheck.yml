@@ -36,7 +36,7 @@
 
         You can configure session with the following command :
         $ libre-session install
-
+        
   - name: "install-postcheck : Training configuration {{ r_session_config_file }} is loaded"
     assert:
       that: libre_session is defined

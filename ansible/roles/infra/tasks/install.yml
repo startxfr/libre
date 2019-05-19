@@ -6,14 +6,17 @@
             infra_install_precheck is undefined
             
 # Install tasks
-- name: "install : Start instructor install sequence"
+- name: "install : Start infrastructure install sequence"
   block:
-    - name: "install : Start instructor install post-check"
+    - name: "install : Start session install post-check"
       include_role:
         name: session
         tasks_from: install-postcheck
   rescue:
-    - name: "install : Start instructor install"
+    - name: "install : Session post-check install is not valid"
+      debug:
+        msg: Failing back to installing session first 
+    - name: "install : Start session install"
       include_role:
         name: session
         tasks_from: install

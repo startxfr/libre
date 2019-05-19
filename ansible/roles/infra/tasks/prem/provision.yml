@@ -15,7 +15,6 @@
     name: xinetd
     enabled: yes
     state: started 
-- debug: var=libre_infra
 - name: "prem : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
   file:
     state: directory

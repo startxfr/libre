@@ -4,8 +4,10 @@ default: "{{ config_infra.default }}"
 self:
   # Name of the infrastructure type (self)
   type: "{{ config_infra.self.type }}"
-  # Path to the default kvm image tu use for classroom VMs
-  image: "{{ config_infra.self.image }}"
+  # KVM configuration for this classroom
+  kvm: 
+    # Path to the default kvm image tu use for classroom VMs
+    image: "{{ config_infra.self.kvm.image }}"
   # Network configuration
   network:
     # Domain name to use for the instructor station

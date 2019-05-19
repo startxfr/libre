@@ -7,9 +7,6 @@
   file:
     state: "absent"
     path: "{{config_libre.directory.conf}}/inventory/students.yml"
-- name: "prem : deprovision : TODO !!!"
-  debug:
-    msg: "prem : deprovision : TODO !!!"
 - name: "prem : deprovision : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"

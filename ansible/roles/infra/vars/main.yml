@@ -7,7 +7,8 @@ r_libre_infra_userconf_default:
   default: "{{ libre_infra_default | string }}"
   self:
     type: "self"
-    image: "{{ infra_self_image | string }}"
+    kvm:
+      image: "{{ infra_self_image | string }}"
     network:
       dns: "{{ infra_self_dns_zone | string }}"
       associated_ip: "{{ infra_associated_ip | string }}"

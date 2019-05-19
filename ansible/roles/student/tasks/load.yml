@@ -1,5 +1,1 @@
 ---
-
-- name: "load : TODO load action on playbook role student"
-  debug:
-    msg: 'Todo !!! load action on playbook role student'

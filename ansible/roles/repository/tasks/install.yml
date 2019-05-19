@@ -11,8 +11,9 @@
         name: libre
         tasks_from: install-postcheck
   rescue:
-    - debug:
-        msg: Failing back to installing LIBRE first
+    - name: "install : Libre post-check install is not valid"
+      debug:
+        msg: Failing back to installing LIBRE first 
     - name: "install : Start LIBRE install"
       include_role:
         name: libre

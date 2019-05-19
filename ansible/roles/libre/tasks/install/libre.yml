@@ -15,7 +15,7 @@
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/lib/{{ libname }}"
     dest: "{{ r_libre_dest_lib }}"
-#    remote_src: yes
+    remote_src: yes
     mode: 0764
     owner: root
     group: root
@@ -39,7 +39,7 @@
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"
     dest: "{{ r_libre_dest_bin }}"
-#    remote_src: yes
+    remote_src: yes
     mode: 0775
     owner: root
     group: root
@@ -47,7 +47,7 @@
   loop_control:
     loop_var: binname
   when: >
-    config_libre.application.type == "instructor" and
+    (libre_type != "student" and config_libre.application.type == "instructor") and
     (
       not r_libre_binary_details.stat.exists or
       not r_libre_binary_details.stat.executable or
@@ -57,7 +57,7 @@
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"
     dest: "{{ r_libre_dest_bin }}"
-#    remote_src: yes
+    remote_src: yes
     mode: preserve
     owner: root
     group: root
@@ -65,7 +65,7 @@
   loop_control:
     loop_var: binname
   when: >
-    config_libre.application.type != "instructor" and
+    (libre_type == "student" or config_libre.application.type != "instructor") and
     (
       not r_libre_binary_details.stat.exists or
       not r_libre_binary_details.stat.executable or
@@ -75,7 +75,6 @@
   copy:
     src: "{{ role_path }}/files/completion"
     dest: "/etc/bash_completion.d/libre"
-#    remote_src: yes
     mode: 0775
     owner: root
     group: root
@@ -86,7 +85,6 @@
   template:
     src: "{{ role_path }}/templates/bash_profile.j2"
     dest: "/etc/profile.d/libre.sh"
-#    remote_src: yes
     mode: 0664
     owner: root
     group: root

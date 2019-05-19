@@ -1,8 +1,4 @@
 ---
-- debug: var=list_dns
-- debug: var=route53_instructor
-- fail:
-  
 - name: "aws : provision : inventory : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "../templates/inventory-students.j2"
