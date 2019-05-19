@@ -5,7 +5,6 @@
     archive:
       path: "{{ config_libre.directory.base }}"
       dest: "~/libre-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
-    become: no
   - name: "uninstall : directory : Remove training directory {{ config_libre.directory.base }}"
     file:
       state: absent

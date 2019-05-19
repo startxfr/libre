@@ -22,7 +22,6 @@
       include_role:
         name: instructor
         tasks_from: install
-      become: yes
     
     - name: "install : Reload session"
       include_tasks: load.yml
@@ -31,7 +30,6 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   register: r_libre_session_userconf_details
-  become: no
 
 - name: "install : Generate user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   template:
@@ -40,16 +38,13 @@
     mode: 0664
   when: not r_libre_session_userconf_details.stat.exists or
             r_libre_force_upgrade
-  become: no
 - name: "install : Reload user session configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   register: r_libre_session_userconf_details
-  become: no
 - name: "install : Reload user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   set_fact:
     config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_session) | from_yaml | default('') }}"
-  become: no
 
 - name: "install : Start configuration because no session configuration {{ config_libre.directory.conf }}/{{ r_session_config_file }} file found"
   include_tasks: "config.yml"
@@ -93,7 +88,6 @@
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  become: no
   delegate_to: localhost
 
 - name: "install : Log install action"

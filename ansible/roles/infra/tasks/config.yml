@@ -3,7 +3,6 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
-  become: no
 - name: "config : Configure infrastructure type"
   pause:
    prompt: "What kind of infrastructure backend do you whan to use (self,prem,aws) ?"

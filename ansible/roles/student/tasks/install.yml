@@ -12,7 +12,6 @@
   include_role:
     name: libre
     tasks_from: install
-  become: yes
 
 - name: "install : Get previous report data"
   set_fact:

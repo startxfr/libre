@@ -7,4 +7,3 @@
         date: "{{ log_date | default(ansible_date_time.iso8601) }}"
         component: "{{ log_component | default('libre') }}"
         action: "{{ log_action | default('No action !!!') }}"
-  become: yes

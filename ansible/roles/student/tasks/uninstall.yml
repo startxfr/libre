@@ -7,7 +7,6 @@
   include_role:
     name: libre
     tasks_from: uninstall
-  become: yes
 
 - name: "uninstall : Get previous report data"
   set_fact:

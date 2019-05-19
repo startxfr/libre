@@ -10,7 +10,6 @@
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
   delegate_to: localhost
 - name: "prem : provision-post : Get previous report data"
   set_fact:

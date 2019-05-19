@@ -3,7 +3,6 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
-  become: no
 - name: "install : Generate user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   template:
     src: infra.j2
@@ -11,15 +10,12 @@
     mode: 0664
   when: not r_libre_infra_userconf_details.stat.exists or
             r_libre_force_upgrade
-  become: no
 - name: "install : Reload user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   set_fact:
     config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra, errors='ignore') | from_yaml | default(r_libre_infra_userconf_default, true) }}"
   when: not r_libre_infra_userconf_details.stat.exists or
             r_libre_force_upgrade
-  become: no
 - name: "install : Reload user infra configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
-  become: no

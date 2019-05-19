@@ -3,4 +3,3 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
-  become: no

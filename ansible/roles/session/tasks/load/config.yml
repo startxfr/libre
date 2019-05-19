@@ -7,9 +7,7 @@
   set_fact:
     libre_session: "{{ lookup('file', config_libre.directory.conf + '/' + r_session_config_file) | from_json }}"
   when: r_session_conf_details.stat.exists
-  become: no
 - name: "load : config : Load default session configuration"
   set_fact:
     libre_session: {}
   when: not r_session_conf_details.stat.exists
-  become: no

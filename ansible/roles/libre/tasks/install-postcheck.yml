@@ -7,7 +7,6 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   register: r_libre_libre_userconf_details
-  become: no
 - when: not libre_install_postcheck or
             libre_install_postcheck is undefined
   block:
