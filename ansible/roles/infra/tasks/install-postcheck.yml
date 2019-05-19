@@ -3,3 +3,7 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   register: r_libre_infra_userconf_details
+
+- name: "install-precheck : Mark Infrastructure install-postcheck as done"
+  set_fact:
+    infra_install_postcheck: True

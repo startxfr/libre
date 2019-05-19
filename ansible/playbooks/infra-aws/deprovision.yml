@@ -5,4 +5,4 @@
 
   roles:
     - { role: infra, do: load, infra_type: aws }
-    - { role: infra, do: deprovision, infra_type: aws, become: yes }
+    - { role: infra, do: deprovision, infra_type: aws }

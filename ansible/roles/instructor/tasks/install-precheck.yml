@@ -3,9 +3,9 @@
   include_role:
     name: infra
     tasks_from: install-precheck.yml
-  when: not libre_infra_install_precheck or
-            libre_infra_install_precheck is undefined
+  when: not infra_install_precheck or
+            infra_install_precheck is undefined
 
 - name: "install-precheck : Mark instructor install-precheck as done"
   set_fact:
-    libre_instructor_install_precheck: True
+    instructor_install_precheck: True

@@ -17,7 +17,6 @@
       include_role:
         name: repository
         tasks_from: install
-    
     - name: "install : Reload session"
       include_tasks: load.yml
 

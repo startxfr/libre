@@ -5,4 +5,4 @@
 
   roles:
     - { role: infra, do: load, infra_type: prem }
-    - { role: infra, do: config, infra_type: prem, become: yes }
+    - { role: infra, do: config, infra_type: prem }

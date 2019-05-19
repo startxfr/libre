@@ -5,4 +5,4 @@
 
   roles:
     - { role: instructor, do: load }
-    - { role: instructor, do: install, become: yes }
+    - { role: instructor, do: install }
