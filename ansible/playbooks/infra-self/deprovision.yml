@@ -5,4 +5,4 @@
 
   roles:
     - { role: infra, do: load, infra_type: self }
-    - { role: infra, do: deprovision, infra_type: self, become: yes }
+    - { role: infra, do: deprovision, infra_type: self }

@@ -5,4 +5,4 @@
 
   roles:
     - { role: libre, do: load }
-    - { role: libre, do: uninstall, become: yes, libre_uninstall_deep: true }
+    - { role: libre, do: uninstall, libre_uninstall_deep: true }

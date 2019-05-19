@@ -6,18 +6,15 @@
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
 - name: "self : provision-post : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
   run_once: true
 - name: "self : provision-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision-post.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
   run_once: true
 - name: "self : provision-post : Log post-provision action"
   include_role:
@@ -43,5 +40,4 @@
       - "   $ libre-session start "
       - " "
       - " Have an happy training ;)"
-  delegate_to: localhost
   run_once: true

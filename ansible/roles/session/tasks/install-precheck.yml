@@ -1,7 +1,7 @@
 ---
 - name: "install-precheck : Start instructor pre-installation checks"
   include_role:
-    name: instructor
+    name: repository
     tasks_from: install-precheck
   when: not session_install_precheck or
             session_install_precheck is undefined

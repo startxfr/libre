@@ -37,6 +37,8 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
+| 0.6.10   | 2019-05-19 | Remove usless become, delegate_to. Change instructor dependency and install sequence. Stabilize infra self provisionning sequence (only with virt kernel)
+| 0.6.9    | 2019-05-18 | Speeup libre reinstall. 
 | 0.6.7    | 2019-05-18 | Move user config to dedicated role installation and reduce loading tasks
 | 0.6.5    | 2019-05-16 | Change infra workflow and start classroom libre installation. Move libre version form user config to internal config
 | 0.6.3    | 2019-05-12 | Move self infra to kvm backend and introduce infra state. Improve all playbook runtime by reducing number of task performed during load sequence.

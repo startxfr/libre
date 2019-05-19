@@ -10,13 +10,8 @@
 - name: "update : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
-  delegate_to: localhost
-  become: no
-
 - name: "update : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-update.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
-  become: no

@@ -1,20 +1,9 @@
 ---
-# Update tasks
-- name: "update : Start updating repository"
-  include_role:
-    name: repository
-    tasks_from: update
-
 - name: "update : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
-  delegate_to: localhost
-  become: no
-
 - name: "update : Generate instructor update report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-update.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
-  become: no

@@ -1,9 +1,12 @@
 ---
+- name: "install-postcheck : Get {{ config_libre.directory.conf }} directory details"
+  stat:
+    path: "{{ config_libre.directory.conf }}"
+  register: r_libre_dir_conf_details
 - name: "install-postcheck : Get user session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
   register: r_libre_session_userconf_details
-  become: no
 - name: "install-postcheck : Training configuration directory {{ config_libre.directory.conf }} must exist"
   assert:
     that: r_libre_dir_conf_details.skipped is defined or r_libre_dir_conf_details.stat.exists
@@ -33,7 +36,7 @@
 
         You can configure session with the following command :
         $ libre-session install
-
+        
   - name: "install-postcheck : Training configuration {{ r_session_config_file }} is loaded"
     assert:
       that: libre_session is defined

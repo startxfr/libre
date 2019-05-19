@@ -48,11 +48,9 @@
 #    - name: "install_hardware : Load Network interfaces"
 #      debug:
 #        var: hostvars['localhost']['ansible_interfaces']
-#
 #    - name: "install_hardware : Load Network interfaces"
 #      debug:
 #        var: hostvars['localhost']['ansible_hostname']
-#
 #    - name: "install_hardware : Load Network interfaces"
 #      debug:
 #        var: hostvars['localhost']['ansible_all_ipv4_addresses']

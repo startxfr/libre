@@ -6,4 +6,4 @@
 
   roles:
     - { role: session, do: load }
-    - { role: session, do: install, become: yes }
+    - { role: session, do: install }

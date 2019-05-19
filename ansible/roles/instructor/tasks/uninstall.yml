@@ -1,21 +1,9 @@
 ---
-# Uninstall pre-tasks
-
-# Uninstall tasks
-- name: "uninstall : Start repository uninstall"
-  include_role:
-    name: repository
-    tasks_from: uninstall
-  become: yes
-
 - name: "uninstall : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
-  delegate_to: localhost
-
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-uninstall.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost

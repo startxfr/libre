@@ -11,8 +11,9 @@
         name: libre
         tasks_from: install-postcheck
   rescue:
-    - debug:
-        msg: Failing back to installing LIBRE first
+    - name: "install : Libre post-check install is not valid"
+      debug:
+        msg: Failing back to installing LIBRE first 
     - name: "install : Start LIBRE install"
       include_role:
         name: libre
@@ -21,7 +22,6 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   register: r_libre_repository_userconf_details
-  become: no
 - name: "install : Generate user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   template:
     src: repository.j2
@@ -29,16 +29,13 @@
     mode: 0664
   when: not r_libre_repository_userconf_details.stat.exists or
             r_libre_force_upgrade
-  become: no
 - name: "install : Reload user repository configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   register: r_libre_repository_userconf_details
-  become: no
 - name: "install : Reload user repository configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   set_fact:
     config_repository: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_repository) | from_yaml | default('') }}"
-  become: no
 
 - name: "install : Clone course materials from {{ config_repository.url }} to {{ config_repository.local }}"
   git:
@@ -56,16 +53,11 @@
 - name: "install : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
-  delegate_to: localhost
-  become: no
-
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
-  become: no
 
 # Install post-tasks
 - name: "install : Start repository post-installation checks"

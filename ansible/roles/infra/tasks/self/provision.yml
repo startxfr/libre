@@ -1,41 +1,71 @@
 ---
-- name: "self : provision : Install KVM packages"
-  yum:
-    name:
-    - kvm
-    - qemu-kvm
-    - libvirt
-    - libvirt-python
-    - libguestfs-tools
-    - virt-install
-- name: "self : provision : Check KVM module is available"
-  shell: "lsmod | grep -i kvm"
-  failed_when: cmd_return.rc == 2
-  become: yes
-  register: cmd_return
-- name: "self : provision : Ensure KVM module is available"
-  fail:
-    msg: |
-      Could not provision self infrastructure because KVM kernel module is not available. 
-      You must run self infrastructure on workstation with virtualisation kernel module loaded.
-  when:
-  - cmd_return.rc == 1
-- name: "self : provision : Enable service libvirtd"
-  systemd:
-    name: libvirtd
-    enabled: yes
-    state: started
-- debug:
-    var: "{{ station }}"
-  loop: "{{ libre_infra.kvm.classroom }}"
-  loop_control:
-    loop_var: station
-    label: "{{ station.name }}"
-
-- name: "self : provision : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
+#- name: "self : provision : Install KVM packages"
+#  yum:
+#    name:
+#    - kvm
+#    - qemu-kvm
+#    - libvirt
+#    - libvirt-python
+#    - libguestfs-tools
+#    - virt-install
+#- name: "self : provision : Check KVM module is available"
+#  shell: "lsmod | grep -i kvm"
+#  failed_when: cmd_return.rc == 2
+#  become: yes
+#  register: cmd_return
+#- name: "self : provision : Ensure KVM module is available"
+#  fail:
+#    msg: |
+#      Could not provision self infrastructure because KVM kernel module is not available. 
+#      You must run self infrastructure on workstation with virtualisation kernel module loaded.
+#  when:
+#  - cmd_return.rc == 1
+#  become: yes
+#- name: "self : provision : Enable service libvirtd"
+#  systemd:
+#    name: libvirtd
+#    enabled: yes
+#    state: started
+#  become: yes
+- name: "self : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
+  file:
+    state: directory
+    path: "{{ config_libre.directory.conf }}/inventory"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "self : provision : Copy ssh default private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{ config_libre.directory.conf }}/infra-id_rsa"
+  copy:
+    src: '{{r_libre_userconfig_dir}}/infra-id_rsa'
+    dest: "{{ config_libre.directory.conf }}/infra-id_rsa"
+    mode: 0644
+- name: "self : provision : Copy ssh default public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{ config_libre.directory.conf }}/infra-id_rsa.pub"
+  copy:
+    src: '{{r_libre_userconfig_dir}}/infra-id_rsa.pub'
+    dest: "{{ config_libre.directory.conf }}/infra-id_rsa.pub"
+    mode: 0644
+- name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
   template:
-    src: "templates/inventory-students.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/students.yml"
+    src: inventory-local.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
+  template:
+    src: inventory-instructor.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
+  template:
+    src: inventory-students.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
@@ -110,6 +140,7 @@
     - id_rsa
   loop_control:
     loop_var: keyf
+
 - name: "self : provision : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
@@ -117,17 +148,14 @@
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
 - name: "self : provision : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
 - name: "self : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
 - name: "self : provision : Log provision action"
   include_role:
     name: libre

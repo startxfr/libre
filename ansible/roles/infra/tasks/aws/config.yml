@@ -45,7 +45,6 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
 
 - name: "aws : config : Succesfull config for Public-Cloud AWS infrastructure"
   debug:

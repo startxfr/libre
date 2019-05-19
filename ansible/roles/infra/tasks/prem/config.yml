@@ -20,7 +20,6 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
 - name: "prem : config : Succesfull config for On-Premise infrastructure"
   debug:
     msg:

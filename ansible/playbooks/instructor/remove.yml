@@ -6,4 +6,4 @@
 
   roles:
     - { role: instructor, do: load }
-    - { role: instructor, do: uninstall, become: yes, libre_uninstall_deep: true }
+    - { role: instructor, do: uninstall, libre_uninstall_deep: true }

@@ -3,11 +3,3 @@
   stat:
     path: "{{config_libre.directory.conf}}/{{ r_infra_config_file }}"
   register: r_infra_conf_details
-- name: "aws : load : Get {{config_libre.directory.conf}}/inventory/instructor.yml inventory file details"
-  stat:
-    path: "{{config_libre.directory.conf}}/inventory/instructor.yml"
-  register: r_libre_inventory_instructor_details
-- name: "aws : load : Get {{config_libre.directory.conf}}/inventory/students.yml inventory file details"
-  stat:
-    path: "{{config_libre.directory.conf}}/inventory/students.yml"
-  register: r_libre_inventory_students_details

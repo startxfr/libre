@@ -71,6 +71,22 @@ _libre_instructor()
   fi
 }
 
+# Auto-completion for repository
+_libre_repository()
+{
+  local available="install uninstall status usage info version"
+  if [ "${#COMP_WORDS[@]}" != "2" ]; then
+    return
+  fi
+  local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
+  if [ "${#suggestions[@]}" == "1" ]; then
+    local number=$(echo ${suggestions[0]/%\ */})
+    COMPREPLY=("$number")
+  else
+    COMPREPLY=("${suggestions[@]}")
+  fi
+}
+
 # Auto-completion for lab
 _libre_lab()
 {
@@ -122,6 +138,7 @@ _libre_student()
 complete -F _libre_chapter libre-chapter
 complete -F _libre_infra libre-infra
 complete -F _libre_instructor libre-instructor
+complete -F _libre_repository libre-repository
 complete -F _libre_lab libre-lab
 complete -F _libre_session libre-session
 complete -F _libre_student libre-student

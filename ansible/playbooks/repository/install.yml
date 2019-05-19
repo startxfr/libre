@@ -5,4 +5,4 @@
 
   roles:
     - { role: repository, do: load }
-    - { role: repository, do: install, become: yes }
+    - { role: repository, do: install }

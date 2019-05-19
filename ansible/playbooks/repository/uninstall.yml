@@ -6,5 +6,5 @@
 
   roles:
     - { role: repository, do: load }
-    - { role: repository, do: uninstall, become: yes }
-#    - { role: repository, do: uninstall, become: yes, libre_uninstall_deep: true }
+    - { role: repository, do: uninstall }
+#    - { role: repository, do: uninstall, libre_uninstall_deep: true }

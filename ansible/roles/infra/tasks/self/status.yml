@@ -1,7 +1,6 @@
 ---
-- name: "self : status : Generate repository report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+- name: "self : status : Generate infrastructure report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost

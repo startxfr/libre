@@ -24,6 +24,51 @@
     timeout: 60
     state: started
   with_items: "{{ list_instances }}"
+  
+- name: "aws : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
+  file:
+    state: directory
+    path: "{{ config_libre.directory.conf }}/inventory"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "aws : provision : Copy ssh default private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{ config_libre.directory.conf }}/infra-id_rsa"
+  copy:
+    src: "{{r_libre_userconfig_dir}}/infra-id_rsa"
+    dest: "{{ config_libre.directory.conf }}/infra-id_rsa"
+    mode: 0644
+  when: libre_infra_ssh_private_key_file is defined
+- name: "aws : provision : Copy ssh default public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{ config_libre.directory.conf }}/infra-id_rsa"
+  copy:
+    src: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
+    dest: "{{ config_libre.directory.conf }}/infra-id_rsa.pub"
+    mode: 0644
+- name: "aws : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
+  template:
+    src: inventory-local.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "aws : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
+  template:
+    src: inventory-instructor.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "aws : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
+  template:
+    src: inventory-students.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+
 - name: "aws : provision : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
@@ -31,17 +76,14 @@
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
 - name: "aws : provision : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
 - name: "aws : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
 - name: "aws : provision : Log provision action"
   include_role:
     name: libre
@@ -93,4 +135,3 @@
 #       ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml
 #
 #     Have a happy setup ;)
-

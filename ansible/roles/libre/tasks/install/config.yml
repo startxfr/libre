@@ -3,7 +3,6 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   register: r_libre_libre_userconf_details
-  become: no
 - name: "install_config : Generate user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   template:
     src: libre.j2
@@ -11,11 +10,9 @@
     mode: 0664
   when: not r_libre_libre_userconf_details.stat.exists or
             r_libre_force_upgrade
-  become: no
 - name: "install_config : Reload user libre configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }} file details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   register: r_libre_libre_userconf_details
-  become: no
 - name: "install_config : Reload user libre configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   include_tasks: ../load/config.yml
