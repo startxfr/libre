@@ -23,6 +23,18 @@
     libre_infra: "{{ libre_infra|combine({'auth': {'secret_key': aws_secret_key.user_input }}, recursive=True) }}"
   when: aws_secret_key.user_input is defined
 
+- name: "aws : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+  openssh_keypair:
+    path: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
+    size: 4096
+    type: rsa
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+  loop:
+    - instructor
+    - student
+  loop_control:
+    loop_var: user2
 - name: "aws : config : Copy infra ssh private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{config_libre.directory.conf}}/infra-id_rsa"
   copy:
     src: "{{r_libre_userconfig_dir}}/infra-id_rsa"

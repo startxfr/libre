@@ -47,7 +47,7 @@
     user: "{{ r_infra_user_student }}"
     state: present
     key: "{{ lookup('file', config_libre.directory.conf + '/student-id_rsa.pub') }}"
-- name: "self : provision-post : Ensure instructor SSH private and public key are present"
+- name: "self : provision-post : Ensure SSH private and public key are present"
   copy:
     src: "{{ config_libre.directory.conf }}/{{keyf.key}}"
     dest: "{{keyf.dir}}/.ssh/{{keyf.key}}"
@@ -55,6 +55,12 @@
     owner: "{{keyf.user}}"
     group: "{{ r_infra_usergroup }}"
   loop:
+    - user: root
+      key: infra-id_rsa.pub
+      dir: "/root/"
+    - user: root
+      key: infra-id_rsa
+      dir: "/root/"
     - user: "{{ r_infra_user_instructor }}"
       key: instructor-id_rsa.pub
       dir: "/home/{{ r_infra_user_instructor }}"
@@ -67,14 +73,18 @@
     - user: "{{ r_infra_user_student }}"
       key: student-id_rsa
       dir: "/home/{{ r_infra_user_student }}"
-    - user: root
-      key: infra-id_rsa.pub
-      dir: "/root/"
-    - user: root
-      key: infra-id_rsa
-      dir: "/root/"
   loop_control:
     loop_var: keyf
+- name: "self : provision-post : Change hostname for students"
+  hostname:
+    name: "{{ inventory_hostname }}"
+  become: yes
+  when: inventory_hostname in groups.students
+- name: "self : provision-post : Change hostname for instructor"
+  hostname:
+    name: "{{ inventory_hostname }}"
+  become: yes
+  when: inventory_hostname in groups.instructor
 
 - name: "self : provision-post : Set infrastructure state to provisionned"
   set_fact:

@@ -1,8 +1,33 @@
 ---
+- name: "aws : provision : inventory : Create inventory directory {{ config_libre.directory.conf }}/inventory"
+  file:
+    state: directory
+    path: "{{ config_libre.directory.conf }}/inventory"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "aws : provision : inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
+  template:
+    src: inventory-local.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "aws : provision : inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
+  template:
+    src: inventory-instructor.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
 - name: "aws : provision : inventory : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "../templates/inventory-students.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/students.yml"
+    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
