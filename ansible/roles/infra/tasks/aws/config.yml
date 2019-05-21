@@ -35,6 +35,7 @@
     - student
   loop_control:
     loop_var: user2
+    label: "{{ user2 }}"
 - name: "aws : config : Copy infra ssh private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{config_libre.directory.conf}}/infra-id_rsa"
   copy:
     src: "{{r_libre_userconfig_dir}}/infra-id_rsa"

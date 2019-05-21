@@ -12,6 +12,7 @@
     - student
   loop_control:
     loop_var: user2
+    label: "{{ user2 }}"
 - name: "self : config : Generate infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2

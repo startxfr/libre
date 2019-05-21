@@ -22,6 +22,7 @@
   loop: "{{ r_libre_files_library }}"
   loop_control:
     loop_var: libname
+    label: "{{ libname }}"
   when: not r_libre_binary_details.stat.exists or
         not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade
@@ -46,6 +47,7 @@
   loop: "{{ r_libre_files_binary_instructor }}"
   loop_control:
     loop_var: binname
+    label: "{{ binname }}"
   when: >
     (libre_type != "student" and config_libre.application.type == "instructor") and
     (
@@ -64,6 +66,7 @@
   loop: "{{ r_libre_files_binary_student }}"
   loop_control:
     loop_var: binname
+    label: "{{ binname }}"
   when: >
     (libre_type == "student" or config_libre.application.type != "instructor") and
     (

@@ -25,6 +25,7 @@
     - boto
   loop_control:
     loop_var: pipname
+    label: "{{ pipname }}"
 
 #- name: "install_services : Ensure rng service is running"
 #  systemd:

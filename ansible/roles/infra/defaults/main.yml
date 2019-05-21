@@ -11,7 +11,7 @@ r_infra_usergroup: "{{ infra_usergroup | default('libre') | string }}"
 
 # Config file for infrastructure
 libre_myconfile_infra: 'infra.yml'
-# Default key for infra deployment
+# Default key for infra deployment (going to userconfig dir)
 libre_infra_ssh_public_key_file: '../../ssh/infra-id_rsa.pub'
 libre_infra_ssh_private_key_file: '../../ssh/infra-id_rsa'
 
