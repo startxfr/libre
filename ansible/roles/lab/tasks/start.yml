@@ -20,9 +20,9 @@
     - r_current_lab_dir_details.stat.exists
     msg: "Ansible lab directory {{ r_current_lab_dir }} doesn't exist"
 
-- name: "start : Save the current lab id in {{ config_libre.directory.conf }}/{{ r_lab_config_current }}"
+- name: "start : Save the current lab id in {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"
   copy:
-    dest: "{{ config_libre.directory.conf }}/{{ r_lab_config_current }}"
+    dest: "{{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"
     content: "{{ current_lab.idn }}"
 
 # Start tasks
