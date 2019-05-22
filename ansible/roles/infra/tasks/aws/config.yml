@@ -23,13 +23,24 @@
     libre_infra: "{{ libre_infra|combine({'auth': {'secret_key': aws_secret_key.user_input }}, recursive=True) }}"
   when: aws_secret_key.user_input is defined
 
-- name: "aws : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
-  openssh_keypair:
-    path: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
-    size: 4096
-    type: rsa
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+##### TODO move key generation from command to openssh_keypair (switch the 2 following tasks)
+#- name: "self : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+#  openssh_keypair:
+#    path: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
+#    size: "4096"
+#    type: "rsa"
+#    owner: "{{ r_libre_user }}"
+#    group: "{{ r_libre_group }}"
+#  loop:
+#    - instructor
+#    - student
+#  loop_control:
+#    loop_var: user2
+#    label: "{{ user2 }}"
+- name: "self : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+  command : "ssh-keygen -q -b 4096 -t rsa -f {{config_libre.directory.conf}}/{{ user2 }}-id_rsa -C '{{ user2 }}@libre' -N ''"
+  args:
+    creates: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
   loop:
     - instructor
     - student
