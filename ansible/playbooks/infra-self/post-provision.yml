@@ -9,22 +9,39 @@
 - name: "Post-Provision classroom infrastructure on workstations"
   hosts: 'workstations'
   gather_facts: true
-  tasks: 
-    - set_fact:
-        test1: "workstation"
-    - set_fact:
-        test1: "localhost"
-      delegate_to: instructor
-      delegate_facts: yes
-    - debug: msg="{{test1}}"
+  vars:
+    libre_type: "student"
+    libre_verbose: false
+    libre_debug: false
+  roles:
+    - { role: student, do: load }
+    - { role: student, do: install }
+    
+    
+- name: "Post-Provision classroom infrastructure on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  tasks:
+    - name: "install : Load Session"
+      include_role:
+        name: session
+        tasks_from: load
+#        apply:
+#          delegate_to: localhost
+#          delegate_facts: yes
+#          run_once: true
+
+    - debug: var=libre_session
       delegate_to: localhost
-      delegate_facts: yes
-    - debug: msg="{{test1}}"
-      delegate_to: instructor
-      delegate_facts: yes
-    - debug: msg="{{test1}}"
+    - debug: var=libre_session
     - fail:
-#  roles:
-#    - { role: student, do: load }
-#    - { role: student, do: install }
+
+    - name: "install : Copy session {{ libre_session.id }} configuration to workstations"
+      copy:
+        src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+        dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+    - name: "install : Synchronize course {{ libre_session.course }} content to workstations"
+      synchronize:
+        src: "{{ r_session_dir_course }}"
+        dest: "{{ r_session_dir_course }}"
 

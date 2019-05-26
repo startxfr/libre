@@ -98,7 +98,7 @@
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "self : provision-post : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
   run_once: true
 - name: "self : provision-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:

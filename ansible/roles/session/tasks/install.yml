@@ -67,6 +67,9 @@
   synchronize:
     src: "{{ config_repository.local }}{{ config_repository.base }}/{{ libre_session.course }}/"
     dest: "{{ r_session_dir_course }}"
+    recursive: yes
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"
 
 - name: "install : Reload session course-manifest"
   include_tasks: load/course-manifest.yml
@@ -77,7 +80,7 @@
 
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
 - name: "install : Generate session report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-install.j2

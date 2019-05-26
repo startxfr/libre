@@ -26,16 +26,26 @@
   when: not r_libre_binary_details.stat.exists or
         not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade
+            
 - name: "install_libre : move LIBRE ansible content to {{ r_libre_dest_ansible }}"
-  synchronize:
+  copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/ansible/"
     dest: "{{ r_libre_dest_ansible }}"
-    recursive: yes
-    delete: yes
+    remote_src: yes
   delegate_to: "{{ inventory_hostname }}"
   when: not r_libre_binary_details.stat.exists or
         not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade
+#- name: "install_libre : move LIBRE ansible content to {{ r_libre_dest_ansible }}"
+#  synchronize:
+#    src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/ansible/"
+#    dest: "{{ r_libre_dest_ansible }}"
+#    recursive: yes
+#    delete: yes
+#  delegate_to: "{{ inventory_hostname }}"
+#  when: not r_libre_binary_details.stat.exists or
+#        not r_libre_binary_details.stat.executable or
+#            r_libre_force_upgrade
 - name: "install_libre : move LIBRE instructor binary content to {{ r_libre_dest_bin }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"

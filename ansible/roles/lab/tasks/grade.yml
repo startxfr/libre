@@ -24,7 +24,7 @@
 # Grade post-tasks
 - name: "grade : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', grade_result_file) }}"
+    previous_report: "{{ lookup('file', grade_result_file, errors='ignore') | default('') }}"
 - name: "grade : Generate LIBRE report at {{ grade_result_file }}"
   template:
     src: libre_report-grade.j2
