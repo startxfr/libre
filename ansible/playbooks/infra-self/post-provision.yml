@@ -16,7 +16,19 @@
   roles:
     - { role: student, do: load }
     - { role: student, do: install }
-    
+  tasks:
+    - name: "install : Load Session"
+      include_role:
+        name: session
+        tasks_from: load
+        apply:
+          delegate_to: localhost
+          delegate_facts: yes
+          run_once: true
+    - debug: var=libre_session
+      delegate_to: localhost
+    - debug: var=libre_session
+    - fail:
     
 - name: "Post-Provision classroom infrastructure on instructor"
   hosts: 'instructor'
@@ -26,10 +38,10 @@
       include_role:
         name: session
         tasks_from: load
-#        apply:
-#          delegate_to: localhost
-#          delegate_facts: yes
-#          run_once: true
+        apply:
+          delegate_to: localhost
+          delegate_facts: yes
+          run_once: true
 
     - debug: var=libre_session
       delegate_to: localhost
