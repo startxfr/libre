@@ -1,5 +1,5 @@
 ---
-- name: "install-precheck : Start instructor pre-installation checks"
+- name: "install-precheck : Start repository pre-installation checks"
   include_role:
     name: repository
     tasks_from: install-precheck

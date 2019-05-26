@@ -3,7 +3,7 @@
   stat:
     path: "{{ config_libre.directory.conf }}"
   register: r_libre_dir_conf_details
-- name: "load_config : Get user libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }} details"
+- name: "install-postcheck : Get user libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }} details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }}"
   register: r_libre_libre_userconf_details
@@ -14,7 +14,6 @@
     assert:
       that: r_libre_dir_details is defined and (r_libre_dir_details.skipped is defined or r_libre_dir_details.stat is defined)
       msg: "Training directory detail doesn't exist. Try to re-install LIBRE Toolkit and start again this setup."
-
   - name: "install-postcheck : Training directory {{ config_libre.directory.base }} must exist"
     assert:
       that: r_libre_dir_details.skipped is defined or r_libre_dir_details.stat.exists
@@ -23,7 +22,6 @@
     assert:
       that: r_libre_dir_course_details.skipped is defined or r_libre_dir_course_details.stat.exists
       msg: "Training course directory {{ config_libre.directory.course }} doesn't exist. Try to re-install LIBRE Toolkit and start again this setup."
- 
   - name: "install-postcheck : User libre configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_libre }} exist"
     assert:
       that: r_libre_libre_userconf_details.stat.exists
@@ -33,6 +31,6 @@
       that: config_libre is defined
       msg: "Libre configuration {{ r_libre_myconfile_libre }} is not loaded"
 
-- name: "install-precheck : Mark LIBRE install-postcheck as done"
+- name: "install-postcheck : Mark LIBRE install-postcheck as done"
   set_fact:
     libre_install_postcheck: True

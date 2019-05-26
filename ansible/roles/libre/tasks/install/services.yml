@@ -1,15 +1,21 @@
 ---
+- name: "install_services : Enable specific packages repositories"
+  yum:
+    name:
+    - epel-release
+  become: yes
+
 - name: "install_services : Ensure dependencies packages are installed"
   yum:
     name:
     - git
+    - jq
     - ansible
     - docker
     - bind-utils
     - bash-completion
-
-- name: "install_services : Force upgrading pip packages manager"
-  command: "pip install --upgrade pip"
+    - python-pip
+  become: yes
 
 - name: "install_services : Install and force upgrade pip packages"
   pip:
@@ -19,6 +25,7 @@
   loop:
     - pip
     - Jinja2
+    - yq
     - docker
     - botocore
     - boto3
@@ -26,6 +33,12 @@
   loop_control:
     loop_var: pipname
     label: "{{ pipname }}"
+  become: yes
+  
+- name: "install_services : Add another bin dir to $PATH."
+  copy:
+    dest: /etc/profile.d/custom-path.sh
+    content: 'PATH=$PATH:~/.local/bin'
 
 #- name: "install_services : Ensure rng service is running"
 #  systemd:

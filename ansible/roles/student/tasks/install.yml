@@ -7,11 +7,48 @@
             libre_student_install_precheck is undefined
 
 # Install tasks
-
-- name: "install : Start LIBRE install"
+#- name: "install : Start LIBRE install"
+#  include_role:
+#    name: libre
+#    tasks_from: install 
+        
+- set_fact:
+    test1: "workstation"
+- set_fact:
+    test1: "localhost"
+  delegate_to: instructor
+  delegate_facts: yes
+- debug: msg="{{test1}}"
+  delegate_to: localhost
+  delegate_facts: yes
+- debug: msg="{{test1}}"
+  delegate_to: instructor
+  delegate_facts: yes
+- debug: msg="{{test1}}"
+- fail:
+  
+- name: "install : Load Session"
   include_role:
-    name: libre
-    tasks_from: install
+    name: session
+    tasks_from: load
+    apply:
+      delegate_to: localhost
+      delegate_facts: yes
+      run_once: true
+        
+- debug: var=libre_session
+  delegate_to: localhost
+- debug: var=libre_session
+- fail:
+  
+- name: "install : Copy session {{ libre_session.id }} configuration to workstations"
+  copy:
+    src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+    dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+- name: "install : Synchronize course {{ libre_session.course }} content to workstations"
+  synchronize:
+    src: "{{ r_session_dir_course }}"
+    dest: "{{ r_session_dir_course }}"
 
 - name: "install : Get previous report data"
   set_fact:
@@ -31,6 +68,5 @@
     log_action: install
 
 # Install post-tasks
-
 - name: "install : Start student post-installation checks"
   include_tasks: install-postcheck.yml

@@ -1,15 +1,30 @@
 ---
-- name: "Post-Provision classroom infrastructure on instructor"
-  hosts: 'instructor'
-  gather_facts: true
-  roles:
-    - { role: infra, do: load, infra_type: self }
-    - { role: infra, do: provision-post, infra_type: self }
+#- name: "Post-Provision classroom infrastructure on instructor"
+#  hosts: 'instructor'
+#  gather_facts: true
+#  roles:
+#    - { role: infra, do: load, infra_type: self }
+#    - { role: infra, do: provision-post, infra_type: self }
 
 - name: "Post-Provision classroom infrastructure on workstations"
   hosts: 'workstations'
   gather_facts: true
-  roles:
-    - { role: student, do: load }
-    - { role: student, do: install }
+  tasks: 
+    - set_fact:
+        test1: "workstation"
+    - set_fact:
+        test1: "localhost"
+      delegate_to: instructor
+      delegate_facts: yes
+    - debug: msg="{{test1}}"
+      delegate_to: localhost
+      delegate_facts: yes
+    - debug: msg="{{test1}}"
+      delegate_to: instructor
+      delegate_facts: yes
+    - debug: msg="{{test1}}"
+    - fail:
+#  roles:
+#    - { role: student, do: load }
+#    - { role: student, do: install }
 

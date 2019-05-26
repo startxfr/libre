@@ -1,5 +1,5 @@
 ---
-- name: "install-precheck : Start instructor pre-installation checks"
+- name: "install-precheck : Start session pre-installation checks"
   include_role:
     name: session
     tasks_from: install-precheck
