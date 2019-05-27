@@ -37,6 +37,8 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
+| 0.6.15   | 2019-05-27 | Stabilize post-provisionning on self infrastructure.
+| 0.6.11   | 2019-05-22 | Improving lab and infra management. 
 | 0.6.10   | 2019-05-19 | Remove usless become, delegate_to. Change instructor dependency and install sequence. Stabilize infra self provisionning sequence (only with virt kernel)
 | 0.6.9    | 2019-05-18 | Speeup libre reinstall. 
 | 0.6.7    | 2019-05-18 | Move user config to dedicated role installation and reduce loading tasks

@@ -7,3 +7,14 @@
   roles:
     - { role: lab, do: load }
     - { role: lab, do: start }
+
+
+
+- name: "Start lab on local"
+  hosts: 'local'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: lab, do: load }
+    - { role: lab, do: start }

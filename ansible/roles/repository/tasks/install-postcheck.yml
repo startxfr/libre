@@ -1,4 +1,10 @@
 ---
+- name: "install-postcheck : Start libre install post-check if not already checked"
+  include_role:
+    name: libre
+    tasks_from: install-postcheck
+  when: not libre_install_postcheck or 
+        libre_install_postcheck is undefined
 - name: "install-postcheck : Local training repository {{ config_repository.local }} exists"
   assert:
     that: r_repository_details.stat.exists

@@ -10,7 +10,7 @@
 
 - name: "uninstall : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile) }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: libre_report-uninstall.j2

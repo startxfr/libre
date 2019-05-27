@@ -1,0 +1,6 @@
+[group1]
+node1.example.com
+node2.example.com
+
+[group2]
+node1.example.com

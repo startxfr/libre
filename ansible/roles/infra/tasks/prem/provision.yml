@@ -28,13 +28,11 @@
     src: '{{r_libre_userconfig_dir}}/infra-id_rsa'
     dest: "{{ config_libre.directory.conf }}/infra-id_rsa"
     mode: 0644
-  when: libre_infra_ssh_private_key_file is defined
 - name: "prem : provision : Copy ssh default public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{ config_libre.directory.conf }}/infra-id_rsa.pub"
   copy:
     src: '{{r_libre_userconfig_dir}}/infra-id_rsa.pub'
     dest: "{{ config_libre.directory.conf }}/infra-id_rsa.pub"
     mode: 0644
-  when: libre_infra_ssh_public_key_file is defined
 - name: "prem : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
   template:
     src: inventory-local.j2
@@ -69,7 +67,7 @@
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "prem : provision : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
 - name: "prem : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision.j2

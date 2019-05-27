@@ -59,16 +59,16 @@ content:
         type: section
         time: 5
 labs:
-  - id: 1
-    idn: example-1
-    name: "First Lab"
+  - id: '1.1'
+    idn: first_lab
+    name: "Example lab: The first one"
     desc: |
       Description of the exercice
       and step to execute
     time: 20
-  - id: 2
-    idn: example-2
-    name: "Second Lab"
+  - id: '1.2'
+    idn: second_lab
+    name: "Example lab: Exercise Returns"
     desc: |
       Description of the exercice
       and step to execute

@@ -1,4 +1,21 @@
 ---
+#        
+#- set_fact:
+#    test1: "workstation"
+#- set_fact:
+#    test1: "localhost"
+#  delegate_to: instructor
+#  delegate_facts: yes
+#- debug: msg="{{test1}}"
+#  delegate_to: localhost
+#  delegate_facts: yes
+#- debug: msg="{{test1}}"
+#  delegate_to: instructor
+#  delegate_facts: yes
+#- debug: msg="{{test1}}"
+#- fail:
+#  
+#  
 # Install pre-tasks
 
 - name: "install : Start student pre-installation checks"
@@ -7,15 +24,14 @@
             libre_student_install_precheck is undefined
 
 # Install tasks
-
 - name: "install : Start LIBRE install"
   include_role:
     name: libre
-    tasks_from: install
+    tasks_from: install 
 
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile) }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: libre_report-install.j2
@@ -31,6 +47,5 @@
     log_action: install
 
 # Install post-tasks
-
 - name: "install : Start student post-installation checks"
   include_tasks: install-postcheck.yml

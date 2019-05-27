@@ -1,4 +1,10 @@
 ---
+- name: "install-postcheck : Start repository install post-check if not already checked"
+  include_role:
+    name: repository
+    tasks_from: install-postcheck
+  when: not repository_install_postcheck or 
+        repository_install_postcheck is undefined
 - name: "install-postcheck : Get {{ config_libre.directory.conf }} directory details"
   stat:
     path: "{{ config_libre.directory.conf }}"

@@ -30,7 +30,7 @@
   when: r_lab_stop_file_details.stat.exists
 - name: "stop : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
 - name: "stop : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-stop.j2
@@ -45,7 +45,7 @@
     log_component: lab
     log_action: stop
 
-- name: "stop : {{ config_libre.directory.conf }}/{{ r_lab_config_current }} doesn't exists"
+- name: "stop : {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }} doesn't exists"
   file:
     state: absent
-    path: "{{ config_libre.directory.conf }}/{{ r_lab_config_current }}"
+    path: "{{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"
