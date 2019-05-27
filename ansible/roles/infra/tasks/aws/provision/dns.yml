@@ -1,4 +1,17 @@
 ---
+
+#- name: debug mos 00
+#  debug:
+#    var: libre_course.classroomInfra.workstations[?name=='workstations']
+
+- name: "MOS 007"
+  set_fact:
+    group_name: "{{ libre_course | default({}) | json_query('classroomInfra.workstations[?name==`workstation`].group_name | [0]') }}"
+
+- name: debug mos 01
+  debug:
+    var: group_name 
+
 - name: "aws : provision : dns : Register public DNS for workstations"
   route53:
     state: present
@@ -14,7 +27,13 @@
   loop_control:
     loop_var: station
     label: "{{ station.tags.Name }}"
+  when: 'station.tags.Group == group_name'
   register: list_dns
+
+- name: debug mos dns
+  debug:
+    var: list_dns 
+
 - name: "aws : provision : dns : Register a public DNS for instructor"
   route53:
     state: present

@@ -34,6 +34,17 @@
   when: r_libre_vpc.vpc.id is defined
   with_sequence: start=0 end="{{ libre_infra.ec2.environements_nb|int -1}}"
 
+# start del
+- debug:
+    msg: "{{ classroom_subnet.results }}"
+- debug:
+    msg: "{{ classroom_subnet.results | from_yaml_all }}"
+
+- debug:
+    msg: '{{ item.subnet.id }}'
+  loop: '{{ classroom_subnet.results | from_yaml_all | list }}'
+# end del
+
 - name: "aws : provision : network : Create Internet Gateway in {{libre_session.id}}-vpc"
   ec2_vpc_igw:
     state: present
@@ -55,6 +66,8 @@
     subnet_ids: "{{ subnet_ids + [item.subnet.id] }}"
   loop: "{{ classroom_subnet.results }}"
       
+- debug:
+    msg: "{{ subnet_ids }}"
 
 - name: "aws : provision : network : Create public route table for {{libre_session.id}}-vpc subnet"
   ec2_vpc_route_table:

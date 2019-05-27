@@ -19,7 +19,7 @@
       Name: "{{ libre_session.id }}-env{{labenv}}-{{station.name}}"
       Type: "{{station.name}}"
       Session: "{{ libre_session.id }}"
-      Group: "{{ libre_session.id }}-{{station.group|default('default')}}"
+      Group: "{{station.group|default('default')}}"
       Labenv: "{{ labenv }}"
       Course: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
