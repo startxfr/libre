@@ -4,6 +4,9 @@
     list_networks: []
     list_instances: []
     list_dns: []
+    subnet_ids: []
+    flat_inventory: []
+
 - name: "aws : provision : Create Network environments"
   include_tasks: provision/network.yml
 - name: "aws : provision : Create {{ libre_infra.ec2.environements_nb|int }} student environments"
@@ -15,6 +18,19 @@
   include_tasks: provision/dns.yml
 - name: "aws : provision : Record Inventory"
   include_tasks: provision/inventory.yml
+
+- name: build the flat inventory for workstations
+  set_fact:
+    flat_inventory: "{{ flat_inventory + [{'aws_id': item.station.id, 'ip_private': item.station.private_ip, 'ip_public': item.station.public_ip, 'student': item.station.tags.Labenv, 'group': item.station.tags.Group, 'fqdn': item.invocation.module_args.record }]  }}"
+  loop: "{{ list_dns.results }}"
+  when: item.invocation is defined
+
+- name: build the flat inventory for machines other than workstations
+  set_fact:
+    flat_inventory: "{{ flat_inventory + [{'aws_id': item.station.id, 'ip_private': item.station.private_ip, 'ip_public': item.station.public_ip, 'student': item.station.tags.Labenv, 'group': item.station.tags.Group }]  }}"
+  loop: "{{ list_dns.results }}"
+  when: item.invocation is not defined
+
 - name: "aws : provision : Wait for the instances to boot by checking the ssh port"
   wait_for:
     host: "{{item.public_ip}}"
@@ -24,67 +40,17 @@
     timeout: 60
     state: started
   with_items: "{{ list_instances }}"
-  
-- name: "aws : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
-  file:
-    state: directory
-    path: "{{ config_libre.directory.conf }}/inventory"
-    mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-    recurse: yes
-- name: "aws : provision : Copy ssh default private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{ config_libre.directory.conf }}/infra-id_rsa"
-  copy:
-    src: "{{r_libre_userconfig_dir}}/infra-id_rsa"
-    dest: "{{ config_libre.directory.conf }}/infra-id_rsa"
-    mode: 0644
-  when: libre_infra_ssh_private_key_file is defined
-- name: "aws : provision : Copy ssh default public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{ config_libre.directory.conf }}/infra-id_rsa"
-  copy:
-    src: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
-    dest: "{{ config_libre.directory.conf }}/infra-id_rsa.pub"
-    mode: 0644
-- name: "aws : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
-  template:
-    src: inventory-local.j2
-    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
-#    remote_src: yes
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-- name: "aws : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
-  template:
-    src: inventory-instructor.j2
-    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
-#    remote_src: yes
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-- name: "aws : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
-  template:
-    src: inventory-students.j2
-    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
-#    remote_src: yes
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-
-- name: "aws : provision : Set infrastructure state to provisionned"
-  set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
-- name: "aws : provision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  template:
-    src: templates/libre-infra.j2
-    dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "aws : provision : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
+  delegate_to: localhost
 - name: "aws : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-- name: "aws : provision : Log provision action"
+  delegate_to: localhost
+- name: "infra : aws : provision : Log provision action"
   include_role:
     name: libre
     tasks_from: lib/log
@@ -102,7 +68,7 @@
       - "Here are some interesting characteristics of this classroom infrastructure:"
       - " "
       - "  - Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
-      - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
+#      - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
       - "  - Type: {{ libre_infra.ec2.type }}"
       - "  - Region: {{ libre_infra.ec2.region }}"
       - "  - SSH User: {{ libre_infra.ssh.user }}"
@@ -135,3 +101,4 @@
 #       ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml
 #
 #     Have a happy setup ;)
+

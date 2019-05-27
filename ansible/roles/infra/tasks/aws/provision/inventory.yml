@@ -12,9 +12,6 @@
 #    owner: "{{ r_libre_user }}"
 #    group: "{{ r_libre_group }}"
 
-- debug:
-    msg: "mos"
-
 - name: "aws : provision : inventory : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "../templates/inventory-students.j2"
