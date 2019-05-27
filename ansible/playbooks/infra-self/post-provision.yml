@@ -1,10 +1,10 @@
 ---
-#- name: "Post-Provision classroom infrastructure on instructor"
-#  hosts: 'instructor'
-#  gather_facts: true
-#  roles:
-#    - { role: infra, do: load, infra_type: self }
-#    - { role: infra, do: provision-post, infra_type: self }
+- name: "Post-Provision classroom infrastructure on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  roles:
+    - { role: infra, do: load, infra_type: self }
+    - { role: infra, do: provision-post, infra_type: self }
 
 - name: "Post-Provision classroom infrastructure on workstations"
   hosts: 'workstations'
@@ -16,44 +16,40 @@
   roles:
     - { role: student, do: load }
     - { role: student, do: install }
-  tasks:
-    - name: "install : Load Session"
-      include_role:
-        name: session
-        tasks_from: load
-        apply:
-          delegate_to: localhost
-          delegate_facts: yes
-          run_once: true
-    - debug: var=libre_session
-      delegate_to: localhost
-    - debug: var=libre_session
-    - fail:
     
 - name: "Post-Provision classroom infrastructure on instructor"
   hosts: 'instructor'
   gather_facts: true
+  roles:
+    - { role: session, do: load }
   tasks:
-    - name: "install : Load Session"
-      include_role:
-        name: session
-        tasks_from: load
-        apply:
-          delegate_to: localhost
-          delegate_facts: yes
-          run_once: true
-
-    - debug: var=libre_session
-      delegate_to: localhost
-    - debug: var=libre_session
-    - fail:
-
     - name: "install : Copy session {{ libre_session.id }} configuration to workstations"
       copy:
         src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
         dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+      delegate_to: "{{ server }}"
+      loop: "{{ groups['workstations'] }}"
+      loop_control:
+        loop_var: server
+        label: "{{ server }}"
     - name: "install : Synchronize course {{ libre_session.course }} content to workstations"
-      synchronize:
-        src: "{{ r_session_dir_course }}"
+      copy:
+        src: "{{ r_session_dir_course }}/"
         dest: "{{ r_session_dir_course }}"
+      delegate_to: "{{ server }}"
+      delegate_facts: yes
+      loop: "{{ groups['workstations'] }}"
+      loop_control:
+        loop_var: server
+        label: "{{ server }}"
+    - name: "install : provision-post : Authorize infrastructure SSH key for root"
+      authorized_key:
+        user: "root"
+        state: present
+        key: "{{ lookup('file', config_libre.directory.conf + '/infra-id_rsa.pub') }}"
+      delegate_to: "{{ server }}"
+      loop: "{{ groups['classroom'] }}"
+      loop_control:
+        loop_var: server
+        label: "{{ server }}"
 
