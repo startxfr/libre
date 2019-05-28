@@ -15,12 +15,12 @@
   when:
   - not r_lab_track_current_lab_filename_details.stat.exists
   - lab_current is not defined
-- name: "load : Find lab {{lab_current}} in course manifest.yml (by ID)"
+- name: "load : Find lab {{lab_current}} in course manifest.yml (by IDN)"
   set_fact:
     current_lab: "{{ libre_course | default({}) | json_query(qry) }}"
   vars:
     qry: 'labs[?idn==`{{lab_current}}`] | [0]'
-- name: "load : Find lab {{lab_current}} in course manifest.yml (by IDN if not found by id)"
+- name: "load : Find lab {{lab_current}} in course manifest.yml (by ID if not found by IDN)"
   set_fact:
     current_lab: "{{ libre_course | default({}) | json_query(qry) }}"
   vars:
