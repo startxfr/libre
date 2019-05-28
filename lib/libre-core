@@ -193,7 +193,7 @@ function runLibrePlaybook {
   if [[ ! -r $INVENTORY_FILE ]] ; then
     INVENTORY_FILE="inventory";
   fi
-  export ANSIBLE_STDOUT_CALLBACK=yaml
+#  export ANSIBLE_STDOUT_CALLBACK=yaml
   isDebug
   if [ "$?" -eq 1 ] ; then
     ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml

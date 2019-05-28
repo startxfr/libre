@@ -28,6 +28,9 @@
   include_role:
     name: libre
     tasks_from: install 
+- name: "install : Set hostame to student"
+  hostname:
+    name: student
 
 - name: "install : Get previous report data"
   set_fact:

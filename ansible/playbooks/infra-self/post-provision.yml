@@ -23,6 +23,15 @@
   roles:
     - { role: session, do: load }
   tasks:
+# TODO revamp this part to create a role
+#
+#    - name: "install : Set hostame to workstation "
+#      hostname:
+#        name: workstation
+#      loop: "{{ groups['workstations'] }}"
+#      loop_control:
+#        loop_var: server
+#        label: "{{ server }}"
     - name: "install : Copy session {{ libre_session.id }} configuration to workstations"
       copy:
         src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
