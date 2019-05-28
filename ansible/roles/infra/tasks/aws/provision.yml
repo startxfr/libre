@@ -4,6 +4,9 @@
     list_networks: []
     list_instances: []
     list_dns: []
+    subnet_ids: []
+    flat_inventory: []
+
 - name: "aws : provision : Create Network environments"
   include_tasks: provision/network.yml
 - name: "aws : provision : Create {{ libre_infra.ec2.environements_nb|int }} student environments"
@@ -15,6 +18,19 @@
   include_tasks: provision/dns.yml
 - name: "aws : provision : Record Inventory"
   include_tasks: provision/inventory.yml
+
+- name: build the flat inventory for workstations
+  set_fact:
+    flat_inventory: "{{ flat_inventory + [{'aws_id': item.station.id, 'ip_private': item.station.private_ip, 'ip_public': item.station.public_ip, 'student': item.station.tags.Labenv, 'group': item.station.tags.Group, 'fqdn': item.invocation.module_args.record }]  }}"
+  loop: "{{ list_dns.results }}"
+  when: item.invocation is defined
+
+- name: build the flat inventory for machines other than workstations
+  set_fact:
+    flat_inventory: "{{ flat_inventory + [{'aws_id': item.station.id, 'ip_private': item.station.private_ip, 'ip_public': item.station.public_ip, 'student': item.station.tags.Labenv, 'group': item.station.tags.Group }]  }}"
+  loop: "{{ list_dns.results }}"
+  when: item.invocation is not defined
+
 - name: "aws : provision : Wait for the instances to boot by checking the ssh port"
   wait_for:
     host: "{{item.public_ip}}"
@@ -40,7 +56,8 @@
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-- name: "aws : provision : Log provision action"
+  delegate_to: localhost
+- name: "infra : aws : provision : Log provision action"
   include_role:
     name: libre
     tasks_from: lib/log
@@ -58,7 +75,7 @@
       - "Here are some interesting characteristics of this classroom infrastructure:"
       - " "
       - "  - Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
-      - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
+#      - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
       - "  - Type: {{ libre_infra.ec2.type }}"
       - "  - Region: {{ libre_infra.ec2.region }}"
       - "  - SSH User: {{ libre_infra.ssh.user }}"
@@ -91,3 +108,4 @@
 #       ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml
 #
 #     Have a happy setup ;)
+

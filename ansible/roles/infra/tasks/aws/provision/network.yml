@@ -14,23 +14,26 @@
       Stage: "{{ libre_session.state }}"
       Instructor: "{{ libre_session.instructor }}"
   register: r_libre_vpc
+
 - name: "aws : provision : network : Create classroom subnet in {{libre_session.id}}-vpc"
   ec2_vpc_subnet:
     state: present
     aws_access_key: "{{ libre_infra.auth.access_key }}"
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     vpc_id: "{{ r_libre_vpc.vpc.id }}"
-    cidr: 172.22.1.0/24
+    cidr: 172.22.{{ item }}.0/24
     az: "{{ libre_infra.ec2.region }}b"
     region: "{{ libre_infra.ec2.region }}"
     tags:
-      Name: "{{libre_session.id}}-subnet"
+      Name: "{{libre_session.id}}-{{ item }}-subnet"
       Session: "{{ libre_session.id }}"
       Course: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
       Instructor: "{{ libre_session.instructor }}"
   register: classroom_subnet
   when: r_libre_vpc.vpc.id is defined
+  with_sequence: start=0 end="{{ libre_infra.ec2.environements_nb|int -1}}"
+
 - name: "aws : provision : network : Create Internet Gateway in {{libre_session.id}}-vpc"
   ec2_vpc_igw:
     state: present
@@ -46,6 +49,15 @@
       Instructor: "{{ libre_session.instructor }}"
   register: igw
   when: r_libre_vpc.vpc.id is defined
+
+- name: set list subnet-id
+  set_fact:
+    subnet_ids: "{{ subnet_ids + [item.subnet.id] }}"
+  loop: "{{ classroom_subnet.results }}"
+      
+- debug:
+    msg: "{{ subnet_ids }}"
+
 - name: "aws : provision : network : Create public route table for {{libre_session.id}}-vpc subnet"
   ec2_vpc_route_table:
     state: present
@@ -59,13 +71,14 @@
       Course: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
       Instructor: "{{ libre_session.instructor }}"
-    subnets:
-      - "{{ classroom_subnet.subnet.id }}"
+    subnets: "{{ subnet_ids }}"
     routes:
       - dest: 0.0.0.0/0
         gateway_id: "{{ igw.gateway_id }}"
   register: public_route_table
+  loop: "{{ classroom_subnet.results }}"
   when: r_libre_vpc.vpc.id is defined
+
 - name: "aws : provision : network : Create security group for {{ r_libre_vpc.vpc.id }} in {{ libre_infra.ec2.region }}"
   ec2_group:
     state: present
@@ -88,14 +101,20 @@
         cidr_ip: 0.0.0.0/0
   register: security_group
   when: r_libre_vpc.vpc.id is defined
+
 - name: "aws : provision : network : Prepare Network description for {{libre_session.id}} session"
   set_fact:
     last_vpc: 
       vpc_id: "{{ r_libre_vpc.vpc.id }}"
-      vpc_subnet_id: "{{ classroom_subnet.subnet.id }}"
+      vpc_subnet_id: "{{ item.subnet.id }}"
       security_group_id: "{{ security_group.group_id }}"
       public_gateway_id: "{{ igw.gateway_id }}"
-      public_route_table_id: "{{ public_route_table.route_table.id }}"
+
+      public_route_table_id: "{{ public_route_table.results[0].route_table.id }}"
+
+  loop: "{{ classroom_subnet.results }}"
+
+
 - name: "aws : provision : network : Add {{libre_session.id}} session network description to list_networks"
   set_fact:
     list_networks: "{{ list_networks + [ last_vpc ] }}"
