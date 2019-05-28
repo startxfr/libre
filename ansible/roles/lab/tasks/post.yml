@@ -1,0 +1,19 @@
+---
+- name: "{{ lab_action }} : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
+
+- name: "{{ lab_action }} : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+  template:
+    src: libre_report-{{ lab_action }}.j2
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    mode: 0664
+
+- name: "{{ lab_action }} : Log {{ lab_action }} action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "{{ lab_action | title }}ing lab {{ current_lab.id }} {{ current_lab.name }}"
+    log_component: lab
+    log_action: "{{ lab_action }}"
