@@ -61,6 +61,7 @@ content:
 labs:
   - id: '1.1'
     idn: first_lab
+    directory: "01.1_first_lab"
     name: "Example lab: The first one"
     desc: |
       Description of the exercice

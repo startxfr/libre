@@ -1,2 +1,0 @@
-- name: "stop : Stop Lab 1 for course sample EX001"
-  debug: msg="TODO !!! must implement course sample EX001 lab stop process"
