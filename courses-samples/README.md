@@ -16,8 +16,9 @@ These keys are the minimum required, you can add others that will be available i
 
 ```yaml
 labs:
-  - id: 'example1' # also used as folder name
+  - id: 'example1' # also used as folder name if `directory` is not defined
     idn: using_loops # Used by the lab command, ex: `lab grade using_loops
+    directory: "01.1_loops" # Optionnal
     name: "Example lab: The first one"
     time: 10 # indicative, in minutes
     desc: |
@@ -30,10 +31,15 @@ labs:
 
 ```
 labs
--- example1
----- start.yml
----- stop.yml
----- grade.yml
+├── 01.1_loops
+│   ├── ansible.cfg # not used for now
+│   ├── inventory
+│   │   ├── group_vars
+│   │   │   └── mynodes.yml
+|   |   └── inventory
+│   ├── start.yml
+│   ├── stop.yml
+│   └── grade.yml
 ```
 
 start, stop and grade are entries points for `lab <start|stop|restart|grade>`
@@ -46,21 +52,14 @@ You have access to two variables in these files :
 #### 2.3 Create your lab environment as you want
 
 ```yaml
+---
 # labs/example1/start.yml
-- name: Create the /home/student/{{ current_lab.idn }} directory
-    file:
-    path: /home/student/{{ current_lab.idn }}
-    state: directory
-    owner: student
-    group: student
-    mode: 0755
 
-- name: Copy default files to /home/student/{{ current_lab.idn }} directory
-    loop: [ansible.cfg, inventory]
-    copy:
-    src: files/{{ item }}
-    dest: /home/student/{{ current_lab.idn }}
-    owner: student
-    group: student
-    mode: 0644
+- hosts: webservers
+  become: yes
+  tasks:
+    - name: Ensure HTTPD package is unistalled
+      package:
+       name: httpd
+       state: absent
 ```
