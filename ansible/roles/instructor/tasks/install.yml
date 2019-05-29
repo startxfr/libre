@@ -23,6 +23,10 @@
     - name: "install : Reload"
       include_tasks: load.yml
 
+- name: "install : Set hostame to instructor"
+  hostname:
+    name: instructor
+
 - name: "install : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"

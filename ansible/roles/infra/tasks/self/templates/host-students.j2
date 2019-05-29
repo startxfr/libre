@@ -1,0 +1,10 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+{{ libre_infra.network.associated_ip }}       instructor.{{libre_infra.network.dns}} instructor
+
+{% if libre_infra.kvm is defined and libre_infra.kvm.classroom is defined %}
+{% for station in libre_infra.kvm.classroom %}
+{{ libre_infra.network.associated_ip }}       {{station.name}}.{{libre_infra.network.dns}} {{station.name}}
+{% endfor %}
+{% endif %}

@@ -1,6 +1,7 @@
 ---
 ## LIBRE Lab role default variables
 do: load
+lab_action: start
 
 # Config file to store the current chapter - section
 lab_track_current_lab_filename: 'current-lab.txt'
