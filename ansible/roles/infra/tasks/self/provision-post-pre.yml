@@ -1,9 +1,8 @@
----
-- name: "self : provision-post-pre : Update /etc/hosts file"
-  blockinfile:
+---  
+- name: "self : provision-post-pre : Update instructor /etc/hosts file"
+  template:
+    src: templates/host-instructor.j2
     dest: /etc/hosts
-    content: "{{ libre_infra.network.associated_ip }}       localhost.localdomain localhost instructor.{{libre_infra.network.dns}} student.{{libre_infra.network.dns}}"
-    state: present
 - name: "self : provision-post-pre : Create the libre user group"
   group:
     name: "{{ r_infra_usergroup }}"

@@ -1,32 +1,32 @@
 ---
-#- name: "self : provision : Install KVM packages"
-#  yum:
-#    name:
-#    - kvm
-#    - qemu-kvm
-#    - libvirt
-#    - libvirt-python
-#    - libguestfs-tools
-#    - virt-install
-#- name: "self : provision : Check KVM module is available"
-#  shell: "lsmod | grep -i kvm"
-#  failed_when: cmd_return.rc == 2
-#  become: yes
-#  register: cmd_return
-#- name: "self : provision : Ensure KVM module is available"
-#  fail:
-#    msg: |
-#      Could not provision self infrastructure because KVM kernel module is not available. 
-#      You must run self infrastructure on workstation with virtualisation kernel module loaded.
-#  when:
-#  - cmd_return.rc == 1
-#  become: yes
-#- name: "self : provision : Enable service libvirtd"
-#  systemd:
-#    name: libvirtd
-#    enabled: yes
-#    state: started
-#  become: yes
+- name: "self : provision : Install KVM packages"
+  yum:
+    name:
+    - kvm
+    - qemu-kvm
+    - libvirt
+    - libvirt-python
+    - libguestfs-tools
+    - virt-install
+- name: "self : provision : Check KVM module is available"
+  shell: "lsmod | grep -i kvm"
+  failed_when: cmd_return.rc == 2
+  become: yes
+  register: cmd_return
+- name: "self : provision : Ensure KVM module is available"
+  fail:
+    msg: |
+      Could not provision self infrastructure because KVM kernel module is not available. 
+      You must run self infrastructure on workstation with virtualisation kernel module loaded.
+  when:
+  - cmd_return.rc == 1
+  become: yes
+- name: "self : provision : Enable service libvirtd"
+  systemd:
+    name: libvirtd
+    enabled: yes
+    state: started
+  become: yes
 - name: "self : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
   file:
     state: directory

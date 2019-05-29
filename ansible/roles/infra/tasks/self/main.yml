@@ -7,4 +7,4 @@
 - name: "{{ do | default('load') | string }} Self-Hosted infrastructure environement"
   include_tasks: "{{ do | default('load') | string }}.yml"
   vars:
-  when: do|default('load')|string in ['load','setup','status','provision','provision-post','deprovision']
+  when: do|default('load')|string in ['load','setup','status','provision','provision-post','provision-post-pre','provision-post-post','deprovision']

@@ -6,6 +6,15 @@
 #  loop_control:
 #    loop_var: server
 #    label: "{{ server }}"
+- name: "self : provision-post-post : Update students /etc/hosts file"
+  template:
+    src: templates/host-students.j2
+    dest: /etc/hosts
+  delegate_to: "{{ server }}"
+  loop: "{{ groups['students'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
 - name: "self : provision-post-post : Copy session {{ libre_session.id }} configuration to workstations"
   copy:
     src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
