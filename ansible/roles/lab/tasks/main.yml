@@ -8,10 +8,8 @@
                'setup',
                'load',
                'status',
-               'grade',
-               'reset',
-               'start',
-               'stop',
+               'pre',
+               'post',
               ]
 - name: "{{ r_do }} lab environement"
   include_tasks: "{{ r_do }}.yml"

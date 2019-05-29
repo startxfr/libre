@@ -14,3 +14,4 @@
         group: root
         mode: '0700'
         state: link
+        force: yes
