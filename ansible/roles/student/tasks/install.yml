@@ -1,21 +1,4 @@
 ---
-#        
-#- set_fact:
-#    test1: "workstation"
-#- set_fact:
-#    test1: "localhost"
-#  delegate_to: instructor
-#  delegate_facts: yes
-#- debug: msg="{{test1}}"
-#  delegate_to: localhost
-#  delegate_facts: yes
-#- debug: msg="{{test1}}"
-#  delegate_to: instructor
-#  delegate_facts: yes
-#- debug: msg="{{test1}}"
-#- fail:
-#  
-#  
 # Install pre-tasks
 
 - name: "install : Start student pre-installation checks"
