@@ -3,7 +3,7 @@
   copy:
     src: "{{r_libre_userconfig_dir}}/infra-id_rsa"
     dest: "{{config_libre.directory.conf}}/infra-id_rsa"
-    mode: 0644
+    mode: 0600
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
 - name: "prem : config : Copy infra ssh public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{config_libre.directory.conf}}/infra-id_rsa.pub"

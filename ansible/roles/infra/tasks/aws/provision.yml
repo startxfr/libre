@@ -12,34 +12,24 @@
 - name: "aws : provision : Create {{ libre_infra.ec2.environements_nb|int }} student environments"
   include_tasks: provision/instance.yml
   vars:
-    labenv: "{{item}}"
+    labenv: "{{item|int - 1}}"
   with_sequence: count={{libre_infra.ec2.environements_nb|int}}
 - name: "aws : provision : Create DNS environments"
   include_tasks: provision/dns.yml
 - name: "aws : provision : Record Inventory"
   include_tasks: provision/inventory.yml
-
-- name: build the flat inventory for workstations
-  set_fact:
-    flat_inventory: "{{ flat_inventory + [{'aws_id': item.station.id, 'ip_private': item.station.private_ip, 'ip_public': item.station.public_ip, 'student': item.station.tags.Labenv, 'group': item.station.tags.Group, 'fqdn': item.invocation.module_args.record }]  }}"
-  loop: "{{ list_dns.results }}"
-  when: item.invocation is defined
-
-- name: build the flat inventory for machines other than workstations
-  set_fact:
-    flat_inventory: "{{ flat_inventory + [{'aws_id': item.station.id, 'ip_private': item.station.private_ip, 'ip_public': item.station.public_ip, 'student': item.station.tags.Labenv, 'group': item.station.tags.Group }]  }}"
-  loop: "{{ list_dns.results }}"
-  when: item.invocation is not defined
-
 - name: "aws : provision : Wait for the instances to boot by checking the ssh port"
   wait_for:
-    host: "{{item.public_ip}}"
+    host: "{{instance.public_ip}}"
     port: 22
-    delay: 10
-    sleep: 5
+    delay: 5
+    sleep: 2
     timeout: 60
     state: started
-  with_items: "{{ list_instances }}"
+  loop: "{{ list_instances }}"
+  loop_control:
+    loop_var: instance
+    label: "{{ instance.public_ip }}"
 
 - name: "aws : provision : Set infrastructure state to provisionned"
   set_fact:
