@@ -6,5 +6,4 @@
     that: do|default('load')|string in ['load','config','status','provision','provision-post','provision-post-pre','provision-post-post','deprovision','install','uninstall']
 - name: "{{ do | default('load') | string }} infrastructure environement"
   include_tasks: "{{ do | default('load') | string }}.yml"
-  vars:
   when: do|default('load')|string in ['load','config','status','provision','provision-post','provision-post-pre','provision-post-post','deprovision','install','uninstall']

@@ -10,14 +10,20 @@
   pause:
    prompt: "What is your AWS Access key ?"
   register: aws_access_key
+  when: libre_infra.auth is undefined or
+        libre_infra.auth.access_key is undefined or
+        libre_infra.auth.access_key == false
 - name: "aws : config : Register access_key in libre_infra fact"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'auth': {'access_key': aws_access_key.user_input }}, recursive=True) }}"
   when: aws_access_key.user_input is defined
-- name: "aws : config : Configure AWS access key"
+- name: "aws : config : Configure AWS secret key"
   pause:
-   prompt: "What is your AWS Access key ?"
+   prompt: "What is your AWS Secret key ?"
   register: aws_secret_key
+  when: libre_infra.auth is undefined or
+        libre_infra.auth.secret_key is undefined or
+        libre_infra.auth.secret_key == false
 - name: "aws : config : Register secret_key in libre_infra fact"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'auth': {'secret_key': aws_secret_key.user_input }}, recursive=True) }}"

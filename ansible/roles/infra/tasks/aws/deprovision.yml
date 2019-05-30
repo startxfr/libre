@@ -139,7 +139,7 @@
   file:
     state: "absent"
     path: "{{config_libre.directory.conf}}/inventory/students.yml"
-- name: "aws : deprovision : Set infrastructure state to provisionned"
+- name: "aws : deprovision : Set infrastructure state to deprovisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"
 - name: "aws : deprovision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
