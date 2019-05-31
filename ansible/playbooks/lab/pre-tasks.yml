@@ -1,0 +1,17 @@
+# Lab pre-tasks
+- name: "Start lab pre-tasks on local"
+  hosts: local
+  gather_facts: no
+  user: root
+  roles:
+    - { role: lab, do: load }
+  tasks:
+    - name: "lab : Create symlink from {{ r_current_lab_dir }} to /tmp/current_lab"
+      file:
+        src: "{{ r_current_lab_dir }}"
+        dest: /tmp/current_lab
+        owner: root
+        group: root
+        mode: '0700'
+        state: link
+        force: yes

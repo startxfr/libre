@@ -1,0 +1,4 @@
+---
+- name: "load_config : Load user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
+  set_fact:
+    config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_session, errors='ignore') | from_yaml | default(r_libre_session_userconf_default, true) }}"

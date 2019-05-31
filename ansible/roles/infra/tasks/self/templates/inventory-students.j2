@@ -1,10 +1,25 @@
 ---
-students:
+{% if libre_infra.kvm.classroom is defined %}
+{% for nodekind in libre_infra.kvm.classroom %}
+{{nodekind.group|default('default')}}:
   hosts:
     localhost:
+{% if nodekind.group is defined and nodekind.group == "workstations" %}
   vars:
     ansible_connection: local
     libre_type: student
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
+students:
+  children:
+{% if libre_infra.kvm.classroom is defined %}
+{% for nodekind in libre_infra.kvm.classroom %}
+    {{ nodekind.group|default('default') }}:
+{% endfor %}
+{% endif %}
 
 classroom:
   children:

@@ -1,0 +1,69 @@
+---
+# Install pre-tasks
+- name: "install : Start infrastructure pre-installation checks"
+  include_tasks: install-precheck.yml
+  when: not infra_install_precheck or
+            infra_install_precheck is undefined
+            
+# Install tasks
+- name: "install : Start infrastructure install sequence"
+  block:
+    - name: "install : Start session install post-check"
+      include_role:
+        name: session
+        tasks_from: install-postcheck
+  rescue:
+    - name: "install : Session post-check install is not valid"
+      debug:
+        msg: Failing back to installing session first 
+    - name: "install : Start session install"
+      include_role:
+        name: session
+        tasks_from: install
+    - name: "install : Reload"
+      include_tasks: load.yml
+
+- name: "install : Install and force upgrade pip packages"
+  pip:
+    name: "{{ pipname }}"
+    state: forcereinstall
+    extra_args: --upgrade --user
+  loop:
+    - botocore
+    - boto3
+    - boto
+  loop_control:
+    loop_var: pipname
+    label: "{{ pipname }}"
+- name: "install : Get user infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  register: r_libre_infra_userconf_details
+- name: "install : Generate user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  template:
+    src: infra.j2
+    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+    mode: 0664
+  when: not r_libre_infra_userconf_details.stat.exists or
+            r_libre_force_upgrade
+- name: "install : Copy ssh default private key {{ libre_infra_ssh_private_key_file }} to {{r_libre_userconfig_dir}}/infra-id_rsa"
+  copy:
+    src: '{{ libre_infra_ssh_private_key_file }}'
+    dest: "{{r_libre_userconfig_dir}}/infra-id_rsa"
+    mode: 0600
+  when: libre_infra_ssh_private_key_file is defined
+- name: "install : Copy ssh default public key {{ libre_infra_ssh_public_key_file }} to {{r_libre_userconfig_dir}}/infra-id_rsa.pub"
+  copy:
+    src: '{{ libre_infra_ssh_public_key_file }}'
+    dest: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
+    mode: 0644
+  when: libre_infra_ssh_public_key_file is defined
+- name: "install : Reload user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  set_fact:
+    config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra, errors='ignore') | from_yaml | default(r_libre_infra_userconf_default, true) }}"
+  when: not r_libre_infra_userconf_details.stat.exists or
+            r_libre_force_upgrade
+- name: "install : Reload user infra configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} file details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  register: r_libre_infra_userconf_details

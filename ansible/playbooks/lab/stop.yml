@@ -1,9 +1,26 @@
 ---
-- name: "Stop lab on local"
+# Stop pre-tasks
+- name: "Stop lab on local (pre-tasks)"
   hosts: 'local'
   gather_facts: true
   user: root
-
   roles:
     - { role: lab, do: load }
-    - { role: lab, do: stop }
+    - { role: lab, do: pre, lab_action: stop }
+
+# Stop tasks
+- name: "stop : Cleaning lab {{ current_lab.id }} {{ current_lab.name }}"
+  import_playbook: /tmp/current_lab/stop.yml" # "{{ r_current_lab_dir }}/stop.yml"
+
+# Stop post-tasks
+- name: "Stop lab on local (post-tasks)"
+  hosts: 'local'
+  gather_facts: no
+  user: root
+  roles:
+    - { role: lab, do: post, lab_action: stop }
+  tasks:
+    - name: "stop : {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }} doesn't exists"
+      file:
+        state: absent
+        path: "{{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"

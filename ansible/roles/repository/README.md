@@ -12,7 +12,7 @@ Role used to handle basic repository operations
 - name: "Execute install repository"
   roles:
     - { role: repository, do: load }
-    - { role: repository, do: install, become: yes }
+    - { role: repository, do: install }
 ```
 
 ## Sample role for updating a training repository
@@ -20,7 +20,7 @@ Role used to handle basic repository operations
 - name: "Execute updating repository"
   roles:
     - { role: repository, do: load }
-    - { role: repository, do: update, become: yes }
+    - { role: repository, do: update }
 ```
 
 ## Sample role for uninstalling a training repository
@@ -28,5 +28,5 @@ Role used to handle basic repository operations
 - name: "Execute uninstall repository"
   roles:
     - { role: repository, do: load }
-    - { role: repository, do: uninstall, become: yes }
+    - { role: repository, do: uninstall }
 ```

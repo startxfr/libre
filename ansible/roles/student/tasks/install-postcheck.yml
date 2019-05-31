@@ -1,2 +1,8 @@
 ---
+- name: "install-postcheck : Start libre install post-check if not already checked"
+  include_role:
+    name: libre
+    tasks_from: install-postcheck
+  when: not libre_install_postcheck or 
+        libre_install_postcheck is undefined
 # Add install post-check requirements specific to student (proof of correct installation)

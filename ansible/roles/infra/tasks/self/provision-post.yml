@@ -1,47 +1,9 @@
 ---
-- name: "self : provision-post : Set infrastructure state to provisionned"
-  set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
-- name: "self : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  template:
-    src: templates/libre-infra.j2
-    dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
-- name: "self : provision-post : Get previous report data"
-  set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
-  run_once: true
-- name: "self : provision-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-  template:
-    src: templates/libre_report-provision-post.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
-  delegate_to: localhost
-  run_once: true
-- name: "self : provision-post : Log post-provision action"
-  include_role:
-    name: libre
-    tasks_from: lib/log
-  vars:
-    log_name: "Self-Hosted infrastructure is Post-provisionned"
-    log_component: infra-self
-    log_action: post-provision
-  run_once: true
-- name: "self : provision-post : Post-provisionning is finish"
-  debug:
-    msg:
-      - "We are happy to report that self-hosted infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully post-provisioned on Self-Hosted infrastructure"
-      - " "
-      - "Here are some interesting characteristics of this infrastructure:"
-      - " "
-      - "  - Instructor: instructor.{{ libre_infra.network.dns }}"
-      - "  - Student   : student.{{ libre_infra.network.dns }}"
-      - "  - IP address: {{ libre_infra.network.associated_ip }}"
-      - " "
-      - "You can continue this process by running the following command :"
-      - "   $ libre-session start "
-      - " "
-      - " Have an happy training ;)"
-  delegate_to: localhost
-  run_once: true
+- name: "self : provision-post : Load Post-provision pre-tasks"
+  include_tasks: "provision-post-pre.yml"
+
+## This role action should be followed by a student deploy against 
+## workstation inventory and then post task should be run
+#
+#- name: "self : provision-post : Load Post-provision post-tasks"
+#  include_tasks: "provision-post-post.yml"

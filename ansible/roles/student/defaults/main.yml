@@ -1,4 +1,14 @@
 ---
 ## LIBRE Student role default variables
 
-do: load
+do: load 
+libre_type: student
+
+# Instructor directory inside the course directory
+session_dir_course_playbooks: "{{ training_dir_course_playbooks | default('playbooks/instructor') }}"
+
+# Course directory used for delivering training
+session_dir_course: "{{ training_dir_course | default('/usr/share/libre/course') }}"
+
+# Config file for session
+session_config_file: "{{ libre_config_file_session | default('session.json') }}"

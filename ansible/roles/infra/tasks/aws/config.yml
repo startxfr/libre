@@ -10,24 +10,54 @@
   pause:
    prompt: "What is your AWS Access key ?"
   register: aws_access_key
+  when: libre_infra.auth is undefined or
+        libre_infra.auth.access_key is undefined or
+        libre_infra.auth.access_key == false
 - name: "aws : config : Register access_key in libre_infra fact"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'auth': {'access_key': aws_access_key.user_input }}, recursive=True) }}"
   when: aws_access_key.user_input is defined
-- name: "aws : config : Configure AWS access key"
+- name: "aws : config : Configure AWS secret key"
   pause:
-   prompt: "What is your AWS Access key ?"
+   prompt: "What is your AWS Secret key ?"
   register: aws_secret_key
+  when: libre_infra.auth is undefined or
+        libre_infra.auth.secret_key is undefined or
+        libre_infra.auth.secret_key == false
 - name: "aws : config : Register secret_key in libre_infra fact"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'auth': {'secret_key': aws_secret_key.user_input }}, recursive=True) }}"
   when: aws_secret_key.user_input is defined
 
+##### TODO move key generation from command to openssh_keypair (switch the 2 following tasks)
+#- name: "self : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+#  openssh_keypair:
+#    path: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
+#    size: "4096"
+#    type: "rsa"
+#    owner: "{{ r_libre_user }}"
+#    group: "{{ r_libre_group }}"
+#  loop:
+#    - instructor
+#    - student
+#  loop_control:
+#    loop_var: user2
+#    label: "{{ user2 }}"
+- name: "self : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+  command : "ssh-keygen -q -b 4096 -t rsa -f {{config_libre.directory.conf}}/{{ user2 }}-id_rsa -C '{{ user2 }}@libre' -N ''"
+  args:
+    creates: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
+  loop:
+    - instructor
+    - student
+  loop_control:
+    loop_var: user2
+    label: "{{ user2 }}"
 - name: "aws : config : Copy infra ssh private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{config_libre.directory.conf}}/infra-id_rsa"
   copy:
     src: "{{r_libre_userconfig_dir}}/infra-id_rsa"
     dest: "{{config_libre.directory.conf}}/infra-id_rsa"
-    mode: 0644
+    mode: 0600
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
 - name: "aws : config : Copy infra ssh public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{config_libre.directory.conf}}/infra-id_rsa.pub"
@@ -45,7 +75,6 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
 
 - name: "aws : config : Succesfull config for Public-Cloud AWS infrastructure"
   debug:

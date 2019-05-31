@@ -1,12 +1,11 @@
 ---
 instructor:
   hosts:
-    instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}:
+    localhost:
+  vars:
+    ansible_connection: local
+    libre_type: instructor
 
 classroom:
   children:
     instructor:
-  vars:
-    ansible_connection: ssh
-    ansible_user: "{{ libre_infra.ssh.user }}"
-    ansible_ssh_private_key_file: "{{ libre_infra.ssh.privateKey_file }}"

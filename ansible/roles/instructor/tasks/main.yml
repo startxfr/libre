@@ -5,6 +5,7 @@
     that: >
       r_do in [
                'load',
+               'config',
                'status',
                'install',
                'update',

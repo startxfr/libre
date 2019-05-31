@@ -1,3 +1,6 @@
 ---
 
-r_do: "{{ do | string }}"
+r_do: "{{ do | string }}" 
+r_session_dir_course_playbooks: "{{ session_dir_course_playbooks | string }}"
+r_session_dir_course: "{{ session_dir_course | string }}"
+r_session_config_file: "{{ session_config_file | string }}"

@@ -1,3 +1,10 @@
 ## LIBRE Training-Repo role default variables
 
 do: load
+# Config file for repository
+libre_myconfile_repository: 'repository.yml'
+# Default config_repository structure
+repository_url: 'https://github.com/startxfr/libre'
+repository_branch: 'master'
+repository_base: '/courses-samples'
+repository_local: '/var/local/libre.repo'

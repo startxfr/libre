@@ -1,7 +1,5 @@
 ## common configuration vars for all groups
 ---
-# LIBRE software version 
-libre_version: 0.6.3
 # Enable verbose configuration
 #libre_verbose: true
 # Enable debug configuration
@@ -62,13 +60,13 @@ libre_version: 0.6.3
 # minimum virtual CPU required
 #libre_minhw_cpu_vcpus: 1
 # minimum RAM size
-#libre_minhw_memory_total: 2048
+#libre_minhw_memory_total: 512
 # minimum RAM free space
-#libre_minhw_memory_free: 512
+#libre_minhw_memory_free: 96
 # minimum storage free space (in percent)
-#libre_minhw_storage_percent: 15
+#libre_minhw_storage_percent: 20
 # minimum storage free space (in size)
-#libre_minhw_storage_capacity: 4096
+#libre_minhw_storage_capacity: 2048
 
 # Default directory used for delivering training
 #training_dir: /usr/share/libre
@@ -101,4 +99,4 @@ libre_version: 0.6.3
 # Config file to store the current chapter - section
 #chapter_config_current: current-chapter.txt
 # Config file to store the current lab
-#lab_config_current: current-lab.txt
+#lab_track_current_lab_filename: current-lab.txt

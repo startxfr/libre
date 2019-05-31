@@ -1,18 +1,36 @@
 ---
-students:
-{% if ec2.tagged_instances is defined %}
+{% if libre_infra.ec2.classroom is defined %}
+{% for nodekind in libre_infra.ec2.classroom %}
+{{nodekind.group|default('default')}}:
   hosts:
-{% for instance in ec2.tagged_instances %}
-{% if loop.index0 > 0 %}
-    workstation{{loop.index0}}.{{ libre_session.course }}.{{ libre_infra.route53.domain }}:
+{% if flat_inventory is defined %}
+{% for nodevm in flat_inventory %}
+{% if nodevm.group == nodekind.group %}
+    {{nodevm.type|default('default')}}-env{{nodevm.student|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}:
 {% endif %}
+{% endfor %}
+{% endif %}
+  vars:
+    ansible_connection: ssh
+    libre_type: student
+    ansible_ssh_private_key_file: {{ nodekind.ssh_privateKey_file|default(libre_infra.ssh.privateKey_file)}}
+    ansible_user: {{ nodekind.ssh_user|default(libre_infra.ssh.user)}}
+    ansible_become: true
+    ansible_become_method: sudo
+    ansible_become_user: root
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+{% endfor %}
+{% endif %}
+
+students:
+  children:
+{% if libre_infra.ec2.classroom is defined %}
+{% for nodekind in libre_infra.ec2.classroom %}
+    {{ nodekind.group|default('default') }}:
 {% endfor %}
 {% endif %}
 
 classroom:
   children:
     students:
-  vars:
-    ansible_connection: ssh
-    ansible_user: "{{ libre_infra.ssh.user }}"
-    ansible_ssh_private_key_file: "{{ libre_infra.ssh.privateKey_file }}"

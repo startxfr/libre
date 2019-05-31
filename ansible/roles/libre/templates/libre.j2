@@ -1,10 +1,11 @@
+---
+# libre default configuration - libre v{{ libre_version }}
+
 # Configuration of the libre application
 application:
   # libre installation type
   # could be one of 'instructor' or 'student'
   type: "{{ config_libre.application.type }}"
-  # libre installation version
-  version: "{{ config_libre.application.version }}"
   # enable (True) or disable (False) verbose display mode
   verbose: "{{ config_libre.application.verbose }}"
   # enable (True) or disable (False) debug display mode
@@ -23,7 +24,7 @@ application:
     tmp: "{{ config_libre.application.source.tmp }}"
 # Libre directory configuration
 directory:
-  # Location of the training directory (course and session materials)
+  # Location of the training directory (course materials and session config)
   base: "{{ config_libre.directory.base }}"
   # Location of the configuration directory (where course configuration is installed)
   conf: "{{ config_libre.directory.conf }}"

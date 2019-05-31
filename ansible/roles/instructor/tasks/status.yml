@@ -1,21 +1,13 @@
 ---
-- name: "status : Start repository status"
+- name: "status : Start infrastructure status"
   include_role:
-    name: repository
+    name: infra
     tasks_from: status
-- name: "status : Get {{ config_libre.directory.conf }} directory details"
-  stat:
-    path: "{{ config_libre.directory.conf }}"
-  register: r_libre_dir_conf_details
-
 - name: "status : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
-  delegate_to: localhost
-
-- name: "status : Generate repository report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+- name: "status : Generate instructor report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost

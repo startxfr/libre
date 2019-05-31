@@ -1,5 +1,5 @@
 {% if r_libre_binary_details.stat.exists == true and r_libre_binary_details.stat.executable == true and config_libre is defined %}
-libre        : \e[1m\e[32minstalled\e[0m      v{{ config_libre.application.version }}
+libre        : \e[1m\e[32minstalled\e[0m      v{{ libre_version }}
 {% else %}
 libre        : \e[1m\e[31mnot installed\e[0m
 {% endif %}

@@ -1,17 +1,21 @@
 ---
+- name: "install_services : Enable specific packages repositories"
+  yum:
+    name:
+    - epel-release
+  become: yes
+
 - name: "install_services : Ensure dependencies packages are installed"
   yum:
     name:
     - git
+    - jq
     - ansible
     - docker
     - bind-utils
-    - rng-tools
     - bash-completion
-    #- ipa-server # TODO: Move this prerequisite to the infra/prem role
-
-- name: "install_services : Force upgrading pip packages manager"
-  command: "pip install --upgrade pip"
+    - python-pip
+  become: yes
 
 - name: "install_services : Install and force upgrade pip packages"
   pip:
@@ -21,18 +25,21 @@
   loop:
     - pip
     - Jinja2
-    - docker
-    - botocore
-    - boto3
-    - boto
+    - yq
   loop_control:
     loop_var: pipname
-
-#- name: "install_services : Ensure rng service is running"
-#  systemd:
-#    name: rngd
-#    state: started
-
+    label: "{{ pipname }}"
+  become: yes
+  
+- name: "install_services : Add another bin dir to $PATH."
+  copy:
+    dest: /etc/profile.d/custom-path.sh
+    content: 'PATH=$PATH:~/.local/bin'
+- name: "install_services : Create boto configuration in /etc/boto.cfg"
+  copy:
+    src: "{{ role_path }}/files/boto.cfg"
+    dest: "/etc/boto.cfg"
+    mode: 0775
 - name: "install_services : Ensure docker service is running"
   systemd:
     name: docker

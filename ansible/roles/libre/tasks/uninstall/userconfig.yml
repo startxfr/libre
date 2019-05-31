@@ -3,7 +3,6 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}"
   register: r_libre_userconfig_dir_details
-  become: no
 - when: 
     - r_libre_userconfig_dir_details.stat.exists
     - r_libre_uninstall_deep
@@ -16,4 +15,3 @@
     file:
       state: absent
       path: "{{ r_libre_userconfig_dir }}"
-  become: no

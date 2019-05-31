@@ -76,7 +76,7 @@
   copy:
     content: ""
     dest: "{{ config_libre.directory.collect }}/log.yml"
-    remote_src: yes
+#    remote_src: yes
     force: no
     mode: 0664
     owner: "{{ r_libre_user }}"

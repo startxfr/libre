@@ -8,7 +8,7 @@ case $1 in
     case $2 in
         config)             infraTypePlaybook $1 $2 ;;
         provision)          infraTypePlaybook $1 $2 ;;
-        post-provision)     infraTypePlaybookWithInfraInventory $1 $2 classroom ;;
+        post-provision)     infraTypePlaybook $1 $2 ;;
         deprovision)        infraTypePlaybook $1 $2 ;;
         status)             infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;
@@ -17,7 +17,7 @@ case $1 in
     case $2 in
         config)             infraTypePlaybook $1 $2 ;;
         provision)          infraTypePlaybook $1 $2 ;;
-        post-provision)     infraTypePlaybookWithInfraInventory $1 $2 classroom ;;
+        post-provision)     infraTypePlaybook $1 $2 ;;
         deprovision)        infraTypePlaybook $1 $2 ;;
         status)             infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;
@@ -26,7 +26,7 @@ case $1 in
     case $2 in
         config)             infraTypePlaybook $1 $2 ;;
         provision)          infraTypePlaybook $1 $2 ;;
-        post-provision)     infraTypePlaybookWithInfraInventory $1 $2 classroom ;;
+        post-provision)     infraTypePlaybook $1 $2 ;;
         deprovision)        infraTypePlaybook $1 $2 ;;
         status)             infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;

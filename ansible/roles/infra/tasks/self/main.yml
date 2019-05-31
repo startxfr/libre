@@ -3,8 +3,8 @@
 - name: "Action {{ do | default('load') | string }} in Self-Hosted infrastructure role is supported"
   assert:
     msg: "Action {{ do | default('load') | string }} in Self-Hosted infrastructure role is not supported"
-    that: do|default('load')|string in ['load','setup','status','provision','provision-post','deprovision']
+    that: do|default('load')|string in ['load','setup','status','provision','provision-post','provision-post-pre','provision-post-post','deprovision']
 - name: "{{ do | default('load') | string }} Self-Hosted infrastructure environement"
   include_tasks: "{{ do | default('load') | string }}.yml"
   vars:
-  when: do|default('load')|string in ['load','setup','status','provision','provision-post','deprovision']
+  when: do|default('load')|string in ['load','setup','status','provision','provision-post','provision-post-pre','provision-post-post','deprovision']

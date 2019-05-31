@@ -1,4 +1,7 @@
 ---
+- name: "load_config : Load user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  set_fact:
+    config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra, errors='ignore') | from_yaml | default(r_libre_infra_userconf_default, true) }}"
 - name: "load : Get infra configuration file details"
   stat:
     path: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}" 
@@ -9,5 +12,7 @@
   when: r_infra_conf_details.stat.exists == true
 - name: "load : Set libre_infra fact from default infra"
   set_fact:
-    libre_infra: "{{ config_infra[config_infra.default] }}"
+    libre_infra: "{{ config_infra[config_infra.default]|combine({'state': 'loaded' }, recursive=True) }}"
   when: r_infra_conf_details.stat.exists != true or libre_infra is undefined
+- name: "load : Load {{ libre_infra.type }} infrastructure"
+  include_tasks: "{{ libre_infra.type }}/load.yml"

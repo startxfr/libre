@@ -1,0 +1,57 @@
+---
+#- name: "self : provision-post-post : Set hostame to workstation "
+#  hostname:
+#    name: workstation
+#  loop: "{{ groups['workstations'] }}"
+#  loop_control:
+#    loop_var: server
+#    label: "{{ server }}"
+- name: "self : provision-post-post : Update students /etc/hosts file"
+  template:
+    src: templates/host-students.j2
+    dest: /etc/hosts
+  delegate_to: "{{ server }}"
+  loop: "{{ groups['students'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
+- name: "self : provision-post-post : Copy session {{ libre_session.id }} configuration to workstations"
+  copy:
+    src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+    dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+  delegate_to: "{{ server }}"
+  loop: "{{ groups['workstations'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
+- name: "self : provision-post-post : Synchronize course {{ libre_session.course }} content to workstations"
+  copy:
+    src: "{{ r_session_dir_course }}/"
+    dest: "{{ r_session_dir_course }}"
+  delegate_to: "{{ server }}"
+  delegate_facts: yes
+  loop: "{{ groups['workstations'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
+- name: "self : provision-post-post : provision-post-post : Authorize infrastructure SSH key for root"
+  authorized_key:
+    user: "root"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/infra-id_rsa.pub') }}"
+  delegate_to: "{{ server }}"
+  loop: "{{ groups['classroom'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
+- name: "self : provision-post-post : provision-post-post : Authorize instructor SSH key for root"
+  authorized_key:
+    user: "root"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/instructor-id_rsa.pub') }}"
+  delegate_to: "{{ server }}"
+  loop: "{{ groups['classroom'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
+

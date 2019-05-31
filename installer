@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.6.3"
+LIBREI_VERSION="0.6.17"
 LIBREI_DEBUG_DEFAULT=true
-LIBREI_REQUIREMENTS_CENTOS="git curl jq ansible docker"
+LIBREI_REQUIREMENTS_CENTOS="git curl jq docker"
+ANSIBLE_RPM_FILENAME="ansible-2.7.9-1.el7.ans.noarch.rpm"
+ANSIBLE_RPM_URL="https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/${ANSIBLE_RPM_FILENAME}"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
@@ -167,27 +169,41 @@ function install_deps {
         echo "Updating OS $OS installation (cloud take minutes...)"
         yum update -y &> /dev/null
     fi
-    echo "Removing package PyYAML"
-    (
-        yum remove -y PyYAML # it will be reinstalled with yq
-    ) &> /dev/null                                 || {
-        echoFatal "Unable to uninstall PyYAML"
-    }
-
-    # epel and python-pip packages must be installed separately,
-    # otherwise pip does not settle, probably a yum bug
-    echo "Installing packages for $OS (could take minutes on fresh install or slow internet)"
-    (
-        yum install -y epel-release		   &&
-	yum install -y python-pip		   &&
-        pip install --upgrade pip                  &&
-        pip install --upgrade yq                   &&
-        pip install --upgrade docker		   &&
-        pip install --upgrade Jinja2		   &&
-        yum install -y $LIBREI_REQUIREMENTS_CENTOS
-    ) &> /dev/null                                 || {
-        echoFatal "Unable to install dependencies"
-    }
+    if [ ! -f /tmp/libre-is-updated ]; then
+      echo "Removing package PyYAML"
+      (
+          yum remove -y PyYAML # it will be reinstalled with yq
+      ) &> /dev/null                                 || {
+          echoFatal "Unable to uninstall PyYAML"
+      }
+      echo "Download Ansible RPM file"
+      (
+	  curl -L $ANSIBLE_RPM_URL  -o /tmp/${ANSIBLE_RPM_FILENAME} &&
+	  chmod +x /tmp/${ANSIBLE_RPM_FILENAME}
+      ) &> /dev/null                                 || {
+          echoFatal "Unable to download Ansible RPM file"
+      }
+      # epel and python-pip packages must be installed separately,
+      # otherwise pip does not settle, probably a yum bug
+      echo "Installing packages for $OS (could take minutes on fresh install or slow internet)"
+      (
+          yum install -y epel-release python-pip &&
+          pip install --upgrade --force-reinstall pip==9.0.3 &&
+          pip install --upgrade docker		     &&
+          yum remove -y python-pip               &&
+          yum install -y python-pip              &&
+          pip install --upgrade pip              &&
+          pip install --upgrade yq               &&
+          pip install --upgrade Jinja2		     &&
+          yum install -y $LIBREI_REQUIREMENTS_CENTOS &&
+	  yum install -y /tmp/${ANSIBLE_RPM_FILENAME} 
+      ) &> /dev/null                                 || {
+          echoFatal "Unable to install dependencies"
+      }
+      touch /tmp/libre-is-updated
+    else 
+      echo "Skip updating packages because /tmp/libre-is-updated is found"
+    fi
 }
 
 # installer install libre
