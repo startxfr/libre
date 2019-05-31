@@ -1,0 +1,37 @@
+## LIBRE Classroom role default variables
+---
+
+r_libre_myconfile_infra: "{{ libre_myconfile_infra | string }}"
+
+r_libre_infra_userconf_default:
+  default: "{{ libre_infra_default | string }}"
+  self:
+    type: "self"
+    kvm:
+      image: "{{ infra_self_image | string }}"
+    network:
+      dns: "{{ infra_self_dns_zone | string }}"
+      associated_ip: "{{ infra_associated_ip | string }}"
+  prem:
+    type: "prem"
+    network:
+      dns: "{{ infra_prem_dns_zone | string }}"
+    ssh:
+      privateKey_file: "{{ infra_prem_ssh_private_key_file | string }}"
+      user: "{{ infra_prem_ssh_user | string }}"
+  aws:
+    type: "aws"
+    auth:
+      access_key: "{{ infra_aws_access_key }}"
+      secret_key: "{{ infra_aws_secret_key }}"
+    route53:
+      zone: "{{ infra_aws_route53_dns_zone | string }}"
+      domain: "{{ infra_aws_public_dns_zone | string }}"
+    ec2:
+      region: "{{ infra_aws_region | string }}"
+      type: "{{ infra_aws_instance_type | string }}"
+      image: "{{ infra_aws_image | string }}"
+    ssh:
+      keyname: "{{ infra_aws_key_name | string }}"
+      privateKey_file: "{{ infra_aws_ssh_private_key_file | string }}"
+      user: "{{ infra_aws_ssh_user | string }}"

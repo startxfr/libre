@@ -7,20 +7,15 @@
   include_role:
     name: libre
     tasks_from: uninstall
-  become: yes
 
 - name: "uninstall : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile) }}"
-  delegate_to: localhost
-
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: libre_report-uninstall.j2
     dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
-
 - name: "uninstall : Log uninstall action"
   include_role:
     name: libre

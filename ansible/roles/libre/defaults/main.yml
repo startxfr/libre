@@ -19,10 +19,6 @@ libre_dest_ansible: '{{ libre_dest_lib }}/libre-ansible'
 # Config file for hardware
 libre_config_file_hw: 'hardware.json'
 
-# Default key for infra deployment
-libre_infra_ssh_public_key_file: '../../ssh/infra-id_rsa.pub'
-libre_infra_ssh_private_key_file: '../../ssh/infra-id_rsa'
-
 # Default user for course content
 libre_user: 'instructor'
 # Default user for course content
@@ -31,12 +27,6 @@ libre_group: 'libre'
 libre_userconfig_dir: '~/.libre'
 # Config file for LIBRE
 libre_myconfile_libre: 'config.yml'
-# Config file for session
-libre_myconfile_session: 'session.yml'
-# Config file for infrastructure
-libre_myconfile_infra: 'infra.yml'
-# Config file for repository
-libre_myconfile_repository: 'repository.yml'
 # Default directory used for delivering training
 training_dir: '/usr/share/libre'
 # Course directory used for delivering training
@@ -52,46 +42,20 @@ libre_tmpfile: 'libre.txt'
 
 # Default config_LIBRE structure
 libre_type: 'instructor'
-libre_version: '0.1-devel'
+libre_version: '0.0.1-devel'
 libre_verbose: True
 libre_debug: False
 libre_source_url: 'https://github.com/startxfr/libre'
 libre_source_branch: 'v0.6.3'
 libre_source_base: '/'
 libre_source_tmp: '{{ libre_tmp }}/libre'
-# Default config_session structure
-libre_session_type: 'sample'
-libre_session_gapi: 'https://script.google.com/macros/s/XXXXXXX_DOCKEY_XXXXXXXXXXXXXXXXXX/exec'
-# Default config_infra structure
-libre_infra_default: 'self'
-infra_self_dns_zone: 'classroom.example.com'
-infra_self_image: "/example/myimage.qcow"
-infra_associated_ip: '127.0.0.1'
-infra_prem_dns_zone: 'training.example.com'
-infra_prem_ssh_private_key_file: '/usr/share/libre/conf/infra-id_rsa'
-infra_prem_ssh_user: 'root'
-infra_aws_access_key: false
-infra_aws_secret_key: false
-infra_aws_route53_dns_zone: 'startx.fr'
-infra_aws_public_dns_zone: 'libre.startx.fr'
-infra_aws_region: 'eu-west-1'
-infra_aws_instance_type: 't2.micro'
-infra_aws_image: 'ami-3548444c'
-infra_aws_key_name: 'ssh-libre-instructor'
-infra_aws_ssh_private_key_file: '/usr/share/libre/conf/infra-id_rsa'
-infra_aws_ssh_user: 'centos'
-# Default config_repository structure
-repository_url: 'https://github.com/startxfr/libre'
-repository_branch: 'v0.6.3'
-repository_base: '/courses-samples'
-repository_local: '/var/local/libre.repo'
 
 # Default libre_hardware structure
 libre_minhw_architecure: 'x86_64'
 libre_minhw_cpu_physical: 1
 libre_minhw_cpu_cores: 1
-libre_minhw_cpu_vcpus: 2
-libre_minhw_memory_total: 4096
-libre_minhw_memory_free: 1024
+libre_minhw_cpu_vcpus: 1
+libre_minhw_memory_total: 512
+libre_minhw_memory_free: 96
 libre_minhw_storage_percent: 20
-libre_minhw_storage_capacity: 4096
+libre_minhw_storage_capacity: 2048

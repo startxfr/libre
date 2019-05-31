@@ -13,7 +13,6 @@ function instructorHeader {
 # Call instructor playbook
 function instructorPlaybook {
   instructorHeader
-  checkIfSession
   runLibrePlaybook instructor $1 $2
   exit 0;
 }
@@ -21,9 +20,8 @@ function instructorPlaybook {
 # Call instructor uninstall playbook
 function instructorUninstallPlaybook {
   instructorHeader
-  checkIfSession
   if [[ "$1" == "deep" || "$1" == "all" || "$1" == true || "$1" == "true" || "$1" == "True" ]] ; then
-      deep=" -e libre_uninstall_deep=True"
+      deep="local -e libre_uninstall_deep=True"
   else
       deep=""
   fi

@@ -51,7 +51,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.6.3"
+  version: "0.6.17"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"
@@ -178,7 +178,7 @@ prem:
   network:
     dns: "training.example.com"
   ssh:
-    privateKey_file: "~/.libre/infra-prem_rsa"
+    privateKey_file: "~/.libre/infra-id_rsa"
     user: "root"
 aws: 
   type: "aws"
@@ -189,12 +189,12 @@ aws:
     zone: "example.com"
     domain: "libre.example.com"
   ec2:
-    region: "eu-west-1"
+    region: "eu-west-3"
     type: "t2.micro"
-    image: "ami-3548444c"
+    image: "ami-0e1ab783dc9489f34"
   ssh:
     keyname: "libre-instructor"
-    privateKey_file: "~/.libre/infra-aws_rsa"
+    privateKey_file: "~/.libre/infra-id_rsa"
     user: "centos"
 ```
 

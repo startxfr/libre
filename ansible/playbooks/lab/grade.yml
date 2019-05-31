@@ -1,9 +1,21 @@
 ---
-- name: "Grade lab on local"
+# Grade pre-tasks
+- name: "Grade lab on local (pre-tasks)"
   hosts: 'local'
   gather_facts: true
   user: root
-
   roles:
     - { role: lab, do: load }
-    - { role: lab, do: grade }
+    - { role: lab, do: pre, lab_action: grade }
+
+# Grade tasks
+- name: "grade : Start grading lab {{ current_lab.id }} {{ current_lab.name }}"
+  import_playbook: /tmp/current_lab/grade.yml" # "{{ r_current_lab_dir }}/grade.yml"
+
+# Grade post-tasks
+- name: "Grade lab on local (post-tasks)"
+  hosts: 'local'
+  gather_facts: no
+  user: root
+  roles:
+    - { role: lab, do: post, lab_action: grade }

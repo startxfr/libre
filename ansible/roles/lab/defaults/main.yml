@@ -1,12 +1,14 @@
 ---
 ## LIBRE Lab role default variables
-
 do: load
+lab_action: start
 
 # Config file to store the current chapter - section
-lab_config_current: 'current-lab.txt'
+lab_track_current_lab_filename: 'current-lab.txt'
 
 # Course directory used for delivering training
 lab_dir_course: "{{ training_dir_course | default('/usr/share/libre/course') }}"
 # Lab directory inside the course directory
 lab_dir_course_labs: 'playbooks/labs'
+# Lab number of the first lab
+lab_default_current_lab: '1.1'

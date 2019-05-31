@@ -1,0 +1,5 @@
+- shell: 'echo "{{ msg }}\t\t\e[32mSUCCESS\e[0m\n" >> {{ grade_result_file }}'
+  when: success is defined and success == OK
+
+- shell: 'echo "{{ msg }}\t\t\e[31mFAIL\e[0m\n" >> {{ grade_result_file }}'
+  when: success is undefined or success != OK

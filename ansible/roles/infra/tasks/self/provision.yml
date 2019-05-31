@@ -20,103 +20,45 @@
       You must run self infrastructure on workstation with virtualisation kernel module loaded.
   when:
   - cmd_return.rc == 1
+  become: yes
 - name: "self : provision : Enable service libvirtd"
   systemd:
     name: libvirtd
     enabled: yes
     state: started
-- debug:
-    var: "{{ station }}"
-  loop: "{{ libre_infra.kvm.classroom }}"
-  loop_control:
-    loop_var: station
-    label: "{{ station.name }}"
-
-- name: "self : provision : Generate instructor inventory {{config_libre.directory.conf}}/inventory/instructor.yml"
+  become: yes
+- name: "self : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
+  file:
+    state: directory
+    path: "{{ config_libre.directory.conf }}/inventory"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
   template:
-    src: "templates/inventory-instructor.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/instructor.yml"
+    src: inventory-local.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-- name: "self : provision : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
+- name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
-    src: "templates/inventory-students.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/students.yml"
+    src: inventory-instructor.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-- name: "self : provision : Update /etc/hosts file"
-  blockinfile:
-    dest: /etc/hosts
-    content: "{{ libre_infra.network.associated_ip }}       localhost.localdomain localhost instructor.{{libre_infra.network.dns}} student.{{libre_infra.network.dns}}"
-    state: present
-- name: "self : provision : Create the libre user group"
-  group:
-    name: "{{ r_infra_usergroup }}"
-    state: present
-- name: "self : provision : Create the instructor user"
-  user:
-    state: present
-    name: "{{ r_infra_user_instructor }}"
-    comment: "LIBRE {{ r_infra_user_instructor }}"
-    group: "{{ r_infra_usergroup }}"
-- name: "self : provision : Create the student user"
-  user:
-    state: present
-    name: "{{ r_infra_user_student }}"
-    comment: "LIBRE {{ r_infra_user_student }}"
-    group: "{{ r_infra_usergroup }}"
-- name: "self : provision : Authorize instructor SSH key"
-  authorized_key:
-    user: "{{ user1 }}"
-    state: present
-    key: "{{ lookup('file', '../../ssh/'+r_infra_user_instructor+'-id_rsa.pub') }}"
-  loop:
-    - root
-    - "{{ r_infra_user_instructor }}"
-    - "{{ r_infra_user_student }}"
-  loop_control:
-    loop_var: user1
-- name: "self : provision : Authorize student SSH key"
-  authorized_key:
-    user: "{{ r_infra_user_student }}"
-    state: present
-    key: "{{ lookup('file', '../../ssh/'+r_infra_user_student+'-id_rsa.pub') }}"
-- name: "self : provision : Ensure instructor SSH private and public key are present"
-  copy:
-    src: ../../ssh/{{ r_infra_user_instructor }}-{{keyf.key}}
-    dest: "{{keyf.dir}}/.ssh/{{keyf.key}}"
-    mode: 0600
-    owner: "{{keyf.user}}"
-    group: "{{ r_infra_usergroup }}"
-  loop:
-    - user: "{{ r_infra_user_instructor }}"
-      key: id_rsa.pub
-      dir: "/home/{{ r_infra_user_instructor }}"
-    - user: "{{ r_infra_user_instructor }}"
-      key: id_rsa
-      dir: "/home/{{ r_infra_user_instructor }}"
-    - user: root
-      key: id_rsa.pub
-      dir: "/root/"
-    - user: root
-      key: id_rsa
-      dir: "/root/"
-  loop_control:
-    loop_var: keyf
-- name: "self : provision : Ensure student SSH private and public key are present"
-  copy:
-    src: ../../ssh/{{ r_infra_user_student }}-{{keyf}}
-    dest: "/home/{{ r_infra_user_student }}/.ssh/{{keyf}}"
-    mode: 0600
-    owner: "{{ r_infra_user_student }}"
-    group: "{{ r_infra_usergroup }}"
-  loop:
-    - id_rsa.pub
-    - id_rsa
-  loop_control:
-    loop_var: keyf
+- name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
+  template:
+    src: inventory-students.j2
+    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
 - name: "self : provision : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
@@ -124,17 +66,14 @@
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
 - name: "self : provision : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
 - name: "self : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
 - name: "self : provision : Log provision action"
   include_role:
     name: libre

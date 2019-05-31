@@ -4,12 +4,15 @@
     list_networks: []
     list_instances: []
     list_dns: []
+    subnet_ids: []
+    flat_inventory: []
+
 - name: "aws : provision : Create Network environments"
   include_tasks: provision/network.yml
 - name: "aws : provision : Create {{ libre_infra.ec2.environements_nb|int }} student environments"
   include_tasks: provision/instance.yml
   vars:
-    labenv: "{{item}}"
+    labenv: "{{item|int - 1}}"
   with_sequence: count={{libre_infra.ec2.environements_nb|int}}
 - name: "aws : provision : Create DNS environments"
   include_tasks: provision/dns.yml
@@ -17,13 +20,17 @@
   include_tasks: provision/inventory.yml
 - name: "aws : provision : Wait for the instances to boot by checking the ssh port"
   wait_for:
-    host: "{{item.public_ip}}"
+    host: "{{instance.public_ip}}"
     port: 22
-    delay: 10
-    sleep: 5
+    delay: 0
+    sleep: 2
     timeout: 60
     state: started
-  with_items: "{{ list_instances }}"
+  loop: "{{ list_instances }}"
+  loop_control:
+    loop_var: instance
+    label: "{{ instance.public_ip }}"
+
 - name: "aws : provision : Set infrastructure state to provisionned"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
@@ -31,11 +38,9 @@
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
-  become: yes
 - name: "aws : provision : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) | default('') }}"
-  delegate_to: localhost
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
 - name: "aws : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: templates/libre_report-provision.j2
@@ -60,7 +65,7 @@
       - "Here are some interesting characteristics of this classroom infrastructure:"
       - " "
       - "  - Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
-      - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
+#      - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
       - "  - Type: {{ libre_infra.ec2.type }}"
       - "  - Region: {{ libre_infra.ec2.region }}"
       - "  - SSH User: {{ libre_infra.ssh.user }}"

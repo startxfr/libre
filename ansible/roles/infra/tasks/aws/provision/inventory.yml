@@ -1,21 +1,53 @@
 ---
-- debug: var=list_dns
-- debug: var=route53_instructor
-- fail:
-  
-  
-- name: "aws : provision : inventory : Generate instructor inventory {{config_libre.directory.conf}}/inventory/instructor.yml"
+- name: "aws : provision : inventory : build the flat inventory object for workstations"
+  set_fact:
+    flat_inventory: "{{ flat_inventory + [{'aws_id': dns.station.id, 'ip_private': dns.station.private_ip, 'ip_public': dns.station.public_ip, 'type': dns.station.tags.Type, 'student': dns.station.tags.Labenv, 'group': dns.station.tags.Group, 'fqdn': dns.station.dns_name }]  }}"
+  loop: "{{ list_dns.results }}"
+  loop_control:
+    loop_var: dns
+    label: "{{ dns.station.public_ip }}"
+- name: "aws : provision : inventory : Create inventory directory {{ config_libre.directory.conf }}/inventory"
+  file:
+    state: directory
+    path: "{{ config_libre.directory.conf }}/inventory"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "aws : provision : inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
+  template:
+    src: "../templates/inventory-local.j2"
+    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
+#    remote_src: yes
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+- name: "aws : provision : inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
     src: "../templates/inventory-instructor.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/instructor.yml"
+    dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
 - name: "aws : provision : inventory : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "../templates/inventory-students.j2"
-    dest: "{{config_libre.directory.conf}}/inventory/students.yml"
+    dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
+#    remote_src: yes
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-
+- name: "aws : provision : inventory : Update instructor /etc/hosts file"
+  template:
+    src: "../templates/host-instructor.j2"
+    dest: /etc/hosts
+- name: "aws : provision : inventory : Create students /tmp/student.hosts files"
+  template:
+    src: "../templates/host-student.j2"
+    dest: /tmp/{{index}}.hosts
+  loop: "{{ libre_session.students }}"
+  loop_control:
+    index_var: index
+    loop_var: student
+    label: "{{ index }}"

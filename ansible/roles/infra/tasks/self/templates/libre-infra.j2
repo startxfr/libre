@@ -2,7 +2,7 @@
   "type" : "{{ libre_infra.type }}",
   "state" : "{{ libre_infra.state }}",
   "kvm" : {
-    "image" : "{{ libre_infra.image }}",
+    "image" : "{{ libre_infra.kvm.image }}",
     "classroom" : [
 {% if libre_course.classroomInfra is defined and libre_course.classroomInfra.workstations is defined %}
 {% for ws in libre_course.classroomInfra.workstations %}

@@ -6,7 +6,7 @@
   loop: "{{ r_libre_files_library }}"
   loop_control:
     loop_var: libname
-
+    label: "{{ libname }}"
 - name: "uninstall : libre : Remove libre-* binary from {{ r_libre_dest_bin }}"
   file:
     state: absent
@@ -14,12 +14,7 @@
   loop: "{{ r_libre_files_binary_all }}"
   loop_control:
     loop_var: binname
-
-- name: "uninstall : libre : Remove libre ansible library from {{ r_libre_dest_ansible }}"
-  file:
-    state: absent
-    path: "{{ r_libre_dest_ansible }}"
-
+    label: "{{ binname }}"
 - name: "uninstall : libre : Remove auto-completion script to /etc/bash_completion.d/libre"
   file:
     state: absent
@@ -28,3 +23,15 @@
   file:
     state: absent
     path: /etc/profile.d/libre.sh
+- name: "uninstall : libre : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+- name: "uninstall : libre : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+  template:
+    src: libre_report-uninstall.j2
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    mode: 0664
+- name: "uninstall : libre : Remove libre ansible library from {{ r_libre_dest_ansible }}"
+  file:
+    state: absent
+    path: "{{ r_libre_dest_ansible }}"

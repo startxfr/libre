@@ -1,18 +1,30 @@
 ---
-- name: "self : config : Copy infra ssh private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{config_libre.directory.conf}}/infra-id_rsa"
-  copy:
-    src: "{{r_libre_userconfig_dir}}/infra-id_rsa"
-    dest: "{{config_libre.directory.conf}}/infra-id_rsa"
-    mode: 0644
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-- name: "self : config : Copy infra ssh public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{config_libre.directory.conf}}/infra-id_rsa.pub"
-  copy:
-    src: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
-    dest: "{{config_libre.directory.conf}}/infra-id_rsa.pub"
-    mode: 0644
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+##### TODO move key generation from command to openssh_keypair (switch the 2 following tasks)
+#- name: "self : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+#  openssh_keypair:
+#    path: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
+#    size: "4096"
+#    type: "rsa"
+#    owner: "{{ r_libre_user }}"
+#    group: "{{ r_libre_group }}"
+#  loop:
+#    - infra
+#    - instructor
+#    - student
+#  loop_control:
+#    loop_var: user2
+#    label: "{{ user2 }}"
+- name: "self : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+  command : "ssh-keygen -q -b 4096 -t rsa -f {{config_libre.directory.conf}}/{{ user2 }}-id_rsa -C '{{ user2 }}@libre' -N ''"
+  args:
+    creates: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
+  loop:
+    - infra
+    - instructor
+    - student
+  loop_control:
+    loop_var: user2
+    label: "{{ user2 }}"
 - name: "self : config : Generate infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -20,7 +32,6 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-  become: yes
 - name: "self : config : Succesfull config for Self-Hosted infrastructure"
   debug:
     msg:

@@ -10,10 +10,18 @@ galaxy_info:
   - name: CentOS
     versions:
     - 7
+  - name: RHEL
+    versions:
+    - 7
+  - name: Fedora
+    versions:
+    - 29
+    - 30
   categories:
   - cloud
   - system
   - training
+  - TMS
 dependencies:
-  - { role: session, do: load }
+  - { role: libre, do: load }
 allow_duplicates: false

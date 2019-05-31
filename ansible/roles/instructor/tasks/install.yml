@@ -2,29 +2,50 @@
 # Install pre-tasks
 - name: "install : Start instructor pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not libre_instructor_install_precheck or
-            libre_instructor_install_precheck is undefined
+  when: not instructor_install_precheck or
+            instructor_install_precheck is undefined
 
 # Install tasks
-- name: "install : Start repository install"
-  include_role:
-    name: repository
-    tasks_from: install
-  become: yes
+- name: "install : Start instructor install sequence"
+  block:
+    - name: "install : Start infrastructure install post-check"
+      include_role:
+        name: infra
+        tasks_from: install-postcheck
+  rescue:
+    - name: "install : Infrastructure post-check install is not valid"
+      debug:
+        msg: Failing back to installing infrastructure first 
+    - name: "install : Start infrastructure install"
+      include_role:
+        name: infra
+        tasks_from: install
+    - name: "install : Reload"
+      include_tasks: load.yml
+
+- name: "install : Install and force upgrade pip packages"
+  pip:
+    name: "{{ pipname }}"
+    state: forcereinstall
+    extra_args: --upgrade --user
+  loop:
+    - docker
+    - dnspython
+  loop_control:
+    loop_var: pipname
+    label: "{{ pipname }}"
+- name: "install : Set hostame to instructor"
+  hostname:
+    name: instructor
 
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
-  delegate_to: localhost
-  become: no
-
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
-  become: no
 
 - name: "install : Log install action"
   include_role:

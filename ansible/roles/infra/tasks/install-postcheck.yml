@@ -1,0 +1,27 @@
+---
+- name: "install-postcheck : Start session install post-check if not already checked"
+  include_role:
+    name: session
+    tasks_from: install-postcheck
+  when: not session_install_postcheck or 
+        session_install_postcheck is undefined
+- name: "install-postcheck : Get user infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
+  register: r_libre_infra_userconf_details
+
+- when: not infra_install_postcheck or
+            infra_install_postcheck is undefined
+  block:
+  - name: "install-postcheck : User infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} exist"
+    assert:
+      that: r_libre_infra_userconf_details.stat.exists
+      msg: "User infra configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }} doesn't exist"
+  - name: "install-postcheck : User infra configuration is loaded"
+    assert:
+      that: config_infra is defined
+      msg: "Repository configuration {{ r_libre_myconfile_infra }} is not loaded"
+
+- name: "install-postcheck : Mark Infrastructure install-postcheck as done"
+  set_fact:
+    infra_install_postcheck: True

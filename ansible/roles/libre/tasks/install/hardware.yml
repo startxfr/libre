@@ -3,7 +3,65 @@
   stat:
     path: "{{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }}"
   register: r_hardware_conf_details
-
-- name: "install : Start LIBRE installation"
-  include_tasks: install/hardware-set.yml
+  
+- name: "install_hardware : Collecting Hardware configuration"
   when: not r_hardware_conf_details.stat.exists
+  block:
+    - name: "install_hardware : Load Product name"
+      set_fact:
+        libre_hardware_product_name: "{{ ansible_product_name }}"
+    - name: "install_hardware : Load CPU Architecture is {{ r_libre_minhw.architecure }}"
+      set_fact:
+        libre_hardware_cpu_arch: "{{ ansible_architecture }}"
+    - name: "install_hardware : Load minimum physical CPU is {{ r_libre_minhw.cpu.physical }}"
+      set_fact:
+        libre_hardware_cpu_physics: "{{ ansible_processor_count }}"
+    - name: "install_hardware : Load minimum physical Cores is {{ r_libre_minhw.cpu.cores }}"
+      set_fact:
+        libre_hardware_cpu_cores: "{{ ansible_processor_cores }}"
+    - name: "install_hardware : Load minimum virtual Cores is {{ r_libre_minhw.cpu.vcpus }}"
+      set_fact:
+        libre_hardware_cpu_vcpu: "{{ ansible_processor_vcpus|int }}"
+    - name: "install_hardware : Load minimum Memory size is more than {{ r_libre_minhw.memory.total }}"
+      set_fact:
+        libre_hardware_memory_total: "{{ ansible_memtotal_mb }}"
+    - name: "install_hardware : Load minimum free memory size is more than {{ r_libre_minhw.memory.free }}"
+      set_fact:
+         libre_hardware_memory_free: "{{ r_libre_minhw.memory.free }}"
+#    - name: "install_hardware : Extract storage informations"
+#      set_fact:
+#        mount: "{{ ansible_mounts | selectattr('mount','equalto','/') | list | first }}"
+#    
+#    - name: "install_hardware : Load Storage on / is more than {{ r_libre_minhw.storage.percent }}%"
+#      set_fact:
+#        libre_hardware_storage_total: "{{ mount.size_total / 1024 / 1024 }}Gb"
+#    
+#    - name: "install_hardware : Load Storage space left on / is more than  {{ r_libre_minhw.storage.capacity|int }}Mb"
+#      set_fact:
+#        libre_hardware_storage_free: "{{ mount.size_available|int / 1024 / 1024 }}Gb"
+    - name: "install_hardware : TODO extract storage capacity"
+      set_fact:
+        libre_hardware_storage_total: "???Gb"
+    - name: "install_hardware : TODO extract storage free space"
+      set_fact:
+        libre_hardware_storage_free: "???Gb"
+#    - name: "install_hardware : Load Network interfaces"
+#      debug:
+#        var: hostvars['localhost']['ansible_interfaces']
+#    - name: "install_hardware : Load Network interfaces"
+#      debug:
+#        var: hostvars['localhost']['ansible_hostname']
+#    - name: "install_hardware : Load Network interfaces"
+#      debug:
+#        var: hostvars['localhost']['ansible_all_ipv4_addresses']
+
+- name: "install_hardware : Generate {{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }}"
+  template:
+    src: libre-hw.j2
+    dest: "{{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }}"
+    mode: 0664
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+  when: not r_hardware_conf_details.stat.exists
+
+

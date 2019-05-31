@@ -14,6 +14,7 @@
     {
       "id" : "{{ student.id }}",
       "name" : "{{ student.name }}",
+      "email" : "{{ student.email }}",
       "workstation" : "{{ student.workstation }}"
     } {% if not loop.last %}, {%endif%}
 {% endfor %}

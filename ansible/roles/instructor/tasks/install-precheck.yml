@@ -1,11 +1,11 @@
 ---
-- name: "install-precheck : Start repository pre-installation checks"
+- name: "install-precheck : Start infrastructure pre-installation checks"
   include_role:
-    name: repository
+    name: infra
     tasks_from: install-precheck.yml
-  when: not r_repository_install_precheck or
-            r_repository_install_precheck is undefined
+  when: not infra_install_precheck or
+            infra_install_precheck is undefined
 
 - name: "install-precheck : Mark instructor install-precheck as done"
   set_fact:
-    libre_instructor_install_precheck: True
+    instructor_install_precheck: True

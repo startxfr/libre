@@ -7,25 +7,22 @@
             libre_student_install_precheck is undefined
 
 # Install tasks
-
 - name: "install : Start LIBRE install"
   include_role:
     name: libre
-    tasks_from: install
-  become: yes
+    tasks_from: install 
+- name: "install : Set hostame to student"
+  hostname:
+    name: student
 
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile) }}"
-  delegate_to: localhost
-
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
     mode: 0664
-  delegate_to: localhost
-
 - name: "install : Log install action"
   include_role:
     name: libre
@@ -36,6 +33,5 @@
     log_action: install
 
 # Install post-tasks
-
 - name: "install : Start student post-installation checks"
   include_tasks: install-postcheck.yml

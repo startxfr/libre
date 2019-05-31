@@ -1,5 +1,49 @@
 ---
+- name: "load : Get session configuration {{ config_libre.directory.conf }}/{{ r_session_config_file }} file details"
+  stat:
+    path: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}" 
+  register: r_session_conf_details
+- name: "load : Load session configuration from {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+  set_fact:
+    libre_session: "{{ lookup('file', config_libre.directory.conf + '/' + r_session_config_file) | from_json }}"
+  when: r_session_conf_details.stat.exists
+- name: "load : Load default session configuration"
+  set_fact:
+    libre_session: {}
+  when: not r_session_conf_details.stat.exists
+- name: "load : Get {{ config_libre.directory.conf }} directory details"
+  stat:
+    path: "{{ config_libre.directory.conf }}"
+  register: r_libre_dir_conf_details
+- name: "load : Get {{ r_session_dir_course }} directory details"
+  stat:
+    path: "{{ r_session_dir_course }}"
+  register: r_session_dir_course_details
+- name: "load : Get {{ r_session_dir_course }}/manifest.yml file details"
+  stat:
+    path: "{{ r_session_dir_course }}/manifest.yml"
+  register: r_course_manifest_details
+- name: "load : Load course content manifest {{ r_session_dir_course }}/manifest.yml"
+  include_vars:
+    file: "{{ r_session_dir_course }}/manifest.yml"
+    name: libre_course_tmp
+  when: r_course_manifest_details.stat.exists
+- name: "load : Convert to fact course content manifest {{ r_session_dir_course }}/manifest.yml"
+  set_fact:
+    libre_course: "{{libre_course_tmp}}"
+  when: r_course_manifest_details.stat.exists
+- name: "load : Load default course content manifest"
+  set_fact:
+    libre_course: {}
+  when: not r_course_manifest_details.stat.exists
+- name: "load : Get {{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }} directory details"
+  stat:
+    path: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks }}"
+  register: r_session_dir_course_playbooks_details
+- name: "load : Load course"
+  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/load.yml"
+  when: r_session_dir_course_playbooks_details.stat.exists
+  
+  
 
-- name: "load : TODO load action on playbook role student"
-  debug:
-    msg: 'Todo !!! load action on playbook role student'
+  

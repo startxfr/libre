@@ -1,4 +1,10 @@
 ---
+- name: "install-postcheck : Start infrastructure install post-check if not already checked"
+  include_role:
+    name: infra
+    tasks_from: install-postcheck
+  when: not infra_install_postcheck or 
+        infra_install_postcheck is undefined
 - name: "install-postcheck : Training directory detail must exist"
   assert:
     that: r_libre_dir_details is defined

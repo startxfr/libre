@@ -2,7 +2,24 @@
 - name: "Post-Provision classroom infrastructure on instructor"
   hosts: 'instructor'
   gather_facts: true
-
   roles:
     - { role: infra, do: load, infra_type: self }
-    - { role: infra, do: provision-post, infra_type: self, become: yes }
+    - { role: infra, do: provision-post-pre, infra_type: self }
+
+- name: "Post-Provision classroom infrastructure on workstations"
+  hosts: 'workstations'
+  gather_facts: true
+  vars:
+    libre_type: "student"
+    libre_verbose: false
+    libre_debug: false
+  roles:
+    - { role: student, do: load }
+    - { role: student, do: install }
+    
+- name: "Post-Provision classroom infrastructure on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  roles:
+    - { role: infra, do: load, infra_type: self }
+    - { role: infra, do: provision-post-post, infra_type: self }

@@ -6,4 +6,4 @@
 
   roles:
     - { role: student, do: load }
-    - { role: student, do: install, become: yes }
+    - { role: student, do: install }

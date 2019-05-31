@@ -8,8 +8,8 @@ case $1 in
     install)                sessionInstallPlaybook install $2 $3 ;;
     start)                  sessionPlaybook start ;;
     stop)                   sessionPlaybook stop ;;
-    uninstall)              sessionPlaybook uninstall ;;
-    status)                 sessionPlaybook status ;;
+    uninstall)              sessionFreePlaybook uninstall ;;
+    status)                 sessionFreePlaybook status ;;
     usage|help|--help|-h)   sessionUsage $@ ;;
     info|--info)            sessionInformation $@ ;;
     version|--version)      sessionVersion $@ ;;

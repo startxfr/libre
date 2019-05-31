@@ -6,26 +6,42 @@
             session_install_precheck is undefined
 
 # Install tasks
-- name: "install : Start instructor install sequence"
+- name: "install : Start session install sequence"
   block:
-    - name: "install : Start libre install post-check"
+    - name: "install : Start repository install post-check"
       include_role:
-        name: libre
-        tasks_from: install-postcheck
-
-    - name: "install : Start instructor install post-check"
-      include_role:
-        name: instructor
+        name: repository
         tasks_from: install-postcheck
   rescue:
+    - name: "install : Repository post-check install is not valid"
+      debug:
+        msg: Failing back to installing repository first 
     - name: "install : Start instructor install"
       include_role:
-        name: instructor
+        name: repository
         tasks_from: install
-      become: yes
-    
     - name: "install : Reload session"
       include_tasks: load.yml
+
+- name: "install : Get user session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
+  register: r_libre_session_userconf_details
+
+- name: "install : Generate user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
+  template:
+    src: session.j2
+    dest: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
+    mode: 0664
+  when: not r_libre_session_userconf_details.stat.exists or
+            r_libre_force_upgrade
+- name: "install : Reload user session configuration {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} file details"
+  stat:
+    path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
+  register: r_libre_session_userconf_details
+- name: "install : Reload user session configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
+  set_fact:
+    config_session: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_session) | from_yaml | default('') }}"
 
 - name: "install : Start configuration because no session configuration {{ config_libre.directory.conf }}/{{ r_session_config_file }} file found"
   include_tasks: "config.yml"
@@ -51,6 +67,9 @@
   synchronize:
     src: "{{ config_repository.local }}{{ config_repository.base }}/{{ libre_session.course }}/"
     dest: "{{ r_session_dir_course }}"
+    recursive: yes
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"
 
 - name: "install : Reload session course-manifest"
   include_tasks: load/course-manifest.yml
@@ -61,17 +80,12 @@
 
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
-  delegate_to: localhost
-
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
 - name: "install : Generate session report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
-  become: no
-  delegate_to: localhost
-
 - name: "install : Log install action"
   include_role:
     name: libre

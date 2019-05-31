@@ -1,8 +1,8 @@
 ---
-- name: "Deprovision classroom infrastructure on instructor"
+- name: "Deprovision classroom infrastructure"
   hosts: 'instructor'
   gather_facts: true
 
   roles:
     - { role: infra, do: load, infra_type: aws }
-    - { role: infra, do: deprovision, infra_type: aws, become: yes }
+    - { role: infra, do: deprovision, infra_type: aws }

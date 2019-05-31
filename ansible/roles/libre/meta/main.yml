@@ -5,12 +5,20 @@ galaxy_info:
   description: LIBRE Training Toolkit - LIBRE role
   company: STARTX
   license: Apache License, Version 2.0
-  min_ansible_version: 2.5
+  min_ansible_version: 2.7
   platforms:
   - name: CentOS
     versions:
     - 7
+  - name: RHEL
+    versions:
+    - 7
+  - name: Fedora
+    versions:
+    - 29
+    - 30
   categories:
   - cloud
   - system
   - training
+  - TMS
