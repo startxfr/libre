@@ -84,7 +84,7 @@ classroomInfra:
         provision: provision-workstation.yml
         deprovision: deprovision-workstation.yml
       infra_aws:
-        type: "t2.micro"
+        type: "t2.medium"
         image: "ami-3548444c"
         ssh_keyname: "ssh-libre-instructor"
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
@@ -99,7 +99,7 @@ classroomInfra:
         provision: provision-nodeA.yml
         deprovision: deprovision-nodeA.yml
       infra_aws:
-        type: "t2.micro"
+        type: "t2.small"
         image: "ami-3548444c"
         ssh_keyname: "ssh-libre-instructor"
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"

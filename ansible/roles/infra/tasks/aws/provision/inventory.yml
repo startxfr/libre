@@ -42,23 +42,12 @@
   template:
     src: "../templates/host-instructor.j2"
     dest: /etc/hosts
-
-- debug: var=libre_session
-- debug: var=libre_infra
-- debug: var=flat_inventory
-- debug:
-  delegate_to: "{{ server }}"
-  loop: "{{ groups['students'] }}"
+- name: "aws : provision : inventory : Create students /tmp/student.hosts files"
+  template:
+    src: "../templates/host-student.j2"
+    dest: /tmp/{{index}}.hosts
+  loop: "{{ libre_session.students }}"
   loop_control:
-    loop_var: server
-    label: "{{ server }}"
-- fail:
-#- name: "aws : provision : inventory : Update students /etc/hosts file"
-#  template:
-#    src: "../templates/host-students.j2"
-#    dest: /etc/hosts
-#  delegate_to: "{{ server }}"
-#  loop: "{{ groups['students'] }}"
-#  loop_control:
-#    loop_var: server
-#    label: "{{ server }}"
+    index_var: index
+    loop_var: student
+    label: "{{ index }}"

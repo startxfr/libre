@@ -36,7 +36,7 @@
   when: (not r_libre_binary_details.stat.exists or
          not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade)
-        and inventory_hostname not in ['127.0.0.1', 'localhost']
+        and inventory_hostname in ['127.0.0.1', 'localhost']
 - name: "install_libre : move LIBRE ansible content to {{ r_libre_dest_ansible }} in local node"
   synchronize:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/ansible/"
@@ -47,7 +47,7 @@
   when: (not r_libre_binary_details.stat.exists or
          not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade)
-        and inventory_hostname in ['127.0.0.1', 'localhost']
+        and inventory_hostname not in ['127.0.0.1', 'localhost']
 - name: "install_libre : move LIBRE instructor binary content to {{ r_libre_dest_bin }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"

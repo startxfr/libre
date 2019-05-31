@@ -26,10 +26,6 @@
     - pip
     - Jinja2
     - yq
-    - docker
-    - botocore
-    - boto3
-    - boto
   loop_control:
     loop_var: pipname
     label: "{{ pipname }}"

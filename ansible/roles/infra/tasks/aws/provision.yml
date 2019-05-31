@@ -22,7 +22,7 @@
   wait_for:
     host: "{{instance.public_ip}}"
     port: 22
-    delay: 5
+    delay: 0
     sleep: 2
     timeout: 60
     state: started
@@ -47,7 +47,7 @@
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     mode: 0664
   delegate_to: localhost
-- name: "infra : aws : provision : Log provision action"
+- name: "aws : provision : Log provision action"
   include_role:
     name: libre
     tasks_from: lib/log
