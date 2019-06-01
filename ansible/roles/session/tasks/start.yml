@@ -17,6 +17,13 @@
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/start.yml"
   when: r_session_dir_course_playbooks_details.stat.exists
 
+- name: "start : Set session state to started"
+  set_fact:
+    libre_session: "{{ libre_session|combine({'state': 'started' }, recursive=True) }}"
+# Use config to reload libre_session and record state to session file
+- name: "start : Config {{ config_session.type }} session type reload"
+  include_tasks: "config/{{ config_session.type }}.yml"
+
 # Start tasks
 - name: "start : Get previous report data"
   set_fact:

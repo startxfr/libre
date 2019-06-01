@@ -1,4 +1,7 @@
 ---
+- name: "config : Set session state to configured"
+  set_fact:
+    libre_session: "{{ libre_session|combine({'state': 'configured' }, recursive=True) }}"
 - name: "config : Config {{ config_session.type }} session type"
   include_tasks: "config/{{ config_session.type }}.yml"
 
