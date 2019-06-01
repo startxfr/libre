@@ -1,5 +1,5 @@
 ---
-- name: "status : Start instructor status"
+- name: "status : Start Session status"
   include_role:
     name: repository
     tasks_from: status

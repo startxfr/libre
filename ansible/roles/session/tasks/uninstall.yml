@@ -5,7 +5,7 @@
   when: r_session_dir_course_playbooks_details.stat.exists
 
 # Uninstall tasks
-#- name: "uninstall : Start instructor uninstall"
+#- name: "uninstall : Start repository uninstall"
 #  include_role:
 #    name: repository
 #    tasks_from: uninstall
