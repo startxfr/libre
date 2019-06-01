@@ -1,3 +1,9 @@
 ---
 - name: "uninstall : Uninstall {{ libre_infra.type }} infrastructure"
   include_tasks: "{{ libre_infra.type }}/uninstall.yml"
+- name: "uninstall : Start session uninstall"
+  include_role:
+    name: session
+    tasks_from: uninstall
+- name: "uninstall : Reload"
+  include_tasks: load.yml

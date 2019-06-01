@@ -21,6 +21,13 @@
     state: absent
     path: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
 
+- name: "uninstall : Start repository uninstall"
+  include_role:
+    name: repository
+    tasks_from: uninstall
+- name: "uninstall : Reload"
+  include_tasks: load.yml
+  
 - name: "uninstall : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
