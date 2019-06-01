@@ -1,0 +1,13 @@
+---
+#- name: "aws : uninstall : Uninstall and force upgrade pip packages"
+#  pip:
+#    name: "{{ pipname }}"
+#    state: forcereinstall
+#    extra_args: --upgrade --user
+#  loop:
+#    - botocore
+#    - boto3
+#    - boto
+#  loop_control:
+#    loop_var: pipname
+#    label: "{{ pipname }}"

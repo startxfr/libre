@@ -1,0 +1,32 @@
+---
+#- name: "prem : install : Install Virtualbox dependencies"
+#  yum:
+#    name:
+#    - gcc
+#    - dkms
+#    - make
+#    - qt
+#    - libgomp
+#    - patch 
+#    - kernel-headers
+#    - kernel-devel
+#    - kernel-devel-3.10.0-957.10.1.el7.x86_64
+#    - binutils
+#    - glibc-headers
+#    - glibc-devel
+#- name: "prem : install : Add Virtualbox repository"
+#  yum_repository:
+#    name: virtualbox
+#    description: VirtualBox YUM repo
+#    baseurl: http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch
+#    enabled: yes
+#    gpgcheck: yes
+#    repo_gpgcheck: yes
+#    gpgkey: https://www.virtualbox.org/download/oracle_vbox.asc
+#- name: "prem : install : Install Virtualbox and Vagrant"
+#  yum:
+#    name:
+#    - VirtualBox-5.1
+#    - https://releases.hashicorp.com/vagrant/1.9.6/vagrant_1.9.6_x86_64.rpm
+#- name: "prem : install : Install Virtualbox kernel module"
+#  command: "/sbin/rcvboxdrv setup"

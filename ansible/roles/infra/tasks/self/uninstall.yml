@@ -1,0 +1,28 @@
+---
+#- name: "self : uninstall : Stop course vboxdrv service"
+#  systemd:
+#    name: vboxdrv
+#    state: stopped
+#- name: "self : uninstall : Stop course docker service"
+#  systemd:
+#    name: docker
+#    state: stopped
+#- name: "self : uninstall : Uninstall VirtualBox, quemu dependencies"
+#  yum:
+#    name:
+#    - qemu-kvm
+#    - gcc
+#    - dkms
+#    - make
+#    - qt
+#    - libgomp
+#    - patch 
+#    - kernel-headers
+#    - kernel-devel
+#    - kernel-devel-3.10.0-957.el7.x86_64
+#    - binutils
+#    - glibc-headers
+#    - glibc-devel
+#    - VirtualBox-5.1
+#    - vagrant
+#    state: absent

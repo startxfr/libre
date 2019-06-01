@@ -34,6 +34,32 @@
   loop_control:
     loop_var: pipname
     label: "{{ pipname }}"
+    
+
+- name: "install : Install instructor ruby dependencies"
+  yum:
+    name:
+    - centos-release-scl
+- name: "install : Install instructor ruby 2.5"
+  yum:
+    name: "rh-ruby25"
+    state: present
+- name: "install : Install instructor ruby bin"
+  copy:
+    dest: /etc/profile.d/ruby.sh
+    mode: 0755
+    owner: root
+    group: root
+    content: |
+      #!/bin/bash
+      source scl_source enable rh-ruby25
+
+# Use the command module cause the Gem module throw an error in some cases
+- name: "install : Ensure Bundler is installed"
+  shell: source /etc/profile; gem install bundler # Wrong way but no choice
+- name: "install : Ensure Asciidoctor gem is installed"
+  shell: source /etc/profile; bundle install --gemfile={{ r_libre_dest_ansible }}/roles/instructor/files/Gemfile
+ 
 - name: "install : Set hostame to instructor"
   hostname:
     name: instructor

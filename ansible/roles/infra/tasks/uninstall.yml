@@ -1,1 +1,3 @@
 ---
+- name: "uninstall : Uninstall {{ libre_infra.type }} infrastructure"
+  include_tasks: "{{ libre_infra.type }}/uninstall.yml"
