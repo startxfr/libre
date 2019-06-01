@@ -5,6 +5,6 @@
 
 {% if libre_infra.kvm is defined and libre_infra.kvm.classroom is defined %}
 {% for station in libre_infra.kvm.classroom %}
-{{ libre_infra.network.associated_ip }}       {{station.name}}.{{libre_infra.network.dns}} {{station.name}}
+{{ libre_infra.network.associated_ip }}       {{station.name}}.{{libre_infra.network.dns}} {{station.name}} {{station.type|default('default')}}.student{{station.student|default('0')}}.classroom {{station.type|default('default')}}{{station.student|default('0')}} {{station.type|default('default')}}
 {% endfor %}
 {% endif %}

@@ -8,7 +8,7 @@
     record: "workstation{{item}}.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
     type: A
   register: route53_facts
-  with_sequence: start=0 end={{ libre_infra.ec2.environements_nb }}
+  with_sequence: start=0 end={{ libre_session.students|length }}
 - name: "aws : deprovision : Get VPC facts"
   ec2_vpc_net_facts:
     aws_access_key: "{{ libre_infra.auth.access_key }}"
@@ -18,7 +18,7 @@
       "tag:Name": "{{ libre_session.id }}-env{{item}}-vpc"
       "tag:Session": "{{ libre_session.id }}"
   register: r_libre_vpcs
-  with_sequence: start=0 end={{ libre_infra.ec2.environements_nb }}
+  with_sequence: start=0 end={{ libre_session.students|length }}
 - name: "aws : deprovision : Get VPC route tables facts"
   ec2_vpc_route_table_facts:
     aws_access_key: "{{ libre_infra.auth.access_key }}"
@@ -27,7 +27,7 @@
     filters:
       "vpc-id": "{{ r_libre_vpcs.vpcs[0].id }}"
   register: libre_routes
-  with_sequence: start=0 end={{ libre_infra.ec2.environements_nb }}
+  with_sequence: start=0 end={{ libre_session.students|length }}
   when:
     - r_libre_vpcs.vpcs is defined
     - r_libre_vpcs.vpcs | length > 0
@@ -38,7 +38,7 @@
     region: "{{ libre_infra.ec2.region }}"
     filters:
       "vpc-id": "{{ r_libre_vpcs.vpcs[0].id }}"
-  with_sequence: start=0 end={{ libre_infra.ec2.environements_nb }}
+  with_sequence: start=0 end={{ libre_session.students|length }}
   when:
     - r_libre_vpcs.vpcs is defined
     - r_libre_vpcs.vpcs | length > 0

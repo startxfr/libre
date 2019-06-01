@@ -18,6 +18,7 @@
 {% elif libre_infra.state == 'post-provisionned' %}
         type : \e[1m\e[32mpost-provisionned\e[0m {{ libre_infra.type }}
    classroom : \e[1m\e[33mpost-provisionned\e[0m \e[1m{{ libre_infra.ec2.classroom|length }}\e[0m VM x \e[1m{{ libre_session.students|length }}\e[0m students
+    stations :                   \e[1m{{ libre_infra.ec2.classroom|length }}\e[0m VM ("{{ libre_infra.ec2.classroom | map(attribute='name') | list | join(', ')  }}")
 {% else %}
         type : \e[1m\e[34mconfigured\e[0m     {{ libre_infra.type }}
 {% endif %}

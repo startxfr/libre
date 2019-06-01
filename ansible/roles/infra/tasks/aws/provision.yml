@@ -9,11 +9,15 @@
 
 - name: "aws : provision : Create Network environments"
   include_tasks: provision/network.yml
-- name: "aws : provision : Create {{ libre_infra.ec2.environements_nb|int }} student environments"
+- name: "aws : provision : Create {{ libre_session.students|length }} student environments"
   include_tasks: provision/instance.yml
   vars:
-    labenv: "{{item|int - 1}}"
-  with_sequence: count={{libre_infra.ec2.environements_nb|int}}
+    student: "{{student}}" 
+    labenv: "{{student.workstation|int}}" 
+  loop: "{{ libre_session.students }}"
+  loop_control:
+    loop_var: student
+    label: "{{ student.workstation }} - {{ student.name }}"
 - name: "aws : provision : Create DNS environments"
   include_tasks: provision/dns.yml
 - name: "aws : provision : Record Inventory"
@@ -70,7 +74,7 @@
       - "  - Region: {{ libre_infra.ec2.region }}"
       - "  - SSH User: {{ libre_infra.ssh.user }}"
       - "  - SSH Key: {{ libre_infra.ssh.keyname }}.pem"
-      - "  - Size: {{ libre_infra.ec2.environements_nb }} workstations"
+      - "  - Size: {{ libre_session.students|length }} students x {{ libre_infra.ec2.classroom|length }} workstations"
       - " "
       - "You must finish your installation by running the following command :"
       - "  ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml"
@@ -92,7 +96,7 @@
 #        - Region: {{ libre_infra.ec2.region }}
 #        - SSH User: {{ libre_infra.ssh.user }}
 #        - SSH Key: {{ libre_infra.ssh.keyname }}.pem
-#        - Size: {{ libre_infra.ec2.environements_nb }} workstations
+#        - Size: {{ libre_session.students|length }} students x {{ libre_infra.ec2.classroom|length }} workstations"
 #
 #     You must finish your installation by running the following command :
 #       ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml

@@ -25,9 +25,9 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is Post-provisionned"
+    log_name: "AWS infrastructure is post Post-provisionned"
     log_component: infra-aws
-    log_action: post-provision
+    log_action: post-provision (post)
 - name: "aws : provision-post-post : Post-provisionning is finish"
   debug:
     msg:

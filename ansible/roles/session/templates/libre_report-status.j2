@@ -11,7 +11,8 @@ session conf : \e[1m\e[31mnot installed\e[0m
        State :                {{ libre_session.state }}
      Trainer :                {{ libre_session.instructor }}
        Start :                {{ libre_session.start }}
-participants : \e[1m\e[32menrolled\e[0m       \e[1m{{ libre_session.students|length }}\e[0m students
+participants : \e[1m\e[32menrolled\e[0m       \e[1m{{ libre_session.students|length-1 }}\e[0m students
+    students :                \e[1m{{ libre_session.students|length }}\e[0m students ("{{ libre_session.students | map(attribute='id') | list | join(', ')  }}")
 {% else %}
      Session : \e[1m\e[31mnot configured\e[0m
 {% endif %}

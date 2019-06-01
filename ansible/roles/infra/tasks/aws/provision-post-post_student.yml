@@ -57,11 +57,7 @@
     user: "{{ r_infra_user_instructor }}"
     state: present
     key: "{{ lookup('file', config_libre.directory.conf + '/instructor-id_rsa.pub') }}"
-  delegate_to: "{{node.name}}-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-  loop: "{{ classroom }}"
-  loop_control:
-    loop_var: node
-    label: "{{ node.name }}"
+  delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
 - name: "aws : provision-post-post : student {{ student.id}} : Authorize instructor SSH key for {{ r_infra_user_student }} in students nodes"
   authorized_key:
     user: "{{ r_infra_user_student }}"
@@ -130,10 +126,13 @@
     src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Copy course {{ libre_session.course }} content to workstation"
+- name: "aws : provision-post-post : student {{ student.id}} : Copy course {{ libre_session.course }} manifest to workstation"
   copy:
-    src: "{{ r_session_dir_course }}/"
-    dest: "{{ r_session_dir_course }}"
-#    recursive: yes
-#    delete: yes
+    src: "{{ r_session_dir_course }}/manifest.yml"
+    dest: "{{ r_session_dir_course }}/manifest.yml"
+  delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+- name: "aws : provision-post-post : student {{ student.id}} : Copy course {{ libre_session.course }} playbooks to workstation"
+  copy:
+    src: "{{ r_session_dir_course }}/playbooks/"
+    dest: "{{ r_session_dir_course }}/playbooks"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
