@@ -31,6 +31,9 @@
   loop:
     - docker
     - dnspython
+    - botocore
+    - boto3
+    - boto
   loop_control:
     loop_var: pipname
     label: "{{ pipname }}"

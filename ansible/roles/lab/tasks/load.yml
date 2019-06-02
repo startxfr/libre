@@ -23,27 +23,24 @@
   vars:
     qry: 'labs[?{{ item }}==`{{ lab_current }}`] | [0]'
   when: current_lab is not defined or current_lab == "" or current_lab.id is not defined
-
 - name: "load : Check if lab {{lab_current}} exist"
   assert:
     that: current_lab is defined and current_lab.id is defined
     msg: "Lab {{ lab_current }} could not be found in {{ r_lab_dir_course }}/manifest.yml"
-
-- name: "load : Set fact r_current_lab_dir to {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ current_lab.id }}"
+- name: "load : Set fact r_current_lab_dir to {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{  current_lab.directory | default(current_lab.id) }}"
   set_fact:
     r_current_lab_dir: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ current_lab.directory | default(current_lab.id) }}"
-
 - name: "load : Get /tmp/current_lab directory details"
   stat:
     path: "/tmp/current_lab"
   register: r_lab_track_current_lab_tmp_details
-  
-  
+
 - block:
   - name: "load : {{ r_current_lab_dir }} directory details"
     stat:
       path: "{{ r_current_lab_dir }}"
     register: r_current_lab_dir_details
-  - assert:
+  - name: "load : Check if {{ r_current_lab_dir }} directory exist"
+    assert:
       that: r_current_lab_dir_details.stat.exists
       msg: "Lab {{ current_lab.name }} is defined in the manifest but the lab folder does not exists"
