@@ -16,13 +16,37 @@
     - name: "install : Repository post-check install is not valid"
       debug:
         msg: Failing back to installing repository first 
-    - name: "install : Start instructor install"
+    - name: "install : Start repository install"
       include_role:
         name: repository
         tasks_from: install
     - name: "install : Reload session"
       include_tasks: load.yml
 
+- name: "install : Install session ruby dependencies"
+  yum:
+    name:
+    - centos-release-scl
+- name: "install : Install session ruby 2.5"
+  yum:
+    name: "rh-ruby25"
+    state: present
+- name: "install : Install session ruby bin"
+  copy:
+    dest: /etc/profile.d/ruby.sh
+    mode: 0755
+    owner: root
+    group: root
+    content: |
+      #!/bin/bash
+      source scl_source enable rh-ruby25
+
+# Use the command module cause the Gem module throw an error in some cases
+- name: "install : Ensure Bundler is installed"
+  shell: source /etc/profile; gem install bundler # Wrong way but no choice
+- name: "install : Ensure Asciidoctor gem is installed"
+  shell: source /etc/profile; bundle install --gemfile={{ r_libre_dest_ansible }}/roles/session/files/Gemfile
+ 
 - name: "install : Get user session configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }} details"
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_session }}"
@@ -77,6 +101,13 @@
 - name: "install : Install course playbook"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
   when: r_session_dir_course_playbooks_details.stat.exists
+  
+- name: "install : Set session state to installed"
+  set_fact:
+    libre_session: "{{ libre_session|combine({'state': 'installed' }, recursive=True) }}"
+# Use config to reload libre_session and record state to session file
+- name: "install : Config {{ config_session.type }} session type reload"
+  include_tasks: "config/{{ config_session.type }}.yml"
 
 - name: "install : Get previous report data"
   set_fact:

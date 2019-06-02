@@ -1,0 +1,10 @@
+---
+- name: "lib : book-generate-watermarked : Generate student {{ watermark_name }} watermarked PDF"
+  shell: >
+    source /etc/profile; 
+    {{ r_libre_dest_ansible }}/roles/session/files/build-book-watermarked.rb 
+    --directory {{ source_dir|default(session_dir_course+'/sources ') }}
+    --watermark-email '{{ watermark_email|mandatory }}'
+    --watermark-name '{{ watermark_name|mandatory }}' 
+    --output {{ output_dir|default(config_libre.directory.course+'/book/') }}{{output_file|default('book-generated.pdf')}}
+    --session-id {{ session_id }}

@@ -1,5 +1,5 @@
 ---
-- name: "aws : provision : instance : Create {{libre_infra.ec2.classroom|length|default(0)}} ec2 instances for student {{labenv}}"
+- name: "aws : provision : instance : Create {{libre_infra.ec2.classroom|length|default(0)}} ec2 instances for student {{labenv}} {{student.name}}"
   ec2:
     aws_access_key: "{{ libre_infra.auth.access_key }}"
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"

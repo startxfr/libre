@@ -14,8 +14,13 @@
 {% if libre_infra.type is defined %}
 {% if libre_infra.state == 'provisionned' %}
         type : \e[1m\e[33mprovisionned\e[0m   {{ libre_infra.type }}
+   classroom : \e[1m\e[33mprovisionned\e[0m   \e[1m{{ libre_infra.kvm.classroom|length }}\e[0m VM x \e[1m{{ libre_session.students|length }}\e[0m students
+    students :                   \e[1m{{ libre_session.students|length }}\e[0m students ("{{ libre_session.students | map(attribute='id') | list | join(', ')  }}")
 {% elif libre_infra.state == 'post-provisionned' %}
-        type : \e[1m\e[32mpost-provisionned\e[0m {{ libre_infra.type }}
+        type : \e[1m\e[32mpost-provision\e[0m {{ libre_infra.type }}
+   classroom : \e[1m\e[33mpost-provision\e[0m \e[1m{{ libre_infra.kvm.classroom|length }}\e[0m VM x \e[1m{{ libre_session.students|length }}\e[0m students
+    students :                 \e[1m{{ libre_session.students|length }}\e[0m students ("{{ libre_session.students | map(attribute='id') | list | join(', ')  }}")
+    stations :                 \e[1m{{ libre_infra.kvm.classroom|length }}\e[0m VM ("{{ libre_infra.kvm.classroom | map(attribute='name') | list | join(', ')  }}")
 {% else %}
         type : \e[1m\e[34mconfigured\e[0m     {{ libre_infra.type }}
 {% endif %}

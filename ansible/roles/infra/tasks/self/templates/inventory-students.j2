@@ -21,6 +21,16 @@ students:
 {% endfor %}
 {% endif %}
 
+labs:
+  children:
+{% if libre_infra.kvm.classroom is defined %}
+{% for nodekind in libre_infra.kvm.classroom %}
+{% if nodekind.group|default('default') not in ['default','workstations'] %}
+    {{ nodekind.group|default('default') }}:
+{% endif %}
+{% endfor %}
+{% endif %}
+
 classroom:
   children:
     students:

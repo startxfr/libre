@@ -13,7 +13,6 @@
     "region" : "{{ libre_infra.ec2.region }}",
     "type" : "{{ libre_infra.ec2.type }}",
     "image" : "{{ libre_infra.ec2.image }}",
-    "environements_nb" : "{{ libre_infra.ec2.environements_nb }}",
     "classroom" : [
 {% if libre_course.classroomInfra is defined and libre_course.classroomInfra.workstations is defined %}
 {% for ws in libre_course.classroomInfra.workstations %}
