@@ -33,11 +33,17 @@ The clostest the constellation are from the solar system, the better they are.
 
 # Release history
 
+## version 0.7.x (Cygnus)
+
+| Release  | Date       |  Description
+|----------|------------|-------------
+| 0.7.0    | 2019-06-01 | Stable infrastructucture deployement and improved lab integration
+
 ## version 0.6.x (Pegasus)
 
 | Release  | Date       |  Description
 |----------|------------|-------------
-| 0.7.0   | 2019-06-01 | Full AWS provisionning deployment and integration of book generation
+| 0.6.19   | 2019-06-01 | Full AWS provisionning deployment and integration of book generation
 | 0.6.17   | 2019-05-31 | Improve AWS infrastructure deployement for a full classroom support
 | 0.6.16   | 2019-05-29 | Debugging student loading
 | 0.6.15   | 2019-05-27 | Stabilize post-provisionning on self infrastructure.
