@@ -16,6 +16,10 @@
   - not r_lab_track_current_lab_filename_details.stat.exists
   - lab_current is not defined
 
+- name: "load : Course description is loaded"
+  assert:
+    that: libre_course is defined
+    msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
 - name: "load : Find lab {{ lab_current }} in course manifest.yml"
   loop: [idn, id]
   set_fact:
@@ -23,6 +27,12 @@
   vars:
     qry: 'labs[?{{ item }}==`{{ lab_current }}`] | [0]'
   when: current_lab is not defined or current_lab == "" or current_lab.id is not defined
+- name: "load : Lab description is loaded"
+  assert:
+    that:
+    - current_lab is defined
+    - current_lab.id is defined
+    msg: "Lab description {{ lab_current }} doesn't exist"
 - name: "load : Check if lab {{lab_current}} exist"
   assert:
     that: current_lab is defined and current_lab.id is defined
