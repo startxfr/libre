@@ -1,5 +1,9 @@
 ---
 # Start pre-tasks
+- name: "start : Generate Instructor HTML book"
+  include_role:
+    name: session
+    tasks_from: lib/book-generate-html
 - name: "start : Start LIBRE-instructor web application for session {{ libre_session.id }}"
   docker_container:
     name: "libre-instructor-{{ libre_session.id }}"
@@ -8,11 +12,10 @@
     volumes:
      - "/usr/share/libre/conf:/usr/src/app/config:ro"
      - "/usr/share/libre/course:/usr/src/app/course:ro"
-     - "/usr/share/libre/collect:/usr/src/app/data:Z"
+     - "/usr/share/libre/collect:/usr/src/app/data:rw"
     ports:
      - "80:8080"
   become: yes
-
 - name: "start : Start course {{ libre_course.id }}"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/start.yml"
   when: r_session_dir_course_playbooks_details.stat.exists

@@ -8,6 +8,7 @@ ENV LIBRE_VERSION=0.6.19 \
     SX_SUMMARY="Web-application used to serve course materials and tools for training delivery" \
     DESCRIPTION="LIBRE $LIBRE_VERSION" \
     NODE_ENV=development
+    DATA_PATH=$APP_PATH/data
 
 LABEL name="startx/libre-$LIBRE_VERSION" \
       summary="$SX_SUMMARY" \

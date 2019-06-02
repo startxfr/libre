@@ -1,0 +1,5 @@
+---
+- name: "lib : book-generate-html : Generate Instructor HTML book"
+  shell: >
+    source /etc/profile; 
+    {{ r_libre_dest_ansible }}/roles/session/files/build-book-html.sh
