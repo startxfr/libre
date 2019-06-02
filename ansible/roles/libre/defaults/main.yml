@@ -46,7 +46,7 @@ libre_version: '0.0.1-devel'
 libre_verbose: True
 libre_debug: False
 libre_source_url: 'https://github.com/startxfr/libre'
-libre_source_branch: 'v0.6.17'
+libre_source_branch: 'v0.7.0'
 libre_source_base: '/'
 libre_source_tmp: '{{ libre_tmp }}/libre'
 
