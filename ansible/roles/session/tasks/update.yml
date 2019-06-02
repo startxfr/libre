@@ -1,4 +1,11 @@
 ---
+- name: "update : Set session state to updated"
+  set_fact:
+    libre_session: "{{ libre_session|combine({'state': 'updated' }, recursive=True) }}"
+# Use config to reload libre_session and record state to session file
+- name: "update : Config {{ config_session.type }} session type reload"
+  include_tasks: "config/{{ config_session.type }}.yml"
+
 - name: "update : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"

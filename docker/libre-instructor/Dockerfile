@@ -1,13 +1,14 @@
 FROM startx/sxapi:0.3.3
 MAINTAINER STARTX "dev@startx.fr"
 
-ENV LIBRE_VERSION=0.6.17 \
+ENV LIBRE_VERSION=0.7.0 \
     SX_ID="startx/libre" \
     SX_SERVICE="libre" \
     SX_NAME="Startx LIBRE (alpine)" \
     SX_SUMMARY="Web-application used to serve course materials and tools for training delivery" \
     DESCRIPTION="LIBRE $LIBRE_VERSION" \
     NODE_ENV=development
+    DATA_PATH=$APP_PATH/data
 
 LABEL name="startx/libre-$LIBRE_VERSION" \
       summary="$SX_SUMMARY" \

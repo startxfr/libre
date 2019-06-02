@@ -15,6 +15,10 @@
     name: xinetd
     enabled: yes
     state: started 
+- name: "prem : provision : Start course vboxdrv service"
+  systemd:
+    name: vboxdrv
+    state: started
 - name: "prem : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
   file:
     state: directory

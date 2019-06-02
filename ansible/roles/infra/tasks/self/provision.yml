@@ -19,7 +19,7 @@
       Could not provision self infrastructure because KVM kernel module is not available. 
       You must run self infrastructure on workstation with virtualisation kernel module loaded.
   when:
-  - cmd_return.rc == 1
+  - cmd_return.rc != 0
   become: yes
 - name: "self : provision : Enable service libvirtd"
   systemd:
@@ -27,6 +27,14 @@
     enabled: yes
     state: started
   become: yes
+  when:
+  - cmd_return.rc == 0
+- name: "self : provision : Start vboxdrv service"
+  systemd:
+    name: vboxdrv
+    state: started
+  when:
+  - cmd_return.rc != 0
 - name: "self : provision : Create inventory directory {{ config_libre.directory.conf }}/inventory"
   file:
     state: directory

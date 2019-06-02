@@ -5,5 +5,10 @@
   user: root
 
   roles:
-    - { role: student, do: load }
-    - { role: student, do: install }
+    - role: student
+      do: load
+    - role: student
+      do: install
+      libre_type: 'student'
+      libre_verbose: false
+      libre_debug: false

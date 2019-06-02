@@ -20,18 +20,21 @@
     aws_access_key: "{{ libre_infra.auth.access_key }}"
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     vpc_id: "{{ r_libre_vpc.vpc.id }}"
-    cidr: 172.22.{{ item }}.0/24
+    cidr: "172.22.{{ student.workstation|int }}.0/24"
     az: "{{ libre_infra.ec2.region }}b"
     region: "{{ libre_infra.ec2.region }}"
     tags:
-      Name: "{{libre_session.id}}-{{ item }}-subnet"
+      Name: "{{libre_session.id}}-{{ student.workstation|int }}-subnet"
       Session: "{{ libre_session.id }}"
       Course: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
       Instructor: "{{ libre_session.instructor }}"
   register: classroom_subnet
   when: r_libre_vpc.vpc.id is defined
-  with_sequence: start=0 end="{{ libre_infra.ec2.environements_nb|int -1}}"
+  loop: "{{ libre_session.students }}"
+  loop_control:
+    loop_var: student
+    label: "{{ student.workstation }} - {{ student.name }}"
 - name: "aws : provision : network : Create Internet Gateway in {{libre_session.id}}-vpc"
   ec2_vpc_igw:
     state: present

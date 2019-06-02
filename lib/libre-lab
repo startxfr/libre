@@ -14,9 +14,7 @@ function labHeader {
 function labPlaybook {
   labHeader
   checkIfSession
-  if [ $1 == 'status' ] || (runLibrePlaybook lab pre-tasks $2) then
-    runLibrePlaybook lab $1 $2
-  fi
+  runLibrePlaybook lab $1 $2
   exit 0;
 }
 
@@ -28,9 +26,7 @@ function labSetupPlaybook {
   if [[ $2 != "" ]] ; then
     param="$param -e lab_current=$2";
   fi
-  if (runLibrePlaybook lab pre-tasks $param) then
-    runLibrePlaybook lab $1 $param
-  fi
+  runLibrePlaybook lab $1 $param
   exit 0;
 }
 
