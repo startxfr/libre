@@ -16,3 +16,34 @@
     - r_current_lab_dir_details is defined
     - r_current_lab_dir_details.stat.exists
     msg: "Ansible lab directory {{ r_current_lab_dir }} doesn't exist"
+
+- name: "{{ lab_action }} : Copy the lab inventory if it exists"
+  block:
+    - name: "{{ lab_action }} : {{ r_current_lab_dir }} directory details"
+      stat:
+        path: "{{ r_current_lab_dir }}/inventory"
+      register: r_lab_inventory_status
+    - name: "{{ lab_action }} : Copy {{ r_current_lab_dir }}/inventory to {{config_libre.directory.conf}}/inventory/lab"
+      when: r_lab_inventory_status.stat.exists
+      copy: 
+        remote_src: yes
+        src: "{{ r_current_lab_dir }}/inventory"
+        dest: "{{config_libre.directory.conf}}/inventory/lab"
+
+- name: "{{ lab_action }} : Reload the inventory"
+  meta: refresh_inventory
+
+- name: "{{ lab_action }} : Save the current lab id in {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"
+  copy:
+    dest: "{{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"
+    content: "{{ current_lab.idn }}"
+
+- name: "lab : Create symlink from {{ r_current_lab_dir }} to /tmp/current_lab"
+  file:
+    src: "{{ r_current_lab_dir }}"
+    dest: /tmp/current_lab
+    owner: root
+    group: root
+    mode: '0700'
+    state: link
+    force: yes
