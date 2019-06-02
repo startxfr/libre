@@ -6,7 +6,7 @@
 {% if flat_inventory is defined %}
 {% for nodevm in flat_inventory %}
 {% if nodevm.group == nodekind.group %}
-    {{nodevm.type|default('default')}}-env{{nodevm.student|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}:
+    {{nodevm.type|default('default')}}:
 {% endif %}
 {% endfor %}
 {% endif %}

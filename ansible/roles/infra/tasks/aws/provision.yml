@@ -9,15 +9,15 @@
 
 - name: "aws : provision : Create Network environments"
   include_tasks: provision/network.yml
-- name: "aws : provision : Create {{ libre_session.students|length }} student environments"
+- name: "aws : provision : Create {{ libre_session.students|length }} students environments"
   include_tasks: provision/instance.yml
   vars:
-    student: "{{student}}" 
-    labenv: "{{student.workstation|int}}" 
+    student: "{{std}}" 
+    labenv: "{{std.workstation|int}}" 
   loop: "{{ libre_session.students }}"
   loop_control:
-    loop_var: student
-    label: "{{ student.workstation }} - {{ student.name }}"
+    loop_var: std
+    label: "{{ std.workstation }} - {{ std.name }}"
 - name: "aws : provision : Create DNS environments"
   include_tasks: provision/dns.yml
 - name: "aws : provision : Record Inventory"
