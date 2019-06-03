@@ -1,0 +1,8 @@
+---
+# Start post-tasks
+- name: "Start lab on local (post-tasks)"
+  hosts: 'local'
+  gather_facts: no
+  user: root
+  roles:
+    - { role: lab, do: post, lab_action: start }
