@@ -5,6 +5,7 @@
   gather_facts: no
   user: root
   roles:
+    - { role: lab, do: load }
     - { role: lab, do: post, lab_action: stop }
   tasks:
     - name: "stop : {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }} doesn't exists"
