@@ -1,34 +1,22 @@
 ---
-- name: "lab : start (pre) : Ansible lab directory {{ r_current_lab_dir }} exists"
-  assert:
-    that:
-    - r_current_lab_dir_details is defined
-    - r_current_lab_dir_details.stat.exists
-    msg: "Ansible lab directory {{ r_current_lab_dir }} doesn't exist"
-- name: "lab : start (pre) : Copy the lab inventory if it exists"
-  block:
-    - name: "lab : start (pre) : {{ r_current_lab_dir }} directory details"
-      stat:
-        path: "{{ r_current_lab_dir }}/inventory"
-      register: r_lab_inventory_status
-    - name: "lab : start (pre) : Copy {{ r_current_lab_dir }}/inventory to {{config_libre.directory.conf}}/inventory/lab"
-      when: r_lab_inventory_status.stat.exists
-      copy: 
-        remote_src: yes
-        src: "{{ r_current_lab_dir }}/inventory"
-        dest: "{{config_libre.directory.conf}}/inventory/lab"
-    - name: "lab : start (pre) : Reload the inventory"
-      meta: refresh_inventory
+# - name: "lab : start (pre) : Copy the lab inventory if it exists"
+#   block:
+#     - name: "lab : start (pre) : {{ r_current_lab_dir }} directory details"
+#       stat:
+#         path: "{{ r_current_lab_dir }}/inventory"
+#       register: r_lab_inventory_status
+#     - name: "lab : start (pre) : Copy {{ r_current_lab_dir }}/inventory to {{config_libre.directory.conf}}/inventory/lab"
+#       when: r_lab_inventory_status.stat.exists
+#       copy: 
+#         remote_src: yes
+#         src: "{{ r_current_lab_dir }}/inventory"
+#         dest: "{{config_libre.directory.conf}}/inventory/lab"
+#     - name: "lab : start (pre) : Reload the inventory"
+#       meta: refresh_inventory
 
-- name: "lab : start (pre) : Copy lab context from {{ r_current_lab_dir }} to ~/{{ current_lab.idn | default('default') }}"
-  copy:
-    src: "{{ r_current_lab_dir }}/"
-    dest: "~/{{ current_lab.idn | default('default') }}"
-    mode: '0771'
-    remote_src: yes
-- name: "lab : start (pre) : Create symlink from ~/{{ current_lab.idn | default('default') }} to /tmp/current_lab"
+- name: "lab : {{ lab_action }} : Create symlink from {{ r_current_lab_dir }} to /tmp/current_lab"
   file:
-    src: "~/{{ current_lab.idn | default('default') }}"
+    src: "{{ r_current_lab_dir }}"
     dest: /tmp/current_lab
     owner: root
     group: root
@@ -36,7 +24,23 @@
     state: link
     force: yes
 
-- name: "lab : start (pre) : Save the current lab id in {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"
-  copy:
-    dest: "{{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"
-    content: "{{ current_lab.idn }}"
+- name: "lab : {{ lab_action }} : Create symlink from {{ r_libre_tmp }}/{{ r_libre_tmpfile }} to {{ r_current_lab_dir }}/output.txt"
+  file:
+    src: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    dest: "{{ r_current_lab_dir }}/output.txt"
+    owner: root
+    group: root
+    mode: '0644'
+    state: link
+    force: yes
+
+- name: "lab : {{ lab_action }} : Copy lab manifest part to {{ r_current_lab_dir }}/manifest.yml"
+  block:
+  - stat:
+      path: "{{ r_current_lab_dir }}/manifest.yml"
+    register: r_current_lab_manifest_status
+
+  - copy:
+      content: "{{ current_lab }}"
+      dest: "{{ r_current_lab_dir }}/manifest.yml"
+    when: r_current_lab_manifest_status.stat.exists

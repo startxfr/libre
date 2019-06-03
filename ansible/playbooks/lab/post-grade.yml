@@ -1,0 +1,9 @@
+---
+# Grade post-tasks
+- name: "Grade lab on local (post-tasks)"
+  hosts: local
+  gather_facts: no
+  user: root
+  roles:
+    - { role: lab, do: load }
+    - { role: lab, do: post, lab_action: grade }
