@@ -174,7 +174,6 @@ function coreVersion {
 # execute an libre playbook file
 function runLibrePlaybook {
   cd $ANSIBLE_ROOT &> /dev/null
-  rm -f $ANSIBLE_RETURN &> /dev/null
   libretype=$1
   if [[ $libretype == "" ]] ; then
     libretype=$LIBRE_TYPE

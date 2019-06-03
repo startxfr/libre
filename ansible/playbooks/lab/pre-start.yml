@@ -8,14 +8,14 @@
     - { role: lab, do: load }
     - { role: lab, do: pre, lab_action: start }
 
-# Start tasks
+# # Start tasks
 #- name: "start : Start creating lab {{ current_lab.id }} {{ current_lab.name }}"
 #  import_playbook: /tmp/current_lab/start.yml" # "{{ r_current_lab_dir }}/start.yml"
 
-# Start post-tasks
-- name: "Start lab on local (post-tasks)"
-  hosts: 'local'
-  gather_facts: no
-  user: root
-  roles:
-    - { role: lab, do: post, lab_action: start }
+# # Start post-tasks
+# - name: "Start lab on local (post-tasks)"
+#   hosts: 'local'
+#   gather_facts: no
+#   user: root
+#   roles:
+#     - { role: lab, do: post, lab_action: start }

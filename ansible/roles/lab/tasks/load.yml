@@ -20,6 +20,7 @@
   assert:
     that: libre_course is defined
     msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
+
 - name: "load : Find lab {{ lab_current }} in course manifest.yml"
   loop: [idn, id]
   set_fact:
@@ -40,10 +41,6 @@
 - name: "load : Set fact r_current_lab_dir to {{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{  current_lab.directory | default(current_lab.id) }}"
   set_fact:
     r_current_lab_dir: "{{ r_lab_dir_course }}/{{ r_lab_dir_course_labs}}/{{ current_lab.directory | default(current_lab.id) }}"
-- name: "load : Get /tmp/current_lab directory details"
-  stat:
-    path: "/tmp/current_lab"
-  register: r_lab_track_current_lab_tmp_details
 
 - block:
   - name: "load : {{ r_current_lab_dir }} directory details"
