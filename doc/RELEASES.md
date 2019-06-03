@@ -37,6 +37,7 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
+| 0.7.1    | 2019-06-03 | Stable lab management
 | 0.7.0    | 2019-06-01 | Stable infrastructucture deployement and improved lab integration
 
 ## version 0.6.x (Pegasus)
