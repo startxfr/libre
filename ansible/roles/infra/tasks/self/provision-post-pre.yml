@@ -12,14 +12,14 @@
     state: present
     name: "{{ r_infra_user_instructor }}"
     comment: "LIBRE {{ r_infra_user_instructor }}"
-    group: "{{ r_infra_usergroup }}"
+    groups: "{{ r_infra_usergroup }}"
     password: "{{ r_infra_user_instructor | password_hash('sha512') }}"
 - name: "self : provision-post-pre : Create the student user"
   user:
     state: present
     name: "{{ r_infra_user_student }}"
     comment: "LIBRE {{ r_infra_user_student }}"
-    group: "{{ r_infra_usergroup }}"
+    groups: "{{ r_infra_usergroup }}"
     password: "{{ r_infra_user_student | password_hash('sha512') }}"
 - name: "self : provision-post-pre : Authorize infrastructure SSH key"
   authorized_key:
