@@ -1,4 +1,11 @@
 ---
+- name: "aws : provision : inventory : build the flat inventory object for workstations"
+  set_fact:
+    flat_inventory: "{{ flat_inventory + [{'aws_id': dns.station.id, 'ip_private': dns.station.private_ip, 'ip_public': dns.station.public_ip, 'type': dns.station.tags.Type, 'student': dns.station.tags.Labenv, 'group': dns.station.tags.Group, 'fqdn': dns.station.dns_name }]  }}"
+  loop: "{{ list_dns.results }}"
+  loop_control:
+    loop_var: dns
+    label: "{{ dns.station.public_ip }}"
 - name: "aws : provision : inventory : Create inventory directory {{ config_libre.directory.conf }}/inventory"
   file:
     state: directory
@@ -9,7 +16,7 @@
     recurse: yes
 - name: "aws : provision : inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
   template:
-    src: inventory-local.j2
+    src: "../templates/inventory-local.j2"
     dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
 #    remote_src: yes
     mode: 0664
@@ -17,7 +24,7 @@
     group: "{{ r_libre_group }}"
 - name: "aws : provision : inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
-    src: inventory-instructor.j2
+    src: "../templates/inventory-instructor.j2"
     dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
 #    remote_src: yes
     mode: 0664
@@ -31,4 +38,16 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-
+- name: "aws : provision : inventory : Update instructor /etc/hosts file"
+  template:
+    src: "../templates/host-instructor.j2"
+    dest: /etc/hosts
+- name: "aws : provision : inventory : Create students /tmp/X.hosts files"
+  template:
+    src: "../templates/host-student.j2"
+    dest: /tmp/{{student.workstation}}.hosts
+  loop: "{{ libre_session.students }}"
+  loop_control:
+    index_var: index
+    loop_var: student
+    label: "{{ index }}"

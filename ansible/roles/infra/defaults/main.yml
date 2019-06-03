@@ -28,9 +28,9 @@ infra_aws_access_key: false
 infra_aws_secret_key: false
 infra_aws_route53_dns_zone: 'startx.fr'
 infra_aws_public_dns_zone: 'libre.startx.fr'
-infra_aws_region: 'eu-west-1'
+infra_aws_region: 'eu-west-3'
 infra_aws_instance_type: 't2.micro'
-infra_aws_image: 'ami-3548444c'
+infra_aws_image: 'ami-0e1ab783dc9489f34'
 infra_aws_key_name: 'ssh-libre-instructor'
 infra_aws_ssh_private_key_file: '/usr/share/libre/conf/infra-id_rsa'
 infra_aws_ssh_user: 'centos'

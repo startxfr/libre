@@ -7,10 +7,23 @@ session conf : {% if libre_session.id is defined %}\e[1m\e[32mloaded         \e[
 session conf : \e[1m\e[31mnot installed\e[0m
 {% endif %}
 {% if libre_session.id is defined %}
+{% if libre_session.state == 'started' %}
+     Session : \e[1m\e[33mstarted\e[0m        \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% elif libre_session.state == 'stopped' %}
+     Session : \e[1m\e[31mstopped\e[0m        \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% elif libre_session.state == 'installed' %}
+     Session : \e[1m\e[33minstalled\e[0m      \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% elif libre_session.state == 'uninstalled' %}
+     Session : \e[1m\e[31muninstalled\e[0m    \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% elif libre_session.state == 'updated' %}
+     Session : \e[1m\e[34mupdated\e[0m        \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% else %}
      Session : \e[1m\e[34mconfigured\e[0m     \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% endif %}
        State :                {{ libre_session.state }}
      Trainer :                {{ libre_session.instructor }}
        Start :                {{ libre_session.start }}
+participants : \e[1m\e[32menrolled\e[0m       \e[1m{{ libre_session.students|length-1 }}\e[0m students
 {% else %}
      Session : \e[1m\e[31mnot configured\e[0m
 {% endif %}

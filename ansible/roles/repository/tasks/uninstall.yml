@@ -9,6 +9,8 @@
   include_role:
     name: libre
     tasks_from: uninstall
+- name: "uninstall : Reload"
+  include_tasks: load.yml
 
 - name: "uninstall : Get previous report data"
   set_fact:

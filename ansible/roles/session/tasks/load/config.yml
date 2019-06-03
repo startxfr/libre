@@ -9,7 +9,7 @@
   when: r_session_conf_details.stat.exists
 - name: "load : config : Load default session configuration"
   set_fact:
-    libre_session: {}
+    libre_session: { students: [{ "id" : "INST", "name" : "instructor", "email" : "libre@startx.fr", "workstation" : "0" }] }
   when: not r_session_conf_details.stat.exists
 - name: "load : config : Get {{ config_libre.directory.conf }} directory details"
   stat:

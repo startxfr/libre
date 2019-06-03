@@ -1,0 +1,26 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+127.0.0.1   instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }} instructor.classroom instructor
+# Student : 0 instructor workspace
+{% for nodevm in flat_inventory %}
+{% if nodevm.student|string == "0" %}
+{{nodevm.ip_public}}     {{nodevm.type|default('default')}}-env{{nodevm.student|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }} {{nodevm.type|default('default')}}.student{{nodevm.student|default('0')}}.classroom {{nodevm.type|default('default')}}.student{{nodevm.student|default('0')}} {{nodevm.type|default('default')}}{{nodevm.student|default('0')}}.classroom {{nodevm.type|default('default')}}{{nodevm.student|default('0')}}
+{% endif %}
+{% endfor %}
+
+{% if libre_session.students is defined %}
+{% for student in libre_session.students %}
+{% if student.workstation != "0" %}
+{% set studentNum = student.workstation %}
+# Student : {{student.name}}
+{% if flat_inventory is defined %}
+{% for nodevm in flat_inventory %}
+{% if nodevm.student|string == studentNum|string %}
+{{nodevm.ip_public}}     {{nodevm.type|default('default')}}-env{{nodevm.student|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }} {{nodevm.type|default('default')}}.student{{nodevm.student|default('0')}}.classroom {{nodevm.type|default('default')}}.student{{nodevm.student|default('0')}} {{nodevm.type|default('default')}}{{nodevm.student|default('0')}}.classroom {{nodevm.type|default('default')}}{{nodevm.student|default('0')}} {{nodevm.type|default('default')}}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}

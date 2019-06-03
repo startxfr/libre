@@ -1,0 +1,43 @@
+---
+- name: "aws : provision-post-post : Load Post-provision post-tasks"
+  include_tasks: "provision-post-post_student.yml"
+  vars:
+    classroom: "{{ libre_infra.ec2.classroom }}"
+    student: "{{ std }}"
+  loop: "{{ libre_session.students }}"
+  loop_control:
+    loop_var: std
+    label: "{{ std.name }}"
+  
+- name: "aws : provision-post-post : Set infrastructure state to provisionned"
+  set_fact:
+    libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+- name: "aws : provision-post-post : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+- name: "aws : provision-post-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+  template:
+    src: templates/libre_report-provision-post.j2
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    mode: 0664
+- name: "aws : provision-post-post : Log post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "AWS infrastructure is post Post-provisionned"
+    log_component: infra-aws
+    log_action: post-provision (post)
+- name: "aws : provision-post-post : Post-provisionning is finish"
+  debug:
+    msg:
+      - " "
+      - "We are happy to report that AWS infrastructure {{ libre_session.course }}.{{ libre_infra.route53.domain }} was successfully provisioned on AWS infrastructure"
+      - " "
+      - "You can now connect to your instructor workstation :"
+      - "  ssh -i {{ libre_infra.ssh.keyname }}.pem {{ libre_infra.ssh.user }}@instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
+      - "Then run instructor installation by running :"
+      - "  libre-instructor install"
+      - " "
+      - " Have a happy setup ;)"
+  run_once: true

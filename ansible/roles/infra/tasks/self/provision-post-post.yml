@@ -44,4 +44,14 @@
   loop_control:
     loop_var: server
     label: "{{ server }}"
+- name: "self : provision-post-post : provision-post-post : Authorize instructor SSH key for root"
+  authorized_key:
+    user: "root"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/instructor-id_rsa.pub') }}"
+  delegate_to: "{{ server }}"
+  loop: "{{ groups['classroom'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
 

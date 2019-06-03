@@ -2,22 +2,24 @@
 - name: "aws : config : Set spare lab-environement to {% if 'classroomInfra' in libre_course and 'spare' in libre_course.classroomInfra %}{{(libre_course.classroomInfra.spare|int|default(1))}}{% else %}1{% endif %}"
   set_fact:
     spare_nb: "{% if 'classroomInfra' in libre_course and 'spare' in libre_course.classroomInfra %}{{(libre_course.classroomInfra.spare|int|default(1))}}{% else %}1{% endif %}"
-- name: "aws : config : Set environements_nb to create to {{ (libre_session.students|length|default(0))+ (spare_nb|int) + 1 }}"
-  set_fact:
-    libre_infra: "{{ libre_infra|combine({'ec2': {'environements_nb': (libre_session.students|length|default(0))+ (spare_nb|int) + 1 }}, recursive=True) }}"
-
 - name: "aws : config : Configure AWS access key"
   pause:
    prompt: "What is your AWS Access key ?"
   register: aws_access_key
+  when: libre_infra.auth is undefined or
+        libre_infra.auth.access_key is undefined or
+        libre_infra.auth.access_key|lower == "false"
 - name: "aws : config : Register access_key in libre_infra fact"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'auth': {'access_key': aws_access_key.user_input }}, recursive=True) }}"
   when: aws_access_key.user_input is defined
-- name: "aws : config : Configure AWS access key"
+- name: "aws : config : Configure AWS secret key"
   pause:
-   prompt: "What is your AWS Access key ?"
+   prompt: "What is your AWS Secret key ?"
   register: aws_secret_key
+  when: libre_infra.auth is undefined or
+        libre_infra.auth.secret_key is undefined or
+        libre_infra.auth.secret_key|lower == "false"
 - name: "aws : config : Register secret_key in libre_infra fact"
   set_fact:
     libre_infra: "{{ libre_infra|combine({'auth': {'secret_key': aws_secret_key.user_input }}, recursive=True) }}"
@@ -51,7 +53,7 @@
   copy:
     src: "{{r_libre_userconfig_dir}}/infra-id_rsa"
     dest: "{{config_libre.directory.conf}}/infra-id_rsa"
-    mode: 0644
+    mode: 0600
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
 - name: "aws : config : Copy infra ssh public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{config_libre.directory.conf}}/infra-id_rsa.pub"

@@ -26,10 +26,6 @@
     - pip
     - Jinja2
     - yq
-    - docker
-    - botocore
-    - boto3
-    - boto
   loop_control:
     loop_var: pipname
     label: "{{ pipname }}"
@@ -39,7 +35,11 @@
   copy:
     dest: /etc/profile.d/custom-path.sh
     content: 'PATH=$PATH:~/.local/bin'
-
+- name: "install_services : Create boto configuration in /etc/boto.cfg"
+  copy:
+    src: "{{ role_path }}/files/boto.cfg"
+    dest: "/etc/boto.cfg"
+    mode: 0775
 - name: "install_services : Ensure docker service is running"
   systemd:
     name: docker
