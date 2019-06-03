@@ -158,12 +158,12 @@
     src: "{{ r_session_dir_course }}/playbooks/"
     dest: "{{ r_session_dir_course }}/playbooks"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : Add infrastructure inventory {{config_libre.directory.conf}}/inventory in workstation"
+- name: "aws : provision-post-post : student {{ student.id}} : Add infrastructure inventory {{config_libre.directory.conf}}/inventory in workstation"
   file:
     state: "directory"
     path: "{{config_libre.directory.conf}}/inventory"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
+- name: "aws : provision-post-post : student {{ student.id}} : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
   template:
     src: "../templates/inventory-local.j2"
     dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
@@ -171,7 +171,7 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
+- name: "aws : provision-post-post : student {{ student.id}} : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "../templates/inventory-student.j2"
     dest: "{{ config_libre.directory.conf }}/inventory/students.yml"

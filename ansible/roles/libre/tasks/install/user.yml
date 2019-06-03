@@ -9,5 +9,5 @@
     comment: "LIBRE {{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     password: "{{ r_libre_user | password_hash('sha512') }}"
-    uid: 1001
+#    uid: 1001
     state: present

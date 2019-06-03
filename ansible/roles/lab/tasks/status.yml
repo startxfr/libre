@@ -1,8 +1,7 @@
 ---
-
-- name: "status : Start session status"
+- name: "status : Start student status"
   include_role:
-    name: session
+    name: student
     tasks_from: status
 
 - name: "status : Get previous report data"

@@ -15,6 +15,10 @@
   hostname:
     name: student
 
+- name: "install : Install libre user config in home directory"
+  include_tasks: install/homedir.yml
+  become_user: student
+
 - name: "install : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"

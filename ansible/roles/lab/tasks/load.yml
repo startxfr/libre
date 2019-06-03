@@ -21,11 +21,11 @@
     that: libre_course is defined
     msg: "Course description {{ r_lab_dir_course }}/manifest.yml is not loaded"
 - name: "load : Find lab {{ lab_current }} in course manifest.yml"
-  loop: [idn, id]
   set_fact:
     current_lab: "{{ libre_course | default({}) | json_query(qry) }}"
   vars:
     qry: 'labs[?{{ item }}==`{{ lab_current }}`] | [0]'
+  loop: [idn, id]
   when: current_lab is not defined or current_lab == "" or current_lab.id is not defined
 - name: "load : Lab description is loaded"
   assert:
