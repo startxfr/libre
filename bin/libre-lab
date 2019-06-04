@@ -7,8 +7,8 @@ source /usr/local/lib/libre-lab
 case $1 in
     start)                  labPlaybook start $2 ;;
     stop)                   labPlaybook stop $2 ;;
-    reset)                  labPlaybook reset ;;
-    grade)                  labPlaybook grade ;;
+    reset)                  labPlaybook reset $2;;
+    grade)                  labPlaybook grade $2;;
     status)                 labPlaybook status ;;
     usage|help|--help|-h)   labUsage $@ ;;
     info|--info)            labInformation $@ ;;

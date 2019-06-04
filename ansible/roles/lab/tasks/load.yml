@@ -1,20 +1,7 @@
 ---
-- name: "load : Get {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }} file details"
-  stat:
-    path: "{{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}"
-  register: r_lab_track_current_lab_filename_details
-- name: "load : Load {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }} content"
+- name: "load : Get the current lab IDN or set it to {{ lab_default_current_lab }}"
   set_fact:
-    lab_current: "{{ lookup('file', config_libre.directory.conf+'/'+r_lab_track_current_lab_filename) | default(lab_default_current_lab) }}"
-  when:
-  - r_lab_track_current_lab_filename_details.stat.exists
-  - lab_current is not defined
-- name: "load : No current lab found in {{ config_libre.directory.conf }}/{{ r_lab_track_current_lab_filename }}, Set default to lab {{lab_default_current_lab}}"
-  set_fact:
-    lab_current: "{{lab_default_current_lab}}"
-  when:
-  - not r_lab_track_current_lab_filename_details.stat.exists
-  - lab_current is not defined
+    lab_current: "{{ lab_current | default(lab_default_current_lab) }}"
 
 - name: "load : Course description is loaded"
   assert:
