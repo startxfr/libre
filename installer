@@ -2,10 +2,9 @@
 
 # Default config var
 LIBREI_VERSION="0.7.0"
+ANSIBLE_VERS="2.7.11"
 LIBREI_DEBUG_DEFAULT=true
 LIBREI_REQUIREMENTS_CENTOS="git curl jq docker"
-ANSIBLE_RPM_FILENAME="ansible-2.7.9-1.el7.ans.noarch.rpm"
-ANSIBLE_RPM_URL="https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/${ANSIBLE_RPM_FILENAME}"
 TMP_DEST=/tmp/libre
 INSTALLER_BIN=/usr/local/bin/installer-libre
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
@@ -176,13 +175,6 @@ function install_deps {
       ) &> /dev/null                                 || {
           echoFatal "Unable to uninstall PyYAML"
       }
-      echo "Download Ansible RPM file"
-      (
-	  curl -L $ANSIBLE_RPM_URL  -o /tmp/${ANSIBLE_RPM_FILENAME} &&
-	  chmod +x /tmp/${ANSIBLE_RPM_FILENAME}
-      ) &> /dev/null                                 || {
-          echoFatal "Unable to download Ansible RPM file"
-      }
       # epel and python-pip packages must be installed separately,
       # otherwise pip does not settle, probably a yum bug
       echo "Installing packages for $OS (could take minutes on fresh install or slow internet)"
@@ -195,9 +187,8 @@ function install_deps {
           yum install -y python-pip              &&
           pip install --upgrade pip              &&
           pip install --upgrade yq               &&
-          pip install --upgrade Jinja2		     &&
           yum install -y $LIBREI_REQUIREMENTS_CENTOS &&
-	  yum install -y /tmp/${ANSIBLE_RPM_FILENAME} 
+	  easy_install ansible==${ANSIBLE_VERS} 
       ) &> /dev/null                                 || {
           echoFatal "Unable to install dependencies"
       }

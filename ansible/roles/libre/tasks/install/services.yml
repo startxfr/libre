@@ -10,11 +10,16 @@
     name:
     - git
     - jq
-    - ansible
     - docker
     - bind-utils
     - bash-completion
     - python-pip
+  become: yes
+
+- name: "install_services : Ensure Ansible is installed"
+  easy_install:
+    name: ansible==2.7.11
+    state: present
   become: yes
 
 - name: "install_services : Install and force upgrade pip packages"
@@ -24,13 +29,12 @@
     extra_args: --upgrade --user
   loop:
     - pip
-    - Jinja2
     - yq
   loop_control:
     loop_var: pipname
     label: "{{ pipname }}"
   become: yes
-  
+
 - name: "install_services : Add another bin dir to $PATH."
   copy:
     dest: /etc/profile.d/custom-path.sh
