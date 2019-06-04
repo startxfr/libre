@@ -14,10 +14,12 @@
 - name: "install : Set hostame to student"
   hostname:
     name: student
-
-- name: "install : Install libre user config in home directory"
-  include_tasks: install/homedir.yml
-  become_user: student
+    
+- name: "install : Copy libre user config in {{ r_libre_user }} home directory"
+  synchronize:
+    src: /root/.libre/
+    dest: /home/{{ r_libre_user }}/.libre
+  delegate_to: "{{ inventory_hostname }}"
 
 - name: "install : Get previous report data"
   set_fact:
