@@ -188,7 +188,7 @@ function install_deps {
           pip install --upgrade pip              &&
           pip install --upgrade yq               &&
           yum install -y $LIBREI_REQUIREMENTS_CENTOS &&
-	  easy_install ansible==${ANSIBLE_VERS} 
+	  pip install ansible==${ANSIBLE_VERS} 
       ) &> /dev/null                                 || {
           echoFatal "Unable to install dependencies"
       }
