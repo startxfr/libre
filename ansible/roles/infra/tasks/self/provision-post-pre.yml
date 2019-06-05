@@ -105,6 +105,8 @@
   template:
     src: templates/libre_report-provision-post.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    owner: root
+    group: "{{ r_libre_group }}"
     mode: 0664
   run_once: true
 - name: "self : provision-post-pre : Log post-provision action"
