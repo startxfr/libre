@@ -4,6 +4,7 @@
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile) }}"
 
 - name: "{{ lab_action }} : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+  become: yes
   template:
     src: libre_report-{{ lab_action }}.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
