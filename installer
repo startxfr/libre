@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.7.1"
+LIBREI_VERSION="0.7.3"
 LIBREI_DEBUG_DEFAULT=true
 LIBREI_REQUIREMENTS_CENTOS="git curl jq docker"
 ANSIBLE_RPM_FILENAME="ansible-2.7.9-1.el7.ans.noarch.rpm"
@@ -188,7 +188,7 @@ function install_deps {
       echo "Installing packages for $OS (could take minutes on fresh install or slow internet)"
       (
           yum install -y epel-release &&
-	  yum install -y python-pip &&
+	      yum install -y python-pip &&
           pip install --upgrade --force-reinstall pip==9.0.3 &&
           pip install --upgrade docker		     &&
           yum remove -y python-pip               &&

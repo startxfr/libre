@@ -4,19 +4,20 @@
     name:
     - epel-release
   become: yes
-
-- name: "install_services : Ensure dependencies packages are installed"
+- name: "install_services : Remove PyYAML installed via package manager"
   yum:
     name:
-    - git
+    - PyYAML
+    state: absent
+  become: yes
+- name: "install_services : Ensure system dependencies packages are installed"
+  yum:
+    name:
     - jq
-    - ansible
-    - docker
     - bind-utils
     - bash-completion
     - python-pip
   become: yes
-
 - name: "install_services : Install and force upgrade pip packages"
   pip:
     name: "{{ pipname }}"
@@ -29,6 +30,13 @@
   loop_control:
     loop_var: pipname
     label: "{{ pipname }}"
+  become: yes
+- name: "install_services : Ensure application dependencies packages are installed"
+  yum:
+    name:
+    - git
+    - ansible
+    - docker
   become: yes
   
 - name: "install_services : Add another bin dir to $PATH."

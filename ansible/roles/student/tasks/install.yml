@@ -18,7 +18,7 @@
 - name: "install : Copy libre user config in {{ r_libre_user }} home directory"
   synchronize:
     src: /root/.libre/
-    dest: /home/{{ r_libre_user }}/.libre
+    dest: /home/student/.libre
   delegate_to: "{{ inventory_hostname }}"
 
 - name: "install : Get previous report data"

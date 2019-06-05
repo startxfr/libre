@@ -1,11 +1,11 @@
 ---
-#- name: "self : provision-post-post : Set hostame to workstation "
-#  hostname:
-#    name: workstation
-#  loop: "{{ groups['workstations'] }}"
-#  loop_control:
-#    loop_var: server
-#    label: "{{ server }}"
+- name: "self : provision-post-post : Set hostame to workstation "
+  hostname:
+    name: workstation
+  loop: "{{ groups['workstations'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
 - name: "self : provision-post-post : Update students /etc/hosts file"
   template:
     src: templates/host-students.j2
