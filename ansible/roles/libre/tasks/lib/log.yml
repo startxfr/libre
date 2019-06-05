@@ -1,5 +1,6 @@
 ---
 - name: "log : Record log trace in log.yml"
+  become: yes
   block:
     - setup:
         filter: ansible_date_time
