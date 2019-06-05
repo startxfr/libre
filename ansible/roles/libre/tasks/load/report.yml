@@ -3,4 +3,6 @@
   file:
     path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     state: touch
+    owner: root
+    group: "{{ r_libre_goup }}"
     mode: 0666

@@ -116,6 +116,8 @@
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    owner: root
+    group: "{{ r_libre_group }}"
     mode: 0664
 - name: "install : Log install action"
   include_role:

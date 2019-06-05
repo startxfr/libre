@@ -68,6 +68,8 @@
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    owner: root
+    group: "{{ r_libre_group }}"
     mode: 0664
 - name: "prem : provision : Log provision action"
   include_role:
