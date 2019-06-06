@@ -37,6 +37,7 @@
     force: yes
 
 - name: "lab : {{ lab_action }} : Copy lab manifest part to {{ r_current_lab_dir }}/manifest.yml"
+  become: yes
   block:
   - stat:
       path: "{{ r_current_lab_dir }}/manifest.yml"
@@ -45,6 +46,9 @@
   - copy:
       content: "{{ r_current_lab_manifest | to_nice_yaml }}"
       dest: "{{ r_current_lab_dir }}/manifest.yml"
+      owner: root
+      group: "{{ r_libre_group }}"
+      mode: 0644
     vars:
       r_current_lab_manifest:
         current_lab: "{{ current_lab }}"
