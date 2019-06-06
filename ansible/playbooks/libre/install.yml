@@ -1,6 +1,6 @@
 ---
 - name: "Install libre environment on local"
-  hosts: 'local'
+  hosts: 'localhost'
   gather_facts: true
 
   roles:

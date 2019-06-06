@@ -28,7 +28,7 @@ labs:
   children:
 {% if libre_infra.ec2.classroom is defined %}
 {% for nodekind in libre_infra.ec2.classroom %}
-{% if nodekind.group|default('default') not in ['local','default','workstations'] %}
+{% if nodekind.group|default('default') not in ['default','workstations'] %}
     {{ nodekind.group|default('default') }}:
 {% endif %}
 {% endfor %}
