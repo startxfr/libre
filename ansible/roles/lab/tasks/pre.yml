@@ -15,26 +15,29 @@
 #       meta: refresh_inventory
 
 - name: "lab : {{ lab_action }} : Create symlink from {{ r_current_lab_dir }} to /tmp/current_lab"
+  become: yes
   file:
     src: "{{ r_current_lab_dir }}"
     dest: /tmp/current_lab
-    owner: student
+    owner: root
     group: "{{ r_libre_group }}"
 #    mode: '0700'
     state: link
     force: yes
 
 - name: "lab : {{ lab_action }} : Create symlink from {{ r_libre_tmp }}/{{ r_libre_tmpfile }} to {{ r_current_lab_dir }}/output.txt"
+  become: yes
   file:
     src: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     dest: "{{ r_current_lab_dir }}/output.txt"
-    owner: student
+    owner: root
     group: "{{ r_libre_group }}"
     mode: 0644
     state: link
     force: yes
 
 - name: "lab : {{ lab_action }} : Copy lab manifest part to {{ r_current_lab_dir }}/manifest.yml"
+  become: yes
   block:
   - stat:
       path: "{{ r_current_lab_dir }}/manifest.yml"
@@ -43,6 +46,9 @@
   - copy:
       content: "{{ r_current_lab_manifest | to_nice_yaml }}"
       dest: "{{ r_current_lab_dir }}/manifest.yml"
+      owner: root
+      group: "{{ r_libre_group }}"
+      mode: 0644
     vars:
       r_current_lab_manifest:
         current_lab: "{{ current_lab }}"
