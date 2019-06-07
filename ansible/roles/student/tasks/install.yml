@@ -15,7 +15,7 @@
   hostname:
     name: student
     
-- name: "install : Copy libre user config in {{ r_libre_user }} home directory"
+- name: "install : Copy root .libre config to the student home directory"
   synchronize:
     src: /root/.libre/
     dest: /home/student/.libre
