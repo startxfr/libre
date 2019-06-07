@@ -4,12 +4,12 @@
     name:
     - epel-release
   become: yes
-- name: "install_services : Remove PyYAML installed via package manager"
-  yum:
-    name:
-    - PyYAML
-    state: absent
-  become: yes
+#- name: "install_services : Remove PyYAML installed via package manager"
+#  yum:
+#    name:
+#    - PyYAML
+#    state: absent
+#  become: yes
 - name: "install_services : Ensure system dependencies packages are installed"
   yum:
     name:
