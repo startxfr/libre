@@ -3,7 +3,7 @@
 - name: "Action {{ do | default('load') | string }} in infrastructure role is supported"
   assert:
     msg: "Action {{ do | default('load') | string }} in infrastructure role is not supported"
-    that: do|default('load')|string in ['load','config','status','provision','provision-post','provision-post-pre','provision-post-post','deprovision','install','uninstall']
+    that: do|default('load')|string in ['load','config','status','provision','provision-post','provision-post-students','provision-post-instructor','provision-post-post','deprovision','install','uninstall']
 - name: "{{ do | default('load') | string }} infrastructure environement"
   include_tasks: "{{ do | default('load') | string }}.yml"
-  when: do|default('load')|string in ['load','config','status','provision','provision-post','provision-post-pre','provision-post-post','deprovision','install','uninstall']
+  when: do|default('load')|string in ['load','config','status','provision','provision-post','provision-post-students','provision-post-instructor','provision-post-post','deprovision','install','uninstall']
