@@ -1,5 +1,6 @@
 ---
-- when: r_libre_dir_details.stat.exists
+- name: "uninstall : directory : Training directory archiving and removal"
+  when: r_libre_dir_details.stat.exists 
   block:
   - name: "uninstall : directory : Archive training directory {{ config_libre.directory.base }}"
     archive:

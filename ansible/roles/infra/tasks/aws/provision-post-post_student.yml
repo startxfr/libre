@@ -159,16 +159,30 @@
   copy:
     src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
 - name: "aws : provision-post-post : student {{ student.id}} : Copy course {{ libre_session.course }} manifest to workstation"
   copy:
     src: "{{ r_session_dir_course }}/manifest.yml"
     dest: "{{ r_session_dir_course }}/manifest.yml"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Copy course {{ libre_session.course }} playbooks to workstation"
-  copy:
-    src: "{{ r_session_dir_course }}/playbooks/"
-    dest: "{{ r_session_dir_course }}/playbooks"
+- name: "aws : provision-post-post : student {{ student.id}} : Create course {{ libre_session.course }} playbook directory to workstation"
+  file:
+    path: "{{ r_session_dir_course }}/playbooks/labs"
+    state: directory
+    recurse: yes
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+  delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+- name: "aws : provision-post-post : student {{ student.id}} : Copy course {{ libre_session.course }} playbooks archive to workstation"
+  unarchive:
+    src: "/tmp/playbooks-labs.tgz"
+    dest: "{{ r_session_dir_course }}/playbooks/labs/"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
 - name: "aws : provision-post-post : student {{ student.id}} : Add infrastructure inventory {{config_libre.directory.conf}}/inventory in workstation"
   file:

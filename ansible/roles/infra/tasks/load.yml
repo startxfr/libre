@@ -2,6 +2,10 @@
 - name: "load : Load user infra configuration from {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_infra }}"
   set_fact:
     config_infra: "{{ lookup('file', r_libre_userconfig_dir + '/' + r_libre_myconfile_infra, errors='ignore') | from_yaml | default(r_libre_infra_userconf_default, true) }}"
+- name: "load : Load infra configuration file details"
+  stat:
+    path: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
+  register: r_infra_conf_details
 - name: "load : Set libre_infra fact from {{ config_libre.directory.conf }}/{{ r_infra_config_file }}" 
   set_fact:
     libre_infra: "{{ lookup('file', config_libre.directory.conf + '/' + r_infra_config_file, errors='ignore') | default(false) }}"
