@@ -134,10 +134,6 @@
   when:
     - r_libre_vpcs.vpcs is defined
     - r_libre_vpcs.vpcs | length > 0
-- name: "aws : deprovision : Remove infrastructure inventory {{config_libre.directory.conf}}/inventory/instructor.yml"
-  file:
-    state: "absent"
-    path: "{{config_libre.directory.conf}}/inventory/instructor.yml"
 - name: "aws : deprovision : Remove infrastructure inventory {{config_libre.directory.conf}}/inventory/students.yml"
   file:
     state: "absent"

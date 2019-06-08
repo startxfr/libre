@@ -1,8 +1,4 @@
 ---
-- name: "prem : deprovision : Remove infrastructure inventory {{config_libre.directory.conf}}/inventory/instructor.yml"
-  file:
-    state: "absent"
-    path: "{{config_libre.directory.conf}}/inventory/instructor.yml"
 - name: "prem : deprovision : Remove infrastructure inventory {{config_libre.directory.conf}}/inventory/students.yml"
   file:
     state: "absent"

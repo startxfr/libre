@@ -1,8 +1,8 @@
 ---
-- name: "self : deprovision : Remove infrastructure inventory {{config_libre.directory.conf}}/inventory"
+- name: "self : deprovision : Remove infrastructure inventory {{config_libre.directory.conf}}/inventory/students.yml"
   file:
     state: "absent"
-    path: "{{config_libre.directory.conf}}/inventory"
+    path: "{{config_libre.directory.conf}}/inventory/students.yml"
 - name: "self : deprovision : Remove /etc/hosts file entries"
   blockinfile:
     dest: /etc/hosts

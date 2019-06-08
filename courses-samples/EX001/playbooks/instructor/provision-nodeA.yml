@@ -1,0 +1,4 @@
+---
+- name: "provision_nodeA : Provision nodeA requirement for EX001 course"
+  debug: msg="TODO !!! implement course sample EX001 nodeA provisionning process"
+
