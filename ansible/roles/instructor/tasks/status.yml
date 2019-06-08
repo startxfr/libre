@@ -10,6 +10,6 @@
   template:
     src: libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    owner: root
+#    owner: root
     group: "{{ r_libre_group }}"
     mode: 0664

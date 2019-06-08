@@ -1,13 +1,11 @@
 ---
 # Start pre-tasks
-
 - name: "list : Course description is loaded"
   assert:
     that: libre_course is defined
     msg: "Course description {{ r_session_dir_course }}/manifest.yml is not loaded"
 
 # Start tasks
-
 - name: "list : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
@@ -15,6 +13,6 @@
   template:
     src: libre_report-list.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    owner: root
+#    owner: root
     group: "{{ r_libre_group }}"
     mode: 0664

@@ -19,7 +19,7 @@
   file:
     src: "{{ r_current_lab_dir }}"
     dest: /tmp/current_lab
-    owner: root
+#    owner: root
     group: "{{ r_libre_group }}"
 #    mode: '0700'
     state: link
@@ -30,7 +30,7 @@
   file:
     src: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
     dest: "{{ r_current_lab_dir }}/output.txt"
-    owner: root
+#    owner: root
     group: "{{ r_libre_group }}"
     mode: 0644
     state: link
@@ -46,7 +46,7 @@
   - copy:
       content: "{{ r_current_lab_manifest | to_nice_yaml }}"
       dest: "{{ r_current_lab_dir }}/manifest.yml"
-      owner: root
+  #    owner: root
       group: "{{ r_libre_group }}"
       mode: 0644
     vars:

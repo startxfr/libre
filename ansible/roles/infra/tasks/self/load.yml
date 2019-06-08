@@ -1,5 +1,1 @@
 ---
-- name: "self : load : Get {{config_libre.directory.conf}}/{{ r_infra_config_file }} infrastructure configuration file details"
-  stat:
-    path: "{{config_libre.directory.conf}}/{{ r_infra_config_file }}"
-  register: r_infra_conf_details

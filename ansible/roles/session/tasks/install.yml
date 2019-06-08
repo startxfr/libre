@@ -34,7 +34,7 @@
   copy:
     dest: /etc/profile.d/ruby.sh
     mode: 0755
-    owner: root
+#    owner: root
     group: root
     content: |
       #!/bin/bash
@@ -115,7 +115,7 @@
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    owner: root
+#    owner: root
     group: "{{ r_libre_group }}"
     mode: 0664
 - name: "install : Log install action"
