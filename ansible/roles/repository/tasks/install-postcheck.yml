@@ -3,8 +3,8 @@
   include_role:
     name: libre
     tasks_from: install-postcheck
-  when: not libre_install_postcheck or 
-        libre_install_postcheck is undefined
+  when: not libre_install_postcheck or libre_install_postcheck is undefined
+
 - name: "install-postcheck : Local training repository {{ config_repository.local }} exists"
   assert:
     that: r_repository_details.stat.exists
@@ -15,8 +15,9 @@
   stat:
     path: "{{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }}"
   register: r_libre_repository_userconf_details
-- when: not libre_install_postcheck or
-            libre_install_postcheck is undefined
+
+- name: "install-postcheck : Start the repository postcheck sensors if not already done"
+  when: not libre_install_postcheck or libre_install_postcheck is undefined
   block:
   - name: "install-postcheck : User repository configuration file {{ r_libre_userconfig_dir }}/{{ r_libre_myconfile_repository }} exist"
     assert:

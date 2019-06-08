@@ -1,6 +1,6 @@
 ---
-- when: not libre_install_precheck or
-            libre_install_precheck is undefined
+- name: "install-precheck : Check Node hardware requirements"
+  when: not libre_install_precheck or libre_install_precheck is undefined
   block:
   - name: "install-precheck : Check Hardware Product name"
     assert:

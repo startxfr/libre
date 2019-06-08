@@ -1,10 +1,8 @@
 ---
 # Install pre-tasks
-
 - name: "install : Start student pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not libre_student_install_precheck or
-            libre_student_install_precheck is undefined
+  when: not student_install_precheck or student_install_precheck is undefined
 
 # Install tasks
 - name: "install : Start LIBRE install"

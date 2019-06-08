@@ -2,8 +2,7 @@
 # Install pre-tasks
 - name: "install : Start session pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not session_install_precheck or
-            session_install_precheck is undefined
+  when: not session_install_precheck or session_install_precheck is undefined
 
 # Install tasks
 - name: "install : Start session install sequence"

@@ -2,8 +2,7 @@
 # Install pre-tasks
 - name: "install : Start LIBRE pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not libre_install_precheck or
-            libre_install_precheck is undefined
+  when: not libre_install_precheck or libre_install_precheck is undefined 
 
 # Install tasks
 - name: "install : Start LIBRE installation"
@@ -30,3 +29,4 @@
 # Install post-tasks
 - name: "install : Start LIBRE post-installation checks"
   include_tasks: install-postcheck.yml
+  when: not libre_install_postcheck or libre_install_postcheck is undefined 

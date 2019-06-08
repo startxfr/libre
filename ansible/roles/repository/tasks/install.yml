@@ -2,6 +2,7 @@
 # Install pre-tasks
 - name: "install : Start repository pre-installation checks"
   include_tasks: install-precheck.yml
+  when: not repository_install_precheck or repository_install_precheck is undefined
 
 # Install tasks
 - name: "install : Start LIBRE install sequence"

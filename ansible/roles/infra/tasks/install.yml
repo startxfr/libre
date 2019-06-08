@@ -2,8 +2,7 @@
 # Install pre-tasks
 - name: "install : Start infrastructure pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not infra_install_precheck or
-            infra_install_precheck is undefined
+  when: not infra_install_precheck or infra_install_precheck is undefined
             
 # Install tasks
 - name: "install : Start infrastructure install sequence"
