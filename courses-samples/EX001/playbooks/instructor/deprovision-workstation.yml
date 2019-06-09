@@ -1,4 +1,4 @@
 ---
-- name: "deprovision_workstation : De-provision workstation requirement for EX001 course"
+- name: "EX001 : deprovision_workstation : De-provision workstation requirement for EX001 course"
   debug: msg="TODO !!! implement course sample EX001 workstation de-provisionning process"
 

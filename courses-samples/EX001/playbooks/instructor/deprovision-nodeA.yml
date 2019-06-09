@@ -1,4 +1,4 @@
 ---
-- name: "deprovision_nodeA : De-provision nodeA requirement for EX001 course"
+- name: "EX001 : deprovision_nodeA : De-provision nodeA requirement for EX001 course"
   debug: msg="TODO !!! implement course sample EX001 nodeA de-provisionning process"
 

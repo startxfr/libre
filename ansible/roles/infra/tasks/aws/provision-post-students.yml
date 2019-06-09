@@ -1,4 +1,23 @@
 ---
+- name: "aws : provision-post-students : Load course manifest.yml on localhost node"
+  set_fact:
+    libre_course: "{{ lookup('file', r_session_dir_course + '/manifest.yml', errors='ignore') | from_yaml | default({}, true) }}"
+  delegate_facts: True
+  delegate_to: localhost
+  run_once: true
+- name: "aws : provision-post-students : Load course manifest.yml on all nodes"
+  set_fact:
+    libre_course: "{{ hostvars['localhost']['libre_course'] }}"
+- name: "aws : provision-post-students : Check and execute {{ libre_course.id }} node provision scripts if defined"
+  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/{{node.scripts.provision}}"
+  loop: "{{ libre_course.classroomInfra.workstations }}"
+  loop_control:
+    loop_var: node
+    label: "{{ node.name }} - {{ node.scripts.provision }}"
+  when: 
+   - node.group_name in group_names
+   - node.scripts is defined
+   - node.scripts.provision is defined
 - name: "aws : provision-post-students : Create default libre users and group"
   include_role:
     name: libre

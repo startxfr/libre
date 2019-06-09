@@ -1,4 +1,4 @@
 ---
-- name: "provision_workstation : Provision workstation requirement for EX001 course"
+- name: "EX001 : provision_workstation : Provision workstation requirement for EX001 course"
   debug: msg="TODO !!! implement course sample EX001 workstation provisionning process"
 

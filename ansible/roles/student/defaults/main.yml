@@ -5,7 +5,7 @@ do: load
 libre_type: student
 
 # Instructor directory inside the course directory
-session_dir_course_playbooks: "{{ training_dir_course_playbooks | default('playbooks/instructor') }}"
+session_dir_course_playbooks: "{{ training_dir_course_playbooks | default('playbooks/student') }}"
 
 # Course directory used for delivering training
 session_dir_course: "{{ training_dir_course | default('/usr/share/libre/course') }}"
