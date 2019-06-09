@@ -60,7 +60,7 @@
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
 #    owner: root
     group: "{{ r_libre_group }}"
-    mode: 0664
+    mode: 0666
 
 # Install post-tasks
 - name: "install : Start repository post-installation checks"

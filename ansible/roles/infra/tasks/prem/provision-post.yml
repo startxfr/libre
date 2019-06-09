@@ -16,7 +16,7 @@
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
 #    owner: root
     group: "{{ r_libre_group }}"
-    mode: 0664
+    mode: 0666
   run_once: true
 - name: "prem : provision-post : Log post-provision action"
   include_role:
