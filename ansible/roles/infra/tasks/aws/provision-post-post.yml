@@ -3,8 +3,8 @@
   archive:
     path: "{{ r_session_dir_course }}/playbooks/labs/"
     dest: "/tmp/playbooks-labs.tgz"
-- name: "aws : provision-post-post : Load Post-provision post-tasks"
-  include_tasks: "provision-post-post_student.yml"
+- name: "aws : provision-post-post : Load Post-provision post-tasks for workstations"
+  include_tasks: "provision-post-post_workstation.yml"
   vars:
     classroom: "{{ libre_infra.ec2.classroom }}"
     student: "{{ std }}"

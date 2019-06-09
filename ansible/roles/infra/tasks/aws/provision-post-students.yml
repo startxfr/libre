@@ -83,5 +83,4 @@
     log_name: "AWS infrastructure is Post-provisionned on students"
     log_component: infra-aws
     log_action: post-provision (students)
-  delegate_to: localhost
   run_once: true

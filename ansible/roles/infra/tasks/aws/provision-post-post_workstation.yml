@@ -1,5 +1,5 @@
 ---
-- name: "aws : provision-post-post : student {{ student.id}} : Change hostname for student nodes"
+- name: "aws : provision-post-post : student {{ student.id }} : Change hostname for student nodes"
   hostname:
     name: "{{node.name}}{{student.workstation|default('0')}}"
   become: yes
@@ -8,7 +8,7 @@
   loop_control:
     loop_var: node
     label: "{{ node.name }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Update student /etc/hosts file"
+- name: "aws : provision-post-post : student {{ student.id }} : Update student /etc/hosts file"
   copy:
     src: /tmp/{{student.workstation|default('0')}}.hosts
     dest: /etc/hosts
@@ -18,21 +18,35 @@
   loop_control:
     loop_var: node
     label: "{{ node.name }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Copy session {{ libre_session.id }} configuration to workstation"
+- name: "aws : provision-post-post : student {{ student.id }} : Copy session {{ libre_session.id }} configuration to workstation"
   copy:
     src: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Copy course {{ libre_session.course }} manifest to workstation"
+- name: "aws : provision-post-post : student {{ student.id }} : Copy student {{ student.id }} configuration to workstation"
+  copy:
+    content: "{{ student }}"
+    dest: "{{ config_libre.directory.conf }}/student.json"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+  delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+- name: "aws : provision-post-post : student {{ student.id }} : Copy student {{ student.id }} configuration to workstation"
+  copy:
+    content: "{{ student.name }}"
+    dest: "{{ config_libre.directory.conf }}/student.txt"
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+  delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+- name: "aws : provision-post-post : student {{ student.id }} : Copy course {{ libre_session.course }} manifest to workstation"
   copy:
     src: "{{ r_session_dir_course }}/manifest.yml"
     dest: "{{ r_session_dir_course }}/manifest.yml"
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Create course {{ libre_session.course }} playbook directory to workstation"
+- name: "aws : provision-post-post : student {{ student.id }} : Create course {{ libre_session.course }} playbook directory to workstation"
   file:
     path: "{{ r_session_dir_course }}/playbooks/labs"
     state: directory
@@ -40,19 +54,19 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Copy course {{ libre_session.course }} playbooks archive to workstation"
+- name: "aws : provision-post-post : student {{ student.id }} : Copy course {{ libre_session.course }} playbooks archive to workstation"
   unarchive:
     src: "/tmp/playbooks-labs.tgz"
     dest: "{{ r_session_dir_course }}/playbooks/labs"
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Add infrastructure inventory {{config_libre.directory.conf}}/inventory in workstation"
+- name: "aws : provision-post-post : student {{ student.id }} : Add infrastructure inventory {{config_libre.directory.conf}}/inventory in workstation"
   file:
     state: "directory"
     path: "{{config_libre.directory.conf}}/inventory"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id}} : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
+- name: "aws : provision-post-post : student {{ student.id }} : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "../templates/inventory-student.j2"
     dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
@@ -60,3 +74,11 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+- name: "aws : provision-post-post : student {{ student.id }} : Log student {{ student.name }} post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "AWS infrastructure has post-provisionned workstation for student {{ student.name }}"
+    log_component: infra-aws
+    log_action: post-provision (student {{ student.id }})
