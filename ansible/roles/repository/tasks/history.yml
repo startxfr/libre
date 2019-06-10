@@ -1,5 +1,5 @@
 ---
-- name: "history : Start the instructor history task"
+- name: "history : Start the repository history task"
   include_role:
     name: libre
     tasks_from: lib/history

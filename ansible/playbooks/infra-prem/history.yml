@@ -1,0 +1,9 @@
+---
+- name: "Display On-Premise infrastructure history on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: infra, do: load, infra_type: prem }
+    - { role: infra, do: history, infra_type: prem, history_filter: infra-prem }

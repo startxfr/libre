@@ -1,0 +1,9 @@
+---
+- name: "Display session history on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: session, do: load }
+    - { role: session, do: history, history_filter: session }

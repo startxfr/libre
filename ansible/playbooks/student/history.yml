@@ -6,4 +6,4 @@
 
   roles:
     - { role: student, do: load }
-    - { role: student, do: history }
+    - { role: student, do: history, history_filter: all }

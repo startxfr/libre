@@ -64,21 +64,25 @@ Usage:
     post-provision  exectute AWS post-provisionning task
     deprovision     deprovision AWS infrastructure environment
     status          get status of the AWS infrastructure
+    history         get history of the infra-aws actions
   prem              On-premise infrastructure
     config          configure On-premise infrastructure environement
     provision       provision On-premise infrastructure environment
     post-provision  exectute On-premise post-provisionning task
     deprovision     deprovision On-premise infrastructure environment
     status          get status of the On-Prem infrastructure
+    history         get history of the infra-prem actions
   self              Self-hosted infrastructure
     config          configure Self-Hosted infrastructure environement
     provision       provision Self-Hosted infrastructure environment
     post-provision  exectute Self-Hosted post-provisionning task
     deprovision     deprovision Self-Hosted infrastructure environment
     status          get status of the Self infrastructure
+    history         get history of the infra-self actions
 
 - Generic commands:
   status            get status of the current infrastructure
+  history           get history of the infra actions
   usage             get command line usage information
   info              give information about current libre installation
   version           give information about current libre version

@@ -51,7 +51,7 @@ Usage:
 - Generic commands:
   install          install student environment
   uninstall        uninstall student environment
-  history          get history of the libre actions
+  history          get history of the student actions
   status           get status of the current student
   usage            get command line usage information
   info             give information about current libre installation

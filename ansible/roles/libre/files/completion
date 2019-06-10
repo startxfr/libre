@@ -29,8 +29,8 @@ _libre_chapter()
 # Auto-completion for infra
 _libre_infra()
 {
-  local available="aws prem self usage info version"
-  local available2="config provision post-provision deprovision"
+  local available="aws prem self usage info status history version"
+  local available2="config provision post-provision deprovision status history"
   local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
   local suggestions2=($(compgen -W "$available2" "${COMP_WORDS[2]}"))
   if [ "${COMP_CWORD}" == "0" ]; then
@@ -74,7 +74,7 @@ _libre_instructor()
 # Auto-completion for repository
 _libre_repository()
 {
-  local available="install uninstall status usage info version"
+  local available="install uninstall status history usage info version"
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
   fi
@@ -106,7 +106,7 @@ _libre_lab()
 # Auto-completion for session
 _libre_session()
 {
-  local available="config install start stop uninstall status usage info version"
+  local available="config install start stop uninstall status history usage info version"
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
   fi

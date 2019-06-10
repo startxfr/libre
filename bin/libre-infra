@@ -11,6 +11,7 @@ case $1 in
         post-provision)     infraTypePlaybook $1 $2 ;;
         deprovision)        infraTypePlaybook $1 $2 ;;
         status)             infraTypePlaybook $1 $2 ;;
+        history)            infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;
     esac;;
     prem)
@@ -20,6 +21,7 @@ case $1 in
         post-provision)     infraTypePlaybook $1 $2 ;;
         deprovision)        infraTypePlaybook $1 $2 ;;
         status)             infraTypePlaybook $1 $2 ;;
+        history)            infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;
     esac;;
     self)
@@ -29,10 +31,12 @@ case $1 in
         post-provision)     infraTypePlaybook $1 $2 ;;
         deprovision)        infraTypePlaybook $1 $2 ;;
         status)             infraTypePlaybook $1 $2 ;;
+        history)            infraTypePlaybook $1 $2 ;;
         *)                  infraWelcome $@ ;;
     esac;;
     usage|help|--help|-h)   infraUsage $@ ;;
     status)                 infraPlaybook status ;;
+    history)                infraPlaybook history ;;
     info|--info)            infraInformation $@ ;;
     version|--version)      infraVersion $@ ;;
     *)                      infraWelcome $@ ;;

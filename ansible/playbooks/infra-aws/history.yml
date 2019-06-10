@@ -1,0 +1,9 @@
+---
+- name: "Display AWS infrastructure history on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: infra, do: load, infra_type: aws }
+    - { role: infra, do: history, infra_type: aws, history_filter: infra-aws }
