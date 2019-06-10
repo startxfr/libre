@@ -6,13 +6,6 @@
     - { role: infra, do: load, infra_type: aws }
     - { role: infra, do: provision-post-instructor, infra_type: aws }
 
-- name: "Post-Provision classroom infrastructure on students"
-  hosts: 'students'
-  gather_facts: true
-  roles:
-    - { role: infra, do: load, infra_type: aws }
-    - { role: infra, do: provision-post-students, infra_type: aws }
-
 - name: "Post-Provision classroom infrastructure on workstations"
   hosts: 'workstations'
   gather_facts: true
@@ -23,6 +16,13 @@
   roles:
     - { role: student, do: load }
     - { role: student, do: install }
+
+- name: "Post-Provision classroom infrastructure on students"
+  hosts: 'students'
+  gather_facts: true
+  roles:
+    - { role: infra, do: load, infra_type: aws }
+    - { role: infra, do: provision-post-students, infra_type: aws }
     
 - name: "Post-Provision classroom infrastructure on instructor (end)"
   hosts: 'instructor'

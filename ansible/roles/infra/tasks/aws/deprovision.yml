@@ -78,7 +78,7 @@
     region: "{{ libre_infra.ec2.region }}"
     state: absent
     count: 0
-    wait: yes
+#    wait: yes
     instance_ids: '{{ item.instance_id }}'
   with_items: "{{  ec2.instances }}"
 - name: "aws : deprovision : Remove public DNS for workstations"

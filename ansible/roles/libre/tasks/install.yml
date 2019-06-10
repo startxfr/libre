@@ -8,9 +8,9 @@
 - name: "install : Start LIBRE installation"
   include_tasks: install/{{ item }}.yml
   with_items:
+    - user
     - services
     - libre
-    - user
     - directory
     - homedir
     - config
