@@ -25,17 +25,6 @@
     state: link
     force: yes
 
-- name: "lab : {{ lab_action }} : Create symlink from {{ r_libre_tmp }}/{{ r_libre_tmpfile }} to {{ r_current_lab_dir }}/output.txt"
-  become: yes
-  file:
-    src: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    dest: "{{ r_current_lab_dir }}/output.txt"
-#    owner: root
-    group: "{{ r_libre_group }}"
-    mode: 0666
-    state: link
-    force: yes
-
 - name: "lab : {{ lab_action }} : Copy lab manifest part to {{ r_current_lab_dir }}/manifest.yml"
   become: yes
   block:

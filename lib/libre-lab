@@ -11,8 +11,9 @@ function labHeader {
 }
 
 function labPlaybookCall() {
-  if (ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml --syntax-check) then
-    ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=./output.txt
+  export ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg
+  if (ansible-playbook /tmp/current_lab/$1.yml --syntax-check) then
+    ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
   fi
 }
 

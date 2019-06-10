@@ -32,16 +32,14 @@ labs:
 ```
 labs
 ├── 01.1_loops
-│   ├── ansible.cfg # mandatory
+│   ├── ansible.cfg
 │   ├── inventory
 │   │   ├── group_vars
 │   │   │   └── mynodes.yml
-|   |   └── inventory
+|   |   └── al.ini
 │   ├── start.yml
 │   ├── stop.yml
-│   ├── grade.yml
-│   ├── manifest.yml # generated
-│   └── output.txt # generated symlink
+│   └── grade.yml
 ```
 
 start, stop and grade are entries points for `lab <start|stop|restart|grade>`
