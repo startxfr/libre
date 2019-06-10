@@ -1,0 +1,8 @@
+{% if logs is defined %}
+\e[1m{{ logs|length }}\e[0m logs traces (from {{ logs[0].date[:10] }})
+{% for log in logs %}
+\e[90m{{ log.date[11:19] }}\e[0m : \e[34m{{log.component}}\e[0m \e[1m{{log.action}}\e[0m 
+           {{log.name}}
+{% endfor %}
+{% endif %}
+

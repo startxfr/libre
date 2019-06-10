@@ -1,0 +1,9 @@
+---
+- name: "Display student history on student workstation"
+  hosts: 'workstation'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: student, do: load }
+    - { role: student, do: history }

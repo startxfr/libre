@@ -58,7 +58,7 @@ _libre_infra()
 # Auto-completion for instructor
 _libre_instructor()
 {
-  local available="install uninstall status usage info version"
+  local available="install uninstall status history usage info version"
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
   fi
@@ -122,7 +122,7 @@ _libre_session()
 # Auto-completion for student
 _libre_student()
 {
-  local available="install uninstall status usage info version"
+  local available="install uninstall status history usage info version"
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
   fi

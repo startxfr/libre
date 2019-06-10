@@ -1,0 +1,9 @@
+---
+- name: "Display instructor history on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: instructor, do: load }
+    - { role: instructor, do: history }

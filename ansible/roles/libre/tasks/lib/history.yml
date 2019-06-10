@@ -1,0 +1,11 @@
+---
+- name: "history : Start get the collected logs"
+  set_fact:
+    logs: "{{ lookup('file', training_dir_collect + '/log.yml', errors='ignore') | from_yaml | default([]) }}"
+- name: "history : Generate history report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+  template:
+    src: libre_report-history.j2
+    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
