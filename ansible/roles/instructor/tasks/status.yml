@@ -5,9 +5,11 @@
     tasks_from: status
 - name: "status : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report2: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
 - name: "status : Generate instructor report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
   template:
     src: libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666

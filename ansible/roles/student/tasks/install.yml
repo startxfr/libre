@@ -1,10 +1,8 @@
 ---
 # Install pre-tasks
-
 - name: "install : Start student pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not libre_student_install_precheck or
-            libre_student_install_precheck is undefined
+  when: not student_install_precheck or student_install_precheck is undefined
 
 # Install tasks
 - name: "install : Start LIBRE install"
@@ -14,6 +12,15 @@
 - name: "install : Set hostame to student"
   hostname:
     name: student
+    
+- name: "install : Copy root .libre config to the student home directory"
+  synchronize:
+    src: /root/.libre/
+    dest: /home/student/.libre
+  delegate_to: "{{ inventory_hostname }}"
+- name: "install : Install specific course actions"
+  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
+  when: r_session_dir_course_playbooks_details.stat.exists
 
 - name: "install : Get previous report data"
   set_fact:

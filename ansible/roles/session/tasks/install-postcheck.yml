@@ -3,8 +3,8 @@
   include_role:
     name: repository
     tasks_from: install-postcheck
-  when: not repository_install_postcheck or 
-        repository_install_postcheck is undefined
+  when: not repository_install_postcheck or repository_install_postcheck is undefined
+
 - name: "install-postcheck : Get {{ config_libre.directory.conf }} directory details"
   stat:
     path: "{{ config_libre.directory.conf }}"
@@ -30,8 +30,8 @@
     that: config_session is defined
     msg: "Session configuration {{ r_libre_myconfile_session }} is not loaded"
 
-- when: not session_install_postcheck or
-            session_install_postcheck is undefined
+- name: "install-postcheck : Start the session postcheck sensors if not already done"
+  when: not session_install_postcheck or session_install_postcheck is undefined
   block:
   - name: "install-postcheck : Session configuration file {{ r_session_config_file }} exists"
     assert:

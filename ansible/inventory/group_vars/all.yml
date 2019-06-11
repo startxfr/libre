@@ -99,4 +99,3 @@
 # Config file to store the current chapter - section
 #chapter_config_current: current-chapter.txt
 # Config file to store the current lab
-#lab_track_current_lab_filename: current-lab.txt

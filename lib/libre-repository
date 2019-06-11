@@ -54,6 +54,7 @@ Usage:
   uninstall        uninstall course repository cache
   update           update course repository cache
   status           get status of the course repository
+  history          get history of the repository actions
   usage            get command line usage information
   info             give information about current libre installation
   version          give information about current libre version

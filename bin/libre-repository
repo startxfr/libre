@@ -8,6 +8,7 @@ case $1 in
     update)                 repositoryPlaybook update ;;
     uninstall)              repositoryPlaybook uninstall ;;
     status)                 repositoryPlaybook status ;;
+    history)                repositoryPlaybook history ;;
     usage|help|--help|-h)   repositoryUsage $@ ;;
     info|--info)            repositoryInformation $@ ;;
     version|--version)      repositoryVersion $@ ;;

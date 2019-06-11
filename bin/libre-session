@@ -10,6 +10,7 @@ case $1 in
     stop)                   sessionPlaybook stop ;;
     uninstall)              sessionFreePlaybook uninstall ;;
     status)                 sessionFreePlaybook status ;;
+    history)                sessionFreePlaybook history ;;
     usage|help|--help|-h)   sessionUsage $@ ;;
     info|--info)            sessionInformation $@ ;;
     version|--version)      sessionVersion $@ ;;

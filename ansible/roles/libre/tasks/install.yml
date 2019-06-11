@@ -2,16 +2,15 @@
 # Install pre-tasks
 - name: "install : Start LIBRE pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not libre_install_precheck or
-            libre_install_precheck is undefined
+  when: not libre_install_precheck or libre_install_precheck is undefined 
 
 # Install tasks
 - name: "install : Start LIBRE installation"
   include_tasks: install/{{ item }}.yml
   with_items:
+    - user
     - services
     - libre
-    - user
     - directory
     - homedir
     - config
@@ -23,8 +22,11 @@
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
 
 # Install post-tasks
 - name: "install : Start LIBRE post-installation checks"
   include_tasks: install-postcheck.yml
+  when: not libre_install_postcheck or libre_install_postcheck is undefined 

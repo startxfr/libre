@@ -29,11 +29,11 @@
         volume_type: gp2
         volume_size: 8
         delete_on_termination: true
-      - device_name: /dev/sdb
-        volume_type: io1
-        iops: 100
-        volume_size: 10
-        delete_on_termination: true
+#      - device_name: /dev/sdb
+#        volume_type: io1
+#        iops: 100
+#        volume_size: 10
+#        delete_on_termination: true
   loop: "{{ libre_infra.ec2.classroom }}"
   loop_control:
     loop_var: station

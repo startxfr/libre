@@ -1,0 +1,20 @@
+--- 
+- name: "self : provision-post-instructor : Update instructor /etc/hosts file"
+  template:
+    src: templates/host-instructor.j2
+    dest: /etc/hosts
+- name: "self : provision-post-instructor : Change hostname for instructor-{{libre_session.id}}"
+  hostname:
+    name: "instructor-{{libre_session.id}}"
+  become: yes
+  when: inventory_hostname in groups.instructor
+
+- name: "self : provision-post-instructor : Log instructor post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "Self-Hosted infrastructure is Post-provisionned on instructor"
+    log_component: infra-self
+    log_action: post-provision (instructor)
+  run_once: true

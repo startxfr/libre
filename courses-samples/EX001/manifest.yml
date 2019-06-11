@@ -59,16 +59,17 @@ content:
         type: section
         time: 5
 labs:
-  - id: '1.1'
+  - id: '1'
     idn: first_lab
-    directory: "01.1_first_lab"
+    directory: "lab_first_lab"
     name: "Example lab: The first one"
     desc: |
       Description of the exercice
       and step to execute
     time: 20
-  - id: '1.2'
+  - id: '2'
     idn: second_lab
+    directory: "lab_second_lab"
     name: "Example lab: Exercise Returns"
     desc: |
       Description of the exercice
@@ -84,7 +85,7 @@ classroomInfra:
         provision: provision-workstation.yml
         deprovision: deprovision-workstation.yml
       infra_aws:
-        type: "t2.medium"
+        type: "t2.small"
         image: "ami-3548444c"
         ssh_keyname: "ssh-libre-instructor"
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
@@ -97,9 +98,9 @@ classroomInfra:
       desc: First node server used for lab environement
       scripts:
         provision: provision-nodeA.yml
-        deprovision: deprovision-nodeA.yml
+        deprovision: deprovision-nodes.yml
       infra_aws:
-        type: "t2.small"
+        type: "t2.nano"
         image: "ami-3548444c"
         ssh_keyname: "ssh-libre-instructor"
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
@@ -112,9 +113,9 @@ classroomInfra:
       desc: Second node server used for lab environement
       scripts:
         provision: provision-nodeA.yml
-        deprovision: deprovision-nodeA.yml
+        deprovision: deprovision-nodes.yml
       infra_aws:
-        type: "t2.micro"
+        type: "t2.nano"
         image: "ami-3548444c"
         ssh_keyname: "ssh-libre-instructor"
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"

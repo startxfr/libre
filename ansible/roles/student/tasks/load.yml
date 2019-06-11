@@ -9,8 +9,11 @@
   when: r_session_conf_details.stat.exists
 - name: "load : Load default session configuration"
   set_fact:
-    libre_session: {}
+    libre_session: {students: [{ id : 'INST', name : 'instructor', email : 'libre@startx.fr', workstation : '0' }]}
   when: not r_session_conf_details.stat.exists
+- name: "load : Load student configuration from {{ config_libre.directory.conf }}/student.json"
+  set_fact:
+    libre_student: "{{ lookup('file', config_libre.directory.conf + '/student.json', errors='ignore') | from_yaml | default({}, true) }}"
 - name: "load : Get {{ config_libre.directory.conf }} directory details"
   stat:
     path: "{{ config_libre.directory.conf }}"

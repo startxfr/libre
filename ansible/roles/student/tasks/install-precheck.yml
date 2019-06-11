@@ -1,10 +1,10 @@
 ---
-
 - name: "install-precheck : Start LIBRE pre-installation checks"
   include_role:
     name: libre
     tasks_from: install-precheck
+  when: not libre_install_precheck or libre_install_precheck is undefined
 
 - name: "install-precheck : Mark student install-precheck as done"
   set_fact:
-    libre_student_install_precheck: True
+    student_install_precheck: True

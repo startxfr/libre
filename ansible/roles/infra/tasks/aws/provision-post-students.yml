@@ -1,0 +1,105 @@
+---
+- name: "aws : provision-post-students : Load course manifest.yml on localhost node"
+  set_fact:
+    libre_course: "{{ lookup('file', r_session_dir_course + '/manifest.yml', errors='ignore') | from_yaml | default({}, true) }}"
+  delegate_facts: True
+  delegate_to: localhost
+  run_once: true
+- name: "aws : provision-post-students : Load course manifest.yml on all nodes"
+  set_fact:
+    libre_course: "{{ hostvars['localhost']['libre_course'] }}"
+- name: "aws : provision-post-students : Create default libre users and group"
+  include_role:
+    name: libre
+    tasks_from: install/user
+- name: "aws : provision-post-students : Allow '{{ r_libre_group }}' group to have passwordless sudo"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%{{ r_libre_group }}'
+    line: '%{{ r_libre_group }} ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: "aws : provision-post-students : Authorize infrastructure SSH key for all users"
+  authorized_key:
+    user: "{{ user1 }}"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/infra-id_rsa.pub') }}"
+  loop:
+    - root
+    - "{{ r_infra_user_instructor }}"
+    - "{{ r_infra_user_student }}"
+  loop_control:
+    loop_var: user1
+    label: "{{ user1 }}"
+- name: "aws : provision-post-students : Authorize instructor SSH key for all users"
+  authorized_key:
+    user: "{{ user2 }}"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/instructor-id_rsa.pub') }}"
+  loop:
+    - root
+    - "{{ r_infra_user_instructor }}"
+    - "{{ r_infra_user_student }}"
+  loop_control:
+    loop_var: user2
+    label: "{{ user2 }}"
+- name: "aws : provision-post-students : Authorize student SSH key for student"
+  authorized_key:
+    user: "{{ r_infra_user_student }}"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/student-id_rsa.pub') }}"
+
+- name: "aws : provision-post-students : Ensure SSH private and public key are present"
+  copy:
+    src: "{{ config_libre.directory.conf }}/{{keyf.key}}"
+    dest: "{{keyf.dir}}/.ssh/{{keyf.keyt}}"
+    mode: 0600
+    owner: "{{keyf.user}}"
+    group: "{{ r_infra_usergroup }}"
+  loop:
+    - user: "{{ r_infra_user_instructor }}"
+      key: instructor-id_rsa.pub
+      keyt: id_rsa.pub
+      dir: "/home/{{ r_infra_user_instructor }}"
+    - user: "{{ r_infra_user_instructor }}"
+      key: instructor-id_rsa
+      keyt: id_rsa
+      dir: "/home/{{ r_infra_user_instructor }}"
+    - user: "{{ r_infra_user_student }}"
+      key: student-id_rsa.pub
+      keyt: id_rsa.pub
+      dir: "/home/{{ r_infra_user_student }}"
+    - user: "{{ r_infra_user_student }}"
+      key: student-id_rsa
+      keyt: id_rsa
+      dir: "/home/{{ r_infra_user_student }}"
+  loop_control:
+    loop_var: keyf
+    label: "{{ keyf.key }} > {{ keyf.user }}"
+
+- name: "aws : provision-post-students : Change hostname for students"
+  hostname:
+    name: "{{inventory_hostname.split('.')[0] | lower }}"
+  become: yes
+  when: inventory_hostname in groups.students
+- name: "aws : provision-post-students : Check and execute {{ libre_course.id }} node provision scripts if defined"
+  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/{{node.scripts.provision}}"
+  loop: "{{ libre_course.classroomInfra.workstations }}"
+  loop_control:
+    loop_var: node
+    label: "{{ node.name }} - {{ node.scripts.provision }}"
+  when: 
+   - node.group_name in group_names
+   - node.scripts is defined
+   - node.scripts.provision is defined
+
+- name: "aws : provision-post-students : Log students post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "AWS infrastructure is Post-provisionned on students"
+    log_component: infra-aws
+    log_action: post-provision (students)
+  run_once: true

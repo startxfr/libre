@@ -2,8 +2,7 @@
 # Install pre-tasks
 - name: "install : Start session pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not session_install_precheck or
-            session_install_precheck is undefined
+  when: not session_install_precheck or session_install_precheck is undefined
 
 # Install tasks
 - name: "install : Start session install sequence"
@@ -35,7 +34,7 @@
   copy:
     dest: /etc/profile.d/ruby.sh
     mode: 0755
-    owner: root
+#    owner: root
     group: root
     content: |
       #!/bin/bash
@@ -116,7 +115,9 @@
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
 - name: "install : Log install action"
   include_role:
     name: libre

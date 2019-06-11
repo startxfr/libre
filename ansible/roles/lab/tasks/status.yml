@@ -1,8 +1,7 @@
 ---
-
-- name: "status : Start session status"
+- name: "status : Start student status"
   include_role:
-    name: session
+    name: student
     tasks_from: status
 
 - name: "status : Get previous report data"
@@ -12,4 +11,6 @@
   template:
     src: libre_report-status.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666

@@ -32,11 +32,11 @@ labs:
 ```
 labs
 ├── 01.1_loops
-│   ├── ansible.cfg # not used for now
+│   ├── ansible.cfg
 │   ├── inventory
 │   │   ├── group_vars
 │   │   │   └── mynodes.yml
-|   |   └── inventory
+|   |   └── al.ini
 │   ├── start.yml
 │   ├── stop.yml
 │   └── grade.yml
@@ -44,9 +44,9 @@ labs
 
 start, stop and grade are entries points for `lab <start|stop|restart|grade>`
 
-You have access to two variables in these files :
-`current_lab` contains the manifest values for the current lab
-`grade_result_file` contains the file path in which you have to write the results
+You have access to two generated files :
+`manifest.yml` contains the manifest values for the current lab (id, name, desc,...)
+`output.txt` link to the file in which you have to write the outputs
 
 
 #### 2.3 Create your lab environment as you want

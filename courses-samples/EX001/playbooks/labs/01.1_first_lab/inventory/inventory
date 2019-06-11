@@ -1,6 +1,0 @@
-[webservers]
-node2.example.com
-node3.example.com
-
-[dbservers]
-node1.example.com

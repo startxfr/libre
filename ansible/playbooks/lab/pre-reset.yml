@@ -1,0 +1,24 @@
+---
+# Reset pre-tasks
+- name: "Reset lab on local (pre-tasks)"
+  hosts: 'localhost'
+  gather_facts: true
+  user: root
+  roles:
+    - { role: lab, do: load }
+    - { role: lab, do: pre, lab_action: reset }
+
+# # Reset tasks
+# - name: "reset : Cleaning lab {{ current_lab.id }} {{ current_lab.name }}"
+#   import_playbook: /tmp/current_lab/stop.yml" # "{{ r_current_lab_dir }}/stop.yml"
+
+# - name: "reset : Start lab {{ current_lab.id }} {{ current_lab.name }}"
+#   import_playbook: /tmp/current_lab/start.yml" # "{{ r_current_lab_dir }}/start.yml"
+
+# # Reset post-tasks
+# - name: "Reset lab on local (post-tasks)"
+#   hosts: 'localhost'
+#   gather_facts: no
+#   user: root
+#   roles:
+#     - { role: lab, do: post, lab_action: reset }
