@@ -1,0 +1,21 @@
+- name: "EX001 : lab_second_lab : grade : Check on workstation"
+  hosts: workstation
+  become: yes
+  tasks:
+  - name: "EX001 : lab_second_lab : grade : Check the dummy file exist in wokstation"
+    stat:
+      path: /home/student/lab_second_lab/dummy
+    register: dummy
+  - name: "EX001 : lab_second_lab : grade : Set success if the dummy file exist in wokstation"
+    set_fact:
+      check_dummy: 'SUCCESS'
+    when: dummy.stat.exists
+
+- name: "EX001 : lab_second_lab : grade : Displaying the grading results"
+  hosts: localhost
+  tasks:
+  - shell: 'echo "Dummy file exist............................................................\e[32m{{ check_dummy }}\e[0m\n" >> {{ grade_result_file }}'
+    when: check_dummy == 'SUCCESS'
+  - shell: 'echo "Dummy file exist............................................................\e[34mFAILED\e[0m\n" >> {{ grade_result_file }}'
+    when: check_dummy != 'SUCCESS'
+  

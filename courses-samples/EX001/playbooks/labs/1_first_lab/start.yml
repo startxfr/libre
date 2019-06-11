@@ -1,0 +1,13 @@
+- name: "EX001 : lab_first_lab : start : Configure workstation for first_lab lab"
+  hosts: workstation
+  remote_user: student
+  become: yes
+  tasks:
+  - name: "EX001 : lab_first_lab : start : Create the /home/student/lab_first_lab directory in workstation"
+    copy:
+      src: "/tmp/current_lab/files/"
+      dest: /home/student/lab_first_lab
+      owner: student
+      group: student
+      mode: 0755
+      follow: no
