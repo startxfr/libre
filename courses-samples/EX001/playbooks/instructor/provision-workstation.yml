@@ -1,0 +1,51 @@
+---
+- name: "EX001 : instructor : provision_workstation : Adding the motd file"
+  template:
+    src: templates/motd.j2
+    dest: /etc/motd
+
+- name: "EX001 : instructor : provision_workstation : Installing the Gnome desktop package"
+  yum:
+    name: "@^gnome-desktop-environment"
+    state: present
+  become: yes
+- name: "EX001 : instructor : provision_workstation : Installing the vnc package"
+  yum:
+    name:
+    - tigervnc
+    - tigervnc-server
+    state: present
+  become: yes
+
+- name: "EX001 : instructor : provision_workstation : Copying the vnc binary file"
+  template: 
+    src: "templates/libre-vnc.j2"
+    dest: "/usr/local/bin/libre-vnc"
+    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0775
+  become: yes
+- name: "EX001 : instructor : provision_workstation : Create the remote /home/student/.vnc directory"
+  file:
+    path: /home/student/.vnc
+    owner: "student"
+    group: "{{ r_libre_group }}"
+    mode: 0775
+    state: directory
+- name: "EX001 : instructor : provision_workstation : Create vnc password for student user remotely"
+  shell: "echo student | vncpasswd -f > /home/student/.vnc/passwd"
+- name: "EX001 : instructor : provision_workstation : Change the permission to 600 for /home/student/.vnc/passwd file"
+  file:
+    path: /home/student/.vnc/passwd
+    owner: "student"
+    group: "{{ r_libre_group }}"
+    mode: 0660
+- name: "EX001 : instructor : provision_workstation : Copying the xstartup service file"
+  template: 
+    src: "templates/xstartup.j2"
+    dest: "/home/student/.vnc/xstartup"
+    owner: student
+    group: "{{ r_libre_group }}"
+    mode: 0775
+- name: "EX001 : instructor : provision_workstation : Start the vncserver"
+  shell: "/usr/local/bin/libre-vnc start"

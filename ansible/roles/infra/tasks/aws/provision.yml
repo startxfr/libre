@@ -49,7 +49,9 @@
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666 
   delegate_to: localhost
 - name: "aws : provision : Log provision action"
   include_role:

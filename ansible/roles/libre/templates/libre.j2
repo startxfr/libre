@@ -5,11 +5,11 @@
 application:
   # libre installation type
   # could be one of 'instructor' or 'student'
-  type: "{{ config_libre.application.type }}"
+  type: "{{ r_libre_libre_userconf_default.application.type }}"
   # enable (True) or disable (False) verbose display mode
-  verbose: "{{ config_libre.application.verbose }}"
+  verbose: "{{ r_libre_libre_userconf_default.application.verbose }}"
   # enable (True) or disable (False) debug display mode
-  debug: "{{ config_libre.application.debug }}"
+  debug: "{{ r_libre_libre_userconf_default.application.debug }}"
   # Path to ansible playbook and roles used by this libre environement
   ansible: "{{ r_libre_dest_ansible }}"
   # Define source repository of the libre TMS toolkit
@@ -25,10 +25,10 @@ application:
 # Libre directory configuration
 directory:
   # Location of the training directory (course materials and session config)
-  base: "{{ config_libre.directory.base }}"
+  base: "{{ r_libre_libre_userconf_default.directory.base }}"
   # Location of the configuration directory (where course configuration is installed)
-  conf: "{{ config_libre.directory.conf }}"
+  conf: "{{ r_libre_libre_userconf_default.directory.conf }}"
   # Location of the course material directory (where course is installed)
-  course: "{{ config_libre.directory.course }}"
+  course: "{{ r_libre_libre_userconf_default.directory.course }}"
   # Location of the collector directory (where course logs are recorded)
-  collect: "{{ config_libre.directory.collect }}"
+  collect: "{{ r_libre_libre_userconf_default.directory.collect }}"

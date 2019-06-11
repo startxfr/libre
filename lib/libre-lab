@@ -10,23 +10,37 @@ function labHeader {
   fi
 }
 
+function labPlaybookCall() {
+  export ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg
+  if (ansible-playbook /tmp/current_lab/$1.yml --syntax-check) then
+    ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
+  fi
+}
+
 # Call lab playbook
 function labPlaybook {
   labHeader
   checkIfSession
-  runLibrePlaybook lab $1 $2
-  exit 0;
-}
 
-# Call lab setup playbook
-function labSetupPlaybook {
-  labHeader
-  checkIfSession
-  param="local"
+  param=""
   if [[ $2 != "" ]] ; then
-    param="$param -e lab_current=$2";
+    param="local -e lab_current=$2";
   fi
-  runLibrePlaybook lab $1 $param
+
+  if [[ $1 == 'status' ]] ; then
+    runLibrePlaybook lab $1 $2;
+    exit 0;
+  fi
+
+  if (runLibrePlaybook lab pre-$1 $param) then
+    if [[ $1 == 'reset' ]] ; then
+      labPlaybookCall "stop"
+      labPlaybookCall "start"
+    else
+      labPlaybookCall $1
+    fi
+    runLibrePlaybook lab post-$1 $param
+  fi
   exit 0;
 }
 

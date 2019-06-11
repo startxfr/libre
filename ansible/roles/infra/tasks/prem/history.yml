@@ -1,0 +1,7 @@
+---
+- name: "prem : install : Start the On-Premise infrastructure history task"
+  include_role:
+    name: libre
+    tasks_from: lib/history
+  vars:
+    history_filter: "{{ history_filter }}"

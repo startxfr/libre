@@ -3,9 +3,17 @@
   include_role:
     name: infra
     tasks_from: install-postcheck
-  when: not infra_install_postcheck or 
-        infra_install_postcheck is undefined
-- name: "install-postcheck : Training directory detail must exist"
-  assert:
-    that: r_libre_dir_details is defined
-    msg: "Training directory details don't exist. Try to re-install LIBRE Toolkit and start this setup again."
+  when: not infra_install_postcheck or infra_install_postcheck is undefined
+
+- name: "install-postcheck : Start the instructor postcheck sensors if not already done"
+  when: not instructor_install_postcheck or instructor_install_postcheck is undefined
+  block:
+  - name: "install-postcheck : Training directory detail must exist"
+    assert:
+      that: r_libre_dir_details is defined
+      msg: "Training directory details don't exist. Try to re-install LIBRE Toolkit and start this setup again."
+
+- name: "install-postcheck : Mark instructor install-postcheck as done"
+  set_fact:
+    instructor_install_postcheck: True
+

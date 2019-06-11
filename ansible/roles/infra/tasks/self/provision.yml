@@ -43,14 +43,6 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
-- name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/local.yml"
-  template:
-    src: inventory-local.j2
-    dest: "{{ config_libre.directory.conf }}/inventory/local.yml"
-#    remote_src: yes
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
 - name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
     src: inventory-instructor.j2
@@ -81,7 +73,9 @@
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
 - name: "self : provision : Log provision action"
   include_role:
     name: libre

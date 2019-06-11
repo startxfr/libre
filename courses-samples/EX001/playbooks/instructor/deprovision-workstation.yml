@@ -1,0 +1,32 @@
+---
+- name: "EX001 : instructor : deprovision_workstation : Remove the motd file"
+  file:
+    path: /etc/motd
+    state: absent
+    
+- name: "EX001 : instructor : deprovision_workstation : Stop the vncserver"
+  shell: "/usr/local/bin/libre-vnc stop"
+- name: "EX001 : instructor : deprovision_workstation : Remove the libre-vnc binary"
+  file: 
+    path: "/usr/local/bin/libre-vnc"
+    state: absent
+  become: yes
+  
+- name: "EX001 : instructor : deprovision_workstation : Remove the remote /home/student/.vnc directory"
+  file:
+    path: /home/student/.vnc
+    state: absent
+  become: yes
+
+- name: "EX001 : instructor : deprovision_workstation : Remove the vnc package"
+  yum:
+    name:
+    - tigervnc
+    - tigervnc-server
+    state: absent
+  become: yes
+- name: "EX001 : instructor : deprovision_workstation : Remove the Gnome desktop package"
+  yum:
+    name: "@GNOME Desktop"
+    state: absent
+  become: yes

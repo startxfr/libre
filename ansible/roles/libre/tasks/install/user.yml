@@ -3,11 +3,19 @@
   group:
     name: "{{ r_libre_group }}"
     state: present
-- name: "install_user : Create the instructor user {{ r_libre_user }}"
+- name: "install_user : Create user instructor"
   user:
-    name: "{{ r_libre_user }}"
-    comment: "LIBRE {{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-    password: "{{ r_libre_user | password_hash('sha512') }}"
-    uid: 1001
+    name: "instructor"
+    comment: "LIBRE instructor"
+    groups: "{{ r_libre_group }}"
+    password: "{{ 'instructor' | password_hash('sha512') }}"
+#    uid: 1001
+    state: present
+- name: "install_user : Create user student"
+  user:
+    name: "student"
+    comment: "LIBRE student"
+    groups: "{{ r_libre_group }}"
+    password: "{{ 'student' | password_hash('sha512') }}"
+#    uid: 1001
     state: present

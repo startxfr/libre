@@ -1,3 +1,3 @@
 ---
-- name: "load : Load course sample EX001"
+- name: "EX001 : load : Load course sample EX001"
   debug: msg="TODO !!! implement course sample EX001 load process"

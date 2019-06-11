@@ -1,37 +1,21 @@
 ---
-
-- name: "load : Get {{ config_libre.directory.conf }}/{{ r_chapter_config_current }} file details"
-  stat:
-    path: "{{ config_libre.directory.conf }}/{{ r_chapter_config_current }}"
-  register: r_chapter_config_current_details
-
-- name: "load : Load {{ config_libre.directory.conf }}/{{ r_chapter_config_current }} content"
+- name: "load : Load chapter_current from {{ config_libre.directory.conf }}/{{ r_chapter_config_current }}"
   set_fact:
-    chapter_current: "{{ lookup('file', config_libre.directory.conf+'/'+r_chapter_config_current) | default('1') }}"
-  when:
-  - r_chapter_config_current_details.stat.exists
-  - chapter_current is undefined
-
-- name: "load : No current chapter found in {{ config_libre.directory.conf }}/{{ r_chapter_config_current }}, Set default to chapter 1"
+    chapter_current: "{{ lookup('file', config_libre.directory.conf+'/'+r_chapter_config_current, errors='ignore') | default(false) }}"
+  when: chapter_current is undefined
+- name: "load : No current chapter found, Set default to chapter 1"
   set_fact:
     chapter_current: "1"
-  when:
-  - not r_chapter_config_current_details.stat.exists
-  - chapter_current is undefined
+  when: chapter_current is undefined or chapter_current is sameas false
 
 - name: "load : Determine chapter and section from the current chapter file"
   set_fact:
     chapter_current_chapter: "{{ chapter_current.split('.')[0] | default (1) }}"
-    chapter_current_section: "{{ chapter_current.split('.')[1] | default () }}"
-
-- name: "load : Extract chapter {{ chapter_current_chapter }} from {{ r_session_dir_course }}/manifest.yml"
+    chapter_current_section: "{{ chapter_current.split('.')[1] | default (1.1) }}"
+- name: "load : Extract chapter {{ chapter_current_chapter }} and section {{ chapter_current_section }} from {{ r_session_dir_course }}/manifest.yml"
   set_fact:
     libre_chapter: "{{ libre_course | default({}) | json_query(qry) }}"
+    libre_section: "{{ libre_course | default({}) | json_query(qry2) }}"
   vars:
-    qry: 'content[?id==`"{{chapter_current_chapter}}"`] | [0]'
-
-- name: "load : Extract section {{chapter_current_chapter}}.{{ chapter_current_section }} from {{ r_session_dir_course }}/manifest.yml"
-  set_fact:
-    libre_section: "{{ libre_chapter | default({}) | json_query(qry) }}"
-  vars:
-    qry: 'content[?id==`"{{chapter_current_chapter}}.{{chapter_current_section}}"`] | [0]'
+    qry:  'content[?id==`"{{chapter_current_chapter}}"`] | [0]'
+    qry2: 'content[?id==`"{{chapter_current_chapter}}.{{chapter_current_section}}"`] | [0]'

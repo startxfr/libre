@@ -31,4 +31,5 @@
     overwrite: yes
     value: "workstation-env0.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
 #    wait: yes
-  register: route53_instructor
+#  register: route53_instructor
+  ignore_errors: yes

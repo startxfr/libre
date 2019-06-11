@@ -1,0 +1,9 @@
+---
+- name: "Display repository history on instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: repository, do: load }
+    - { role: repository, do: history, history_filter: repository }

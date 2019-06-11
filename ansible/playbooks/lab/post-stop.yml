@@ -1,0 +1,9 @@
+---
+# Stop post-tasks
+- name: "Stop lab on local (post-tasks)"
+  hosts: 'localhost'
+  gather_facts: no
+  user: root
+  roles:
+    - { role: lab, do: load }
+    - { role: lab, do: post, lab_action: stop }

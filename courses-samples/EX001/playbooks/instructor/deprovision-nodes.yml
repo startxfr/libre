@@ -1,0 +1,13 @@
+---
+- name: "EX001 : instructor : deprovision_nodes : Remove the motd file"
+  file:
+    path: /etc/motd
+    state: absent
+
+- name: "EX001 : instructor : deprovision_nodes : Uninstalling the nodes package"
+  yum:
+    name:
+    - ansible
+    - git
+    state: absent
+  become: yes

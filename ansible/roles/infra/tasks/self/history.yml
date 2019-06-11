@@ -1,0 +1,7 @@
+---
+- name: "self : install : Start the Self infrastructure history task"
+  include_role:
+    name: libre
+    tasks_from: lib/history
+  vars:
+    history_filter: "{{ history_filter }}"

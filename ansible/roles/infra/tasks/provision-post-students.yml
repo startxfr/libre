@@ -1,0 +1,3 @@
+---
+- name: "provision-post-students : Post-Provision {{ libre_infra.type }} infrastructure students-tasks"
+  include_tasks: "{{ libre_infra.type }}/provision-post-students.yml"

@@ -7,6 +7,7 @@ case $1 in
     install)                studentPlaybook install ;;
     uninstall)              studentPlaybook uninstall ;;
     status)                 studentPlaybook status ;;
+    history)                studentPlaybook history ;;
     usage|help|--help|-h)   studentUsage $@ ;;
     info|--info)            studentInformation $@ ;;
     version|--version)      studentVersion $@ ;;

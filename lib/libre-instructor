@@ -64,6 +64,7 @@ Usage:
   install          install instructor environment
   uninstall        uninstall instructor environment after archiving (extra command 
                    "deep" or "all" will remove user config directory)
+  history          get history of the instructor actions
   status           get status of the current instructor
   usage            get command line usage information
   info             give information about current libre installation

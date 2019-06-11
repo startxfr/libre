@@ -1,7 +1,4 @@
 ---
-- name: "aws : config : Set spare lab-environement to {% if 'classroomInfra' in libre_course and 'spare' in libre_course.classroomInfra %}{{(libre_course.classroomInfra.spare|int|default(1))}}{% else %}1{% endif %}"
-  set_fact:
-    spare_nb: "{% if 'classroomInfra' in libre_course and 'spare' in libre_course.classroomInfra %}{{(libre_course.classroomInfra.spare|int|default(1))}}{% else %}1{% endif %}"
 - name: "aws : config : Configure AWS access key"
   pause:
    prompt: "What is your AWS Access key ?"
@@ -26,7 +23,7 @@
   when: aws_secret_key.user_input is defined
 
 ##### TODO move key generation from command to openssh_keypair (switch the 2 following tasks)
-#- name: "self : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+#- name: "aws : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
 #  openssh_keypair:
 #    path: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
 #    size: "4096"
@@ -39,7 +36,7 @@
 #  loop_control:
 #    loop_var: user2
 #    label: "{{ user2 }}"
-- name: "self : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
+- name: "aws : config : Generate ssh keypairs in {{config_libre.directory.conf}}"
   command : "ssh-keygen -q -b 4096 -t rsa -f {{config_libre.directory.conf}}/{{ user2 }}-id_rsa -C '{{ user2 }}@libre' -N ''"
   args:
     creates: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"

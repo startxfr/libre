@@ -1,9 +1,3 @@
 ---
-- name: "aws : provision-post : Load Post-provision pre-tasks"
-  include_tasks: "provision-post-pre.yml"
-
-## This role action should be followed by a student deploy against 
-## workstation inventory and then post task should be run
-#
-#- name: "aws : provision-post : Load Post-provision post-tasks"
-#  include_tasks: "provision-post-post.yml"
+- name: "aws : provision-post : Load Post-provision instructor-tasks"
+  include_tasks: "provision-post-instructor.yml"

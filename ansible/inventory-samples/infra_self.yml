@@ -1,8 +1,0 @@
----
-local:
-  hosts:
-    localhost:
-  vars:
-    ansible_connection: local
-    libre_type: instructor
-    infra_self_dns_zone: "libre.startx.fr"

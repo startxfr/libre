@@ -1,0 +1,79 @@
+--- 
+- name: "self : provision-post-students : Create default libre users and group"
+  include_role:
+    name: libre
+    tasks_from: install/user
+- name: "self : provision-post-students : Authorize infrastructure SSH key"
+  authorized_key:
+    user: "{{ user1 }}"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/infra-id_rsa.pub') }}"
+  loop:
+    - root
+    - "{{ r_infra_user_instructor }}"
+    - "{{ r_infra_user_student }}"
+  loop_control:
+    loop_var: user1
+    label: "{{ user1 }}"
+- name: "self : provision-post-students : Authorize instructor SSH key"
+  authorized_key:
+    user: "{{ user2 }}"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/instructor-id_rsa.pub') }}"
+  loop:
+    - root
+    - "{{ r_infra_user_instructor }}"
+    - "{{ r_infra_user_student }}"
+  loop_control:
+    loop_var: user2
+    label: "{{ user2 }}"
+- name: "self : provision-post-students : Authorize student SSH key"
+  authorized_key:
+    user: "{{ r_infra_user_student }}"
+    state: present
+    key: "{{ lookup('file', config_libre.directory.conf + '/student-id_rsa.pub') }}"
+- name: "self : provision-post-students : Ensure SSH private and public key are present"
+  copy:
+    src: "{{ config_libre.directory.conf }}/{{keyf.key}}"
+    dest: "{{keyf.dir}}/.ssh/{{keyf.key}}"
+    mode: 0600
+    owner: "{{keyf.user}}"
+    group: "{{ r_infra_usergroup }}"
+  loop:
+    - user: root
+      key: infra-id_rsa.pub
+      dir: "/root/"
+    - user: root
+      key: infra-id_rsa
+      dir: "/root/"
+    - user: "{{ r_infra_user_instructor }}"
+      key: instructor-id_rsa.pub
+      dir: "/home/{{ r_infra_user_instructor }}"
+    - user: "{{ r_infra_user_instructor }}"
+      key: instructor-id_rsa
+      dir: "/home/{{ r_infra_user_instructor }}"
+    - user: "{{ r_infra_user_student }}"
+      key: student-id_rsa.pub
+      dir: "/home/{{ r_infra_user_student }}"
+    - user: "{{ r_infra_user_student }}"
+      key: student-id_rsa
+      dir: "/home/{{ r_infra_user_student }}"
+  loop_control:
+    loop_var: keyf
+    label: "{{ keyf.key }} > {{ keyf.user }}"
+- name: "self : provision-post-students : Change hostname for students"
+  hostname:
+    name: "{{ inventory_hostname }}"
+  become: yes
+  when: inventory_hostname in groups.students
+
+- name: "self : provision-post-students : Log students post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "Self-Hosted infrastructure is Post-provisionned on students"
+    log_component: infra-self
+    log_action: post-provision (students)
+  delegate_to: localhost
+  run_once: true

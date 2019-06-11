@@ -1,5 +1,42 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
 
-student      : \e[1m\e[31mnot configured\e[0m
+{% if libre_session.id is not defined %}
+session conf : \e[1m\e[31mnot installed\e[0m
+{% endif %}
+{% if libre_session.id is defined %}
+{% if libre_session.state == 'started' %}
+     Session : \e[1m\e[33mstarted\e[0m        \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% elif libre_session.state == 'stopped' %}
+     Session : \e[1m\e[31mstopped\e[0m        \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% elif libre_session.state == 'installed' %}
+     Session : \e[1m\e[33minstalled\e[0m      \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% elif libre_session.state == 'uninstalled' %}
+     Session : \e[1m\e[31muninstalled\e[0m    \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% elif libre_session.state == 'updated' %}
+     Session : \e[1m\e[34mupdated\e[0m        \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% else %}
+     Session : \e[1m\e[34mconfigured\e[0m     \e[1m{{ libre_session.id }}\e[0m {{ libre_session.type }}
+{% endif %}
+       State :                {{ libre_session.state }}
+     Trainer :                {{ libre_session.instructor }}
+       Start :                {{ libre_session.start }}
+    students : \e[1m\e[32menrolled\e[0m       \e[1m{{ libre_session.students|length-1 }}\e[0m trainees
+{% else %}
+     Session : \e[1m\e[31mnot configured\e[0m
+{% endif %}
 
+{% if libre_course.id is defined %}
+      Course : \e[1m\e[34mconfigured\e[0m     \e[1m{{ libre_course.id }}\e[0m v{{ libre_course.version }}
+                              {{ libre_course.name }}
+{% else %}
+      Course : \e[1m\e[31mnot installed\e[0m
+{% endif %}
+
+{% if libre_student is not defined or libre_student.id is not defined %}
+     student : \e[1m\e[31mnot configured\e[0m
+{% endif %}
+{% if libre_student is defined and libre_student.id is defined %}
+     student : \e[34m{{ libre_student.id }}\e[0m          \e[1m{{ libre_student.name }}\e[0m
+   workspace :                environement \e[1m{{ libre_student.workstation }}\e[0m
+{% endif %}

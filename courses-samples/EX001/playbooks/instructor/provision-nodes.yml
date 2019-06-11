@@ -1,0 +1,6 @@
+---
+- name: "EX001 : instructor : provision_nodes : Adding the motd file"
+  template:
+    src: templates/motd.j2
+    dest: /etc/motd
+

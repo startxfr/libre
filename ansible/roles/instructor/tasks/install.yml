@@ -2,8 +2,7 @@
 # Install pre-tasks
 - name: "install : Start instructor pre-installation checks"
   include_tasks: install-precheck.yml
-  when: not instructor_install_precheck or
-            instructor_install_precheck is undefined
+  when: not instructor_install_precheck or instructor_install_precheck is undefined
 
 # Install tasks
 - name: "install : Start instructor install sequence"
@@ -27,7 +26,7 @@
   pip:
     name: "{{ pipname }}"
     state: forcereinstall
-    extra_args: --upgrade --user
+    extra_args: --upgrade
   loop:
     - docker
     - dnspython
@@ -49,7 +48,9 @@
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
 
 - name: "install : Log install action"
   include_role:

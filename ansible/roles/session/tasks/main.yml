@@ -6,6 +6,7 @@
       r_do in [
                'load',
                'status',
+               'history',
                'config',
                'install',
                'install-postcheck',

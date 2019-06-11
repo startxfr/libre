@@ -35,7 +35,9 @@
   template:
     src: libre_report-start.j2
     dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-    mode: 0664
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
 - name: "start : Log start action"
   include_role:
     name: libre

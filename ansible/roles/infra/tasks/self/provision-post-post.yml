@@ -1,11 +1,11 @@
 ---
-#- name: "self : provision-post-post : Set hostame to workstation "
-#  hostname:
-#    name: workstation
-#  loop: "{{ groups['workstations'] }}"
-#  loop_control:
-#    loop_var: server
-#    label: "{{ server }}"
+- name: "self : provision-post-post : Set hostame to workstation "
+  hostname:
+    name: workstation
+  loop: "{{ groups['workstations'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
 - name: "self : provision-post-post : Update students /etc/hosts file"
   template:
     src: templates/host-students.j2
@@ -24,12 +24,29 @@
   loop_control:
     loop_var: server
     label: "{{ server }}"
+- name: "self : provision-post-post : Copy student {{ libre_session.students[0].id }} configuration to workstation"
+  copy:
+    content: "{{ libre_session.students[0] }}"
+    dest: "{{ config_libre.directory.conf }}/student.json"
+  delegate_to: "{{ server }}"
+  loop: "{{ groups['workstations'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
+- name: "self : provision-post-post : Copy student {{ libre_session.students[0].id }} configuration to workstation"
+  copy:
+    content: "{{ libre_session.students[0].name }}"
+    dest: "{{ config_libre.directory.conf }}/student.txt"
+  delegate_to: "{{ server }}"
+  loop: "{{ groups['workstations'] }}"
+  loop_control:
+    loop_var: server
+    label: "{{ server }}"
 - name: "self : provision-post-post : Synchronize course {{ libre_session.course }} content to workstations"
   copy:
     src: "{{ r_session_dir_course }}/"
     dest: "{{ r_session_dir_course }}"
   delegate_to: "{{ server }}"
-  delegate_facts: yes
   loop: "{{ groups['workstations'] }}"
   loop_control:
     loop_var: server

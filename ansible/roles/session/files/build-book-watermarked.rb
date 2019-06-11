@@ -137,6 +137,6 @@ FileUtils.cp("#{@options.source_dir}/images/template/background.svg", "#{@option
 add_watermark()
 
 puts "Processing PDF generation (could take several minutes)" if @options.verbose
-if system("asciidoctor #{@options.verbose ? '--trace' : ''} -r asciidoctor-pdf -a pdf-stylesdir=#{@options.source_dir} -a pdf-style=startx -a lang=fr -a allow-uri-read -b pdf -d book -a pdf-fontsdir=#{@options.source_dir}/missedfonts -o #{@options.output} #{@options.source_dir}/book.asciidoc")
+if system("cd #{@options.source_dir}; asciidoctor #{@options.verbose ? '--trace' : ''} -r asciidoctor-pdf -a pdf-stylesdir=#{@options.source_dir} -a pdf-style=startx -a lang=fr -a allow-uri-read -b pdf -d book -a pdf-fontsdir=#{@options.source_dir}/missedfonts -o #{@options.output} #{@options.source_dir}/book.asciidoc")
   puts "#{@options.output} was successfully generated" if @options.verbose
 end

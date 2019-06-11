@@ -8,6 +8,7 @@ case $1 in
     update)                 instructorPlaybook update ;;
     uninstall)              instructorUninstallPlaybook $2 ;;
     status)                 instructorPlaybook status ;;
+    history)                instructorPlaybook history ;;
     usage|help|--help|-h)   instructorUsage $@ ;;
     info|--info)            instructorInformation $@ ;;
     version|--version)      instructorVersion $@ ;;

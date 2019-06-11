@@ -1,0 +1,11 @@
+--- 
+- name: "prem : provision-post-students : Log students post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "On-Premise infrastructure is Post-provisionned on students"
+    log_component: infra-prem
+    log_action: post-provision (students)
+  delegate_to: localhost
+  run_once: true
