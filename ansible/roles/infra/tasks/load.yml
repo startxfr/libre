@@ -15,3 +15,4 @@
   when: libre_infra is undefined or libre_infra is sameas false
 - name: "load : Load {{ libre_infra.type }} infrastructure"
   include_tasks: "{{ libre_infra.type }}/load.yml"
+  when: libre_infra is defined and libre_infra.type is defined

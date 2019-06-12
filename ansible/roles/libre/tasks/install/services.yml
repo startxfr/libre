@@ -27,6 +27,8 @@
       - bind-utils
       - bash-completion
       - python-pip
+      - git
+      - docker
     become: yes
   - name: "install_services : Install and force upgrade pip packages"
     pip:
@@ -37,6 +39,11 @@
       - pip
       - Jinja2
       - yq
+      - docker
+      - dnspython
+      - botocore
+      - boto3
+      - boto
     loop_control:
       loop_var: pipname
       label: "{{ pipname }}"
@@ -44,9 +51,7 @@
   - name: "install_services : Ensure application dependencies packages are installed"
     yum:
       name:
-      - git
       - ansible
-      - docker
     become: yes
   - name: "install_services : Add another bin dir to $PATH."
     copy:
