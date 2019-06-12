@@ -17,8 +17,8 @@ These keys are the minimum required, you can add others that will be available i
 ```yaml
 labs:
   - id: 'example1' # also used as folder name if `directory` is not defined
-    idn: using_loops # Used by the lab command, ex: `lab grade using_loops
-    directory: "01.1_loops" # Optionnal
+    idn: super-example # Used by the lab command, ex: `lab grade super-example
+    directory: "01.1_example" # Optionnal
     name: "Example lab: The first one"
     time: 10 # indicative, in minutes
     desc: |
@@ -31,15 +31,21 @@ labs:
 
 ```
 labs
-├── 01.1_loops
-│   ├── ansible.cfg
+├── 01.1_example
+│   ├── ansible.cfg # mandatory
 │   ├── inventory
 │   │   ├── group_vars
 │   │   │   └── mynodes.yml
-|   |   └── al.ini
+|   |   └── myinventory
+│   ├── resources # Contains all the resources the lab need.
+│   │   ├── secret.txt # Or whatever
+│   │   └── student # Contains all the resources student need, copied in the /home/student directory.
+│   │       ├── inventory
+│   │       └── ansible.cfg
 │   ├── start.yml
 │   ├── stop.yml
 │   └── grade.yml
+
 ```
 
 start, stop and grade are entries points for `lab <start|stop|restart|grade>`
