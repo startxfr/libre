@@ -51,18 +51,18 @@ libre-lab start <lab_id>
 In order to get a fully installed training classroom, user must follow the following
 workflow
 
-1. [Install LIBRE on instructor workstation](docs/installer.md)
-2. [Install course materials on instructor workstation](docs/libre-repository.md)
-3. [Configure session on instructor workstation](docs/session-config.md)
-4. [Provision classroom workstation](docs/classroom-provision.md)
-5. [Deploy course materials on students workstation](docs/session-install.md)
-6. [Start course service on instructor](docs/session-start.md)
+1. [Install LIBRE on instructor workstation](docs/commands/installer.md)
+2. [Install course materials on instructor workstation](docs/commands/libre-repository.md)
+3. [Configure session on instructor workstation](docs/commands/session-config.md)
+4. [Provision classroom workstation](docs/commands/classroom-provision.md)
+5. [Deploy course materials on students workstation](docs/commands/session-install.md)
+6. [Start course service on instructor](docs/commands/session-start.md)
 
 
 ### 3.1. LIBRE installation
 
 An installer is provided to help you deploy LIBRE environement. You will find more
-information about this installer on [the installer instruction](docs/installer.md).
+information about this installer on [the installer instruction](docs/commands/installer.md).
 
 The simpliest way is to run the following script on your workstation.
 

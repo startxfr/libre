@@ -104,7 +104,7 @@ You can choose between 3 type of infrastructure deployment
 
 ###### Self infractusture
 
-####### Configure STARTX infrastructure in self-hosted environement
+1. Configure STARTX infrastructure in self-hosted environement
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 
@@ -117,7 +117,7 @@ self:
     associated_ip: "127.0.0.1"
 ```
 
-####### Configure STARTX self-hosted credentials
+2. Configure STARTX self-hosted credentials
 
 Edit `~/.libre/infra-id_rsa.pub` file with the [STARTX public self RSA](./config/infra-id_rsa.pub).
 
@@ -126,7 +126,7 @@ Edit `~/.libre/infra-id_rsa` file with the [STARTX private self RSA](./config/in
 
 ###### On-Prem infractusture
 
-####### Configure STARTX infrastructure in on-premise environement
+1. Configure STARTX infrastructure in on-premise environement
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 
@@ -141,7 +141,7 @@ prem:
     user: "root"
 ```
 
-####### Configure STARTX On-premise credentials
+2. Configure STARTX On-premise credentials
 
 Edit `~/.libre/infra-id_rsa.pub` file with the [STARTX public on-prem RSA](./config/infra-id_rsa.pub).
 
@@ -150,7 +150,7 @@ Edit `~/.libre/infra-id_rsa` file with the [STARTX private on-prem RSA](./config
 
 ###### AWS infractusture
 
-####### Configure STARTX infrastructure in AWS environement
+1. Configure STARTX infrastructure in AWS environement
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 
@@ -174,7 +174,7 @@ aws:
     user: "centos"
 ```
 
-####### Configure STARTX AWS credentials
+2. Configure STARTX AWS credentials
 
 Edit `~/.libre/infra-id_rsa.pub` file with the [STARTX public AWS RSA](./config/infra-id_rsa.pub).
 
