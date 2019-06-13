@@ -23,7 +23,7 @@
     dest: "/usr/local/bin/libre-vnc"
     owner: root
     group: "{{ r_libre_group }}"
-    mode: 0775
+    mode: 0777
   become: yes
 - name: "EX001 : instructor : provision_workstation : Create the remote /home/student/.vnc directory"
   file:
@@ -47,5 +47,9 @@
     owner: student
     group: "{{ r_libre_group }}"
     mode: 0775
+  become: yes
 - name: "EX001 : instructor : provision_workstation : Start the vncserver"
   shell: "/usr/local/bin/libre-vnc start"
+  become: yes
+  become_method: sudo
+  become_user: student
