@@ -1,5 +1,10 @@
 ---
+- name: "load : book-generate-html : Get {{ r_session_dir_course }}/sources/book.asciidoc directory details"
+  stat:
+    path: "{{ r_session_dir_course }}/sources/book.asciidoc"
+  register: r_session_dir_course_sourcebook_details
 - name: "lib : book-generate-html : Generate Instructor HTML book"
   shell: >
     source /etc/profile; 
     {{ r_libre_dest_ansible }}/roles/session/files/build-book-html.sh
+  when: r_session_dir_course_sourcebook_details.stat.exists

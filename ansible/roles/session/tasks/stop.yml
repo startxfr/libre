@@ -6,6 +6,7 @@
 - name: "stop : Stop LIBRE-instructor web application for session {{ libre_session.id }}"
   docker_container:
     name: "libre-instructor-{{ libre_session.id }}"
+    image: startx/libre-instructor:latest
     state: stopped
   become: yes
 

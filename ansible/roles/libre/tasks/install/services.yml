@@ -20,11 +20,21 @@
       - PyYAML
       state: absent
     become: yes
+  - name: "install_services : Install and force upgrade pip packages"
+    pip:
+      name: yq
+      state: forcereinstall
+      extra_args: --upgrade
+    become: yes
   - name: "install_services : Ensure system dependencies packages are installed"
     yum:
       name:
       - jq
       - bind-utils
+      - bash-completion
+  - name: "install_services : Ensure system dependencies packages are installed"
+    yum:
+      name:
       - bash-completion
       - python-pip
       - git
@@ -38,8 +48,6 @@
     loop:
       - pip
       - Jinja2
-      - yq
-      - docker
       - dnspython
       - botocore
       - boto3
