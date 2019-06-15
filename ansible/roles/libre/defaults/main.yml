@@ -55,7 +55,7 @@ libre_minhw_architecure: 'x86_64'
 libre_minhw_cpu_physical: 1
 libre_minhw_cpu_cores: 1
 libre_minhw_cpu_vcpus: 1
-libre_minhw_memory_total: 512
+libre_minhw_memory_total: 256
 libre_minhw_memory_free: 96
 libre_minhw_storage_percent: 20
 libre_minhw_storage_capacity: 2048
