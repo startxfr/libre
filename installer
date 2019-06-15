@@ -195,9 +195,14 @@ function install_deps {
           yum install -y python-pip              &&
           pip install --upgrade pip              &&
           pip install --upgrade yq               &&
-          pip install --upgrade Jinja2		     &&
+          pip install --upgrade Jinja2           &&
+          pip install --upgrade botocore boto3 boto  &&
+          yum install -y /tmp/${ANSIBLE_RPM_FILENAME}  &&
           yum install -y $LIBREI_REQUIREMENTS_CENTOS &&
-	  yum install -y /tmp/${ANSIBLE_RPM_FILENAME} 
+cat <<\EOF >> /etc/boto.cfg
+[Boto]
+use_endpoint_heuristics = True
+EOF
       ) &> /dev/null                                 || {
           echoFatal "Unable to install dependencies"
       }
