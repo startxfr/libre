@@ -20,6 +20,12 @@
       - PyYAML
       state: absent
     become: yes
+  - name: "install_services : Install pip installed via package manager"
+    yum:
+      name:
+      - python-pip
+      state: present
+    become: yes
   - name: "install_services : Install and force upgrade pip packages"
     pip:
       name: yq
@@ -35,8 +41,6 @@
   - name: "install_services : Ensure system dependencies packages are installed"
     yum:
       name:
-      - bash-completion
-      - python-pip
       - git
       - docker
     become: yes
