@@ -37,6 +37,7 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
+| 0.7.12   | 2019-06-16 | Stable release for lab usage tested with startx ansible course
 | 0.7.11   | 2019-06-15 | More stable lab usage with addition of grade-line lib for lab grade scripts
 | 0.7.9    | 2019-06-14 | Improve lab usage
 | 0.7.8    | 2019-06-12 | Stabilize installation and lab in EX001 example
