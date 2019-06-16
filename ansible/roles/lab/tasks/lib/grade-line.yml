@@ -1,0 +1,18 @@
+---
+- name: "log : Record log trace in log.yml"
+  become: yes
+  block:
+    - name: "log : Update the timer"
+      delegate_to: localhost
+      setup:
+        filter: ansible_date_time
+
+    - name: "log : Record the log trace"
+      delegate_to: localhost
+      lineinfile:
+        path: "{{ config_libre.directory.collect }}/log.yml"
+        line: |-
+          - name: "{{ log_name | default('No message !!!') }}"
+            date: "{{ log_date | default(ansible_date_time.iso8601) }}"
+            component: "{{ log_component | default('libre') }}"
+            action: "{{ log_action | default('No action !!!') }}"
