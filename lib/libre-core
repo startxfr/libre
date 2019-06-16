@@ -119,7 +119,7 @@ function checkIfLibre {
 function checkIfConfig {
   if [[ ! -f $CONFIG_FILE ]] ; then
     echoError "LIBRE configuration doesn't exist in $CONFIG_FILE";
-    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/master/installer.md";
+    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/stable/installer.md";
     echoError "for more information on how to install LIBRE";
     exit 1;
   fi
@@ -129,7 +129,7 @@ function checkIfConfig {
 function checkIfSession {
   if [[ ! -f $SESSION_FILE ]] ; then
     echoError "Session configuration doesn't exist in $SESSION_FILE";
-    echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/master/session.md";
+    echoError "Please run 'libre-session install' or see https://github.com/startxfr/libre/blob/stable/session.md";
     echoError "for more information on how to setup LIBRE session";
     exit 1;
   fi
