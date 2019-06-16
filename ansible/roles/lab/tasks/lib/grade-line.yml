@@ -1,18 +1,7 @@
 ---
-- name: "log : Record log trace in log.yml"
+- name: "lab : grade-line : Record log trace in {{ output_file | default(grade_result_file) }}"
+  shell: >
+    echo "{{ title }}{{ '.'  * (75 - (title |length)) }} {{ result }}" >> {{ output_file | default(grade_result_file) }}
+  become_user: student
   become: yes
-  block:
-    - name: "log : Update the timer"
-      delegate_to: localhost
-      setup:
-        filter: ansible_date_time
-
-    - name: "log : Record the log trace"
-      delegate_to: localhost
-      lineinfile:
-        path: "{{ config_libre.directory.collect }}/log.yml"
-        line: |-
-          - name: "{{ log_name | default('No message !!!') }}"
-            date: "{{ log_date | default(ansible_date_time.iso8601) }}"
-            component: "{{ log_component | default('libre') }}"
-            action: "{{ log_action | default('No action !!!') }}"
+  delegate_to: localhost

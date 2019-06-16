@@ -4,9 +4,9 @@
   hosts: 'localhost'
   gather_facts: true
   user: root
-  roles:
-    - { role: lab, do: load }
-    - { role: lab, do: pre, lab_action: grade }
+#  roles:
+#    - { role: lab, do: load }
+#    - { role: lab, do: pre, lab_action: grade }
 
 # # Grade tasks
 # - name: "grade : Start grading lab {{ current_lab.id }} {{ current_lab.name }}"
