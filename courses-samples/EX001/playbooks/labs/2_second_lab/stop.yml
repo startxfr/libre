@@ -1,10 +1,8 @@
 ---
 - name: "EX001 : lab_second_lab : stop : Configure workstation for second_lab lab"
   hosts: workstation
-  remote_user: student
-  become: yes
   tasks:
-#  - name: "EX001 : lab_second_lab : stop : Remove lab directory"
-#    file:
-#      path: /home/student/lab_second_lab
-#      state: absent
+    - name: "EX001 : lab_second_lab : stop : Remove lab directory"
+      file:
+        path: /home/student/lab_second_lab
+        state: absent

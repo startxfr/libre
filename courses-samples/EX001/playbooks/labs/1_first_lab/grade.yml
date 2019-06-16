@@ -1,21 +1,20 @@
 - name: "EX001 : lab_first_lab : grade : Check on workstation"
   hosts: workstation
-  become: yes
   tasks:
-  - name: "EX001 : lab_first_lab : grade : Check the dummy file exist in wokstation"
-    stat:
-      path: /home/student/lab_first_lab/dummy
-    register: dummy
-  - name: "EX001 : lab_first_lab : grade : Set success if the dummy file exist in wokstation"
-    set_fact:
-      check_dummy: 'SUCCESS'
-    when: dummy.stat.exists
+    - name: "EX001 : lab_first_lab : grade : Check the dummy file exist in wokstation"
+      stat:
+        path: /home/student/lab_first_lab/dummy
+      register: dummy
+
+    - name: "EX001 : lab_first_lab : grade : Set check_dummy to True if the dummy file exists in wokstation"
+      set_fact:
+        check_dummy: dummy.stat.exists
+
 
 - name: "EX001 : lab_first_lab : grade : Displaying the grading results"
   hosts: localhost
   tasks:
-  - shell: 'echo "Dummy file exist............................................................\e[32m{{ check_dummy }}\e[0m\n" >> {{ grade_result_file }}'
-    when: check_dummy == 'SUCCESS'
-  - shell: 'echo "Dummy file exist............................................................\e[34mFAILED\e[0m\n" >> {{ grade_result_file }}'
-    when: check_dummy != 'SUCCESS'
-  
+    - shell: echo "{{ item.name }} ..... \e[{{ '32mSUCCESS' if item.value else '31mFAIL' }}\e[0m\n" >> {{ grade_result_file }}
+      loop:
+        - name: Dummy file exist
+          value: "{{ check_dummy }}"

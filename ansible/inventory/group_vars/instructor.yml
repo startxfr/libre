@@ -15,7 +15,7 @@ libre_minhw_cpu_cores: 1
 # minimum virtual CPU required
 libre_minhw_cpu_vcpus: 1
 # minimum RAM size
-libre_minhw_memory_total: 512
+libre_minhw_memory_total: 256
 # minimum RAM free space
 libre_minhw_memory_free: 96
 # minimum storage free space (in percent)

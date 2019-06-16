@@ -46,7 +46,7 @@ libre_version: '0.0.1-devel'
 libre_verbose: True
 libre_debug: False
 libre_source_url: 'https://github.com/startxfr/libre'
-libre_source_branch: 'v0.7.7'
+libre_source_branch: 'v0.7.12'
 libre_source_base: '/'
 libre_source_tmp: '{{ libre_tmp }}/libre'
 
@@ -55,7 +55,7 @@ libre_minhw_architecure: 'x86_64'
 libre_minhw_cpu_physical: 1
 libre_minhw_cpu_cores: 1
 libre_minhw_cpu_vcpus: 1
-libre_minhw_memory_total: 512
+libre_minhw_memory_total: 256
 libre_minhw_memory_free: 96
 libre_minhw_storage_percent: 20
 libre_minhw_storage_capacity: 2048

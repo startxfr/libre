@@ -6,6 +6,9 @@
     
 - name: "EX001 : instructor : deprovision_workstation : Stop the vncserver"
   shell: "/usr/local/bin/libre-vnc stop"
+  become: yes
+  become_method: sudo
+  become_user: student
 - name: "EX001 : instructor : deprovision_workstation : Remove the libre-vnc binary"
   file: 
     path: "/usr/local/bin/libre-vnc"

@@ -9,3 +9,5 @@ lab_dir_course: "{{ training_dir_course | default('/usr/share/libre/course') }}"
 lab_dir_course_labs: 'playbooks/labs'
 # Lab number of the first lab
 lab_default_current_lab: 'eval1'
+# default grading lab output file
+grade_result_file: '/tmp/libre.txt'

@@ -2,7 +2,7 @@
 # Start post-tasks
 - name: "Start lab on local (post-tasks)"
   hosts: 'localhost'
-  gather_facts: no
+  gather_facts: yes
   user: root
   roles:
     - { role: lab, do: load }
