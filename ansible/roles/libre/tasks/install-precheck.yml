@@ -27,11 +27,11 @@
   - name: "install-precheck : Check minimum Memory size is more than {{ r_libre_minhw.memory.total }}"
     assert:
       that: ansible_memtotal_mb|int > r_libre_minhw.memory.total|int
-      msg: "Minimum Memory size is less than the required {{ r_libre_minhw.memory.total }} Mo"
-  - name: "install-precheck : Check minimum free memory size is more than {{ r_libre_minhw.memory.total }}"
+      msg: "Minimum Memory size is less than the required {{ r_libre_minhw.memory.total }} Mo (only {{ansible_memtotal_mb}} available)"
+  - name: "install-precheck : Check minimum free memory size is more than {{ r_libre_minhw.memory.free }}"
     assert:
       that: ansible_memfree_mb|int > r_libre_minhw.memory.free|int
-      msg: "Minimum free memory size is less than the required {{ r_libre_minhw.memory.total }} Mo"
+      msg: "Minimum free memory size is less than the required {{ r_libre_minhw.memory.free }} Mo (only {{ansible_memfree_mb}} available)"
 
   - name: "install-precheck : Extract storage informations"
     set_fact: mount="{{ ansible_mounts | selectattr('mount','equalto','/') | list | first }}"

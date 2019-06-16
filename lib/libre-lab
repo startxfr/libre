@@ -13,7 +13,28 @@ function labHeader {
 function labPlaybookCall() {
   export ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg
   if (ansible-playbook /tmp/current_lab/$1.yml --syntax-check) then
-    ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
+    isDebug
+    if [ "$?" -eq 1 ] ; then
+      ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
+      retc=$?
+      if [ $retc -eq 0 ]; then
+        echoOK "Playbook ${1} ended"
+      else
+        echoError "Playbook ${1} ended with error"
+      fi
+    else
+      ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt 1> /tmp/a
+      retc=$?
+      if [ $retc -eq 0 ]; then
+        ret=$(cat /tmp/a | tail -n 2 | head -n 1)
+        echoOK $ret
+        echoOK "Playbook ${1} ended"
+      else
+        cat /tmp/a | grep -A 30 "^fatal:"
+        echoError "Playbook ${1} ended with error"
+      fi
+      rm -f /tmp/a
+    fi
   fi
 }
 
@@ -21,7 +42,6 @@ function labPlaybookCall() {
 function labPlaybook {
   labHeader
   checkIfSession
-
   param=""
   if [[ $2 != "" ]] ; then
     param="local -e lab_current=$2";

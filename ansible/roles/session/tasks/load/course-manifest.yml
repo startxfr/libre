@@ -1,8 +1,8 @@
 ---
-- name: "load : course-manifest : Get {{ r_session_dir_course }} directory details"
-  stat:
-    path: "{{ r_session_dir_course }}"
-  register: r_session_dir_course_details
+#- name: "load : course-manifest : Get {{ r_session_dir_course }} directory details"
+#  stat:
+#    path: "{{ r_session_dir_course }}"
+#  register: r_session_dir_course_details
 - name: "load : course-manifest : Get {{ r_session_dir_course }}/manifest.yml file details"
   stat:
     path: "{{ r_session_dir_course }}/manifest.yml"

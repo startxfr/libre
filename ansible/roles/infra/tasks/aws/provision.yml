@@ -45,10 +45,10 @@
 - name: "aws : provision : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
-- name: "aws : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+- name: "aws : provision : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-provision.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    dest: "{{ r_libre_result_file }}"
 #    owner: root
     group: "{{ r_libre_group }}"
     mode: 0666 
