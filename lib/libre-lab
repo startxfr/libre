@@ -11,11 +11,10 @@ function labHeader {
 }
 
 function labPlaybookCall() {
-  export ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg
-  if (ansible-playbook /tmp/current_lab/$1.yml --syntax-check) then
+  if (ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml --syntax-check) then
     isDebug
     if [ "$?" -eq 1 ] ; then
-      ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
+      ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
       retc=$?
       if [ $retc -eq 0 ]; then
         echoOK "Playbook ${1} ended"
@@ -23,7 +22,7 @@ function labPlaybookCall() {
         echoError "Playbook ${1} ended with error"
       fi
     else
-      ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt 1> /tmp/a
+      ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt 1> /tmp/a
       retc=$?
       if [ $retc -eq 0 ]; then
         ret=$(cat /tmp/a | tail -n 2 | head -n 1)
