@@ -11,7 +11,7 @@ function labHeader {
 }
 
 function labPlaybookCall() {
-  if (ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml --syntax-check) then
+  if (ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml --syntax-check &> /dev/null) then
     isDebug
     if [ "$?" -eq 1 ] ; then
       ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
