@@ -32,7 +32,7 @@ function labPlaybookCall() {
         cat /tmp/a | grep -A 30 "^fatal:"
         echoError "Playbook ${1} ended with error"
       fi
-      rm -f /tmp/a
+      echo "" > /tmp/a
     fi
   fi
 }
