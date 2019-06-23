@@ -1,5 +1,5 @@
 {% if logs is defined %}
-\e[1m{{ logs|length }}\e[0m logs traces begining on {{ logs[0].date[:10] }}
+\e[1m{{ logs|length }}\e[0m logs traces begining on {% if logs[0] is defined %}{{ logs[0].date[:10] }}{% endif %}
 {% for log in logs %}
 {% if history_filter != '' and history_filter != 'all' %}
 {% if history_filter in log.component %}

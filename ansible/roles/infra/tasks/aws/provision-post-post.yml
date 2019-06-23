@@ -22,7 +22,7 @@
     libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
 - name: "aws : provision-post-post : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmppath, errors='ignore') | default('') }}"
 - name: "aws : provision-post-post : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-provision-post.j2

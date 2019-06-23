@@ -12,7 +12,7 @@
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "prem : deprovision : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmppath, errors='ignore') | default('') }}"
 - name: "prem : deprovision : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-deprovision.j2

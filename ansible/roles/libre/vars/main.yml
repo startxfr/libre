@@ -23,6 +23,7 @@ r_libre_dir_conf: "{{ training_dir_conf | string }}"
 r_libre_dir_collect: "{{ training_dir_collect | string }}"
 r_libre_tmp: "{{ libre_tmp | string }}"
 r_libre_tmpfile: "{{ libre_tmpfile | string }}"
+r_libre_tmppath: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
 
 r_libre_libre_userconf_default:
   application:

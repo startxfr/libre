@@ -5,7 +5,7 @@
     tasks_from: status
 - name: "status : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_tmppath, errors='ignore') | default('') }}"
 - name: "status : Status of {{ libre_infra.type }} infrastructure"
   include_tasks: "{{ libre_infra.type }}/status.yml"
   when: libre_infra.type is defined
