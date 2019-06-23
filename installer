@@ -231,7 +231,9 @@ function fetch_installer {
             git checkout $LIBRE_TOOLREPO_BRANCH &> /dev/null
         fi
         echo "Copy libre playbook into $ANSIBLE_DEST"
-        cp -r $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
+        rm -rf $ANSIBLE_DEST
+        prep_dir $ANSIBLE_DEST
+        cp -rf $TMP_DEST$LIBRE_TOOLREPO_BASE/ansible/* $ANSIBLE_DEST/
     fi
     popd &> /dev/null
 }
