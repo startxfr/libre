@@ -23,9 +23,9 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Self-Hosted infrastructure is Post-provisionned"
+    log_name: "On-Premise infrastructure is Post-provisionned"
     log_component: infra-prem
-    log_action: post-provision
+    log_action: post-provision on-premise infrastructure
   run_once: true
 - name: "prem : provision-post : Post-provisionning is finish"
   debug:

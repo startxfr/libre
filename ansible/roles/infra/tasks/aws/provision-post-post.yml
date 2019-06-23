@@ -37,7 +37,7 @@
   vars:
     log_name: "AWS infrastructure is post Post-provisionned"
     log_component: infra-aws
-    log_action: post-provision (post)
+    log_action: post-provision on instructor
 - name: "aws : provision-post-post : Post-provisionning is finish"
   debug:
     msg:

@@ -19,4 +19,4 @@
   vars:
     log_name: "{{ lab_action | title }}ing lab {{ current_lab.id }} {{ current_lab.name }}"
     log_component: lab
-    log_action: "{{ lab_action }}"
+    log_action: "{{ lab_action }} on {{ current_lab.idn }}"

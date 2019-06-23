@@ -1,14 +1,14 @@
 {% if logs is defined %}
-\e[1m{{ logs|length }}\e[0m logs traces (from {{ logs[0].date[:10] }})
+\e[1m{{ logs|length }}\e[0m logs traces begining on {{ logs[0].date[:10] }}
 {% for log in logs %}
 {% if history_filter != '' and history_filter != 'all' %}
 {% if history_filter in log.component %}
-\e[90m{{ log.date[11:19] }}\e[0m : \e[34m{{log.component}}\e[0m \e[1m{{log.action}}\e[0m 
-           \e[90m{{log.name}}\e[0m
+\e[90m{{ log.date[0:10] }} {{ log.date[11:19] }}\e[0m : \e[34m{{log.component}}\e[0m \e[1m{{log.action}}\e[0m 
+                      \e[90m{{log.name}}\e[0m
 {% endif %}
 {% else %}
-\e[90m{{ log.date[11:19] }}\e[0m : \e[34m{{log.component}}\e[0m \e[1m{{log.action}}\e[0m 
-           \e[90m{{log.name}}\e[0m
+\e[90m{{ log.date[0:10] }} {{ log.date[11:19] }}\e[0m : \e[34m{{log.component}}\e[0m \e[1m{{log.action}}\e[0m 
+                      \e[90m{{log.name}}\e[0m
 {% endif %}
 {% endfor %}
 {% endif %}

@@ -11,4 +11,4 @@
   vars:
     log_name: "AWS infrastructure is Post-provisionned on instructor"
     log_component: infra-aws
-    log_action: post-provision (instructor)
+    log_action: post-provision AWS infrastructure on instructor

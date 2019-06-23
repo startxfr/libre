@@ -45,4 +45,4 @@
   vars:
     log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is started"
     log_component: session
-    log_action: start
+    log_action: start session {{ libre_session.id }}

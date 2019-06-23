@@ -81,4 +81,4 @@
   vars:
     log_name: "AWS infrastructure has post-provisionned workstation for student {{ student.name }}"
     log_component: infra-aws
-    log_action: post-provision (student {{ student.id }})
+    log_action: post-provision on student {{ student.id }}

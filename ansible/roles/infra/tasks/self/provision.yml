@@ -83,7 +83,7 @@
   vars:
     log_name: "Self-Hosted infrastructure is Provisionned"
     log_component: infra-self
-    log_action: provision
+    log_action: provision self-hosted
 - name: "self : provision : Infrastructure provisionning is finish"
   debug:
     msg:

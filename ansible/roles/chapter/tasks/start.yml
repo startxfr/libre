@@ -39,4 +39,4 @@
   vars:
     log_name: "Started chapter {{ libre_chapter.id }} : {{ libre_chapter.name }}"
     log_component: chapter
-    log_action: start
+    log_action: start {{ libre_chapter.idn }}

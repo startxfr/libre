@@ -45,4 +45,4 @@
   vars:
     log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is uninstalled"
     log_component: session
-    log_action: uninstall
+    log_action: uninstall session {{ libre_session.id }}

@@ -181,4 +181,4 @@
   vars:
     log_name: "AWS infrastructure is Deprovisionned"
     log_component: infra-aws
-    log_action: deprovision
+    log_action: deprovision AWS infrastructure on {{ libre_infra.ec2.region }}

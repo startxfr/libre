@@ -16,5 +16,5 @@
   vars:
     log_name: "Self-Hosted infrastructure is Post-provisionned on instructor"
     log_component: infra-self
-    log_action: post-provision (instructor)
+    log_action: post-provision self-hosted infrastructure on instructor
   run_once: true

@@ -125,7 +125,7 @@
   vars:
     log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is installed"
     log_component: session
-    log_action: install
+    log_action: install session {{ libre_session.id }}
 
 # Install post-tasks
 - name: "install : Start session post-installation checks"

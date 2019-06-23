@@ -60,7 +60,7 @@
   vars:
     log_name: "AWS infrastructure is Provisionned"
     log_component: infra-aws
-    log_action: provision
+    log_action: provision on {{ libre_infra.ec2.region }}
     
 - name: "aws : provision : Infrastructure provisionning is finish"
   debug:

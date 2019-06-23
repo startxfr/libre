@@ -76,9 +76,9 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Self-Hosted infrastructure is Provisionned"
+    log_name: "On-Premise infrastructure is Provisionned"
     log_component: infra-prem
-    log_action: provision
+    log_action: provision on-premise
 - name: "prem : provision : Infrastructure provisionning is finish"
   debug:
     msg:

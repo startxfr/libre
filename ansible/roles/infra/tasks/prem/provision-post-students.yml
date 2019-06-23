@@ -6,6 +6,6 @@
   vars:
     log_name: "On-Premise infrastructure is Post-provisionned on students"
     log_component: infra-prem
-    log_action: post-provision (students)
+    log_action: post-provision on-premise infrastructure on students
   delegate_to: localhost
   run_once: true

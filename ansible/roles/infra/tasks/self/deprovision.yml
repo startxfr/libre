@@ -82,4 +82,4 @@
   vars:
     log_name: "Self-Hosted infrastructure is Deprovisionned"
     log_component: infra-self
-    log_action: deprovision
+    log_action: deprovision self-hosted infrastructure

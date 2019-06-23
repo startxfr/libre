@@ -46,7 +46,7 @@
   vars:
     log_name: "Instructor workstation is installed"
     log_component: instructor
-    log_action: install
+    log_action: install on 127.0.0.1
 
 # Install post-tasks
 - name: "install : Start instructor post-installation checks"

@@ -37,7 +37,7 @@
   vars:
     log_name: "Student workstation is installed"
     log_component: student
-    log_action: install
+    log_action: install student workstation
 
 # Install post-tasks
 - name: "install : Start student post-installation checks"

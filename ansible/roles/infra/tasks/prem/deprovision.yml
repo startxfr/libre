@@ -27,5 +27,5 @@
   vars:
     log_name: "On-Prem infrastructure is Deprovisionned"
     log_component: infra-prem
-    log_action: deprovision
+    log_action: deprovision on-premise infrastructure
 

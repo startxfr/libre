@@ -101,5 +101,5 @@
   vars:
     log_name: "AWS infrastructure is Post-provisionned on students"
     log_component: infra-aws
-    log_action: post-provision (students)
+    log_action: post-provision AWS infrastructure on students
   run_once: true
