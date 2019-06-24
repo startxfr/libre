@@ -1,7 +1,7 @@
 ---
 - name: "update : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmppath, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
 - name: "update : Generate instructor update report at {{ r_libre_result_file }}"
   template:
     src: libre_report-update.j2

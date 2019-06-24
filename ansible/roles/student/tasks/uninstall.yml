@@ -17,6 +17,8 @@
   template:
     src: libre_report-uninstall.j2
     dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
+    owner: root
+    group: "{{ r_libre_group }}"
     mode: 0664
 - name: "uninstall : Log uninstall action"
   include_role:

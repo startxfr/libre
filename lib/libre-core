@@ -205,7 +205,7 @@ function runLibrePlaybook {
     fi
     if [ -f $ANSIBLE_RETURN ]; then
       cat $ANSIBLE_RETURN | xargs --null echo -ne
-      rm -f $ANSIBLE_RETURN
+      echo "" > $ANSIBLE_RETURN
     fi
     return $retc
   else
@@ -222,9 +222,9 @@ function runLibrePlaybook {
     fi
     if [ -f $ANSIBLE_RETURN ]; then
       cat $ANSIBLE_RETURN | xargs --null echo -ne
-      rm -f $ANSIBLE_RETURN
+      echo "" > $ANSIBLE_RETURN
     fi
-    rm -f /tmp/a
+    echo "" > /tmp/a
     return $retc
   fi
 }
