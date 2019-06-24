@@ -6,7 +6,7 @@
 
 - name: "status : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmppath, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
 - name: "status : Generate repository report at {{ r_libre_result_file }}"
   template:
     src: libre_report-status.j2
