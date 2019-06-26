@@ -3,6 +3,6 @@
 BIN_DIR={{ r_libre_dest_bin }}
 
 # Add LIBRE binary directory to the PATH if not included
-if ! echo $PATH | grep $BIN_DIR; then
+if ! echo $PATH | grep $BIN_DIR &> /dev/null; then
   export PATH=$PATH:$BIN_DIR
 fi
