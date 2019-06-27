@@ -8,6 +8,7 @@
   vars:
     classroom: "{{ libre_infra.ec2.classroom }}"
     student: "{{ std }}"
+    r_libre_user: "student"
   loop: "{{ libre_session.students }}"
   loop_control:
     loop_var: std
