@@ -20,9 +20,9 @@
     label: "{{ node.name }}"
 - name: "aws : provision-post-post : student {{ student.id }} : Modify sshd configuration to authorize password connections"
   lineinfile:
-  path: "/etc/ssh/sshd_config"
-  regexp: '^PasswordAuthentication'
-  line: "PasswordAuthentication yes"
+    path: "/etc/ssh/sshd_config"
+    regexp: '^PasswordAuthentication'
+    line: "PasswordAuthentication yes"
   delegate_to: "{{node.name}}-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
   loop: "{{ classroom }}"
   loop_control:
@@ -30,8 +30,8 @@
     label: "{{ node.name }}"
 - name: "aws : provision-post-post : student {{ student.id }} : Restart sshd service"
   service:
-  name: sshd
-  state: restarted
+    name: sshd
+    state: restarted
   delegate_to: "{{node.name}}-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
   loop: "{{ classroom }}"
   loop_control:

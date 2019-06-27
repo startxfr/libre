@@ -1,0 +1,10 @@
+---
+{% if flat_inventory is defined %}
+{% for nodevm in flat_inventory %}
+{% if nodevm.group == 'workstations' %}
+{{nodevm.type|default('default')}},{{nodevm.type|default('default')}}-env{{nodevm.student|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }} {{ lookup('file', config_libre.directory.conf + '/student-id_rsa.pub' }}
+{% else %}
+{{nodevm.type|default('default')}} {{ lookup('file', config_libre.directory.conf + '/student-id_rsa.pub' }}
+{% endif %}
+{% endfor %}
+{% endif %}
