@@ -78,15 +78,15 @@
     loop_var: keyf
     label: "{{ keyf.key }} > {{ keyf.user }}"
 
-- name: "aws : provision-post-students : Ensure known hosts are distributed among all nodes"
-  template:
-    src: "templates/knownhosts-students.j2"
+- name: "aws : provision-post-students : Update student .ssh/known_hosts file on nodes"
+  copy:
+    src: /tmp/{{workstation|default('0')}}.knownhosts
     dest: "/home/{{ r_infra_user_student }}/.ssh/known_hosts"
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_user }}"
   ignore_errors: true
-
+  
 - name: "aws : provision-post-students : Change hostname for students"
   hostname:
     name: "{{inventory_hostname.split('.')[0] | lower }}"

@@ -37,7 +37,16 @@
 - name: "aws : provision : inventory : Create students /tmp/X.hosts files"
   template:
     src: "../templates/host-student.j2"
-    dest: /tmp/{{student.workstation}}.hosts
+    dest: "/tmp/{{student.workstation}}.hosts"
+  loop: "{{ libre_session.students }}"
+  loop_control:
+    index_var: index
+    loop_var: student
+    label: "{{ index }}"
+- name: "aws : provision : inventory : Create students /tmp/X.knownhosts files"
+  template:
+    src: "../templates/knownhosts-student.j2"
+    dest: "/tmp/{{student.workstation}}.knownhosts"
   loop: "{{ libre_session.students }}"
   loop_control:
     index_var: index
