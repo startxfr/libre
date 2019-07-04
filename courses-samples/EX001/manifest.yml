@@ -90,6 +90,7 @@ classroomInfra:
         ssh_keyname: "ssh-libre-instructor"
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "centos"
+        has_dns: yes
       infra_prem:
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "root"

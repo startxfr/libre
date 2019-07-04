@@ -24,6 +24,7 @@
       Course: "{{ libre_session.course }}"
       Stage: "{{ libre_session.state }}"
       Instructor: "{{ libre_session.instructor }}"
+      DnsRecord: "{{station.name}}-env{{labenv}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
     volumes:
       - device_name: /dev/xvda
         volume_type: gp2

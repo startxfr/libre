@@ -1,7 +1,10 @@
 ---
-- name: "aws : provision : dns : set group name workstations"
-  set_fact:
-    group_name: "{{ libre_course | default({}) | json_query('classroomInfra.workstations[?name==`workstation`].group_name | [0]') }}"
+- debug: var=station.tags
+  loop: "{{ list_instances }}"
+  loop_control:
+    loop_var: station
+    label: "{{ station.tags.Name }}"
+- fail:
 - name: "aws : provision : dns : Register public DNS for workstations"
   route53:
     state: present
@@ -17,7 +20,7 @@
   loop_control:
     loop_var: station
     label: "{{ station.tags.Name }}"
-  when: 'station.tags.Group == group_name'
+  when: 'station.tags.DnsRecord is defined'
   register: list_dns
 - name: "aws : provision : dns : Register a public DNS for instructor"
   route53:
