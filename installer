@@ -36,7 +36,7 @@ export TERM=xterm
 
 if [[ "${LIBREI_DEBUG,,}" == "true" ||
       "${LIBREI_DEBUG,,}" == "false" ]] ; then
-  LBI_DEBUG=$LIBREI_DEBUG
+    LBI_DEBUG=$LIBREI_DEBUG
 fi
 
 # return if debug is activated
@@ -63,7 +63,7 @@ function error {
 # echo an error and exit
 function fatal {
     echo "  FATAL ! $@"
-    exit 1;
+    exit 1
 }
 
 # echo an error and exit
@@ -169,45 +169,41 @@ function install_deps {
         yum update -y &> /dev/null
     fi
     if [ ! -f /tmp/libre-is-updated ]; then
-      echo "Removing package PyYAML"
-      (
-          yum remove -y PyYAML # it will be reinstalled with yq
-      ) &> /dev/null                                 || {
-          fatal "Unable to uninstall PyYAML"
-      }
-      echo "Download Ansible RPM file"
-      (
-	  curl -L $ANSIBLE_RPM_URL  -o /tmp/${ANSIBLE_RPM_FILENAME} &&
-	  chmod +x /tmp/${ANSIBLE_RPM_FILENAME}
-      ) &> /dev/null                                 || {
-          fatal "Unable to download Ansible RPM file"
-      }
-      # epel and python-pip packages must be installed separately,
-      # otherwise pip does not settle, probably a yum bug
-      echo "Installing packages for $OS (could take minutes on fresh install or slow internet)"
-      (
-          yum install -y epel-release &&
-	      yum install -y python-pip &&
-          pip install --upgrade --force-reinstall pip==9.0.3 &&
-          pip install --upgrade docker		     &&
-          yum remove -y python-pip               &&
-          yum install -y python-pip              &&
-          pip install --upgrade pip              &&
-          pip install --upgrade yq               &&
-          pip install --upgrade Jinja2           &&
-          pip install --upgrade botocore boto3 boto  &&
-          yum install -y /tmp/${ANSIBLE_RPM_FILENAME}  &&
-          yum install -y $LIBREI_REQUIREMENTS_CENTOS &&
-cat <<\EOF >> /etc/boto.cfg
-[Boto]
-use_endpoint_heuristics = True
-EOF
-      ) &> /dev/null                                 || {
-          fatal "Unable to install dependencies"
-      }
-      touch /tmp/libre-is-updated
+        echo "Removing package PyYAML"
+        # PyYAML will be reinstalled with yq
+        yum remove -y PyYAML &> /dev/null || fatal "Unable to uninstall PyYAML"
+
+        echo "Download Ansible RPM file"
+        curl -L $ANSIBLE_RPM_URL                          \
+             -o /tmp/${ANSIBLE_RPM_FILENAME} &> /dev/null ||
+             fatal "Unable to download Ansible RPM file"
+
+        # epel and python-pip packages must be installed separately,
+        # otherwise pip does not settle, probably a yum bug
+        echo "Installing packages for $OS (could take minutes on fresh install or slow internet)"
+        (
+            yum install -y epel-release                        &&
+            yum install -y python-pip                          &&
+            pip install --upgrade --force-reinstall pip==9.0.3 &&
+            pip install --upgrade docker                       &&
+            yum remove -y python-pip                           &&
+            yum install -y python-pip                          &&
+            pip install --upgrade pip                          &&
+            pip install --upgrade yq                           &&
+            pip install --upgrade Jinja2                       &&
+            pip install --upgrade botocore boto3 boto          &&
+            yum install -y /tmp/${ANSIBLE_RPM_FILENAME}        &&
+            yum install -y $LIBREI_REQUIREMENTS_CENTOS         &&
+            cat <<-EOF >> /etc/boto.cfg
+			[Boto]
+			use_endpoint_heuristics = True
+			EOF
+        ) &> /dev/null                                         || {
+            fatal "Unable to install dependencies"
+        }
+        touch /tmp/libre-is-updated
     else 
-      echo "Skip updating packages because /tmp/libre-is-updated is found"
+        echo "Skip updating packages because /tmp/libre-is-updated is found"
     fi
 }
 
@@ -262,24 +258,24 @@ function install_libre {
         ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml &> /dev/null
     fi
     if [ "$?" -eq 0 ]; then
-	    echo "Reload bash profile"
-	    source /etc/profile.d/libre.sh &> /dev/null
-	    echo -e $(cat /tmp/libre.txt)
-	    if [[ "$LIBRE_TYPE" == "instructor" && "$IS_INTERACTIVE" == "yes" ]]; then
-	      read -p "Do you want to continue by installing training session (y/N) : " doInstall
-	      if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
-		    libre-session install
-	        echo -e $(cat /tmp/libre.txt)
-	      fi
-	    else
-		  success "You can continue by running libre-session install"
-	    fi
+        echo "Reload bash profile"
+        source /etc/profile.d/libre.sh &> /dev/null
+        echo -e $(cat /tmp/libre.txt)
+        if [[ "$LIBRE_TYPE" == "instructor" && "$IS_INTERACTIVE" == "yes" ]]; then
+            read -p "Do you want to continue by installing training session (y/N) : " doInstall
+            if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
+                libre-session install
+                echo -e $(cat /tmp/libre.txt)
+            fi
+        else
+            success "You can continue by running libre-session install"
+        fi
     else
-	  echo -e $(cat /tmp/libre.txt)
+        echo -e $(cat /tmp/libre.txt)
         error "libre $LIBRE_TYPE installation failed to completed"
         error "try to run again ./libre-installer install $LIBRE_TYPE"
         error "or report bug to support team"
-        exit 1;
+        exit 1
     fi
     popd &> /dev/null
 }
