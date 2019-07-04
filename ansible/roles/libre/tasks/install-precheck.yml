@@ -33,16 +33,16 @@
       that: ansible_memfree_mb|int > r_libre_minhw.memory.free|int
       msg: "Minimum free memory size is less than the required {{ r_libre_minhw.memory.free }} Mo (only {{ansible_memfree_mb}} available)"
 
-  - name: "install-precheck : Extract storage informations"
-    set_fact: mount="{{ ansible_mounts | selectattr('mount','equalto','/') | list | first }}"
-  - name: "install-precheck : Check storage on / is more than {{ r_libre_minhw.storage.percent }}%"
-    assert:
-      that: mount.size_available|int > (mount.size_total|int * ((100 - (100 - r_libre_minhw.storage.percent|int ))/100))
-      msg: "Minimum free storage size  on / is less than the required {{ r_libre_minhw.storage.percent }}}%"
-  - name: "install-precheck : Check Storage space left on / is more than  {{ r_libre_minhw.storage.capacity|int }}Mb"
-    assert:
-      that: mount.size_available|int > (r_libre_minhw.storage.capacity|int * 1024 * 1024)
-      msg: "Minimum storage space left on / is less than the required {{ r_libre_minhw.storage.capacity|int }}Mb"
+  # - name: "install-precheck : Extract storage informations"
+  #   set_fact: mount="{{ ansible_mounts | selectattr('mount','equalto','/') | list | first }}"
+  # - name: "install-precheck : Check storage on / is more than {{ r_libre_minhw.storage.percent }}%"
+  #   assert:
+  #     that: mount.size_available|int > (mount.size_total|int * ((100 - (100 - r_libre_minhw.storage.percent|int ))/100))
+  #     msg: "Minimum free storage size  on / is less than the required {{ r_libre_minhw.storage.percent }}}%"
+  # - name: "install-precheck : Check Storage space left on / is more than  {{ r_libre_minhw.storage.capacity|int }}Mb"
+  #   assert:
+  #     that: mount.size_available|int > (r_libre_minhw.storage.capacity|int * 1024 * 1024)
+  #     msg: "Minimum storage space left on / is less than the required {{ r_libre_minhw.storage.capacity|int }}Mb"
 
 - name: "install-precheck : Mark LIBRE install-precheck as done"
   set_fact:

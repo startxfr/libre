@@ -101,3 +101,7 @@
     log_name: "AWS infrastructure has post-provisionned workstation for student {{ student.name }}"
     log_component: infra-aws
     log_action: post-provision on student {{ student.id }}
+
+- name: "aws : provision-post-post : Reboot workstation{{ student.workstation | default('0') }}"
+  delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+  reboot:
