@@ -1,3 +1,11 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-On-Premise infrastructure is \e[1m\e[32mpost-provisionned\e[0m
+We are happy to report that On-Premise infrastructure {{ libre_session.id }}
+was successfully \e[1m\e[32mpost-provisionned\e[0m on On-Premise infrastructure
+
+1. You can now connect to your instructor workstation :
+   $ ssh -i {{ libre_infra.ssh.keyname }} {{ libre_infra.ssh.user }}@workstation0
+2. Then start session by running :"
+   $ libre-session start
+
+Have a happy training ;)

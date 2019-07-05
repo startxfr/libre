@@ -39,16 +39,3 @@
     log_name: "AWS infrastructure is post Post-provisionned"
     log_component: infra-aws
     log_action: post-provision on instructor
-- name: "aws : provision-post-post : Post-provisionning is finish"
-  debug:
-    msg:
-      - " "
-      - "We are happy to report that AWS infrastructure {{ libre_session.course }}.{{ libre_infra.route53.domain }} was successfully provisioned on AWS infrastructure"
-      - " "
-      - "You can now connect to your instructor workstation :"
-      - "  ssh -i {{ libre_infra.ssh.keyname }}.pem {{ libre_infra.ssh.user }}@instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
-      - "Then run instructor installation by running :"
-      - "  libre-instructor install"
-      - " "
-      - " Have a happy setup ;)"
-  run_once: true

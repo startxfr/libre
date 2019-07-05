@@ -1,3 +1,17 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-On-Premise infrastructure is \e[1m\e[32mprovisionned\e[0m
+We are happy to report that On-Premise infrastructure {{ libre_session.id }}
+was successfully \e[1m\e[32mprovisionned\e[0m on On-Premise infrastructure.
+
+Here are some interesting characteristics of this infrastructure:
+
+Instructor: instructor.{{ libre_infra.network.dns }}"
+Student   : student.{{ libre_infra.network.dns }}"
+username  : {{ libre_infra.ssh.user }}"
+
+1. Review and complete the generated inventory {{config_libre.directory.conf}}/inventory/*.yml
+   $ ls -la {{config_libre.directory.conf}}/inventory/*.yml
+2. Start post-provisionning your infrastructure by executing the following command :"
+   $ libre-infra prem post-provision
+
+Have a happy setup ;)

@@ -27,19 +27,3 @@
     log_component: infra-prem
     log_action: post-provision on-premise infrastructure
   run_once: true
-- name: "prem : provision-post : Post-provisionning is finish"
-  debug:
-    msg:
-      - "We are happy to report that on-premise infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully post-provisioned on Self-Hosted infrastructure"
-      - " "
-      - "Here are some interesting characteristics of this infrastructure:"
-      - " "
-      - "  - Instructor: instructor.{{ libre_infra.network.dns }}"
-      - "  - Student   : student.{{ libre_infra.network.dns }}"
-      - "  - username  : {{ libre_infra.ssh.user }}"
-      - " "
-      - "You can continue this process by running the following command :"
-      - "   $ libre-session start "
-      - " "
-      - " Have an happy training ;)"
-  run_once: true

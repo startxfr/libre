@@ -1,3 +1,18 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-AWS infrastructure is \e[1m\e[32mprovisionned\e[0m
+We are happy to report that AWS infrastructure {{ libre_session.id }}.{{ libre_infra.route53.domain }} 
+was successfully \e[1m\e[32mprovisionned\e[0m on AWS infrastructure
+
+Here are some interesting characteristics of this classroom infrastructure:
+
+Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}
+Type     : {{ libre_infra.ec2.type }}
+Region   : {{ libre_infra.ec2.region }}
+SSH User : {{ libre_infra.ssh.user }}
+SSH Key  : {{ libre_infra.ssh.keyname }}
+Size     : {{ libre_session.students|length }} students x {{ libre_infra.ec2.classroom|length }} workstations
+
+You must finish your installation by running the following command :
+$ ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml
+
+Have a happy setup ;)

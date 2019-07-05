@@ -1,0 +1,11 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+Public-Cloud AWS infrastructure for session \e[1m{{ libre_session.id }}\e[0m
+delivering course {{ libre_session.course }}is now \e[1m\e[32mconfigured\e[0m. 
+You can continue this process by :
+
+1. Review classroom infrastructure configuration file {{config_libre.directory.conf}}/{{ r_infra_config_file }}
+2. Start provisionning infrastructure by executing the following command :
+   $ libre-infra aws provision
+
+Have a happy setup ;)

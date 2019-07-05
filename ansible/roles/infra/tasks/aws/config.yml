@@ -69,16 +69,13 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
 
-- name: "aws : config : Succesfull config for Public-Cloud AWS infrastructure"
-  debug:
-    msg:
-      - " "
-      - "Public-Cloud AWS infrastructure for session {{ libre_session.id }} delivering course {{ libre_session.course }}"
-      - "is now configured. You can continue this process by :"
-      - " "
-      - "1. Review classroom infrastructure configuration file {{config_libre.directory.conf}}/{{ r_infra_config_file }}"
-      - "2. Start provisionning infrastructure by executing the following command :"
-      - "   $ libre-infra aws provision"
-      - " "
-      - " Have an happy training ;)"
-      - " "
+- name: "list : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+- name: "list : Generate LIBRE report at {{ r_libre_result_file }}"
+  template:
+    src: libre_report-config.j2
+    dest: "{{ r_libre_result_file }}"
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666

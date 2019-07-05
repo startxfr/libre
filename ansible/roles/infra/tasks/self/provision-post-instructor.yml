@@ -8,6 +8,16 @@
     name: "instructor-{{libre_session.id}}"
   become: yes
   when: inventory_hostname in groups.instructor
+- name: "self : provision : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+- name: "self : provision : Generate LIBRE report at {{ r_libre_result_file }}"
+  template:
+    src: templates/libre_report-provision-post.j2
+    dest: "{{ r_libre_result_file }}"
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
 
 - name: "self : provision-post-instructor : Log instructor post-provision action"
   include_role:

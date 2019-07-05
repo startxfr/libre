@@ -84,24 +84,3 @@
     log_name: "Self-Hosted infrastructure is Provisionned"
     log_component: infra-self
     log_action: provision self-hosted
-- name: "self : provision : Infrastructure provisionning is finish"
-  debug:
-    msg:
-      - "We are happy to report that self infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully provisioned on Self-Hosted infrastructure"
-      - " "
-      - "Here are some interesting characteristics of this infrastructure:"
-      - " "
-      - "  - Instructor: instructor.{{ libre_infra.network.dns }}"
-      - "  - Student   : student.{{ libre_infra.network.dns }}"
-      - "  - IP address: {{ libre_infra.network.associated_ip }}"
-      - " "
-      - " You can continue this process by :"
-      - " "
-      - "1. Review and complete the generated inventory {{config_libre.directory.conf}}/inventory/infra.yml"
-      - "2. Start post-provisionning your infrastructure by executing the following command :"
-      - "   $ libre-infra self post-provision"
-      - " "
-      - "You can also check in {{ r_libre_dest_ansible }}/inventory for sample inventory to use"
-      - "before lauching infrastructure post-provisionning."
-      - " "
-      - " Have an happy training ;)"

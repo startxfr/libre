@@ -1,3 +1,11 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-AWS infrastructure is \e[1m\e[32mpost-provisionned\e[0m
+We are happy to report that AWS infrastructure {{ libre_session.id }}.{{ libre_infra.route53.domain }} 
+was successfully \e[1m\e[32mpost-provisionned\e[0m on AWS infrastructure
+
+1. You can now connect to your instructor workstation :
+   $ ssh -i {{ libre_infra.ssh.keyname }} {{ libre_infra.ssh.user }}@workstation-env0.{{ libre_session.id }}.{{ libre_infra.route53.domain }}
+2. Then run instructor installation by running :"
+   $ libre-instructor install
+
+Have a happy setup ;)
