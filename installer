@@ -51,24 +51,24 @@ function debug_enabled {
 # echo if debug is activated
 function debug {
     if debug_enabled; then
-        echo "$@"
+        echo "$@" >&2
     fi
 }
 
 # echo an error
 function error {
-    echo "  ERROR ! $@"
+    echo "  ERROR ! $@" >&2
 }
 
 # echo an error and exit
 function fatal {
-    echo "  FATAL ! $@"
+    echo "  FATAL ! $@" >&2
     exit 1
 }
 
 # echo an error and exit
 function warning {
-    echo "  WARN  ! $@"
+    echo "  WARN  ! $@" >&2
 }
 
 # echo an error and exit
