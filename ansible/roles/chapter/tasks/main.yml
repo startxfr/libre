@@ -12,5 +12,5 @@
                'stop',
               ]
 
-- name: "{{ r_do }} chapter environement"
+- name: "{{ r_do }} chapter environment"
   include_tasks: "{{ r_do }}.yml"

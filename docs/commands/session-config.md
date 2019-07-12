@@ -2,7 +2,7 @@
 
 # Course session setup
 
-As soon as you have [installed libre TMS](installer.md), [configured your environement](libre-configure.md)
+As soon as you have [installed libre TMS](installer.md), [configured your environment](libre-configure.md)
 and [synchronized your courses materials](libre-repository.md), you can setup your course session. 
 
 Remember that the course session backend is defined in the `~/.libre/session.yml` configuration file.

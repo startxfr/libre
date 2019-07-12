@@ -7,7 +7,7 @@
 ### Infrastructure requirements
 
 If you plan to run a `self` or `prem` infrastructure, you must install this 
-environement without any virtualisation layer. Only direct install on physical 
+environment without any virtualisation layer. Only direct install on physical 
 installation with virtualisation CPU enabled are supported.
 
 If you plan to run an `aws` infrastructure, you must install you instructor
@@ -20,7 +20,7 @@ This setup require a Centos 7.6 or later with at least 100Mo free RAM and 1Vcpu
 (required to have 2Vcpu) and a root access for installation.
 
 If you start from a fresh install, you should run the following sequence to get 
-a fully updated environement.
+a fully updated environment.
 
 ```bash
 [root@instructor ~]# 
@@ -34,10 +34,10 @@ yum install -y curl git
 #### Configuring instructor environment
 
 Prior to your libre installation, you can add a custom instructor configuration
-file in order to configure the libre TMS environement to use specific 
+file in order to configure the libre TMS environment to use specific 
 your own session, course repository or infrastructure backends.
 You can create the following files with you custom parameters to 
-configure your LIBRE environement prior to any action:
+configure your LIBRE environment prior to any action:
 - `~/.libre/config.yml` : **libre** default configuration
 - `~/.libre/infra.yml` : **infrastructure** configuration file
 - `~/.libre/infra-id_rsa` : infrastructure ssh backend **private key**
@@ -104,7 +104,7 @@ You can choose between 3 type of infrastructure deployment
 
 ###### Self infractusture
 
-1. Configure STARTX infrastructure in self-hosted environement
+1. Configure STARTX infrastructure in self-hosted environment
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 
@@ -126,7 +126,7 @@ Edit `~/.libre/infra-id_rsa` file with the [STARTX private self RSA](./config/in
 
 ###### On-Prem infractusture
 
-1. Configure STARTX infrastructure in on-premise environement
+1. Configure STARTX infrastructure in on-premise environment
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 
@@ -150,7 +150,7 @@ Edit `~/.libre/infra-id_rsa` file with the [STARTX private on-prem RSA](./config
 
 ###### AWS infractusture
 
-1. Configure STARTX infrastructure in AWS environement
+1. Configure STARTX infrastructure in AWS environment
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 

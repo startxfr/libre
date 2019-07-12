@@ -59,21 +59,21 @@ Usage:
 
 - Infrastructure type and commands:
   aws               AWS infrastructure
-    config          configure AWS infrastructure environement
+    config          configure AWS infrastructure environment
     provision       provision AWS infrastructure environment
     post-provision  exectute AWS post-provisioning task
     deprovision     deprovision AWS infrastructure environment
     status          get status of the AWS infrastructure
     history         get history of the infra-aws actions
   prem              On-premise infrastructure
-    config          configure On-premise infrastructure environement
+    config          configure On-premise infrastructure environment
     provision       provision On-premise infrastructure environment
     post-provision  exectute On-premise post-provisioning task
     deprovision     deprovision On-premise infrastructure environment
     status          get status of the On-Prem infrastructure
     history         get history of the infra-prem actions
   self              Self-hosted infrastructure
-    config          configure Self-Hosted infrastructure environement
+    config          configure Self-Hosted infrastructure environment
     provision       provision Self-Hosted infrastructure environment
     post-provision  exectute Self-Hosted post-provisioning task
     deprovision     deprovision Self-Hosted infrastructure environment
