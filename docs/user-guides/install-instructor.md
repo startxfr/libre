@@ -55,7 +55,7 @@ after the instructor install and you will be able to change their content whenev
 > **NOTICE**: In the `infra.yml` config file, `aws.access_key` and
   `aws.secret_key` are set to `False` in order to force interactive prompt 
   for AWS credentials.
-  Theses credentials must have autorizations over EC2, VPC, Route53 objects
+  These credentials must have autorizations over EC2, VPC, Route53 objects
   for the used datacenter (default is `eu-west-3`).
 
   If you manually set `aws.access_key` and `aws.secret_key` in the `infra.yml` 

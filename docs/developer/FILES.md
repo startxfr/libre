@@ -14,7 +14,7 @@ not already present on your workstation.
 | ~/.libre/infra-id_rsa     | Private key file to use for infra provisionning (must be replaced by your own certificate)                                        |
 | ~/.libre/infra-id_rsa.pub | Public key file associated with private key file (must be replaced by your own certificate)                                       |
 
-These file are loaded on application startup and content is loaded in dedicated ansible vars. You can acces to theses files content 
+These file are loaded on application startup and content is loaded in dedicated ansible vars. You can acces to these files content 
 by using the appropriate variable. For example to display the libre base directory (key __base__ in __directory__ section of `~/.libre/config.yml`), 
 you can do ```yaml - debug: msg="{{ config_libre.directory.base }}"```.
 
