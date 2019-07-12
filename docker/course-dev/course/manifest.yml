@@ -2,8 +2,8 @@ id: LIBRE-dev01
 version: 0.0.1
 provider: ADL
 familly: Libre
-name: Libre-instructor webapp developement course example
-desc: Webapp developement course example used for testing libre instructor libre web-application
+name: Libre-instructor webapp development course example
+desc: Webapp development course example used for testing libre instructor libre web-application
 schedule:
   days: 1
   hours: 7
