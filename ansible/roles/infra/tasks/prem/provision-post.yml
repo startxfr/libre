@@ -1,7 +1,7 @@
 ---
-- name: "prem : provision-post : Set infrastructure state to provisionned"
+- name: "prem : provision-post : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'post-provisioned' }, recursive=True) }}"
 - name: "prem : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -23,7 +23,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "On-Premise infrastructure is Post-provisionned"
+    log_name: "On-Premise infrastructure is Post-provisioned"
     log_component: infra-prem
     log_action: post-provision on-premise infrastructure
   run_once: true

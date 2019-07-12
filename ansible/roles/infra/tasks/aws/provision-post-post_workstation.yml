@@ -98,7 +98,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure has post-provisionned workstation for student {{ student.name }}"
+    log_name: "AWS infrastructure has post-provisioned workstation for student {{ student.name }}"
     log_component: infra-aws
     log_action: post-provision on student {{ student.id }}
 

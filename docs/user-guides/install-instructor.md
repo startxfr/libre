@@ -60,7 +60,7 @@ after the instructor install and you will be able to change their content whenev
 
   If you manually set `aws.access_key` and `aws.secret_key` in the `infra.yml` 
   prior to any `libre-infra aws xxxx` command, you can bypass the interactive 
-  sequence and run aws infrastructure provisionning without interaction.
+  sequence and run aws infrastructure provisioning without interaction.
 
 #### Install libre TMS with instructor profile
 

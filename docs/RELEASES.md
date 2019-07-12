@@ -51,12 +51,12 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
-| 0.6.19   | 2019-06-01 | Full AWS provisionning deployment and integration of book generation
+| 0.6.19   | 2019-06-01 | Full AWS provisioning deployment and integration of book generation
 | 0.6.17   | 2019-05-31 | Improve AWS infrastructure deployement for a full classroom support
 | 0.6.16   | 2019-05-29 | Debugging student loading
-| 0.6.15   | 2019-05-27 | Stabilize post-provisionning on self infrastructure.
+| 0.6.15   | 2019-05-27 | Stabilize post-provisioning on self infrastructure.
 | 0.6.11   | 2019-05-22 | Improving lab and infra management. 
-| 0.6.10   | 2019-05-19 | Remove usless become, delegate_to. Change instructor dependency and install sequence. Stabilize infra self provisionning sequence (only with virt kernel)
+| 0.6.10   | 2019-05-19 | Remove usless become, delegate_to. Change instructor dependency and install sequence. Stabilize infra self provisioning sequence (only with virt kernel)
 | 0.6.9    | 2019-05-18 | Speeup libre reinstall. 
 | 0.6.7    | 2019-05-18 | Move user config to dedicated role installation and reduce loading tasks
 | 0.6.5    | 2019-05-16 | Change infra workflow and start classroom libre installation. Move libre version form user config to internal config

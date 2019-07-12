@@ -72,7 +72,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Self-Hosted infrastructure is Post-provisionned on students"
+    log_name: "Self-Hosted infrastructure is Post-provisioned on students"
     log_component: infra-self
     log_action: post-provision self-hosted infrastructure on students
   delegate_to: localhost

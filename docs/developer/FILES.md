@@ -11,7 +11,7 @@ not already present on your workstation.
 | ~/.libre/session.yml      | configuration file for the session backend to use when configurating a training session                                           | config_session
 | ~/.libre/repository.yml   | configuration file for the course repository backend to use when installing the libre environement                                | config_infra
 | ~/.libre/infra.yml        | configuration file for the course infrastructure backends. Contain configuration option for classroom infrastructure deployment   | config_repository
-| ~/.libre/infra-id_rsa     | Private key file to use for infra provisionning (must be replaced by your own certificate)                                        |
+| ~/.libre/infra-id_rsa     | Private key file to use for infra provisioning (must be replaced by your own certificate)                                        |
 | ~/.libre/infra-id_rsa.pub | Public key file associated with private key file (must be replaced by your own certificate)                                       |
 
 These file are loaded on application startup and content is loaded in dedicated ansible vars. You can acces to these files content 

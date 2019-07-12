@@ -5,8 +5,8 @@ For more more informations on how to [setup a console installation](../../instal
 or [setup LIBRE command line](../../installer.md)
 
 1. Infrastructure playbooks
-    1. [AWS provisionning](./infra-aws)
-    2. [On-premise provisionning](./infra-prem)
+    1. [AWS provisioning](./infra-aws)
+    2. [On-premise provisioning](./infra-prem)
 2. Instructor playbooks
     1. [Instructor actions](./instructor)
     2. Infrastructure actions
