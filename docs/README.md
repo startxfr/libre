@@ -15,10 +15,10 @@
 - [Deprovision  a classroom environment](user-guides/uninstall-infra.md)
 - [Uninstall an instructor environment](user-guides/uninstall-instructor.md)
 
-## 2. Developper guide
+## 2. Developer guide
 
-- [Main files and directory structure](developper/FILES.md)
-- [Main LIBRE commands](developper/BIN.md)
+- [Main files and directory structure](developer/FILES.md)
+- [Main LIBRE commands](developer/BIN.md)
 - [Release history and conventions](RELEASES.md)
 
 
