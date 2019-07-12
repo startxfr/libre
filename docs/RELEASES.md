@@ -71,7 +71,7 @@ The clostest the constellation are from the solar system, the better they are.
 | 0.5.99   | 2019-05-09 | Debug infra aws deployment
 | 0.5.44   | 2019-05-02 | Stable instructor install on Centos 7.6
 | 0.5.43   | 2019-04-29 | Add repository refresh on install and signsheet record in instructor container
-| 0.5.40   | 2019-04-27 | Update to Centos 7.6 environement
+| 0.5.40   | 2019-04-27 | Update to Centos 7.6 environment
 | 0.5.34   | 2018-12-09 | Reorg var dependencies and log management
 | 0.5.32   | 2018-11-30 | Clean service dependencies
 | 0.5.30   | 2018-11-27 | Upgrade sxapi dependencies in instructor container (move to yaml)

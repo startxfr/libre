@@ -15,7 +15,7 @@ will help us improve courseware material.
 
 ## Start lab
 
-The 0 environement is reserved to the instructor. You must connect to the 
+The 0 environment is reserved to the instructor. You must connect to the 
 you workstation in order to execute lab tasks. You can pass a lab number 
 (based on the section index in course book) or a lab name (as referenced
 in course book) to manage lab context.

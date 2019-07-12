@@ -139,7 +139,7 @@ function checkIfSession {
 function coreWelcome {
 cat <<EOF
 
-Librairie d'outils pour l'environement de formation STARTX
+Librairie d'outils pour l'environment de formation STARTX
 Ne pas utiliser directement mais plutot les outils :
 
   libre-instructor   instructor workstation management

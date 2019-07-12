@@ -304,7 +304,7 @@ function perform_uninstallation {
     fi
 }
 
-# reinstaller remove libre environement
+# reinstaller remove libre environment
 function reinstall_libre {
     print_info
     perform_uninstallation

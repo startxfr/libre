@@ -2,7 +2,7 @@
 
 # Install course session
 
-As soon as you have [installed libre TMS](installer.md), [configured your environement](libre-configure.md),
+As soon as you have [installed libre TMS](installer.md), [configured your environment](libre-configure.md),
  [synchronized your courses materials](libre-repository.md) and
  [configured your session](session-config.md), you can install your session. 
 

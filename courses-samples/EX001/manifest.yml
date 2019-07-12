@@ -80,7 +80,7 @@ classroomInfra:
   workstations:
     - name: workstation
       group_name: workstations
-      desc: Workstation used for lab environement
+      desc: Workstation used for lab environment
       scripts:
         provision: provision-workstation.yml
         deprovision: deprovision-workstation.yml
@@ -96,7 +96,7 @@ classroomInfra:
         ssh_user: "root"
     - name: nodeA
       group_name: nodesA
-      desc: First node server used for lab environement
+      desc: First node server used for lab environment
       scripts:
         provision: provision-nodeA.yml
         deprovision: deprovision-nodes.yml
@@ -111,7 +111,7 @@ classroomInfra:
         ssh_user: "root"
     - name: nodeB
       group_name: nodesB
-      desc: Second node server used for lab environement
+      desc: Second node server used for lab environment
       scripts:
         provision: provision-nodeA.yml
         deprovision: deprovision-nodes.yml
