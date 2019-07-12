@@ -4,7 +4,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "On-Premise infrastructure is Post-provisionned on students"
+    log_name: "On-Premise infrastructure is Post-provisioned on students"
     log_component: infra-prem
     log_action: post-provision on-premise infrastructure on students
   delegate_to: localhost

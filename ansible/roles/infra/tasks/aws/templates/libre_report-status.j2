@@ -12,11 +12,11 @@
    inventory : \e[1m\e[31mnot installed\e[0m
 {% endif %}
 {% if libre_infra.type is defined %}
-{% if libre_infra.state == 'provisionned' %}
-        type : \e[1m\e[33mprovisionned\e[0m   {{ libre_infra.type }}
-   classroom : \e[1m\e[33mprovisionned\e[0m   \e[1m{{ libre_infra.ec2.classroom|length }}\e[0m VM x \e[1m{{ libre_session.students|length }}\e[0m students
+{% if libre_infra.state == 'provisioned' %}
+        type : \e[1m\e[33mprovisioned\e[0m   {{ libre_infra.type }}
+   classroom : \e[1m\e[33mprovisioned\e[0m   \e[1m{{ libre_infra.ec2.classroom|length }}\e[0m VM x \e[1m{{ libre_session.students|length }}\e[0m students
     students :                \e[1m{{ libre_session.students|length }}\e[0m students ("{{ libre_session.students | map(attribute='id') | list | join(', ')  }}")
-{% elif libre_infra.state == 'post-provisionned' %}
+{% elif libre_infra.state == 'post-provisioned' %}
         type : \e[1m\e[32mpost-provision\e[0m {{ libre_infra.type }}
    classroom : \e[1m\e[32mpost-provision\e[0m \e[1m{{ libre_infra.ec2.classroom|length }}\e[0m VM x \e[1m{{ libre_session.students|length }}\e[0m students
     students :                \e[1m{{ libre_session.students|length }}\e[0m students ("{{ libre_session.students | map(attribute='id') | list | join(', ')  }}")

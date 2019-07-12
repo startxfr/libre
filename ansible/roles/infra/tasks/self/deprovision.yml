@@ -58,9 +58,9 @@
   loop_control:
     loop_var: keyf
     label: "{{ keyf.key }} > {{ keyf.user }}"
-- name: "self : deprovision : Set infrastructure state to provisionned"
+- name: "self : deprovision : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'deprovisioned' }, recursive=True) }}"
 - name: "self : deprovision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -80,6 +80,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Self-Hosted infrastructure is Deprovisionned"
+    log_name: "Self-Hosted infrastructure is Deprovisioned"
     log_component: infra-self
     log_action: deprovision self-hosted infrastructure

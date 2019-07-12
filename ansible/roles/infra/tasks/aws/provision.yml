@@ -35,9 +35,9 @@
     loop_var: instance
     label: "{{ instance.public_ip }}"
 
-- name: "aws : provision : Set infrastructure state to provisionned"
+- name: "aws : provision : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'provisioned' }, recursive=True) }}"
 - name: "aws : provision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -58,7 +58,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is Provisionned"
+    log_name: "AWS infrastructure is Provisioned"
     log_component: infra-aws
     log_action: provision on {{ libre_infra.ec2.region }}
     

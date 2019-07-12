@@ -11,7 +11,7 @@ session.
 You must then choose an infrastructure backend and provision your classroom
 infrastructure.
 
-### Self-Hosted provisionning
+### Self-Hosted provisioning
 
 This infrastructure backend must be run only on hardware nodes. It use kvm
 and libvirt to run a classroom emulation.
@@ -26,7 +26,7 @@ libre-infra self provision
 libre-infra self post-provision
 ```
 
-### On-Premise provisionning
+### On-Premise provisioning
 
 This infrastructure backend must be run only on hardware nodes with
 a network interface linked to the student nodes. 
@@ -43,7 +43,7 @@ libre-infra prem provision
 libre-infra prem post-provision
 ```
 
-### AWS provisionning
+### AWS provisioning
 
 This infrastructure backend could be run on any node with an internet 
 connection. Neverless, for student access to instructor material, the

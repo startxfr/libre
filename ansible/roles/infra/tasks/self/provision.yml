@@ -59,9 +59,9 @@
     mode: 0664
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
-- name: "self : provision : Set infrastructure state to provisionned"
+- name: "self : provision : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'provisioned' }, recursive=True) }}"
 - name: "self : provision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -81,6 +81,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Self-Hosted infrastructure is Provisionned"
+    log_name: "Self-Hosted infrastructure is Provisioned"
     log_component: infra-self
     log_action: provision self-hosted

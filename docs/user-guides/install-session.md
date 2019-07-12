@@ -48,16 +48,16 @@ libre-session status
 
 ## Provision your infrastructure
 
-After configuring your session, you must continue by [provisionning your infrastructure](install-infra.md).
+After configuring your session, you must continue by [provisioning your infrastructure](install-infra.md).
 You can then come back to the start session process when infrastructure
-is provisionned and deployed.
+is provisioned and deployed.
 
 
 ## Start the training
 
 ### Start your training session
 
-When your infrastructure backend is provisionned, you can start you training
+When your infrastructure backend is provisioned, you can start you training
 session by 
 
 ```bash
