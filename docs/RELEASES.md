@@ -20,8 +20,8 @@ The clostest the constellation are from the solar system, the better they are.
 |----------|-----------|------
 | 1.0.x    | Solar     | To be defined
 | 0.9.x    | Lyra      | To be defined
-| 0.8.x    | Centaurus | To be defined
-| 0.7.x    | Cygnus    | To be defined
+| 0.8.x    | Centaurus | Adding boostrap server for multi-classroom deployments
+| 0.7.x    | Cygnus    | Adding graphical interface for student workspace
 | 0.6.x    | Pegasus   | Stable classroom deployment in AWS
 | 0.5.x    | Cetus     | Stable release for Centos 7.6 environment
 | 0.4.x    | Sextans   | Stabilize infra AWS deployment
@@ -32,6 +32,14 @@ The clostest the constellation are from the solar system, the better they are.
 
 
 # Release history
+
+## version 0.8.x (Cygnus)
+
+| Release  | Date       |  Description
+|----------|------------|-------------
+| 0.8.1    | 2019-06-14 | unstable addition of boostrap installation
+| 0.8.0    | 2019-09-13 | Stable Release with minor fix from 0.7.15
+
 
 ## version 0.7.x (Cygnus)
 

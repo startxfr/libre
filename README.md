@@ -158,4 +158,6 @@ libre-lab start <lab_id>
 
 # 4. Release notes
 
-To see the full release list, please refer to the [release page](docs/RELEASES.md). Release name are based on constellation name as described in the [release sytem](docs/RELEASES.md#release-naming-rules)
+To see the full release list, please refer to the [release page](docs/RELEASES.md). 
+Release name are based on constellation name as described in the 
+[release sytem](docs/RELEASES.md#release-naming-rules)

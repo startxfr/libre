@@ -2,6 +2,23 @@
 
 # LIBRE Documentation
 
+## Definitions
+
+- **classroom** Virtual or physical environments running instructor and students 
+  workspaces
+- **workspace** Multiple station running as a unit used by students during their
+  training session experience
+- **student** Physical user attending a training session and executing lab works under 
+  his dedicated workspace
+- **instructor** Physical trainer running a training session and animating lab works 
+  executed by students
+- **provisionner** Physical user with enought credentials and skills to provision
+  working classrooms environments
+- **station** Computer unit used by instructor or student during a training session
+- **workstation** Special computer unit used by instructor or student to access their
+  dedicated workspace environment using a graphical interface (act as bastion).
+
+
 ## 1. Usage guide
 
 - [Install an instructor environement](user-guides/install-instructor.md)
