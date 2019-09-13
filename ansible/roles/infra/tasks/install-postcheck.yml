@@ -20,7 +20,7 @@
   - name: "install-postcheck : User infra configuration is loaded"
     assert:
       that: config_infra is defined
-      msg: "Repository configuration {{ r_libre_myconfile_infra }} is not loaded"
+      msg: "infra configuration {{ r_libre_myconfile_infra }} is not loaded"
 
 - name: "install-postcheck : Mark Infrastructure install-postcheck as done"
   set_fact:
