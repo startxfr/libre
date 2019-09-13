@@ -15,7 +15,7 @@
       set_fact:
         session_id: "{{ sessionID.user_input }}"
 - name: "config : gapi : Session Token is not already defined"
-  when: session_id is undefined
+  when: session_token is undefined
   block:
     - name: "config : gapi : Configure the session token"
       pause:
