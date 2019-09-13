@@ -23,6 +23,5 @@ galaxy_info:
   - training
   - TMS
 dependencies:
-  - { role: repository, do: load }
   - { role: infra, do: load }
 allow_duplicates: false

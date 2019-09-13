@@ -1,7 +1,7 @@
 ---
-- name: "uninstall : Start infrastructure uninstall"
+- name: "uninstall : Start session uninstall"
   include_role:
-    name: infra
+    name: session
     tasks_from: uninstall
 - name: "uninstall : Reload"
   include_tasks: load.yml
