@@ -19,7 +19,7 @@ LIBRE_TOOLREPO_BASE=/
 LBI_DEBUG=$LIBREI_DEBUG_DEFAULT
 
 # default command line options
-LIBRE_TYPE=instructor
+LIBRE_TYPE=bootstrap
 UPDATE=n
 ASK_BECOME_PASS=
 
@@ -117,7 +117,7 @@ function check_type {
         return 1
     }
 
-    local types=(instructor student)
+    local types=(bootstrap instructor student)
 
     for t in "${types[@]}"; do
         [ "$1" == "$t" ] && return 0
@@ -261,7 +261,13 @@ function install_libre {
         echo "Reload bash profile"
         source /etc/profile.d/libre.sh &> /dev/null
         echo -e $(cat /tmp/libre.txt)
-        if [[ "$LIBRE_TYPE" == "instructor" && "$IS_INTERACTIVE" == "yes" ]]; then
+        if [[ "$LIBRE_TYPE" == "bootstrap" && "$IS_INTERACTIVE" == "yes" ]]; then
+            read -p "Do you want to continue by provisionning a classroom (y/N) : " doInstall
+            if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
+                libre-infra config
+                echo -e $(cat /tmp/libre.txt)
+            fi
+        elif [[ "$LIBRE_TYPE" == "instructor" && "$IS_INTERACTIVE" == "yes" ]]; then
             read -p "Do you want to continue by installing training session (y/N) : " doInstall
             if [[ "$doInstall" == "y" || "$doInstall" == "yes" ]]; then
                 libre-session install
@@ -327,18 +333,18 @@ function print_usage {
 	Options:
 	     -t INSTALL_TYPE  install LIBRE_TYPE training environment
 	                      INSTALL_TYPE can be one of:
-	                                                    - bootstrap
-	                                                    - instructor (default)
+	                                                    - bootstrap (default)
+	                                                    - instructor
 	                                                    - student
 	     -K               prompt for Ansible's privilege escalation password
 	     -i               interactive and prompt for session setup on instructor post-install 
 	     -u               fully update the system during installation
 
 	Availables sub-commands:
-	     install          install LIBRE TMS and instructor or student training
+	     install          install LIBRE TMS and bootstrap, instructor or student
 	                      environment (interactive)
-	     uninstall        uninstall LIBRE TMS and training environment
-	     reinstall        re-install LIBRE TMS and training environment
+	     uninstall        uninstall training environment (and libre TMS)
+	     reinstall        re-install training environment (and libre TMS)
 	EOF
 }
 
