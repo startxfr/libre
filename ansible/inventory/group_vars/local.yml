@@ -7,8 +7,8 @@ libre_verbose: true
 # Enable debug configuration
 libre_debug: true
 # Workstation type to install
-libre_type: instructor
+libre_type: student
 # Default user for course content
-libre_user: instructor
+libre_user: student
 # playbooks directory inside the course directory
-training_dir_course_playbooks: playbooks/instructor
+training_dir_course_playbooks: playbooks/student

@@ -1,0 +1,9 @@
+---
+- name: "Uninstall bootstrap environment on bootstrap"
+  hosts: 'bootstrap'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: bootstrap, do: load }
+    - { role: bootstrap, do: uninstall, libre_uninstall_deep: false }

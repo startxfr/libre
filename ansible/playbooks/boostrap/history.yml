@@ -1,0 +1,9 @@
+---
+- name: "Display bootstrap history on bootstrap"
+  hosts: 'bootstrap'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: bootstrap, do: load }
+    - { role: bootstrap, do: history, history_filter: all }

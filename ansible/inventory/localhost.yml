@@ -6,6 +6,13 @@ local:
     ansible_connection: local
     libre_type: instructor
 
+boostrap:
+  hosts:
+    localhost:
+  vars:
+    ansible_connection: local
+    libre_type: boostrap
+
 instructor:
   hosts:
     localhost:

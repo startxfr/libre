@@ -1,0 +1,53 @@
+---
+# Install pre-tasks
+- name: "install : Start bootstrap pre-installation checks"
+  include_tasks: install-precheck.yml
+  when: not bootstrap_install_precheck or bootstrap_install_precheck is undefined
+
+# Install tasks
+- name: "install : Start bootstrap install sequence"
+  block:
+    - name: "install : Start infrastructure install post-check"
+      include_role:
+        name: infra
+        tasks_from: install-postcheck
+  rescue:
+    - name: "install : Infrastructure post-check install is not valid"
+      debug:
+        msg: Failing back to installing infrastructure first 
+    - name: "install : Start infrastructure load"
+      include_role:
+        name: infra
+        tasks_from: load
+    - name: "install : Start infrastructure install"
+      include_role:
+        name: infra
+        tasks_from: install
+
+- name: "install : Set hostame to bootstrap"
+  hostname:
+    name: bootstrap
+
+- name: "install : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+- name: "install : Generate LIBRE report at {{ r_libre_result_file }}"
+  template:
+    src: libre_report-install.j2
+    dest: "{{ r_libre_result_file }}"
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
+
+- name: "install : Log install action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "Bootstrap workstation is installed"
+    log_component: bootstrap
+    log_action: install on 127.0.0.1
+
+# Install post-tasks
+- name: "install : Start bootstrap post-installation checks"
+  include_tasks: install-postcheck.yml

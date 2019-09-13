@@ -1,0 +1,17 @@
+---
+## LIBRE Bootstrap role tasks
+- name: "Action {{ r_do }} in bootstrap role is supported"
+  assert:
+    that: >
+      r_do in [
+               'load',
+               'config',
+               'status',
+               'history',
+               'install',
+               'update',
+               'uninstall',
+              ]
+    msg: "Action {{ r_do }} in bootstrap role is not supported"
+- name: "{{ r_do }} bootstrap environment"
+  include_tasks: "{{ r_do }}.yml"

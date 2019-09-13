@@ -5,7 +5,6 @@
     state: absent
     remove: yes
     force: yes
-
 - name: "uninstall : user : Remove the libre user group {{ r_libre_group }}"
   group:
     name: "{{ r_libre_group }}"

@@ -1,0 +1,17 @@
+---
+- name: "uninstall : Start infrastructure uninstall"
+  include_role:
+    name: infra
+    tasks_from: uninstall
+- name: "uninstall : Reload"
+  include_tasks: load.yml
+- name: "uninstall : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+- name: "uninstall : Generate LIBRE report at {{ r_libre_result_file }}"
+  template:
+    src: libre_report-uninstall.j2
+    dest: "{{ r_libre_result_file }}"
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666

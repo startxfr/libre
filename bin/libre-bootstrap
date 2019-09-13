@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-bootstrap
+
+# Dispatch input arguments
+case $1 in
+    install)                bootstrapPlaybook install ;;
+    update)                 bootstrapPlaybook update ;;
+    uninstall)              bootstrapUninstallPlaybook $2 ;;
+    status)                 bootstrapPlaybook status ;;
+    history)                bootstrapPlaybook history ;;
+    usage|help|--help|-h)   bootstrapUsage $@ ;;
+    info|--info)            bootstrapInformation $@ ;;
+    version|--version)      bootstrapVersion $@ ;;
+    *)                      bootstrapWelcome $@ ;;
+esac

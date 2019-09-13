@@ -1,0 +1,8 @@
+---
+- name: "Update bootstrap environment on bootstrap"
+  hosts: 'bootstrap'
+  gather_facts: true
+
+  roles:
+    - { role: bootstrap, do: load }
+    - { role: bootstrap, do: update }

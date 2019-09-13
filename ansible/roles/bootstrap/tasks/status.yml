@@ -1,0 +1,15 @@
+---
+- name: "status : Start infrastructure status"
+  include_role:
+    name: infra
+    tasks_from: status
+- name: "status : Get previous report data"
+  set_fact:
+    previous_report2: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+- name: "status : Generate bootstrap report at {{ r_libre_result_file }}"
+  template:
+    src: libre_report-status.j2
+    dest: "{{ r_libre_result_file }}"
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666

@@ -1,9 +1,8 @@
+## LIBRE Instructor role meta informations
 ---
-## LIBRE Session role meta informations
-
 galaxy_info:
   author: Startx dev
-  description: LIBRE Training Toolkit - Session role
+  description: LIBRE Training Toolkit - Bootstrap role
   company: STARTX
   license: Apache License, Version 2.0
   min_ansible_version: 1.8
@@ -24,5 +23,6 @@ galaxy_info:
   - training
   - TMS
 dependencies:
-  - { role: libre, do: load }
+  - { role: repository, do: load }
+  - { role: infra, do: load }
 allow_duplicates: false

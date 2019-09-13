@@ -55,6 +55,22 @@ _libre_infra()
   return 0;
 }
 
+# Auto-completion for bootstrap
+_libre_bootstrap()
+{
+  local available="install uninstall status history usage info version"
+  if [ "${#COMP_WORDS[@]}" != "2" ]; then
+    return
+  fi
+  local suggestions=($(compgen -W "$available" "${COMP_WORDS[1]}"))
+  if [ "${#suggestions[@]}" == "1" ]; then
+    local number=$(echo ${suggestions[0]/%\ */})
+    COMPREPLY=("$number")
+  else
+    COMPREPLY=("${suggestions[@]}")
+  fi
+}
+
 # Auto-completion for instructor
 _libre_instructor()
 {
@@ -138,6 +154,7 @@ _libre_student()
 complete -F _libre_chapter libre-chapter
 complete -F _libre_infra libre-infra
 complete -F _libre_instructor libre-instructor
+complete -F _libre_bootstrap libre-bootstrap
 complete -F _libre_repository libre-repository
 complete -F _libre_lab libre-lab
 complete -F _libre_session libre-session

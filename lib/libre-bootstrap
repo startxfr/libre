@@ -1,0 +1,75 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-core
+
+# Display bootstrap header message
+function bootstrapHeader {
+  isVerbose
+  if [ "$?" -eq 1 ] ; then
+    cat /usr/local/lib/libre-bootstrap.txt
+  fi
+}
+
+# Call bootstrap playbook
+function bootstrapPlaybook {
+  bootstrapHeader
+  runLibrePlaybook bootstrap $1 $2
+  exit 0;
+}
+
+# Call bootstrap uninstall playbook
+function bootstrapUninstallPlaybook {
+  bootstrapHeader
+  if [[ "$1" == "deep" || "$1" == "all" || "$1" == true || "$1" == "true" || "$1" == "True" ]] ; then
+      deep="local -e libre_uninstall_deep=True"
+  else
+      deep=""
+  fi
+  runLibrePlaybook bootstrap uninstall $deep
+  exit 0;
+}
+
+# Display bootstrap info and exit
+function bootstrapInformation {
+  bootstrapHeader
+  coreInformation
+  exit 0;
+}
+
+# Display bootstrap welcome and exit
+function bootstrapWelcome {
+  bootstrapHeader
+  coreInformation
+  echoEnv
+  bootstrapUsage
+  exit 0;
+}
+
+# Display version info and exit
+function bootstrapVersion {
+  coreVersion
+  exit 0;
+}
+
+# Display libre-bootstrap usage
+function bootstrapUsage {
+cat <<EOF
+
+Instructor training management command line.
+
+Usage:
+  libre-bootstrap [command]
+
+- Generic commands:
+  install          install bootstrap environment
+  uninstall        uninstall bootstrap environment after archiving (extra command 
+                   "deep" or "all" will remove user config directory)
+  history          get history of the bootstrap actions
+  status           get status of the current bootstrap
+  usage            get command line usage information
+  info             give information about current libre installation
+  version          give information about current libre version
+EOF
+}
+
+

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.8.0"
+LIBREI_VERSION="0.8.1"
 LIBREI_DEBUG_DEFAULT=true
 LIBREI_REQUIREMENTS_CENTOS="git curl jq docker"
 ANSIBLE_RPM_FILENAME="ansible-2.7.9-1.el7.ans.noarch.rpm"
@@ -327,6 +327,7 @@ function print_usage {
 	Options:
 	     -t INSTALL_TYPE  install LIBRE_TYPE training environment
 	                      INSTALL_TYPE can be one of:
+	                                                    - bootstrap
 	                                                    - instructor (default)
 	                                                    - student
 	     -K               prompt for Ansible's privilege escalation password

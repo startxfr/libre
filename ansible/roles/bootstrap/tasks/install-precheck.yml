@@ -1,0 +1,10 @@
+---
+- name: "install-precheck : Start infrastructure pre-installation checks"
+  include_role:
+    name: infra
+    tasks_from: install-precheck.yml
+  when: not infra_install_precheck or infra_install_precheck is undefined
+
+- name: "install-precheck : Mark bootstrap install-precheck as done"
+  set_fact:
+    bootstrap_install_precheck: True
