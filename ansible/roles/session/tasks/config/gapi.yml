@@ -1,20 +1,21 @@
 ---
-- name: "install : Session ID is not already defined"
+- name: "config : gapi : Session ID is not already defined"
+  when: session_id is undefined
   block:
     - name: "config : gapi : Configure the session ID"
       pause:
         prompt: "What is your session ID ?"
       register: sessionID
       delegate_to: localhost
-    - name: "config : gapi : Session ID doesn't match a good number"
-      fail:
+    - name: "config : gapi : Session ID is a good number"
+      assert:
+        that: sessionID.user_input != ""
         msg: "You must give a good Session ID"
-      when: sessionID.user_input | default('') | string == ""
     - name: "config : gapi : Register session_id fact"
       set_fact:
         session_id: "{{ sessionID.user_input }}"
+- name: "config : gapi : Session Token is not already defined"
   when: session_id is undefined
-- name: "install : Session Token is not already defined"
   block:
     - name: "config : gapi : Configure the session token"
       pause:
@@ -22,45 +23,45 @@
         echo: no
       register: sessionToken
       delegate_to: localhost
-    - name: "config : gapi : Session token doesn't match a good token"
-      fail:
+    - name: "config : gapi : Session token is a good number"
+      assert:
+        that: sessionToken.user_input != ""
         msg: "You must give a good Session token"
-      when: sessionToken.user_input | default('') | string == ""
     - name: "config : gapi : Register session_token fact"
       set_fact:
         session_token: "{{ sessionToken.user_input }}"
-  when: session_id is undefined
 
-- name: "config : gapi : Calling Google API backend for session"
-  include_role:
-    name: libre
-    tasks_from: lib/gapi
-
-- name: "config : gapi : Extract Google API returned data"
-  set_fact:
-    course_id: "{{ gapiReturn.cours }}"
-    session_id: "{{ gapiReturn.id }}"
-    session_instructor: "{{ gapiReturn.instructor }}"
-    session_type: "{{ gapiReturn.type }}"
-    session_state: "{{ gapiReturn.state }}"
-    session_start: "{{ gapiReturn.start }}"
-    session_stop: "{{ gapiReturn.stop }}"
-    session_commentToTrainer: "{{ gapiReturn.commentToTrainer }}"
-    session_commentToFacility: "{{ gapiReturn.commentToFacility }}"
-    session_commentFromTrainer: "{{ gapiReturn.commentFromTrainer }}"
-    session_students: "{{ gapiReturn.students }}"
-  when: gapiReturn is defined
-- name: "config : gapi : Dynamic addition of the instructor"
-  set_fact:
-    session_students: '{{ session_students + [ { "id" : "INST", "name" : "instructor", "email" : "libre@startx.fr", "workstation" : "0" } ]  }}'
-  when: gapiReturn is defined
-
-- name: "config : gapi : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
-  template:
-    src: libre-session-gapi.j2
-    dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
-    mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+- name: "config : gapi : Session ID and Token are given to update session context"
+  when: session_id is defined and session_token is defined
+  block:
+    - name: "config : gapi : Calling Google API backend for session"
+      include_role:
+        name: libre
+        tasks_from: lib/gapi
+    - name: "config : gapi : Extract Google API returned data"
+      set_fact:
+        course_id: "{{ gapiReturn.cours }}"
+        session_id: "{{ gapiReturn.id }}"
+        session_instructor: "{{ gapiReturn.instructor }}"
+        session_type: "{{ gapiReturn.type }}"
+        session_state: "{{ gapiReturn.state }}"
+        session_start: "{{ gapiReturn.start }}"
+        session_stop: "{{ gapiReturn.stop }}"
+        session_commentToTrainer: "{{ gapiReturn.commentToTrainer }}"
+        session_commentToFacility: "{{ gapiReturn.commentToFacility }}"
+        session_commentFromTrainer: "{{ gapiReturn.commentFromTrainer }}"
+        session_students: "{{ gapiReturn.students }}"
+      when: gapiReturn is defined
+    - name: "config : gapi : Dynamic addition of the instructor"
+      set_fact:
+        session_students: '{{ session_students + [ { "id" : "INST", "name" : "instructor", "email" : "libre@startx.fr", "workstation" : "0" } ]  }}'
+      when: gapiReturn is defined
+    - name: "config : gapi : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+      template:
+        src: libre-session-gapi.j2
+        dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+        mode: 0664
+        owner: "{{ r_libre_user }}"
+        group: "{{ r_libre_group }}"
 
 
