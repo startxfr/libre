@@ -9,6 +9,7 @@
 - name: "load : Set libre_infra fact from {{ config_libre.directory.conf }}/{{ r_infra_config_file }}" 
   set_fact:
     libre_infra: "{{ lookup('file', config_libre.directory.conf + '/' + r_infra_config_file, errors='ignore') | default(false) }}"
+- debug: var=libre_infra
 - name: "load : Set libre_infra fact from default infra"
   set_fact:
     libre_infra: "{{ config_infra[config_infra.default]|combine({'state': 'loaded' }, recursive=True) }}"
