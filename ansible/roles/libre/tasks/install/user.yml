@@ -27,4 +27,4 @@
 #    password: "{{ 'student' | password_hash('sha512') }}"
 #    uid: 10012
     state: present
-    when: libre_type == "student" or config_libre.application.type == "student"
+  when: libre_type == "student" or config_libre.application.type == "student"
