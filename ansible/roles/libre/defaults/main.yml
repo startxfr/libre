@@ -44,7 +44,7 @@ libre_tmpfile: 'libre.txt'
 libre_type: 'student'
 libre_version: '0.0.1-devel'
 libre_verbose: True
-libre_debug: True
+libre_debug: False
 libre_source_url: 'https://github.com/startxfr/libre'
 libre_source_branch: 'master'
 libre_source_base: '/'

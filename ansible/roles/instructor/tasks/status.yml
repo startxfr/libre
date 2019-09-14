@@ -5,7 +5,8 @@
     tasks_from: status
 - name: "status : Get previous report data"
   set_fact:
-    previous_report2: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "status : Generate instructor report at {{ r_libre_result_file }}"
   template:
     src: libre_report-status.j2
@@ -13,3 +14,4 @@
 #    owner: root
     group: "{{ r_libre_group }}"
     mode: 0666
+  delegate_to: localhost

@@ -9,6 +9,7 @@
 - name: "prem : provision-post : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
   run_once: true
 - name: "prem : provision-post : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
@@ -17,6 +18,7 @@
 #    owner: root
     group: "{{ r_libre_group }}"
     mode: 0666
+  delegate_to: localhost
   run_once: true
 - name: "prem : provision-post : Log post-provision action"
   include_role:

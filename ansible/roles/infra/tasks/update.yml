@@ -2,6 +2,7 @@
 - name: "update : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "update : Generate infrastructure update report at {{ r_libre_result_file }}"
   template:
     src: libre_report-update.j2
@@ -9,3 +10,4 @@
 #    owner: root
     group: "{{ r_libre_group }}"
     mode: 0666
+  delegate_to: localhost

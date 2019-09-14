@@ -2,6 +2,7 @@
 - name: "{{ lab_action }} : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 
 - name: "{{ lab_action }} : Generate LIBRE report at {{ r_libre_result_file }}"
   become: yes
@@ -11,6 +12,7 @@
 #    owner: root
     group: "{{ r_libre_group }}"
     mode: 0666
+  delegate_to: localhost
 
 - name: "{{ lab_action }} : Log {{ lab_action }} action"
   include_role:

@@ -25,6 +25,7 @@
 - name: "install : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: libre_report-install.j2
@@ -32,6 +33,7 @@
     owner: root
     group: "{{ r_libre_group }}"
     mode: 0664
+  delegate_to: localhost
 - name: "install : Log install action"
   include_role:
     name: libre

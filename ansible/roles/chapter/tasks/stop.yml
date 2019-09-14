@@ -6,6 +6,7 @@
 - name: "stop : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "stop : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: libre_report-stop.j2
@@ -13,6 +14,7 @@
 #    owner: root
     group: "{{ r_libre_group }}"
     mode: 0666
+  delegate_to: localhost
 
 - name: "stop : Log stop action"
   include_role:
