@@ -43,8 +43,31 @@
     clone: yes
     force: yes
     repo: "{{ config_repository.url }}"
-    dest: "{{ config_repository.local }}"
+    dest: "/tmp/repo-copy"
     version: "{{ config_repository.branch }}"
+  delegate_to: localhost
+- name: "install : Archive course content"
+  archive:
+    path: 
+    - "/tmp/repo-copy/*"
+    - "/tmp/repo-copy/.*"
+    exclude_path:
+    - "/tmp/repo-copy/.."
+    dest: "/tmp/repo-copy.tgz"
+  delegate_to: localhost
+- name: "install : Ensure {{ config_repository.local }} directory exist"
+  file:
+    state: "directory"
+    path: "{{ config_repository.local }}"
+- name: "install : Unarchive course content to {{ inventory_hostname }}"
+  unarchive:
+    src: /tmp/repo-copy.tgz
+    dest: "{{ config_repository.local }}"
+- name: "install : remove temporary course materials in /tmp/repo-copy"
+  file:
+    state: "absent"
+    path: "/tmp/repo-cop*"
+  delegate_to: localhost
 
 - name: "install : Update {{ config_repository.local }} directory details"
   stat:

@@ -1,7 +1,11 @@
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-#127.0.0.1   instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }} instructor.classroom instructor
+{% for nodevm in flat_inventory %}
+{% if nodevm.student|string == "instructor" %}
+{{nodevm.ip_public}}     instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }} instructor.classroom instructor
+{% endif %}
+{% endfor %}
 
 {% set studentNum = student.workstation %}
 # Student : {{student.name}}

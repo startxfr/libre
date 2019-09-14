@@ -9,6 +9,46 @@
 
 - name: "aws : provision : Create Network environments"
   include_tasks: provision/network.yml
+- name: "aws : provision : Create instructor ec2 instance for session {{ libre_session.id }}"
+  ec2:
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    region: "{{ libre_infra.ec2.region }}"
+    instance_type: "t2.small"
+    image: "{{ libre_infra.ec2.image }}"
+    key_name: "{{ libre_infra.ssh.keyname }}"
+    group_id: "{{ list_networks[0].security_group_id }}"
+    vpc_subnet_id: "{{ list_networks[0].vpc_subnet_id }}"
+    assign_public_ip: yes
+    exact_count: 1
+    count_tag: 
+      Name: "{{ libre_session.id }}-instructor"
+    wait: yes
+#    wait_timeout: 10
+    instance_tags:
+      Name: "{{ libre_session.id }}-instructor"
+      Type: "instructor"
+      Session: "{{ libre_session.id }}"
+      Group: "instructor"
+      Labenv: "instructor"
+      Course: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
+      Instructor: "{{ libre_session.instructor }}"
+      DnsRecord: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+    volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 8
+        delete_on_termination: true
+#      - device_name: /dev/sdb
+#        volume_type: io1
+#        iops: 100
+#        volume_size: 10
+#        delete_on_termination: true
+  register: ec2
+- name: "aws : provision : instance : Add instructor instance description to list_instances"
+  set_fact:
+    list_instances: "{{ list_instances + ec2.tagged_instances }}"
 - name: "aws : provision : Create {{ libre_session.students|length }} students environments"
   include_tasks: provision/instance.yml
   vars:
@@ -72,7 +112,7 @@
 #
 #      Here are some interesting characteristics of this classroom infrastructure:
 #
-#        - Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}
+#        - Instructor: instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}
 #        - IP address: {{ ec2.tagged_instances[0].public_ip }}
 #        - Type: {{ libre_infra.ec2.type }}
 #        - Region: {{ libre_infra.ec2.region }}

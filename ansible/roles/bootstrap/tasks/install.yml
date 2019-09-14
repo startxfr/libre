@@ -32,10 +32,10 @@
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"
     recurse: yes
-- name: "install : Create bootstrap current directory {{ r_bootstrap_current_directory }}"
+- name: "install : Create bootstrap saved directory {{ r_bootstrap_saved_directory }}"
   file:
     state: directory
-    path: "{{ r_bootstrap_current_directory }}"
+    path: "{{ r_bootstrap_saved_directory }}"
     mode: 0775
     owner: "{{ r_libre_user }}"
     group: "{{ r_libre_group }}"

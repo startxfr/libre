@@ -7,6 +7,7 @@
 # Install tasks
 - name: "install : Start LIBRE installation"
   include_tasks: install/{{ item }}.yml
+  become: yes
   with_items:
     - user
     - services

@@ -92,7 +92,7 @@
 #    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
 #    zone: "{{ libre_infra.route53.zone }}"
 #    ttl: "{{ route53.set.ttl | default(30)  }}"
-#    record: "{{ route53.set.record | default('workstation'+route53.item+'.'+libre_session.course+'.'+libre_infra.route53.domain) }}"
+#    record: "{{ route53.set.record | default('workstation-env'+route53.item+'.'+libre_session.id+'.'+libre_infra.route53.domain) }}"
 ##    value: "{{ route53.set.value | default('')  }}"
 #    type: "{{ route53.set.type | default('A')  }}"
 #  loop: "{{ route53_facts.results }}"
@@ -100,17 +100,16 @@
 #    loop_var: route53
 #    label: "workstation{{ route53.item }}"
 #  ignore_errors: yes
-#- name: "aws : deprovision : Remove public DNS for instructor"
-#  route53:
-#    state: absent
-#    aws_access_key: "{{ libre_infra.auth.access_key }}"
-#    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
-#    zone: "{{ libre_infra.route53.zone }}"
-#    ttl: 30
-#    record: "instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}."
-##    value: "workstation0.{{ libre_session.course }}.{{ libre_infra.route53.domain }}."
-#    type: CNAME
-#  ignore_errors: yes
+- name: "aws : deprovision : Remove public DNS for instructor"
+  route53:
+    state: absent
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    zone: "{{ libre_infra.route53.zone }}"
+    ttl: 30
+    record: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}."
+    type: CNAME
+  ignore_errors: yes
 - name: "aws : deprovision : Delete {{ libre_session.id }}-igw Internet Gateway"
   ec2_vpc_igw:
     state: absent

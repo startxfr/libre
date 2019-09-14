@@ -5,7 +5,7 @@ was successfully \e[1m\e[32mprovisionned\e[0m on AWS infrastructure
 
 Here are some interesting characteristics of this classroom infrastructure:
 
-Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}
+Instructor: instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}
 Type     : {{ libre_infra.ec2.type }}
 Region   : {{ libre_infra.ec2.region }}
 SSH User : {{ libre_infra.ssh.user }}

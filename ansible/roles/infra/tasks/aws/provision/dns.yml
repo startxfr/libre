@@ -18,17 +18,3 @@
   - station.tags.DnsRecord is defined
   - station.tags.DnsRecord != ""
   register: list_dns
-- name: "aws : provision : dns : Register a public DNS for instructor"
-  route53:
-    state: present
-    aws_access_key: "{{ libre_infra.auth.access_key }}"
-    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
-    zone: "{{ libre_infra.route53.zone }}"
-    record: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-    type: CNAME
-    ttl: 30
-    overwrite: yes
-    value: "workstation-env0.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-#    wait: yes
-#  register: route53_instructor
-  ignore_errors: yes
