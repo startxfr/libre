@@ -2,6 +2,7 @@
 - name: "Post-Provision classroom infrastructure on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
+  become: yes
   roles:
     - role: infra
       do: load
@@ -24,6 +25,7 @@
 - name: "Post-Provision classroom install workstations"
   hosts: 'workstations'
   gather_facts: true
+  become: yes
   vars:
     libre_type: "student"
     libre_verbose: true
@@ -37,6 +39,7 @@
 - name: "Post-Provision classroom students"
   hosts: 'students'
   gather_facts: true
+  become: yes
   roles:
     - role: infra
       do: load
@@ -48,6 +51,7 @@
 - name: "Post-Provision classroom finialize on bootstrap"
   hosts: 'bootstrap'
   gather_facts: true
+  become: yes
   roles:
     - role: infra 
       do: load

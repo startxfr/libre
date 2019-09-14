@@ -1,8 +1,9 @@
 ---
-- name: "Check session environment on instructor host"
+- name: "Stop session environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root
+  become: yes
 
   roles:
     - role: session

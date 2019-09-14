@@ -2,6 +2,7 @@
 - name: "Install instructor environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
+  become: yes
 
   roles:
     - role: instructor

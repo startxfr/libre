@@ -3,6 +3,7 @@
   hosts: 'instructor'
   gather_facts: true
   user: root
+  become: yes
 
   roles:
     - role: instructor

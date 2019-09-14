@@ -2,6 +2,7 @@
 - name: "Check classroom Prem infrastructure on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
+  become: yes
 
   roles:
     - role: infra
