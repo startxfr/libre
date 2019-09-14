@@ -22,7 +22,9 @@ instructor:
 
 students:
   hosts:
+    localhost:
   vars:
+    ansible_connection: local
     libre_type: student
     libre_debug: false
     libre_verbose: false
