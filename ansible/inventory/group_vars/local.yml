@@ -5,7 +5,7 @@ ansible_connection: local
 # Enable verbose configuration
 libre_verbose: true
 # Enable debug configuration
-libre_debug: true
+libre_debug: false
 # Workstation type to install
 libre_type: student
 # Default user for course content

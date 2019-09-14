@@ -3,7 +3,7 @@
 # Enable verbose configuration
 #libre_verbose: true
 # Enable debug configuration
-#libre_debug: true
+#libre_debug: false
 
 # Choose installation type
 #libre_type: instructor
