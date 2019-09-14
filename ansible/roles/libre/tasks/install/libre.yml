@@ -50,7 +50,7 @@
 #        and inventory_hostname not in ['127.0.0.1', 'localhost']
 - debug: var=libre_type
 - debug: var=config_libre.application.type
-- debug: var=hostvars
+- debug: var=hostvars['bootstrap']
 - fail:
 - name: "install_libre : move LIBRE bootstrap binary content to {{ r_libre_dest_bin }}"
   copy:
