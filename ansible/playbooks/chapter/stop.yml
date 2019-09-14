@@ -1,5 +1,5 @@
 ---
-- name: "Stop chapter on local"
+- name: "Stop chapter on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root

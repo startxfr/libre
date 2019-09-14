@@ -1,5 +1,5 @@
 ---
-- name: "Check libre environment on local"
+- name: "Check libre environment on localhost"
   hosts: 'localhost'
   gather_facts: true
 

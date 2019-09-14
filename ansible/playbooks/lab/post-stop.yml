@@ -1,6 +1,6 @@
 ---
 # Stop post-tasks
-- name: "Stop lab on local (post-tasks)"
+- name: "Stop lab on localhost (post-tasks)"
   hosts: 'localhost'
   gather_facts: no
   user: root

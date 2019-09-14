@@ -1,6 +1,6 @@
 ---
-- name: "Deprovision classroom infrastructure"
-  hosts: 'instructor'
+- name: "Deprovision classroom infrastructure on bootstrap host"
+  hosts: 'bootstrap'
   gather_facts: true
 
   roles:

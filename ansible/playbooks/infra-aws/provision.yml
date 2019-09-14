@@ -1,5 +1,5 @@
 ---
-- name: "Provision classroom infrastructure on instructor"
+- name: "Provision classroom infrastructure on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
 

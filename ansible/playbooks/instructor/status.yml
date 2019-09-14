@@ -1,5 +1,5 @@
 ---
-- name: "Check instructor environment on instructor"
+- name: "Check instructor environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root

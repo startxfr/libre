@@ -1,5 +1,5 @@
 ---
-- name: "Uninstall session environment on instructor"
+- name: "Uninstall session environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root

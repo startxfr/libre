@@ -1,6 +1,6 @@
 ---
 # Reset pre-tasks
-- name: "Reset lab on local (pre-tasks)"
+- name: "Reset lab on localhost (pre-tasks)"
   hosts: 'localhost'
   gather_facts: true
   user: root

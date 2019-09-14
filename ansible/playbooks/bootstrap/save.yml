@@ -1,5 +1,5 @@
 ---
-- name: "Save bootstrap environment on bootstrap"
+- name: "Save current session context on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
   user: root

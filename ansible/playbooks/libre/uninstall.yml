@@ -1,5 +1,5 @@
 ---
-- name: "Uninstall libre environment on local"
+- name: "Uninstall libre environment on localhost"
   hosts: 'localhost'
   gather_facts: true
 

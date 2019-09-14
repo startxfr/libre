@@ -1,6 +1,6 @@
 ---
 # Grade pre-tasks
-- name: "Grade lab on local (pre-tasks)"
+- name: "Grade lab on localhost (pre-tasks)"
   hosts: 'localhost'
   gather_facts: true
   user: root

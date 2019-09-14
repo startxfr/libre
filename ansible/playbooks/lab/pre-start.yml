@@ -1,6 +1,6 @@
 ---
 # Start pre-tasks
-- name: "Start lab on local (pre-tasks)"
+- name: "Start lab on localhost (pre-tasks)"
   hosts: 'localhost'
   gather_facts: yes
   user: root

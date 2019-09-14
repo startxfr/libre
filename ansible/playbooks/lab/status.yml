@@ -1,5 +1,5 @@
 ---
-- name: "Check lab on local"
+- name: "Check lab on localhost"
   hosts: 'localhost'
   gather_facts: true
   user: root

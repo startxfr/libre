@@ -1,5 +1,5 @@
 ---
-- name: "Install libre environment on local"
+- name: "Install libre environment on localhost"
   hosts: 'localhost'
   gather_facts: true
 

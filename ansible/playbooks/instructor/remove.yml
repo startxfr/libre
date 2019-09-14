@@ -1,5 +1,5 @@
 ---
-- name: "Remove instructor tools on instructor"
+- name: "Remove instructor tools on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root

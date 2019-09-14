@@ -1,6 +1,6 @@
 ---
 # Start post-tasks
-- name: "Start lab on local (post-tasks)"
+- name: "Start lab on localhost (post-tasks)"
   hosts: 'localhost'
   gather_facts: yes
   user: root

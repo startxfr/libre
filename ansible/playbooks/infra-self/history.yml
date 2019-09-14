@@ -1,6 +1,6 @@
 ---
-- name: "Display Self infrastructure history on instructor"
-  hosts: 'instructor'
+- name: "Display Self infrastructure history on bootstrap host"
+  hosts: 'bootstrap'
   gather_facts: true
   user: root
 

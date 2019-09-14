@@ -1,5 +1,5 @@
 ---
-- name: "Display bootstrap history on bootstrap"
+- name: "Display bootstrap history on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
   user: root

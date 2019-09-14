@@ -1,5 +1,5 @@
 ---
-- name: "Install training repository environment on instructor"
+- name: "Install training repository environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
 

@@ -1,6 +1,6 @@
 ---
-- name: "Post-Provision classroom infrastructure on instructor"
-  hosts: 'instructor'
+- name: "Post-Provision classroom infrastructure on bootstrap host"
+  hosts: 'bootstrap'
   gather_facts: true
   roles:
     - role: infra
@@ -9,8 +9,32 @@
     - role: infra
       do: provision-post-instructor
       infra_type: prem
+      
+- name: "Post-Provision classroom install instructor"
+  hosts: 'instructor'
+  gather_facts: true
+  become: yes
+  roles:
+    - role: instructor 
+      do: load
+    - role: instructor
+      do: install
+      libre_user: instructor
 
-- name: "Post-Provision classroom infrastructure on students"
+- name: "Post-Provision classroom install workstations"
+  hosts: 'workstations'
+  gather_facts: true
+  vars:
+    libre_type: "student"
+    libre_verbose: true
+    libre_debug: false
+  roles:
+    - role: student
+      do: load
+    - role: student
+      do: install
+
+- name: "Post-Provision classroom students"
   hosts: 'students'
   gather_facts: true
   roles:
@@ -21,24 +45,11 @@
       do: provision-post-students
       infra_type: prem
 
-- name: "Post-Provision classroom infrastructure on workstations"
-  hosts: 'workstations'
-  gather_facts: true
-  vars:
-    libre_type: "student"
-    libre_verbose: false
-    libre_debug: false
-  roles:
-    - role: student
-      do: load
-    - role: student
-      do: install
-    
-- name: "Post-Provision classroom infrastructure on instructor (end)"
-  hosts: 'instructor'
+- name: "Post-Provision classroom finialize on bootstrap"
+  hosts: 'bootstrap'
   gather_facts: true
   roles:
-    - role: infra
+    - role: infra 
       do: load
       infra_type: prem
     - role: infra

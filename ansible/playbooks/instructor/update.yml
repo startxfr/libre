@@ -1,5 +1,5 @@
 ---
-- name: "Update instructor environment on instructor"
+- name: "Update instructor environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
 

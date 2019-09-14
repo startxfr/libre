@@ -1,5 +1,5 @@
 ---
-- name: "Use bootstrap environment on bootstrap"
+- name: "Use a new session context on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
   user: root

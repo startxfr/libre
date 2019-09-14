@@ -1,5 +1,5 @@
 ---
-- name: "Update bootstrap environment on bootstrap"
+- name: "Update bootstrap environment on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
 

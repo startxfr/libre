@@ -1,5 +1,5 @@
 ---
-- name: "Configure classroom aws infrastructure on instructor"
+- name: "Configure classroom aws infrastructure on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
 

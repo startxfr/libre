@@ -1,5 +1,5 @@
 ---
-- name: "Display session history on instructor"
+- name: "Display session history on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root

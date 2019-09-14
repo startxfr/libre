@@ -1,5 +1,5 @@
 ---
-- name: "Check chapter on local"
+- name: "Check chapter on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root

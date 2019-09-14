@@ -1,6 +1,6 @@
 ---
 # Reset post-tasks
-- name: "Reset lab on local (post-tasks)"
+- name: "Reset lab on localhost (post-tasks)"
   hosts: 'localhost'
   gather_facts: no
   user: root
