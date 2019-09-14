@@ -6,19 +6,19 @@ local:
     ansible_connection: local
     libre_type: instructor
 
-bootstrap:
-  hosts:
-    localhost:
-  vars:
-    ansible_connection: local
-    libre_type: bootstrap
-
 instructor:
   hosts:
     localhost:
   vars:
     ansible_connection: local
     libre_type: instructor
+
+bootstrap:
+  hosts:
+    localhost:
+  vars:
+    ansible_connection: local
+    libre_type: bootstrap
 
 students:
 
