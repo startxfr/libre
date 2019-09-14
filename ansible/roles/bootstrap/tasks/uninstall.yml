@@ -1,8 +1,8 @@
 ---
-- name: "install : Remove bootstrap current directory {{ r_bootstrap_current_directory }}"
+- name: "install : Remove bootstrap saved directory {{ r_bootstrap_saved_directory }}"
   file:
     state: absent
-    path: "{{ r_bootstrap_current_directory }}"
+    path: "{{ r_bootstrap_saved_directory }}"
     recurse: yes
   when: r_libre_uninstall_deep
 - name: "uninstall : Start infrastructure uninstall"

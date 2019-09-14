@@ -26,13 +26,28 @@
 - name: "use : The bootstraped session is not the current session"
   when: bootstrap_session != libre_session.id
   block:
-    - name: "use : synchronize current session to {{ r_bootstrap_current_directory }}/{{libre_session.id}}"
+    - name: "use : synchronize current session to {{ r_bootstrap_saved_directory }}/{{libre_session.id}}"
       synchronize:
-        src: "{{ config_libre.directory.base/"
-        dest: "{{ r_bootstrap_current_directory }}/{{libre_session.id}}"
+        src: "{{ config_libre.directory.base }}/"
+        dest: "{{ r_bootstrap_saved_directory }}/{{libre_session.id}}"
         recursive: yes
         delete: yes
       delegate_to: "{{ inventory_hostname }}"
+
+- name: "use : The bootstraped session is a saved session"
+  when: (r_bootstrap_saved_directory + '/' + bootstrap_session) in r_bootstrap_saved_sessions
+  block:
+    - name: "use : restore saved session in {{ r_bootstrap_saved_directory }}/{{bootstrap_session}} to {{ config_libre.directory.base }}"
+      synchronize:
+        src: "{{ r_bootstrap_saved_directory }}/{{bootstrap_session}}/"
+        dest: "{{ config_libre.directory.base }}"
+        recursive: yes
+        delete: yes
+      delegate_to: "{{ inventory_hostname }}"
+        
+- name: "use : The bootstraped session is not a saved session"
+  when: (r_bootstrap_saved_directory + '/' + bootstrap_session) not in r_bootstrap_saved_sessions
+  block:
     - name: "use : Start configuring current session context with {{ bootstrap_session }} session"
       include_role:
         name: session

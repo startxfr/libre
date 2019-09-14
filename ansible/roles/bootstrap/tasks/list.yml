@@ -1,9 +1,8 @@
 ---
-- name: "list : List all content in archive store {{ r_bootstrap_archive_directory }}"
-  file:
-    state: "info"
-    path: "{{ r_bootstrap_archive_directory }}"
-- name: "list : List all content in current store {{ r_bootstrap_current_directory }}"
-  file:
-    state: "info"
-    path: "{{ r_bootstrap_current_directory }}"
+- name: "list : Generate bootstrap list report at {{ r_libre_result_file }}"
+  template:
+    src: libre_report-list.j2
+    dest: "{{ r_libre_result_file }}"
+#    owner: root
+    group: "{{ r_libre_group }}"
+    mode: 0666
