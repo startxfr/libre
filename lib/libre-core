@@ -195,8 +195,11 @@ function runLibrePlaybook {
 # export ANSIBLE_STDOUT_CALLBACK=yaml
   isDebug
   if [ "$?" -eq 1 ] ; then
+    mv ansible.cfg ansible.cfg.back
+    cp -f ansible.debug.cfg ansible.cfg
     ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml
     retc=$?
+    mv -f ansible.cfg.back ansible.cfg
     cd - &> /dev/null
     if [ $retc -eq 0 ]; then
       echoOK "Playbook ${libretype}/${libreaction} ended"
