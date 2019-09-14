@@ -5,5 +5,8 @@
   user: root
 
   roles:
-    - { role: repository, do: load }
-    - { role: repository, do: history, history_filter: repository }
+    - role: repository
+      do: load
+    - role: repository
+      do: history
+      history_filter: repository

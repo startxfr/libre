@@ -5,5 +5,10 @@
   user: root
 
   roles:
-    - { role: instructor, do: load }
-    - { role: instructor, do: history, history_filter: all }
+    - role: instructor
+      do: load
+      libre_type: instructor
+    - role: instructor
+      do: history
+      libre_type: instructor
+      history_filter: all

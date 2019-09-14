@@ -5,5 +5,7 @@
   user: root
 
   roles:
-    - { role: chapter, do: load }
-    - { role: chapter, do: start }
+    - role: chapter
+      do: load
+    - role: chapter
+      do: start

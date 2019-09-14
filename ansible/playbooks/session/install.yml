@@ -5,5 +5,7 @@
   user: root
 
   roles:
-    - { role: session, do: load }
-    - { role: session, do: install }
+    - role: session
+      do: load
+    - role: session
+      do: install

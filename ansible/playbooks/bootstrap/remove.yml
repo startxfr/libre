@@ -5,5 +5,10 @@
   user: root
 
   roles:
-    - { role: bootstrap, do: load }
-    - { role: bootstrap, do: uninstall, libre_uninstall_deep: true }
+    - role: bootstrap
+      do: load
+      libre_type: bootstrap
+    - role: bootstrap
+      do: uninstall
+      libre_type: bootstrap
+      libre_uninstall_deep: true

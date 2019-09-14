@@ -4,5 +4,9 @@
   gather_facts: true
 
   roles:
-    - { role: infra, do: load, infra_type: self }
-    - { role: infra, do: deprovision, infra_type: self }
+    - role: infra
+      do: load
+      infra_type: self
+    - role: infra
+      do: deprovision
+      infra_type: self

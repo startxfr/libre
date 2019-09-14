@@ -5,8 +5,11 @@
   gather_facts: yes
   user: root
   roles:
-    - { role: lab, do: load }
-    - { role: lab, do: pre, lab_action: start }
+    - role: lab
+      do: load
+    - role: lab
+      do: pre
+      lab_action: start
 
 # # Start tasks
 #- name: "start : Start creating lab {{ current_lab.id }} {{ current_lab.name }}"

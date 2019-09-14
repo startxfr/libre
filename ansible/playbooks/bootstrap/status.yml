@@ -5,5 +5,9 @@
   user: root
 
   roles:
-    - { role: bootstrap, do: load }
-    - { role: bootstrap, do: status }
+    - role: bootstrap
+      do: load
+      libre_type: bootstrap
+    - role: bootstrap
+      do: status
+      libre_type: bootstrap

@@ -4,5 +4,7 @@
   gather_facts: true
 
   roles:
-    - { role: repository, do: load }
-    - { role: repository, do: update }
+    - role: repository
+      do: load
+    - role: repository
+      do: update

@@ -5,5 +5,10 @@
   user: root
 
   roles:
-    - { role: infra, do: load, infra_type: prem }
-    - { role: infra, do: history, infra_type: prem, history_filter: infra-prem }
+    - role: infra
+      do: load
+      infra_type: prem
+    - role: infra
+      do: history
+      infra_type: prem
+      history_filter: infra-prem

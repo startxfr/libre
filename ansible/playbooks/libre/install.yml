@@ -4,5 +4,7 @@
   gather_facts: true
 
   roles:
-    - { role: libre, do: load }
-    - { role: libre, do: install }
+    - role: libre
+      do: load
+    - role: libre
+      do: install

@@ -3,15 +3,23 @@
   hosts: 'instructor'
   gather_facts: true
   roles:
-    - { role: infra, do: load, infra_type: self }
-    - { role: infra, do: provision-post-instructor, infra_type: self }
+    - role: infra
+      do: load
+      infra_type: self
+    - role: infra
+      do: provision-post-instructor
+      infra_type: self
 
 - name: "Post-Provision classroom infrastructure on students"
   hosts: 'students'
   gather_facts: true
   roles:
-    - { role: infra, do: load, infra_type: self }
-    - { role: infra, do: provision-post-students, infra_type: self }
+    - role: infra
+      do: load
+      infra_type: self
+    - role: infra
+      do: provision-post-students
+      infra_type: self
 
 - name: "Post-Provision classroom infrastructure on workstations"
   hosts: 'workstations'
@@ -21,12 +29,18 @@
     libre_verbose: false
     libre_debug: false
   roles:
-    - { role: student, do: load }
-    - { role: student, do: install }
+    - role: student
+      do: load
+    - role: student
+      do: install
     
 - name: "Post-Provision classroom infrastructure on instructor (end)"
   hosts: 'instructor'
   gather_facts: true
   roles:
-    - { role: infra, do: load, infra_type: self }
-    - { role: infra, do: provision-post-post, infra_type: self }
+    - role: infra
+      do: load
+      infra_type: self
+    - role: infra
+      do: provision-post-post
+      infra_type: self

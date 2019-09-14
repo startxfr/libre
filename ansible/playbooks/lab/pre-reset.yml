@@ -5,8 +5,11 @@
   gather_facts: true
   user: root
   roles:
-    - { role: lab, do: load }
-    - { role: lab, do: pre, lab_action: reset }
+    - role: lab
+      do: load
+    - role: lab
+      do: pre
+      lab_action: reset
 
 # # Reset tasks
 # - name: "reset : Cleaning lab {{ current_lab.id }} {{ current_lab.name }}"

@@ -5,5 +5,10 @@
   user: root
 
   roles:
-    - { role: instructor, do: load }
-    - { role: instructor, do: uninstall, libre_uninstall_deep: true }
+    - role: instructor
+      do: load
+      libre_type: instructor
+    - role: instructor
+      do: uninstall
+      libre_type: instructor
+      libre_uninstall_deep: true
