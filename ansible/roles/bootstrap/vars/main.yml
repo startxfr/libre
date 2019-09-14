@@ -1,3 +1,7 @@
 ---
 
 r_do: "{{ do | string }}"
+
+r_bootstrap_base_directory: "{{ bootstrap_base_directory | string }}"
+r_bootstrap_current_directory: "{{ bootstrap_current_directory | string }}"
+r_bootstrap_archive_directory: "{{ bootstrap_archive_directory | string }}"

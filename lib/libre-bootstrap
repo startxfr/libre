@@ -17,6 +17,18 @@ function bootstrapPlaybook {
   exit 0;
 }
 
+# Call bootstrap use playbook
+function bootstrapUsePlaybook {
+  bootstrapHeader
+  if [[ "$1" != "" ]] ; then
+      deep="local -e bootstrap_session=$1"
+  else
+      deep=""
+  fi
+  runLibrePlaybook bootstrap use $deep
+  exit 0;
+}
+
 # Call bootstrap uninstall playbook
 function bootstrapUninstallPlaybook {
   bootstrapHeader
@@ -62,6 +74,12 @@ Usage:
 
 - Generic commands:
   install          install bootstrap environment
+  use/switch <id>  Change the current session context by restoring a saved context 
+                   or creating a new one (and saving context prior to the move ;)
+  list             Get a list of all training session stored in the current and 
+                   archive store
+  archivate        Save in a compressed format all data related to a session
+                   managed by this provionner
   uninstall        uninstall bootstrap environment after archiving (extra command 
                    "deep" or "all" will remove user config directory)
   history          get history of the bootstrap actions

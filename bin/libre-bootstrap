@@ -5,6 +5,9 @@ source /usr/local/lib/libre-bootstrap
 # Dispatch input arguments
 case $1 in
     install)                bootstrapPlaybook install ;;
+    archivate)              bootstrapPlaybook archivate ;;
+    use|switch|change)      bootstrapUsePlaybook $2 ;;
+    list)                   bootstrapPlaybook list $2 ;;
     update)                 bootstrapPlaybook update ;;
     uninstall)              bootstrapUninstallPlaybook $2 ;;
     status)                 bootstrapPlaybook status ;;

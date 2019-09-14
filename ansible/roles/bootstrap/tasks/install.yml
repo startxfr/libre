@@ -24,6 +24,30 @@
         name: infra
         tasks_from: install
 
+- name: "install : Create bootstrap directory {{ r_bootstrap_base_directory }}"
+  file:
+    state: directory
+    path: "{{ r_bootstrap_base_directory }}"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "install : Create bootstrap current directory {{ r_bootstrap_current_directory }}"
+  file:
+    state: directory
+    path: "{{ r_bootstrap_current_directory }}"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
+- name: "install : Create bootstrap archive directory {{ r_bootstrap_archive_directory }}"
+  file:
+    state: directory
+    path: "{{ r_bootstrap_archive_directory }}"
+    mode: 0775
+    owner: "{{ r_libre_user }}"
+    group: "{{ r_libre_group }}"
+    recurse: yes
 - name: "install : Set hostame to bootstrap"
   hostname:
     name: bootstrap

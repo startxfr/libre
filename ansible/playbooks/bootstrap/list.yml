@@ -1,0 +1,9 @@
+---
+- name: "List bootstrap environment on bootstrap"
+  hosts: 'bootstrap'
+  gather_facts: true
+  user: root
+
+  roles:
+    - { role: bootstrap, do: load }
+    - { role: bootstrap, do: list }

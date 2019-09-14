@@ -1,0 +1,9 @@
+---
+- name: "list : List all content in archive store {{ r_bootstrap_archive_directory }}"
+  file:
+    state: "info"
+    path: "{{ r_bootstrap_archive_directory }}"
+- name: "list : List all content in current store {{ r_bootstrap_current_directory }}"
+  file:
+    state: "info"
+    path: "{{ r_bootstrap_current_directory }}"

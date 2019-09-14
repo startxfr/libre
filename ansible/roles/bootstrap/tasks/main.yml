@@ -6,6 +6,9 @@
       r_do in [
                'load',
                'config',
+               'archivate',
+               'list',
+               'use',
                'status',
                'history',
                'install',

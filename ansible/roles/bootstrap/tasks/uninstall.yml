@@ -1,4 +1,10 @@
 ---
+- name: "install : Remove bootstrap current directory {{ r_bootstrap_current_directory }}"
+  file:
+    state: absent
+    path: "{{ r_bootstrap_current_directory }}"
+    recurse: yes
+  when: r_libre_uninstall_deep
 - name: "uninstall : Start infrastructure uninstall"
   include_role:
     name: infra

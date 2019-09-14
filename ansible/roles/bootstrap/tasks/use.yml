@@ -1,0 +1,41 @@
+---
+- name: "use : The bootstraped session is not defined"
+  when: bootstrap_session is undefined
+  block:
+    - name: "use : Configure the bootstraped session"
+      pause:
+        prompt: "What training session are you bootraped ? "
+      register: bsessionID
+      delegate_to: localhost
+    - name: "use : Session ID is a good number"
+      assert:
+        that: bsessionID.user_input != ""
+        msg: "You must give a good Session ID"
+    - name: "use : Register bootstrap_session fact"
+      set_fact:
+        bootstrap_session: "{{ bsessionID.user_input }}"
+        
+- name: "use : The bootstraped session is already the current session"
+  when: bootstrap_session == libre_session.id
+  block:
+    - name: "use : Targeted session is the current session"
+      assert:
+        that: bootstrap_session == libre_session.id
+        msg: "The targeted session must be the current session to match this condition"
+
+- name: "use : The bootstraped session is not the current session"
+  when: bootstrap_session != libre_session.id
+  block:
+    - name: "use : synchronize current session to {{ r_bootstrap_current_directory }}/{{libre_session.id}}"
+      synchronize:
+        src: "{{ config_libre.directory.base/"
+        dest: "{{ r_bootstrap_current_directory }}/{{libre_session.id}}"
+        recursive: yes
+        delete: yes
+      delegate_to: "{{ inventory_hostname }}"
+    - name: "use : Start configuring current session context with {{ bootstrap_session }} session"
+      include_role:
+        name: session
+        tasks_from: config
+      vars:
+        session_id: "{{ bootstrap_session }}"

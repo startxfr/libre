@@ -1,0 +1,5 @@
+---
+- name: "archivate : Create archive for training session {{ libre_session.id }} in {{ r_bootstrap_archive_directory }}"
+  archive:
+    path: "{{ config_libre.directory.base }}"
+    dest: "{{ r_bootstrap_archive_directory }}/libre-{{ libre_session.id }}-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
