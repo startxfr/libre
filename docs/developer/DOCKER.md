@@ -11,14 +11,14 @@
 
 - [Docker user guide](https://github.com/startxfr/libre/tree/master/docs/user-guides/USE_docker.md)
 - [NodJS user guide](https://github.com/startxfr/libre/tree/master/docs/user-guides/USE_npm.md)
-- [Source code user guide](https://github.com/startxfr/libre/tree/master/docs/developper/DOCKER.md)
+- [Source code user guide](https://github.com/startxfr/libre/tree/master/docs/developer/DOCKER.md)
 
 ## Documentation
 
 If you want to have more information on how to install, develop and run this framework and use it in your project, please read the [full documentation](https://github.com/startxfr/libre/tree/master/docs/README.md) or our [user guides](https://github.com/startxfr/libre/tree/master/docs/guides/README.md) and execute the following steps :
 1. [Install libre](https://github.com/startxfr/libre/tree/master/docs/user-guides/install-instructor.md)
 2. [Configure libre](https://github.com/startxfr/libre/tree/master/docs/user-guides/install-session.md)
-3. [Run your job](https://github.com/startxfr/libre/tree/master/docs/developper/DOCKER.md)
+3. [Run your job](https://github.com/startxfr/libre/tree/master/docs/developer/DOCKER.md)
 
 ## Troubleshooting
 
@@ -36,7 +36,7 @@ Read the [contributing guide](../../CONTRIBUTING.md) for details on our code of 
 
 ## Authors
 
-This project is mainly developped by the [startx](https://www.startx.fr) dev team. You can see the complete list of contributors who participated in this project by reading [CONTRIBUTORS.md](https://github.com/startxfr/libre/tree/master/docs/CONTRIBUTORS.md).
+This project is mainly developed by the [startx](https://www.startx.fr) dev team. You can see the complete list of contributors who participated in this project by reading [CONTRIBUTORS.md](https://github.com/startxfr/libre/tree/master/docs/CONTRIBUTORS.md).
 
 ## License
 

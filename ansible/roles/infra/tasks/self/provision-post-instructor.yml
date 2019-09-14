@@ -24,7 +24,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Self-Hosted infrastructure is Post-provisionned on instructor"
+    log_name: "Self-Hosted infrastructure is Post-provisioned on instructor"
     log_component: infra-self
     log_action: post-provision self-hosted infrastructure on instructor
   run_once: true

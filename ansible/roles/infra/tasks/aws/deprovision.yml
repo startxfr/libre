@@ -200,9 +200,9 @@
   file:
     state: "absent"
     path: "{{config_libre.directory.conf}}/inventory/students.yml"
-- name: "aws : deprovision : Set infrastructure state to deprovisionned"
+- name: "aws : deprovision : Set infrastructure state to deprovisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'deprovisioned' }, recursive=True) }}"
 - name: "aws : deprovision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -222,6 +222,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is Deprovisionned"
+    log_name: "AWS infrastructure is Deprovisioned"
     log_component: infra-aws
     log_action: deprovision AWS infrastructure on {{ libre_infra.ec2.region }}

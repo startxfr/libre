@@ -1,6 +1,6 @@
 # LIBRE Playbooks repository
 
-Theses playbooks could be run from a console installation or used by the LIBRE command line.
+These playbooks could be run from a console installation or used by the LIBRE command line.
 For more more informations on how to [setup a console installation](../../install-console.md)
 or [setup LIBRE command line](../../installer.md)
 

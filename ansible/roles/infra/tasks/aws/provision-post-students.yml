@@ -108,7 +108,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is Post-provisionned on students"
+    log_name: "AWS infrastructure is Post-provisioned on students"
     log_component: infra-aws
     log_action: post-provision AWS infrastructure on students
   run_once: true

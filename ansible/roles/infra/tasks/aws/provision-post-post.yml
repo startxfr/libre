@@ -18,9 +18,9 @@
     path: "/tmp/playbooks-labs.tgz"
     state: absent
   
-- name: "aws : provision-post-post : Set infrastructure state to provisionned"
+- name: "aws : provision-post-post : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'post-provisioned' }, recursive=True) }}"
 - name: "aws : provision-post-post : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
@@ -36,6 +36,6 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is post Post-provisionned"
+    log_name: "AWS infrastructure is post Post-provisioned"
     log_component: infra-aws
     log_action: post-provision on instructor

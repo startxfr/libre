@@ -1,4 +1,4 @@
-# LIBRE On-prem infrastructure provisionning playbooks
+# LIBRE On-prem infrastructure provisioning playbooks
 
-Theses playbooks must be run from an instructor installation. For more more informations
-you can read documentation on how to [setup a console installation](../../../install-console.md)
+These playbooks must be run from an instructor installation. For more more informations,
+you can read the documentation on how to [setup a console installation](../../../install-console.md).

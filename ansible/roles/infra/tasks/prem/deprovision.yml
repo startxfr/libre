@@ -3,9 +3,9 @@
   file:
     state: "absent"
     path: "{{config_libre.directory.conf}}/inventory/students.yml"
-- name: "prem : deprovision : Set infrastructure state to provisionned"
+- name: "prem : deprovision : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'deprovisioned' }, recursive=True) }}"
 - name: "prem : deprovision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
@@ -25,7 +25,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "On-Prem infrastructure is Deprovisionned"
+    log_name: "On-Prem infrastructure is Deprovisioned"
     log_component: infra-prem
     log_action: deprovision on-premise infrastructure
 

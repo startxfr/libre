@@ -1,6 +1,6 @@
 # LIBRE-instructor container
 
-[![Build Status](https://travis-ci.org/startxfr/libre.svg?branch=master)](https://travis-ci.org/startxfr/libre) [![npm dependencies](https://david-dm.org/startxfr/libre.svg)](https://www.npmjs.com/package/libre) [![last commit](https://img.shields.io/github/last-commit/startxfr/libre.svg)](https://github.com/startxfr/libre) [![licence](https://img.shields.io/github/license/startxfr/libre.svg)](https://github.com/startxfr/libre)
+[![Build Status](https://travis-ci.org/startxfr/libre.svg?branch=master)](https://travis-ci.org/startxfr/libre) [![npm dependencies](https://david-dm.org/startxfr/libre.svg)](https://www.npmjs.com/package/libre) [![last commit](https://img.shields.io/github/last-commit/startxfr/libre.svg)](https://github.com/startxfr/libre) [![license](https://img.shields.io/github/license/startxfr/libre.svg)](https://github.com/startxfr/libre)
 
 ## Getting Started
 
@@ -12,24 +12,25 @@
 
 - [Docker user guide](https://github.com/startxfr/libre/tree/master/docs/user-guides/USE_docker.md)
 - [NodJS user guide](https://github.com/startxfr/libre/tree/master/docs/user-guides/USE_npm.md)
-- [Source code user guide](https://github.com/startxfr/libre/tree/master/docs/developper/DOCKER.md)
+- [Source code user guide](https://github.com/startxfr/libre/tree/master/docs/developer/DOCKER.md)
 
 ## Documentation
 
-If you want to have more information on how to install, develop and run this framework and use it in your project, please read the [full documentation](https://github.com/startxfr/libre/tree/master/docs/README.md) or our [user guides](https://github.com/startxfr/libre/tree/master/docs/guides/README.md) and execute the following steps :
-1. [Install libre](https://github.com/startxfr/libre/tree/master/docs/user-guides/install-instructor.md)
-2. [Configure libre](https://github.com/startxfr/libre/tree/master/docs/user-guides/install-session.md)
-3. [Run your job](https://github.com/startxfr/libre/tree/master/docs/developper/DOCKER.md)
+If you want to have more information on how to install, run or develop this framework and use it in your own project, please read the [full documentation](https://github.com/startxfr/libre/tree/master/docs/README.md) or our [user guides](https://github.com/startxfr/libre/tree/master/docs/guides/README.md) and execute the following steps:
+
+1. [Install LIBRE](https://github.com/startxfr/libre/tree/master/docs/user-guides/install-instructor.md)
+2. [Configure LIBRE](https://github.com/startxfr/libre/tree/master/docs/user-guides/install-session.md)
+3. [Run your job](https://github.com/startxfr/libre/tree/master/docs/developer/DOCKER.md)
 
 ## Troubleshooting
 
-If you run into difficulties installing or running libre, you can [create an issue](https://github.com/startxfr/libre/issues/new).
+If you run into difficulties installing or running LIBRE, you can [create an issue](https://github.com/startxfr/libre/issues/new).
 
 ## Built With
 
-* [docker](https://www.docker.com/) - Container plateform
-* [alpine](https://alpinelinux.org/) - OS envelop
-* [nodejs](https://nodejs.org) - Application server
+* [Docker](https://www.docker.com/) - Container platform
+* [Alpine Linux](https://alpinelinux.org/) - OS envelop
+* [Node.js](https://nodejs.org) - Application server
 
 ## Contributing
 
@@ -37,8 +38,8 @@ Read the [contributing guide](../../CONTRIBUTING.md) for details on our code of 
 
 ## Authors
 
-This project is mainly developped by the [startx](https://www.startx.fr) dev team. You can see the complete list of contributors who participated in this project by reading [CONTRIBUTORS.md](https://github.com/startxfr/libre/tree/master/docs/CONTRIBUTORS.md).
+This project is mainly developed by the [STARTX](https://www.startx.fr) dev team. You can see the complete list of contributors who participated in this project by reading [CONTRIBUTORS.md](https://github.com/startxfr/libre/tree/master/docs/CONTRIBUTORS.md).
 
 ## License
 
-This project is licensed under the GPL Version 3 - see the [LICENSE.md](https://github.com/startxfr/libre/tree/master/docs/LICENSE.md) file for details
+This project is licensed under the GPL Version 3 - see the [LICENSE.md](https://github.com/startxfr/libre/tree/master/docs/LICENSE.md) file for details.

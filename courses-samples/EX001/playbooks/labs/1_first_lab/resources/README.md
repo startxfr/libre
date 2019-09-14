@@ -1,1 +1,1 @@
-This directory contains all the resources lab need.
+This directory contains all the resources the lab needs.
