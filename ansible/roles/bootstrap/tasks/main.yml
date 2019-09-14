@@ -8,6 +8,7 @@
                'config',
                'archivate',
                'list',
+               'save',
                'use',
                'status',
                'history',

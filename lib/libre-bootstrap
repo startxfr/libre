@@ -78,6 +78,7 @@ Usage:
                    or creating a new one (and saving context prior to the move ;)
   list             Get a list of all training session stored in the current and 
                    archive store
+  save             Save the current session into saved context
   archivate        Save in a compressed format all data related to a session
                    managed by this provionner
   uninstall        uninstall bootstrap environment after archiving (extra command 

@@ -1,0 +1,12 @@
+---
+- name: "save : Save /etc/hosts to {{ config_libre.directory.conf }}/hosts"
+  copy:
+    src: "/etc/hosts"
+    dest: "{{ config_libre.directory.conf }}/hosts"
+- name: "save : synchronize current session to {{ r_bootstrap_saved_directory }}/{{libre_session.id}}"
+  synchronize:
+    src: "{{ config_libre.directory.base }}/"
+    dest: "{{ r_bootstrap_saved_directory }}/{{libre_session.id}}"
+    recursive: yes
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"

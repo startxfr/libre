@@ -1,0 +1,13 @@
+---
+- name: "Save bootstrap environment on bootstrap"
+  hosts: 'bootstrap'
+  gather_facts: true
+  user: root
+
+  roles:
+    - role: bootstrap
+      do: load
+      libre_type: bootstrap
+    - role: bootstrap
+      do: save
+      libre_type: bootstrap
