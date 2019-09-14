@@ -37,6 +37,7 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
+| 0.8.3    | 2019-06-14 | Instructor workstation provisionned during infra process
 | 0.8.1    | 2019-06-14 | unstable addition of bootstrap installation
 | 0.8.0    | 2019-09-13 | Stable Release with minor fix from 0.7.15
 
