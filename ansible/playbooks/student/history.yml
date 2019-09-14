@@ -1,9 +1,12 @@
 ---
 - name: "Display student history on student workstation"
-  hosts: 'workstation'
+  hosts: 'students'
   gather_facts: true
   user: root
 
   roles:
-    - { role: student, do: load }
-    - { role: student, do: history, history_filter: all }
+    - role: student
+      do: load
+    - role: student
+      do: history
+      history_filter: all

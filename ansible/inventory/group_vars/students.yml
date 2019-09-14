@@ -7,5 +7,6 @@ libre_user: student
 # playbooks directory inside the course directory
 training_dir_course_playbooks: playbooks/student
 
-# Enable debug configuration
+# Disable debug configuration
 libre_debug: false
+libre_verbose: false

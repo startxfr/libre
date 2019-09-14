@@ -4,5 +4,9 @@
   gather_facts: true
 
   roles:
-    - { role: instructor, do: load }
-    - { role: instructor, do: install }
+    - role: instructor
+      do: load
+      libre_type: instructor
+    - role: instructor
+      do: install
+      libre_type: instructor

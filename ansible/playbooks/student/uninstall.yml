@@ -1,9 +1,12 @@
 ---
 - name: "Uninstall student environment on students"
-  hosts: 'workstation'
+  hosts: 'students'
   gather_facts: true
   user: root
 
   roles:
-    - { role: student, do: load }
-    - { role: student, do: uninstall, libre_uninstall_deep: false }
+    - role: student
+      do: load
+    - role: student
+      do: uninstall
+      libre_uninstall_deep: false
