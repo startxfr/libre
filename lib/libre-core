@@ -203,35 +203,21 @@ function runLibrePlaybook {
     retc=$?
     mv -f ansible.cfg.back ansible.cfg
     cd - &> /dev/null
-    if [ $retc -eq 0 ]; then
-      echoOK "Playbook ${libretype}/${libreaction} ended"
-    else
-      echoError "Playbook ${libretype}/${libreaction} ended with error"
-    fi
-    if [ -f $ANSIBLE_RETURN ]; then
-      cat $ANSIBLE_RETURN | xargs --null echo -ne
-      echo "" > $ANSIBLE_RETURN
-    fi
-    return $retc
   else
-    ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml 1> /tmp/a
+    ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml
     retc=$?
     cd - &> /dev/null
-    if [ $retc -eq 0 ]; then
-      ret=$(cat /tmp/a | tail -n 2 | head -n 1)
-      echoOK $ret
-      echoOK "Playbook ${libretype}/${libreaction} ended"
-    else
-      cat /tmp/a | grep -A 30 "^fatal:"
-      echoError "Playbook ${libretype}/${libreaction} ended with error"
-    fi
-    if [ -f $ANSIBLE_RETURN ]; then
-      cat $ANSIBLE_RETURN | xargs --null echo -ne
-      echo "" > $ANSIBLE_RETURN
-    fi
-    echo "" > /tmp/a
-    return $retc
   fi
+  if [ $retc -eq 0 ]; then
+    echoOK "Playbook ${libretype}/${libreaction} ended"
+  else
+    echoError "Playbook ${libretype}/${libreaction} ended with error"
+  fi
+  if [ -f $ANSIBLE_RETURN ]; then
+    cat $ANSIBLE_RETURN | xargs --null echo -ne
+    echo "" > $ANSIBLE_RETURN
+  fi
+  return $retc
 }
 
 # Display libre-* generic usage
