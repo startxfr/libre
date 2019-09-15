@@ -54,7 +54,7 @@
       when: gapiReturn is defined
     - name: "config : gapi : Dynamic addition of the instructor"
       set_fact:
-        session_students: '{{ session_students + [ { "id" : "INST", "name" : "instructor", "email" : "libre@startx.fr", "workstation" : "0" } ]  }}'
+        session_students: '{{ session_students + [ { "id" : "INSTR", "name" : session_instructor + " (instructor)", "email" : "libre@startx.fr", "workstation" : "0" } ]  }}'
       when: gapiReturn is defined
     - name: "config : gapi : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
       template:
