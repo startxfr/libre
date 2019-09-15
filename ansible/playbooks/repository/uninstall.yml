@@ -8,6 +8,10 @@
   roles:
     - role: repository
       do: load
+      libre_type: instructor
+      libre_user: instructor
     - role: repository
       do: uninstall
+      libre_type: instructor
+      libre_user: instructor
 #      libre_uninstall_deep: true

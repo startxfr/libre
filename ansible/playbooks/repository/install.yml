@@ -7,5 +7,9 @@
   roles:
     - role: repository
       do: load
+      libre_type: instructor
+      libre_user: instructor
     - role: repository
       do: install
+      libre_type: instructor
+      libre_user: instructor

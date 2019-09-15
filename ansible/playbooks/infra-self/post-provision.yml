@@ -7,9 +7,13 @@
     - role: infra
       do: load
       infra_type: self
+      libre_type: bootstrap
+      libre_user: provisionner
     - role: infra
       do: provision-post-bootstrap
       infra_type: self
+      libre_type: bootstrap
+      libre_user: provisionner
       
 - name: "Post-Provision classroom install instructor"
   hosts: 'instructor'
@@ -18,8 +22,11 @@
   roles:
     - role: instructor 
       do: load
+      libre_type: instructor
+      libre_user: instructor
     - role: instructor
       do: install
+      libre_type: instructor
       libre_user: instructor
 
 - name: "Post-Provision classroom install workstations"
@@ -27,14 +34,17 @@
   gather_facts: true
   become: yes
   vars:
-    libre_type: "student"
     libre_verbose: true
     libre_debug: false
   roles:
     - role: student
       do: load
+      libre_type: student
+      libre_user: student
     - role: student
       do: install
+      libre_type: student
+      libre_user: student
 
 - name: "Post-Provision classroom students"
   hosts: 'students'
@@ -44,9 +54,13 @@
     - role: infra
       do: load
       infra_type: self
+      libre_type: student
+      libre_user: student
     - role: infra
       do: provision-post-students
       infra_type: self
+      libre_type: student
+      libre_user: student
 
 - name: "Post-Provision classroom finialize on bootstrap"
   hosts: 'bootstrap'
@@ -56,6 +70,10 @@
     - role: infra 
       do: load
       infra_type: self
+      libre_type: bootstrap
+      libre_user: provisionner
     - role: infra
       do: provision-post-post
       infra_type: self
+      libre_type: bootstrap
+      libre_user: provisionner

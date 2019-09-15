@@ -9,6 +9,8 @@
     - role: bootstrap
       do: load
       libre_type: bootstrap
+      libre_user: provisionner
     - role: bootstrap
       do: archivate
       libre_type: bootstrap
+      libre_user: provisionner

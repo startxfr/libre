@@ -9,7 +9,9 @@
     - role: bootstrap
       do: load
       libre_type: bootstrap
+      libre_user: provisionner
     - role: bootstrap
       do: uninstall
       libre_type: bootstrap
+      libre_user: provisionner
       libre_uninstall_deep: false

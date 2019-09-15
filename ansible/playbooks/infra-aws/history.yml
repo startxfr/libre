@@ -8,7 +8,11 @@
     - role: infra
       do: load
       infra_type: aws
+      libre_type: bootstrap
+      libre_user: provisionner
     - role: infra
       do: history
       infra_type: aws
       history_filter: infra-aws
+      libre_type: bootstrap
+      libre_user: provisionner

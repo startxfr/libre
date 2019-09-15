@@ -8,7 +8,9 @@
     - role: bootstrap
       do: load
       libre_type: bootstrap
+      libre_user: provisionner
     - role: bootstrap
       do: history
       libre_type: bootstrap
+      libre_user: provisionner
       history_filter: all

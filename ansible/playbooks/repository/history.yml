@@ -7,6 +7,10 @@
   roles:
     - role: repository
       do: load
+      libre_type: instructor
+      libre_user: instructor
     - role: repository
       do: history
+      libre_type: instructor
+      libre_user: instructor
       history_filter: repository

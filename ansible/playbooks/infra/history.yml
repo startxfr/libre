@@ -8,6 +8,10 @@
   roles:
     - role: infra
       do: load
+      libre_type: bootstrap
+      libre_user: provisionner
     - role: infra
       do: history
+      libre_type: bootstrap
+      libre_user: provisionner
       history_filter: infra

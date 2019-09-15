@@ -8,7 +8,11 @@
     - role: infra
       do: load
       infra_type: prem
+      libre_type: bootstrap
+      libre_user: provisionner
     - role: infra
       do: history
       infra_type: prem
+      libre_type: bootstrap
+      libre_user: provisionner
       history_filter: infra-prem

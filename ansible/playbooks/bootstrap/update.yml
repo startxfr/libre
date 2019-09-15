@@ -8,6 +8,8 @@
     - role: bootstrap
       do: load
       libre_type: bootstrap
+      libre_user: provisionner
     - role: bootstrap
       do: update
       libre_type: bootstrap
+      libre_user: provisionner

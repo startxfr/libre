@@ -8,6 +8,8 @@
     - role: instructor
       do: load
       libre_type: instructor
+      libre_user: instructor
     - role: instructor
       do: install
       libre_type: instructor
+      libre_user: instructor
