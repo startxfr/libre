@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default config var
-LIBREI_VERSION="0.8.3"
+LIBREI_VERSION="0.8.5"
 LIBREI_DEBUG_DEFAULT=true
 LIBREI_REQUIREMENTS_CENTOS="git curl jq docker"
 ANSIBLE_RPM_FILENAME="ansible-2.7.9-1.el7.ans.noarch.rpm"
