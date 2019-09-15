@@ -36,6 +36,8 @@
     uid: 10012
     state: present
   when: >
+    libre_type == "bootstrap" or 
+    config_libre.application.type == "bootstrap" or 
     libre_type == "instructor" or 
     config_libre.application.type == "instructor" or 
     libre_type == "student" or 

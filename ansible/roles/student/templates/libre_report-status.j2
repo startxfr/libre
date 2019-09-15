@@ -1,7 +1,7 @@
-environment  : \e[1m\e[32minstalled\e[0m      \e[1m\e[33mstudent\e[0m
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
 
+ environment : \e[1m\e[32minstalled\e[0m      \e[1m\e[33mstudent\e[0m
 {% if libre_session.id is not defined %}
 session conf : \e[1m\e[31mnot installed\e[0m
 {% endif %}

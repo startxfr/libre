@@ -38,11 +38,7 @@
       - jq
       - bind-utils
       - bash-completion
-  - name: "install_services : Ensure system dependencies packages are installed"
-    yum:
-      name:
       - git
-      - docker
     become: yes
   - name: "install_services : Install and force upgrade pip packages"
     pip:
@@ -56,12 +52,11 @@
       - botocore
       - boto3
       - boto
-      - docker
     loop_control:
       loop_var: pipname
       label: "{{ pipname }}"
     become: yes
-  - name: "install_services : Ensure application dependencies packages are installed"
+  - name: "install_services : Ensure ansible packages are installed"
     yum:
       name:
       - ansible
@@ -81,8 +76,3 @@
       state: touch
       mode: 0664
       group: "{{ r_libre_group }}"
-
-- name: "install_services : Ensure docker service is running"
-  systemd:
-    name: docker
-    state: started

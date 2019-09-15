@@ -9,15 +9,19 @@
   include_role:
     name: libre
     tasks_from: install 
-- name: "install : Set hostame to student"
-  hostname:
-    name: student
     
-- name: "install : Copy root .libre config to the student home directory"
+- name: "install : Copy root .libre config to the {{ libre_user | default(r_libre_user) }} home directory"
   synchronize:
     src: /root/.libre/
-    dest: /home/student/.libre
+    dest: /home/{{ libre_user | default(r_libre_user) }}/.libre
   delegate_to: "{{ inventory_hostname }}"
+- name: "install : Fix perm in course content at /home/{{ libre_user | default(r_libre_user) }}/.libre"
+  file:
+    dest: "/home/{{ libre_user | default(r_libre_user) }}/.libre"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+    mode: "u=rwX,g=rX,o=rX"
+    recurse: yes
 - name: "install : Install specific course actions"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
   when: r_session_dir_course_playbooks_details.stat.exists

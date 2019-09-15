@@ -1,6 +1,6 @@
-environment  : \e[1m\e[32minstalled\e[0m      \e[1m\e[36minstructor\e[0m
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
+ environment : \e[1m\e[32minstalled\e[0m      \e[1m\e[36minstructor\e[0m
      Trainer :                \e[1m{{ libre_session.instructor }}\e[0m
      comment :                \e[31m{{ libre_session.commentToTrainer }}\e[0m
 {% if libre_session.students is defined %}

@@ -34,15 +34,17 @@
   gather_facts: true
   become: yes
   vars:
-    libre_type: student
-    libre_user: student
     libre_verbose: true
     libre_debug: false
   roles:
     - role: student
       do: load
+      libre_type: student
+      libre_user: student
     - role: student
       do: install
+      libre_type: student
+      libre_user: student
 
 - name: "Post-Provision classroom students"
   hosts: 'students'
