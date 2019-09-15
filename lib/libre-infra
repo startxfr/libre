@@ -80,11 +80,9 @@ Usage:
     status          get status of the Self infrastructure
     history         get history of the infra-self actions
 
-- Generic commands:
+- Information commands:
   status            get status of the current infrastructure
   history           get history of the infra actions
-  usage             get command line usage information
-  info              give information about current libre installation
-  version           give information about current libre version
 EOF
+classroomGenericUsageSubcmd
 }

@@ -227,7 +227,6 @@ cat <<EOF
   usage             this message
   info              give information about libre configuration
   version           give the version of this tool
-
 EOF
 }
 

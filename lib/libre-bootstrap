@@ -84,27 +84,26 @@ Usage:
 
 - Session management commands:
   use/switch <id>  Change the current session context by restoring a saved context 
-                   or creating a new one (and saving context prior to the move ;)
-  list             Get a list of all training session stored in the current and 
-                   archive store
+                   or creating a new one. Save previous session context prior 
+                   to the move. (Alias: switch)
   save             Save the current session into saved context
   remove <id>      Remove the given session from the current store
-  archivate/backup Save in a compressed format all data related to a session
-                   managed by this provionner
+  archivate        Save in a compressed format all data related to a session
+                   managed by this provionner (Alias: backup)
+
+- Information commands:
+  status           get status of the current bootstrap
   history          get history of the bootstrap actions
+  list             Get a list of all training session stored in the current and 
+                   archive store
 
 - Installation commands:
   install          install bootstrap environment
   update           update the bootstrap environment
   uninstall        uninstall bootstrap environment after archiving (extra command 
                    "deep" or "all" will remove user config directory)
-
-- Generic commands:
-  status           get status of the current bootstrap
-  usage            get command line usage information
-  info             give information about current libre installation
-  version          give information about current libre version
 EOF
+classroomGenericUsageSubcmd
 }
 
 
