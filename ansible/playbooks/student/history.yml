@@ -1,6 +1,6 @@
 ---
 - name: "Display student history on student host"
-  hosts: 'students'
+  hosts: 'workstations'
   gather_facts: true
   user: root
 

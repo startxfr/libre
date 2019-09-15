@@ -1,6 +1,6 @@
 ---
 - name: "Check student environment on students host"
-  hosts: 'students'
+  hosts: 'workstations'
   gather_facts: true
   user: root
 
