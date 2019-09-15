@@ -41,7 +41,7 @@
   template:
     src: libre_report-config.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: "{{ libre_user | default(r_libre_user) }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
     group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
   delegate_to: localhost

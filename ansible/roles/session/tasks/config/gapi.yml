@@ -61,7 +61,7 @@
         src: libre-session-gapi.j2
         dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
         mode: 0664
-#        owner: "{{ libre_user | default(r_libre_user) }}"
+        owner: "{{ libre_user | default(r_libre_user) }}"
         group: "{{ libre_group | default(r_libre_group) }}"
 
 

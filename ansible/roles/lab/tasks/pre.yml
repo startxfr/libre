@@ -19,8 +19,8 @@
   file:
     src: "{{ r_current_lab_dir }}"
     dest: /tmp/current_lab
-#    owner: root
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 #    mode: '0700'
     state: link
     force: yes
@@ -35,8 +35,8 @@
   - copy:
       content: "{{ r_current_lab_manifest | to_nice_yaml }}"
       dest: "{{ r_current_lab_dir }}/manifest.yml"
-  #    owner: root
-      group: "{{ r_libre_group }}"
+      owner: "{{ libre_user | default(r_libre_user) }}"
+      group: "{{ libre_group | default(r_libre_group) }}"
       mode: 0644
     vars:
       r_current_lab_manifest:
