@@ -1,9 +1,17 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-We are happy to report that Self-Hosted infrastructure {{ libre_session.id }}
-was successfully \e[1m\e[32mpost-provisioned\e[0m on Self-Hosted infrastructure
+Session \e[1m{{ libre_session.id }}\e[0m is now \e[1m\e[33m{{libre_infra.state}}\e[0m to run under \e[1m\e[34mSelf infrastructure\e[0m
 
-1. Start session by running :"
-   $ libre-session start
+          ip : \e[1m{{ libre_infra.network.associated_ip }}\e[0m
+      domain : \e[1m{{ libre_infra.network.dns }}\e[0m
+ station tpl : \e[1m{{ libre_infra.kvm.image }}\e[0m
+   classroom : {{ libre_infra.classroom|length }} workstations
 
-Have a happy training ;)
+You can continue this process by :
+
+\e[1m1. Check classroom infrastructure configuration file\e[0m
+   \e[2m#\e[0m \e[94mvi {{config_libre.directory.conf}}/{{ r_infra_config_file }}\e[0m
+\e[1m2. Check infrastructure status\e[0m
+   \e[2m#\e[0m \e[94mlibre-infra self status\e[0m
+\e[1m3. Start the training session\e[0m
+   \e[2m#\e[0m \e[92mlibre-session start\e[0m

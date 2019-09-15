@@ -1,11 +1,20 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-Public-Cloud AWS infrastructure for session \e[1m{{ libre_session.id }}\e[0m
-delivering course {{ libre_session.course }}is now \e[1m\e[32mconfigured\e[0m. 
+Session \e[1m{{ libre_session.id }}\e[0m is now \e[1m\e[32m{{libre_infra.state}}\e[0m to run under \e[1m\e[34mAWS infrastructure\e[0m
+
+     aws key : {{ libre_infra.auth.access_key }}
+      region : \e[1m{{ libre_infra.ec2.region }}\e[0m
+      domain : \e[1m{{ libre_infra.route53.domain }}\e[0m
+ station tpl : \e[1m{{ libre_infra.ec2.type }}\e[0m ({{ libre_infra.ec2.image }})
+ aws ssh key : \e[1m{{ libre_infra.ssh.keyname }}\e[0m (user: {{ libre_infra.ssh.user }})
+   local key : {{ libre_infra.ssh.privateKey_file }}
+   classroom : \e[1m{{ libre_session.students|length }} students\e[0m
+
 You can continue this process by :
 
-1. Review classroom infrastructure configuration file {{config_libre.directory.conf}}/{{ r_infra_config_file }}
-2. Start provisioning infrastructure by executing the following command :
-   $ libre-infra aws provision
-
-Have a happy setup ;)
+\e[1m1. Check classroom infrastructure configuration file\e[0m
+   \e[2m#\e[0m \e[94mvi {{config_libre.directory.conf}}/{{ r_infra_config_file }}\e[0m
+\e[1m2. Check infrastructure status\e[0m
+   \e[2m#\e[0m \e[94mlibre-infra aws status\e[0m
+\e[1m3. Start provisioning infrastructure\e[0m
+   \e[2m#\e[0m \e[92mlibre-infra aws provision\e[0m
