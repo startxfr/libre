@@ -1,7 +1,7 @@
 ---
 # Reset pre-tasks
-- name: "Reset lab on localhost (pre-tasks)"
-  hosts: 'localhost'
+- name: "Reset lab on student workstation (pre-tasks)"
+  hosts: 'workstations'
   gather_facts: true
   user: root
   roles:

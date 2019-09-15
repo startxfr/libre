@@ -1,5 +1,6 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
+
 {% if libre_session.id is defined %}
      Trainer : \e[1m{{ libre_session.instructor }}\e[0m
 {% endif %}
@@ -14,12 +15,9 @@
                \e[2m{{ libre_course.name }}\e[0m
 {% endif %}
 
-{% if current_lab is defined and current_lab.id is defined %}
-      lab ID : \e[1m\e[32mstarted\e[0m        \e[1m{{ current_lab.idn }}\e[0m
-    lab name : \e[1m{{ current_lab.name }}\e[0m
-    duration : {{ current_lab.time }}min
---------------
-{{ current_lab.desc }}
-{% else %}
-Lab          : \e[1m\e[31mnot started\e[0m
-{% endif %}
+   lab count : \e[1m{{ libre_course.labs|length }}\e[0m labs
+    lab list : 
+{% for lab in libre_course.labs %}
+           \e[1m{{ lab.id }}\e[0m : Lab \e[1m{{ lab.idn }}\e[0m ({{ lab.time }}min)
+                \e[2m{{ lab.name }}\e[0m
+{% endfor %}

@@ -9,6 +9,7 @@ case $1 in
     stop)                   labPlaybook stop $2 ;;
     reset)                  labPlaybook reset $2 ;;
     grade)                  labPlaybook grade $2 ;;
+    list)                   labPlaybook list $2 ;;
     status)                 labPlaybook status $2 ;;
     usage|help|--help|-h)   labUsage $@ ;;
     info|--info)            labInformation $@ ;;

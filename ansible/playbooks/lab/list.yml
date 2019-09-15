@@ -1,5 +1,5 @@
 ---
-- name: "Check lab status on student workstation"
+- name: "List availables labs on student workstation"
   hosts: 'workstations'
   gather_facts: true
   user: root
@@ -8,4 +8,4 @@
     - role: lab
       do: load
     - role: lab
-      do: status
+      do: list

@@ -7,6 +7,7 @@
       r_do in [
                'setup',
                'load',
+               'list',
                'status',
                'pre',
                'post',

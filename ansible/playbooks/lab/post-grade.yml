@@ -1,7 +1,7 @@
 ---
 # Grade post-tasks
-- name: "Grade lab on localhost (post-tasks)"
-  hosts: localhost
+- name: "Grade lab on student workstation (post-tasks)"
+  hosts: workstations
   gather_facts: no
   user: root
   roles:

@@ -1,7 +1,7 @@
 ---
 # Stop pre-tasks
-- name: "Stop lab on localhost (pre-tasks)"
-  hosts: 'localhost'
+- name: "Stop lab on student workstation (pre-tasks)"
+  hosts: 'workstations'
   gather_facts: true
   user: root
   roles:
