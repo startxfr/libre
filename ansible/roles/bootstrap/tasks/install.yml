@@ -29,24 +29,24 @@
     state: directory
     path: "{{ r_bootstrap_base_directory }}"
     mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     recurse: yes
 - name: "install : Create bootstrap saved directory {{ r_bootstrap_saved_directory }}"
   file:
     state: directory
     path: "{{ r_bootstrap_saved_directory }}"
     mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     recurse: yes
 - name: "install : Create bootstrap archive directory {{ r_bootstrap_archive_directory }}"
   file:
     state: directory
     path: "{{ r_bootstrap_archive_directory }}"
     mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     recurse: yes
 - name: "install : Set hostame to bootstrap"
   hostname:
@@ -60,8 +60,8 @@
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+#    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
   delegate_to: localhost
 

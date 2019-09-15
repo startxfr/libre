@@ -61,7 +61,7 @@
     dest: "{{ config_libre.directory.collect }}/{{ r_libre_config_file_hw }}"
     mode: 0664
     owner: "{{ libre_user | default(r_libre_user) }}"
-    group: "{{ r_libre_group }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
   when: not r_hardware_conf_details.stat.exists
 
 

@@ -11,8 +11,8 @@
     state: directory
     path: "{{ config_libre.directory.conf }}/inventory"
     mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     recurse: yes
 - name: "aws : provision : inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
@@ -20,16 +20,16 @@
     dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
 #    remote_src: yes
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 - name: "aws : provision : inventory : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "../templates/inventory-students.j2"
     dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
 #    remote_src: yes
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 - name: "aws : provision : inventory : Update instructor /etc/hosts file"
   template:
     src: "../templates/host-instructor.j2"

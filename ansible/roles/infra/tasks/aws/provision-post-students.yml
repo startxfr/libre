@@ -83,8 +83,8 @@
     src: /tmp/{{workstation|default('0')}}.knownhosts
     dest: "/home/{{ r_infra_user_student }}/.ssh/known_hosts"
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_user }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
   ignore_errors: true
   
 - name: "aws : provision-post-students : Change hostname for students"

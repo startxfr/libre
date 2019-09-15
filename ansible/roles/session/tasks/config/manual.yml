@@ -36,5 +36,5 @@
     src: libre-session-manual.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"

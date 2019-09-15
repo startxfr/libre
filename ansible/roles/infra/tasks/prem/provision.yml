@@ -24,8 +24,8 @@
     state: directory
     path: "{{ config_libre.directory.conf }}/inventory"
     mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     recurse: yes
 - name: "prem : provision : Copy ssh default private key {{r_libre_userconfig_dir}}/infra-id_rsa to {{ config_libre.directory.conf }}/infra-id_rsa"
   copy:
@@ -43,16 +43,16 @@
     dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
 #    remote_src: yes
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 - name: "prem : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
   template:
     src: inventory-students.j2
     dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
 #    remote_src: yes
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 
 - name: "prem : provision : Set infrastructure state to provisioned"
   set_fact:
@@ -69,8 +69,8 @@
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+#    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
   delegate_to: localhost
 - name: "prem : provision : Log provision action"

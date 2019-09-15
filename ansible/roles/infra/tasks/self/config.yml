@@ -5,8 +5,8 @@
 #    path: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
 #    size: "4096"
 #    type: "rsa"
-#    owner: "{{ r_libre_user }}"
-#    group: "{{ r_libre_group }}"
+#    owner: "{{ libre_user | default(r_libre_user) }}"
+#    group: "{{ libre_group | default(r_libre_group) }}"
 #  loop:
 #    - infra
 #    - instructor
@@ -30,8 +30,8 @@
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 
 - name: "list : Get previous report data"
   set_fact:
@@ -41,7 +41,7 @@
   template:
     src: libre_report-config.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+#    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
   delegate_to: localhost

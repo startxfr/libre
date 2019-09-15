@@ -28,8 +28,8 @@
 #    path: "{{config_libre.directory.conf}}/{{ user2 }}-id_rsa"
 #    size: "4096"
 #    type: "rsa"
-#    owner: "{{ r_libre_user }}"
-#    group: "{{ r_libre_group }}"
+#    owner: "{{ libre_user | default(r_libre_user) }}"
+#    group: "{{ libre_group | default(r_libre_group) }}"
 #  loop:
 #    - instructor
 #    - student
@@ -51,23 +51,23 @@
     src: "{{r_libre_userconfig_dir}}/infra-id_rsa"
     dest: "{{config_libre.directory.conf}}/infra-id_rsa"
     mode: 0600
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 - name: "aws : config : Copy infra ssh public key {{r_libre_userconfig_dir}}/infra-id_rsa.pub to {{config_libre.directory.conf}}/infra-id_rsa.pub"
   copy:
     src: "{{r_libre_userconfig_dir}}/infra-id_rsa.pub"
     dest: "{{config_libre.directory.conf}}/infra-id_rsa.pub"
     mode: 0644
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 
 - name: "aws : config : Generate infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 
 - name: "list : Get previous report data"
   set_fact:
@@ -77,7 +77,7 @@
   template:
     src: libre_report-config.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+#    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
   delegate_to: localhost
