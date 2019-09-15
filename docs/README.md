@@ -13,15 +13,17 @@
 - **instructor** Physical trainer running a training session and animating lab works 
   executed by students
 - **provisionner** Physical user with enought credentials and skills to provision
-  working classrooms environments
+  working classrooms environments using a bootstrap station
+- **bootstrap** Physical or virtual station used to provision and manage
+  multiple training session environments from a same location.
 - **station** Computer unit used by instructor or student during a training session
 - **workstation** Special computer unit used by instructor or student to access their
   dedicated workspace environment using a graphical interface (act as bastion).
 
 
-## 1. Usage guide
+## 1. Provisionner guide
 
-- [Install an instructor environment](user-guides/install-instructor.md)
+- [Install a bootstrap environment](user-guides/install-bootstrap.md)
 - [Configure and install a training session](user-guides/install-session.md#configure)
 - [Configure an infrastructure environment](user-guides/install-infra.md#configure)
 - [Provision a classroom environment](user-guides/install-infra.md#provision)
@@ -32,20 +34,46 @@
 - [Deprovision  a classroom environment](user-guides/uninstall-infra.md)
 - [Uninstall an instructor environment](user-guides/uninstall-instructor.md)
 
-## 2. Developer guide
+
+## 2. Trainer guide
+
+- [Start a training session](user-guides/install-session.md#start-the-training)
+- [Run a training session](user-guides/run-training.md)
+- [Close a training session](user-guides/uninstall-session.md)
+- [Uninstall an instructor environment](user-guides/uninstall-instructor.md)
+
+
+## 3. Developer guide
 
 - [Main files and directory structure](developer/FILES.md)
 - [Main LIBRE commands](developer/BIN.md)
 - [Release history and conventions](RELEASES.md)
 
 
-## 3. Deployement workflow
+## 4. Deployement workflow
+
+To get a training environement, you should follow this workflow :
+
+1. Provision or access a bootstrap environment (provisionner)
+2. Configure the targeted training session (provisionner)
+3. Provision the training classroom (provisionner)
+4. Start and run the training classroom (trainer)
+4. Terminate the training classroom (provisionner)
+
+
+
+
+
+
+
+
+
 
 The full installation of a classroom, using an AWS infrastructure backend, takes
 approximately 25min (4-student classroom) using the following scenario:
 
-- *02 mins* Provision the instructor AWS instance (out of this scope)
-- *05 mins* Apply [instructor requirements](#111-instructor-requirements)
+- *02 mins* Provision the bootstrap AWS instance (out of this scope)
+- *05 mins* Apply [bootstrap requirements](#111-bootstrap-requirements)
 - *02 mins* Configure [STARTX LIBRE environment](#112-configuring-startx-libre-environment-on-instructor) 
   on instructor
 - *02 mins* Setup [STARTX AWS infrastructure config](#433-aws-infractusture) on 

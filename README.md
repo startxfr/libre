@@ -23,7 +23,7 @@ yum install -y curl
 curl -L https://goo.gl/T8Dw9J -o /tmp/libre-installer
 chmod +x /tmp/libre-installer
 # Install LIBRE
-/tmp/libre-installer install
+/tmp/libre-installer install bootstrap
 # Install course environment
 libre-session config
 libre-session install
