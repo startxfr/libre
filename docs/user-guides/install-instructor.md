@@ -67,10 +67,10 @@ after the instructor install and you will be able to change their content whenev
 ```bash
 [root@instructor ~]# 
 # install the installer
-curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
-chmod +x /tmp/installer-libre
+curl -L https://goo.gl/T8Dw9J -o /tmp/libre-installer
+chmod +x /tmp/libre-installer
 # install LIBRE
-/tmp/installer-libre install
+/tmp/libre-installer install
 ```
 
 ### Installing instructor

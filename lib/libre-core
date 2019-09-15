@@ -112,7 +112,7 @@ function echoEnv {
 function checkIfLibre {
   if [[ ! -d "$ROOT_DIR" ]] ; then
     echoError "LIBRE is not installed";
-    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/master/installer.md";
+    echoError "Please run 'libre-installer' or see https://github.com/startxfr/libre/blob/master/installer.md";
     echoError "for more information on how to install LIBRE";
     exit 1;
   fi
@@ -122,7 +122,7 @@ function checkIfLibre {
 function checkIfConfig {
   if [[ ! -f $CONFIG_FILE ]] ; then
     echoError "LIBRE configuration doesn't exist in $CONFIG_FILE";
-    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/master/installer.md";
+    echoError "Please run 'libre-installer' or see https://github.com/startxfr/libre/blob/master/installer.md";
     echoError "for more information on how to install LIBRE";
     exit 1;
   fi

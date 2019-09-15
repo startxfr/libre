@@ -7,7 +7,7 @@ LIBREI_REQUIREMENTS_CENTOS="git curl jq docker"
 ANSIBLE_RPM_FILENAME="ansible-2.7.9-1.el7.ans.noarch.rpm"
 ANSIBLE_RPM_URL="https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/${ANSIBLE_RPM_FILENAME}"
 TMP_DEST=/tmp/libre-installer
-INSTALLER_BIN=/usr/local/bin/installer-libre
+INSTALLER_BIN=/usr/local/bin/libre-installer
 ANSIBLE_DEST=/usr/local/lib/libre-ansible
 INSTALLER_URL=https://goo.gl/T8Dw9J
 THIS_SCRIPT="$(realpath $0)"
@@ -253,11 +253,16 @@ function install_libre {
 
     echo "Start $LIBRE_TYPE installation"
     if debug_enabled; then
+        mv ansible.cfg ansible.cfg.back
+        cp -f ansible.debug.cfg ansible.cfg
         ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml
+        retc=$?
+        mv -f ansible.cfg.back ansible.cfg
     else
         ansible-playbook $ASK_BECOME_PASS playbooks/$LIBRE_TYPE/install.yml &> /dev/null
+        retc=$?
     fi
-    if [ "$?" -eq 0 ]; then
+    if [ $retc -eq 0 ]; then
         echo "Reload bash profile"
         source /etc/profile.d/libre.sh &> /dev/null
         echo -e $(cat /tmp/libre.txt)
@@ -314,7 +319,7 @@ function perform_uninstallation {
 function reinstall_libre {
     print_info
     perform_uninstallation
-    echo "Refresh installer-libre"
+    echo "Refresh libre-installer"
     rm -f $INSTALLER_BIN
     curl -s -L $INSTALLER_URL -o $INSTALLER_BIN &> /dev/null
     chmod +x $INSTALLER_BIN
