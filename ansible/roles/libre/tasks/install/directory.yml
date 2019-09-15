@@ -3,6 +3,8 @@
   stat:
     path: "{{ config_libre.directory.conf }}"
   register: r_libre_dir_conf_details
+- debug: var=libre_user
+- debug: var=r_libre_user
 - name: "install_directory : Create training configuration directory {{ config_libre.directory.conf }}"
   file:
     state: directory
