@@ -8,7 +8,7 @@
       do: load
       infra_type: self
     - role: infra
-      do: provision-post-instructor
+      do: provision-post-bootstrap
       infra_type: self
       
 - name: "Post-Provision classroom install instructor"

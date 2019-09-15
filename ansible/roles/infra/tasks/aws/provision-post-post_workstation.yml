@@ -51,7 +51,7 @@
     owner: "{{ libre_user | default(r_libre_user) }}"
     group: "{{ libre_group | default(r_libre_group) }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id }} : Copy student {{ student.id }} configuration to workstation"
+- name: "aws : provision-post-post : student {{ student.id }} : Copy student {{ student.id }} description to workstation"
   copy:
     content: "{{ student.name }}"
     dest: "{{ config_libre.directory.conf }}/student.txt"
@@ -80,7 +80,7 @@
     owner: "{{ libre_user | default(r_libre_user) }}"
     group: "{{ libre_group | default(r_libre_group) }}"
   delegate_to: "workstation-env{{student.workstation|default('0')}}.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : student {{ student.id }} : Add infrastructure inventory {{config_libre.directory.conf}}/inventory in workstation"
+- name: "aws : provision-post-post : student {{ student.id }} : Add general inventory {{config_libre.directory.conf}}/inventory in workstation"
   file:
     state: "directory"
     path: "{{config_libre.directory.conf}}/inventory"

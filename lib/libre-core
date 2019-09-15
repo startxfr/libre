@@ -1,16 +1,19 @@
 #!/bin/bash
 
 ROOT_DIR=/usr/share/libre
+
 LIBRE_VERSION="0.8.3"
+LIBRE_TYPE=bootstrap
+LIBRE_VERBOSE=true
+LIBRE_DEBUG=false
 
 # Default config var
 CONFIG_DIR=$ROOT_DIR/conf
 CONFIG_FILE=~/.libre/config.yml
 INVENTORY_FILE=$CONFIG_DIR/inventory
 SESSION_FILE=$CONFIG_DIR/session.json
-LIBRE_VERBOSE=true
-LIBRE_DEBUG=false
 ANSIBLE_RETURN=/tmp/libre.txt
+ANSIBLE_ROOT=/usr/share/lib/libre-ansible
 
 # load init files
 function loadInits {
@@ -188,7 +191,6 @@ function runLibrePlaybook {
   else
     librefilter="-e target=local "
   fi
-  cd $ANSIBLE_ROOT
   if [[ ! -r $INVENTORY_FILE ]] ; then
     INVENTORY_FILE="inventory";
   fi

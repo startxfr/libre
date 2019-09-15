@@ -1,4 +1,10 @@
 ---
+- name: "self : provision-post-post : Update instructor /etc/hosts file"
+  copy:
+    src: /etc/hosts
+    dest: /etc/hosts
+  become: yes
+  delegate_to: "instructor"
 - name: "self : provision-post-post : Set hostame to workstation "
   hostname:
     name: workstation

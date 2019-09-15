@@ -1,0 +1,31 @@
+--- 
+- name: "self : provision-post-bootstrap : Update bootstrap /etc/hosts file"
+  template:
+    src: templates/host-instructor.j2
+    dest: /etc/hosts
+- name: "self : provision-post-bootstrap : Change hostname for bootstrap"
+  hostname:
+    name: "bootstrap"
+  become: yes
+- name: "self : provision-post-bootstrap : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
+- name: "self : provision-post-bootstrap : Generate LIBRE report at {{ r_libre_result_file }}"
+  template:
+    src: templates/libre_report-provision-post.j2
+    dest: "{{ r_libre_result_file }}"
+#    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+    mode: 0666
+  delegate_to: localhost
+
+- name: "self : provision-post-bootstrap : Log bootstrap post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "Self-Hosted infrastructure is Post-provisioned on bootstrap"
+    log_component: infra-self
+    log_action: post-provision self-hosted infrastructure on bootstrap
+  run_once: true

@@ -56,6 +56,7 @@
       - botocore
       - boto3
       - boto
+      - docker
     loop_control:
       loop_var: pipname
       label: "{{ pipname }}"
