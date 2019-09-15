@@ -37,6 +37,7 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
+| 0.8.9    | 2019-06-15 | Add lab list, polishing bootstrap and bash integration
 | 0.8.7    | 2019-06-15 | Stabilize bootstrap and improve debug display layout
 | 0.8.5    | 2019-06-15 | Boostrap command can save current context and remove saved context
 | 0.8.3    | 2019-06-14 | Instructor workstation provisionned during infra process

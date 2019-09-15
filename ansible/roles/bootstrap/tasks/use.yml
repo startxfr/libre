@@ -34,6 +34,8 @@
       synchronize:
         src: "{{ config_libre.directory.base }}/"
         dest: "{{ r_bootstrap_saved_directory }}/{{libre_session.id}}"
+        owner: yes
+        group: yes
         recursive: yes
         delete: yes
       delegate_to: "{{ inventory_hostname }}"
@@ -45,6 +47,8 @@
       synchronize:
         src: "{{ r_bootstrap_saved_directory }}/{{bootstrap_session}}/"
         dest: "{{ config_libre.directory.base }}"
+        owner: yes
+        group: yes
         recursive: yes
         delete: yes
       delegate_to: "{{ inventory_hostname }}"
@@ -56,6 +60,19 @@
 - name: "use : The bootstrapped session is not a saved session"
   when: (r_bootstrap_saved_directory + '/' + bootstrap_session) not in r_bootstrap_saved_sessions
   block:
+    - name: "remove : Cleaning files from the current session"
+      file:
+        state: absent
+        path: 
+          - "{{ config_libre.directory.course }}/*"
+          - "{{ config_libre.directory.conf }}/*"
+          - "{{ config_libre.directory.collect }}/log.yml"
+    - name: "remove : Create empty log.yml file"
+      file:
+        state: touch
+        owner: "{{ libre_user | default(r_libre_user) }}"
+        group: "{{ libre_group | default(r_libre_group) }}"
+        path: "{{ config_libre.directory.collect }}/log.yml"
     - name: "use : Start configuring current session context with {{ bootstrap_session }} session"
       include_role:
         name: session
