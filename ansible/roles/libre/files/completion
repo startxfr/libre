@@ -58,7 +58,7 @@ _libre_infra()
 # Auto-completion for bootstrap
 _libre_bootstrap()
 {
-  local available="install archivate backup list save use switch uninstall status history usage info version"
+  local available="install archivate backup list save use switch remove uninstall status history usage info version"
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
   fi

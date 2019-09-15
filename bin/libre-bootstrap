@@ -6,6 +6,7 @@ source /usr/local/lib/libre-bootstrap
 case $1 in
     install)                bootstrapPlaybook install ;;
     archivate|backup)       bootstrapPlaybook archivate ;;
+    remove)                 bootstrapRemovePlaybook $2 ;;
     use|switch|change)      bootstrapUsePlaybook $2 ;;
     save)                   bootstrapPlaybook save ;;
     list)                   bootstrapPlaybook list $2 ;;

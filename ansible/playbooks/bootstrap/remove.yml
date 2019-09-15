@@ -1,5 +1,5 @@
 ---
-- name: "Remove bootstrap tools on bootstrap host"
+- name: "Remove a session stored in current bootstrapped session on bootstrap host"
   hosts: 'bootstrap'
   gather_facts: true
   user: root
@@ -10,6 +10,5 @@
       do: load
       libre_type: bootstrap
     - role: bootstrap
-      do: uninstall
+      do: remove
       libre_type: bootstrap
-      libre_uninstall_deep: true

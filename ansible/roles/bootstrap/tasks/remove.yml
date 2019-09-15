@@ -1,0 +1,34 @@
+---
+- name: "remove : The bootstrapped session to remove is not defined"
+  when: bootstrap_session is undefined
+  block:
+    - name: "remove : Define the bootstrapped session to remove"
+      pause:
+        prompt: "Which bootstrapped session do you want to remove ? "
+      register: bsessionID
+      delegate_to: localhost
+    - name: "remove : Session ID is a good number"
+      assert:
+        that: bsessionID.user_input != ""
+        msg: "You must give a good Session ID"
+    - name: "remove : Register bootstrap_session fact"
+      set_fact:
+        bootstrap_session: "{{ bsessionID.user_input }}"
+
+- name: "remove : Session {{ bootstrap_session }} is a saved session"
+  when: (r_bootstrap_saved_directory + '/' + bootstrap_session) in r_bootstrap_saved_sessions
+  block:
+    - name: "remove : Archivate saved session {{ bootstrap_session }} into backup store"
+      archive:
+        path: "{{ r_bootstrap_saved_directory }}/{{bootstrap_session}}/"
+        dest: "{{ r_bootstrap_archive_directory }}/libre-{{ bootstrap_session }}-{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}.tgz"
+    - name: "remove : Remove session {{ bootstrap_session }} from saved store"
+      file:
+        state: absent
+        path: "{{ r_bootstrap_saved_directory }}/{{bootstrap_session}}"
+        recurse: yes
+
+- name: "remove : Session {{ bootstrap_session }} is not a saved session"
+  when: (r_bootstrap_saved_directory + '/' + bootstrap_session) not in r_bootstrap_saved_sessions
+  debug:
+    msg: "Session {{ bootstrap_session }} is not a saved session. Nothing to do."

@@ -17,15 +17,25 @@ function bootstrapPlaybook {
   exit 0;
 }
 
+# Call bootstrap remove playbook
+function bootstrapRemovePlaybook {
+  bootstrapHeader
+  param=""
+  if [[ "$1" != "" ]] ; then
+      param="local -e bootstrap_session=$1"
+  fi
+  runLibrePlaybook bootstrap remove $param
+  exit 0;
+}
+
 # Call bootstrap use playbook
 function bootstrapUsePlaybook {
   bootstrapHeader
+  param=""
   if [[ "$1" != "" ]] ; then
-      deep="local -e bootstrap_session=$1"
-  else
-      deep=""
+      param="local -e bootstrap_session=$1"
   fi
-  runLibrePlaybook bootstrap use $deep
+  runLibrePlaybook bootstrap use $param
   exit 0;
 }
 
@@ -72,18 +82,24 @@ Instructor training management command line.
 Usage:
   libre-bootstrap [command]
 
-- Generic commands:
-  install          install bootstrap environment
+- Session management commands:
   use/switch <id>  Change the current session context by restoring a saved context 
                    or creating a new one (and saving context prior to the move ;)
   list             Get a list of all training session stored in the current and 
                    archive store
   save             Save the current session into saved context
+  remove <id>      Remove the given session from the current store
   archivate/backup Save in a compressed format all data related to a session
                    managed by this provionner
+  history          get history of the bootstrap actions
+
+- Installation commands:
+  install          install bootstrap environment
+  update           update the bootstrap environment
   uninstall        uninstall bootstrap environment after archiving (extra command 
                    "deep" or "all" will remove user config directory)
-  history          get history of the bootstrap actions
+
+- Generic commands:
   status           get status of the current bootstrap
   usage            get command line usage information
   info             give information about current libre installation

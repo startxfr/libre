@@ -4,7 +4,7 @@
   block:
     - name: "use : Configure the bootstrapped session"
       pause:
-        prompt: "What training session are you bootraped ? "
+        prompt: "What training session are you bootstrapped ? "
       register: bsessionID
       delegate_to: localhost
     - name: "use : Session ID is a good number"
