@@ -92,8 +92,8 @@
     dest: "{{ r_session_dir_course }}"
     recursive: yes
     delete: yes
-    owner: "{{ libre_user | default(r_libre_user) }}"
-    group: "{{ libre_group | default(r_libre_group) }}"
+    owner: yes
+    group: yes
   delegate_to: "{{ inventory_hostname }}"
 
 - name: "install : Reload session course-manifest"

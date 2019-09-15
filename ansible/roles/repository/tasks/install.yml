@@ -63,6 +63,13 @@
   unarchive:
     src: /tmp/repo-copy.tgz
     dest: "{{ config_repository.local }}"
+- name: "install : Fix perm in course content at {{ inventory_hostname }}"
+  file:
+    dest: "{{ config_repository.local }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+    mode: "u=rwX,g=rwX,o=rX"
+    recurse: yes
 - name: "install : remove temporary course materials in /tmp/repo-copy"
   file:
     state: "absent"
