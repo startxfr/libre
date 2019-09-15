@@ -61,7 +61,7 @@
     loop_var: binname
     label: "{{ binname }}"
   when: >
-    (libre_type == "bootstrap" or config_libre.application.type == "bootstrap") and
+    (libre_type == "bootstrap") and
     (
       not r_libre_binary_details.stat.exists or
       not r_libre_binary_details.stat.executable or
@@ -80,7 +80,7 @@
     loop_var: binname
     label: "{{ binname }}"
   when: >
-    (libre_type == "instructor" or config_libre.application.type == "instructor") and
+    (libre_type == "instructor") and
     (
       not r_libre_binary_details.stat.exists or
       not r_libre_binary_details.stat.executable or
@@ -99,7 +99,7 @@
     loop_var: binname
     label: "{{ binname }}"
   when: >
-    (libre_type == "student" or config_libre.application.type == "student") and
+    (libre_type == "student") and
     (
       not r_libre_binary_details.stat.exists or
       not r_libre_binary_details.stat.executable or
