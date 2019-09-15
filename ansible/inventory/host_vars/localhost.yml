@@ -2,6 +2,3 @@
 ---
 # use a local connection to reach this host
 ansible_connection: local
-
-libre_debug: false
-libre_verbose: true

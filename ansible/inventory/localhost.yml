@@ -4,30 +4,24 @@ local:
     localhost:
   vars:
     ansible_connection: local
-    libre_type: student
 
 bootstrap:
   hosts:
     localhost:
   vars:
     ansible_connection: local
-    libre_type: bootstrap
 
 instructor:
   hosts:
     localhost:
   vars:
     ansible_connection: local
-    libre_type: instructor
 
 students:
   hosts:
     localhost:
   vars:
     ansible_connection: local
-    libre_type: student
-    libre_debug: false
-    libre_verbose: false
 
 classroom:
   children:

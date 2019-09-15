@@ -26,7 +26,6 @@
       file:
         state: absent
         path: "{{ r_bootstrap_saved_directory }}/{{bootstrap_session}}"
-        recurse: yes
 
 - name: "remove : Session {{ bootstrap_session }} is not a saved session"
   when: (r_bootstrap_saved_directory + '/' + bootstrap_session) not in r_bootstrap_saved_sessions
