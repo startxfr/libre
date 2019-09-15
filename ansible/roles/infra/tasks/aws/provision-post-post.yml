@@ -1,22 +1,29 @@
 ---
-- name: "aws : provision-post-post : Change hostname for instructor"
-  hostname:
-    name: "instructor-{{ libre_session.id }}"
+- name: "install-postcheck : Install the instructor environment"
   become: yes
   delegate_to: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : Update instructor /etc/hosts file"
-  copy:
-    src: /etc/hosts
-    dest: /etc/hosts
-  become: yes
-  delegate_to: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
-- name: "aws : provision-post-post : Copy session {{ libre_session.id }} configuration to instructor"
-  copy:
-    src: "{{ config_libre.directory.conf }}"
-    dest: "{{ config_libre.directory.conf }}"
-    owner: "{{ libre_user | default(r_libre_user) }}"
-    group: "{{ libre_group | default(r_libre_group) }}"
-  delegate_to: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+  block:
+  - name: "aws : provision-post-post : Change hostname for instructor"
+    hostname:
+      name: "instructor-{{ libre_session.id }}"
+  - name: "aws : provision-post-post : Update instructor /etc/hosts file"
+    copy:
+      src: /etc/hosts
+      dest: /etc/hosts
+  - name: "install_services : Ensure docker packages are installed on instructor"
+    yum:
+      name: docker
+  - name: "install_services : Ensure docker service is running on instructor"
+    systemd:
+      name: docker
+      state: started
+  - name: "aws : provision-post-post : Copy session {{ libre_session.id }} configuration to instructor"
+    copy:
+      src: "{{ config_libre.directory.conf }}/"
+      dest: "{{ config_libre.directory.conf }}"
+      owner: "{{ libre_user | default(r_libre_user) }}"
+      group: "{{ libre_group | default(r_libre_group) }}"
+
 - name: "aws : provision-post-post : Log instructor post-provision action"
   include_role:
     name: libre

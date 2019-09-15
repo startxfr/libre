@@ -58,6 +58,14 @@
     owner: "{{keyf.user}}"
     group: "{{ r_infra_usergroup }}"
   loop:
+    - user: "root"
+      key: infra-id_rsa.pub
+      keyt: id_rsa.pub
+      dir: "/root"
+    - user: "{{ r_infra_user_instructor }}"
+      key: infra-id_rsa
+      keyt: id_rsa
+      dir: "/root"
     - user: "{{ r_infra_user_instructor }}"
       key: instructor-id_rsa.pub
       keyt: id_rsa.pub
