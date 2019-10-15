@@ -7,21 +7,21 @@
 # Install tasks
 - name: "install : Start instructor install sequence"
   block:
-    - name: "install : Start infrastructure install post-check"
+    - name: "install : Start session install post-check"
       include_role:
-        name: infra
+        name: session
         tasks_from: install-postcheck
   rescue:
-    - name: "install : Infrastructure post-check install is not valid"
+    - name: "install : session post-check install is not valid"
       debug:
-        msg: Failing back to installing infrastructure first 
-    - name: "install : Start infrastructure load"
+        msg: Failing back to installing session first 
+    - name: "install : Start session load"
       include_role:
-        name: infra
+        name: session
         tasks_from: load
-    - name: "install : Start infrastructure install"
+    - name: "install : Start session install"
       include_role:
-        name: infra
+        name: session
         tasks_from: install
 
 - name: "install : Set hostame to instructor"
@@ -30,14 +30,16 @@
 
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "install : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 
 - name: "install : Log install action"
   include_role:
@@ -46,7 +48,7 @@
   vars:
     log_name: "Instructor workstation is installed"
     log_component: instructor
-    log_action: install
+    log_action: install on 127.0.0.1
 
 # Install post-tasks
 - name: "install : Start instructor post-installation checks"

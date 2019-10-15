@@ -1,9 +1,11 @@
 ---
-- name: "Check student environment on students"
-  hosts: 'workstation'
+- name: "Check student environment on students host"
+  hosts: 'workstations'
   gather_facts: true
   user: root
 
   roles:
-    - { role: student, do: load }
-    - { role: student, do: status }
+    - role: student
+      do: load
+    - role: student
+      do: status

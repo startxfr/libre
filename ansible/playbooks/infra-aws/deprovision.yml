@@ -1,8 +1,17 @@
 ---
-- name: "Deprovision classroom infrastructure"
-  hosts: 'instructor'
+- name: "Deprovision classroom infrastructure on bootstrap host"
+  hosts: 'bootstrap'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: infra, do: load, infra_type: aws }
-    - { role: infra, do: deprovision, infra_type: aws }
+    - role: infra
+      do: load
+      infra_type: aws
+      libre_type: bootstrap
+      libre_user: provisionner
+    - role: infra
+      do: deprovision
+      infra_type: aws
+      libre_type: bootstrap
+      libre_user: provisionner

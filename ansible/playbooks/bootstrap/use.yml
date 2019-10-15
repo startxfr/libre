@@ -1,0 +1,16 @@
+---
+- name: "Use a new session context on bootstrap host"
+  hosts: 'bootstrap'
+  gather_facts: true
+  user: root
+  become: yes
+
+  roles:
+    - role: bootstrap
+      do: load
+      libre_type: bootstrap
+      libre_user: provisionner
+    - role: bootstrap
+      do: use
+      libre_type: bootstrap
+      libre_user: provisionner

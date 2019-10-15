@@ -7,14 +7,14 @@ not already present on your workstation.
 
 | File                      | Description          | Ansible var
 |---------------------------|----------------------|---------------------
-| ~/.libre/config.yml       | libre configuration file. Contain configuration option related to the libre environement                                          | config_libre
+| ~/.libre/config.yml       | libre configuration file. Contain configuration option related to the libre environment                                          | config_libre
 | ~/.libre/session.yml      | configuration file for the session backend to use when configurating a training session                                           | config_session
-| ~/.libre/repository.yml   | configuration file for the course repository backend to use when installing the libre environement                                | config_infra
+| ~/.libre/repository.yml   | configuration file for the course repository backend to use when installing the libre environment                                | config_infra
 | ~/.libre/infra.yml        | configuration file for the course infrastructure backends. Contain configuration option for classroom infrastructure deployment   | config_repository
-| ~/.libre/infra-id_rsa     | Private key file to use for infra provisionning (must be replaced by your own certificate)                                        |
+| ~/.libre/infra-id_rsa     | Private key file to use for infra provisioning (must be replaced by your own certificate)                                        |
 | ~/.libre/infra-id_rsa.pub | Public key file associated with private key file (must be replaced by your own certificate)                                       |
 
-These file are loaded on application startup and content is loaded in dedicated ansible vars. You can acces to theses files content 
+These file are loaded on application startup and content is loaded in dedicated ansible vars. You can acces to these files content 
 by using the appropriate variable. For example to display the libre base directory (key __base__ in __directory__ section of `~/.libre/config.yml`), 
 you can do ```yaml - debug: msg="{{ config_libre.directory.base }}"```.
 

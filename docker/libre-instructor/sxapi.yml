@@ -1,7 +1,7 @@
 name: libre-instructor
 description: Web-application used to serve course materials and tools for training
   delivery
-version: 0.7.12
+version: 0.8.11
 debug: true
 resources:
   serviceinfo:

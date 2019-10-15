@@ -1,8 +1,12 @@
 ---
-- name: "Uninstall libre environment on local"
+- name: "Uninstall libre environment on localhost"
   hosts: 'localhost'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: libre, do: load }
-    - { role: libre, do: uninstall, libre_uninstall_deep: true }
+    - role: libre
+      do: load
+    - role: libre
+      do: uninstall
+      libre_uninstall_deep: true

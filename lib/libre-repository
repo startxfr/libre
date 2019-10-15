@@ -49,16 +49,16 @@ Instructor training management command line.
 Usage:
   libre-repository [command]
 
-- Generic commands:
+- Information commands:
+  status           get status of the course repository
+  history          get history of the repository actions
+
+- Installation commands:
   install          install course repository cache
   uninstall        uninstall course repository cache
   update           update course repository cache
-  status           get status of the course repository
-  history          get history of the repository actions
-  usage            get command line usage information
-  info             give information about current libre installation
-  version          give information about current libre version
 EOF
+classroomGenericUsageSubcmd
 }
 
 

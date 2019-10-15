@@ -58,6 +58,14 @@
     owner: "{{keyf.user}}"
     group: "{{ r_infra_usergroup }}"
   loop:
+    - user: "root"
+      key: infra-id_rsa.pub
+      keyt: id_rsa.pub
+      dir: "/root"
+    - user: "{{ r_infra_user_instructor }}"
+      key: infra-id_rsa
+      keyt: id_rsa
+      dir: "/root"
     - user: "{{ r_infra_user_instructor }}"
       key: instructor-id_rsa.pub
       keyt: id_rsa.pub
@@ -78,6 +86,15 @@
     loop_var: keyf
     label: "{{ keyf.key }} > {{ keyf.user }}"
 
+- name: "aws : provision-post-students : Update student .ssh/known_hosts file on nodes"
+  copy:
+    src: /tmp/{{workstation|default('0')}}.knownhosts
+    dest: "/home/{{ r_infra_user_student }}/.ssh/known_hosts"
+    mode: 0664
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+  ignore_errors: true
+  
 - name: "aws : provision-post-students : Change hostname for students"
   hostname:
     name: "{{inventory_hostname.split('.')[0] | lower }}"
@@ -99,7 +116,7 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is Post-provisionned on students"
+    log_name: "AWS infrastructure is Post-provisioned on students"
     log_component: infra-aws
-    log_action: post-provision (students)
+    log_action: post-provision AWS infrastructure on students
   run_once: true

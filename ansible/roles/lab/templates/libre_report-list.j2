@@ -1,0 +1,23 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+
+{% if libre_session.id is defined %}
+     Trainer : \e[1m{{ libre_session.instructor }}\e[0m
+{% endif %}
+
+{% if libre_student is defined and libre_student.id is defined %}
+     student : \e[34m{{ libre_student.id }}\e[0m \e[1m{{ libre_student.name }}\e[0m
+   workspace : environment \e[1m{{ libre_student.workstation }}\e[0m
+{% endif %}
+
+{% if libre_course.id is defined %}
+      Course : \e[1m{{ libre_course.id }}\e[0m v{{ libre_course.version }}
+               \e[2m{{ libre_course.name }}\e[0m
+{% endif %}
+
+   lab count : \e[1m{{ libre_course.labs|length }}\e[0m labs
+    lab list : 
+{% for lab in libre_course.labs %}
+           \e[1m{{ lab.id }}\e[0m : Lab \e[1m{{ lab.idn }}\e[0m ({{ lab.time }}min)
+                \e[2m{{ lab.name }}\e[0m
+{% endfor %}

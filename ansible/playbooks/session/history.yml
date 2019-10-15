@@ -1,9 +1,16 @@
 ---
-- name: "Display session history on instructor"
+- name: "Display session history on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root
 
   roles:
-    - { role: session, do: load }
-    - { role: session, do: history, history_filter: session }
+    - role: session
+      do: load
+      libre_type: instructor
+      libre_user: instructor
+    - role: session
+      do: history
+      libre_type: instructor
+      libre_user: instructor
+      history_filter: session

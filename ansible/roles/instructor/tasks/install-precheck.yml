@@ -1,9 +1,9 @@
 ---
-- name: "install-precheck : Start infrastructure pre-installation checks"
+- name: "install-precheck : Start session pre-installation checks"
   include_role:
-    name: infra
+    name: session
     tasks_from: install-precheck.yml
-  when: not infra_install_precheck or infra_install_precheck is undefined
+  when: not session_install_precheck or session_install_precheck is undefined
 
 - name: "install-precheck : Mark instructor install-precheck as done"
   set_fact:

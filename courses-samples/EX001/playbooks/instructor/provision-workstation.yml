@@ -32,8 +32,8 @@
     group: "{{ r_libre_group }}"
     mode: 0775
     state: directory
-- name: "EX001 : instructor : provision_workstation : Create vnc password for student user remotely"
-  shell: "echo student | vncpasswd -f > /home/student/.vnc/passwd"
+- name: "EX001 : instructor : provision_workstation : Create VNC user with password='studentEX001' for remote connection"
+  shell: "echo studentEX001 | vncpasswd -f > /home/student/.vnc/passwd"
 - name: "EX001 : instructor : provision_workstation : Change the permission to 600 for /home/student/.vnc/passwd file"
   file:
     path: /home/student/.vnc/passwd

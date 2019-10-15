@@ -1,9 +1,12 @@
 ---
 # Start post-tasks
-- name: "Start lab on local (post-tasks)"
-  hosts: 'localhost'
+- name: "Start lab on student workstation (post-tasks)"
+  hosts: 'workstations'
   gather_facts: yes
   user: root
   roles:
-    - { role: lab, do: load }
-    - { role: lab, do: post, lab_action: start }
+    - role: lab
+      do: load
+    - role: lab
+      do: post
+      lab_action: start

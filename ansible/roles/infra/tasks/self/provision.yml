@@ -40,8 +40,8 @@
     state: directory
     path: "{{ config_libre.directory.conf }}/inventory"
     mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     recurse: yes
 - name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
@@ -49,59 +49,40 @@
     dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
 #    remote_src: yes
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 - name: "self : provision : Generate inventory {{ config_libre.directory.conf }}/inventory/students.yml"
   template:
     src: inventory-students.j2
     dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
 #    remote_src: yes
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
-- name: "self : provision : Set infrastructure state to provisionned"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+- name: "self : provision : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'provisioned' }, recursive=True) }}"
 - name: "self : provision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "self : provision : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "self : provision : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-provision.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 - name: "self : provision : Log provision action"
   include_role:
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Self-Hosted infrastructure is Provisionned"
+    log_name: "Self-Hosted infrastructure is Provisioned"
     log_component: infra-self
-    log_action: provision
-- name: "self : provision : Infrastructure provisionning is finish"
-  debug:
-    msg:
-      - "We are happy to report that self infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully provisioned on Self-Hosted infrastructure"
-      - " "
-      - "Here are some interesting characteristics of this infrastructure:"
-      - " "
-      - "  - Instructor: instructor.{{ libre_infra.network.dns }}"
-      - "  - Student   : student.{{ libre_infra.network.dns }}"
-      - "  - IP address: {{ libre_infra.network.associated_ip }}"
-      - " "
-      - " You can continue this process by :"
-      - " "
-      - "1. Review and complete the generated inventory {{config_libre.directory.conf}}/inventory/infra.yml"
-      - "2. Start post-provisionning your infrastructure by executing the following command :"
-      - "   $ libre-infra self post-provision"
-      - " "
-      - "You can also check in {{ r_libre_dest_ansible }}/inventory for sample inventory to use"
-      - "before lauching infrastructure post-provisionning."
-      - " "
-      - " Have an happy training ;)"
+    log_action: provision self-hosted

@@ -80,7 +80,7 @@ classroomInfra:
   workstations:
     - name: workstation
       group_name: workstations
-      desc: Workstation used for lab environement
+      desc: Workstation used for lab environment
       scripts:
         provision: provision-workstation.yml
         deprovision: deprovision-workstation.yml
@@ -90,12 +90,13 @@ classroomInfra:
         ssh_keyname: "ssh-libre-instructor"
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "centos"
+        has_dns: yes
       infra_prem:
         ssh_privateKey_file: "/usr/share/libre/conf/infra-id_rsa"
         ssh_user: "root"
     - name: nodeA
       group_name: nodesA
-      desc: First node server used for lab environement
+      desc: First node server used for lab environment
       scripts:
         provision: provision-nodeA.yml
         deprovision: deprovision-nodes.yml
@@ -110,7 +111,7 @@ classroomInfra:
         ssh_user: "root"
     - name: nodeB
       group_name: nodesB
-      desc: Second node server used for lab environement
+      desc: Second node server used for lab environment
       scripts:
         provision: provision-nodeA.yml
         deprovision: deprovision-nodes.yml

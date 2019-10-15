@@ -1,8 +1,15 @@
 ---
-- name: "Check classroom infrastructure on instructor"
-  hosts: 'instructor'
+- name: "Check classroom infrastructure on bootstrap host"
+  hosts: 'bootstrap'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: infra, do: load }
-    - { role: infra, do: status }
+    - role: infra
+      do: load
+      libre_type: bootstrap
+      libre_user: provisionner
+    - role: infra
+      do: status
+      libre_type: bootstrap
+      libre_user: provisionner

@@ -29,7 +29,7 @@ Describe and configure your libre installation
 | version       | libre installation version
 | verbose       | enable (True) or disable (False) verbose display mode
 | debug         | enable (True) or disable (False) debug display mode
-| ansible       | Path to ansible playbook and roles used by this libre environement
+| ansible       | Path to ansible playbook and roles used by this libre environment
 | source.repo   | URL of the libre SCM repository
 | source.branch | Branch name in the libre SCM repository
 | source.base   | Source code base directory in the libre SCM repository
@@ -51,7 +51,7 @@ Describe and configure your libre directory installation
 ```yaml
 application:
   type: "instructor"
-  version: "0.7.12"
+  version: "0.8.11"
   verbose: "True"
   debug: "True"
   ansible: "/usr/local/lib/libre-ansible"

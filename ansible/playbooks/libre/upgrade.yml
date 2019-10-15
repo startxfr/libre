@@ -1,8 +1,11 @@
 ---
-- name: "Upgrade libre environment on local"
+- name: "Upgrade libre environment on localhost"
   hosts: 'localhost'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: libre, do: load }
-    - { role: libre, do: upgrade }
+    - role: libre
+      do: load
+    - role: libre
+      do: upgrade

@@ -1,7 +1,7 @@
 ---
 # Stop pre-tasks
 - name: "stop : Stop course {{ libre_course.id }}"
-  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/stop.yml"
+  include_tasks: "{{ r_session_dir_course }}/{{  training_dir_course_playbooks | default(r_session_dir_course_playbooks) }}/stop.yml"
   when: r_session_dir_course_playbooks_details.stat.exists
 - name: "stop : Stop LIBRE-instructor web application for session {{ libre_session.id }}"
   docker_container:
@@ -20,14 +20,16 @@
 # Stop tasks
 - name: "stop : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "stop : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: libre_report-stop.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 - name: "stop : Log stop action"
   include_role:
     name: libre
@@ -35,4 +37,4 @@
   vars:
     log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is stopped"
     log_component: session
-    log_action: stop
+    log_action: stop session {{ libre_session.id }}

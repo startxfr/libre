@@ -13,11 +13,15 @@
 - name: "uninstall : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "uninstall : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: libre_report-uninstall.j2
     dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0664
+  delegate_to: localhost
 - name: "uninstall : Log uninstall action"
   include_role:
     name: libre
@@ -25,4 +29,4 @@
   vars:
     log_name: "Student workstation is uninstalled"
     log_component: student
-    log_action: uninstall
+    log_action: uninstall student workstation

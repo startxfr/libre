@@ -1,8 +1,15 @@
 ---
-- name: "Install training repository environment on instructor"
-  hosts: 'instructor'
+- name: "Install training repository environment on instructor and bootstrap host"
+  hosts: 'instructor bootstrap'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: repository, do: load }
-    - { role: repository, do: install }
+    - role: repository
+      do: load
+      libre_type: instructor
+      libre_user: instructor
+    - role: repository
+      do: install
+      libre_type: instructor
+      libre_user: instructor

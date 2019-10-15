@@ -20,8 +20,8 @@ The clostest the constellation are from the solar system, the better they are.
 |----------|-----------|------
 | 1.0.x    | Solar     | To be defined
 | 0.9.x    | Lyra      | To be defined
-| 0.8.x    | Centaurus | To be defined
-| 0.7.x    | Cygnus    | To be defined
+| 0.8.x    | Centaurus | Adding bootstrap server for multi-classroom deployments
+| 0.7.x    | Cygnus    | Adding graphical interface for student workspace
 | 0.6.x    | Pegasus   | Stable classroom deployment in AWS
 | 0.5.x    | Cetus     | Stable release for Centos 7.6 environment
 | 0.4.x    | Sextans   | Stabilize infra AWS deployment
@@ -33,10 +33,24 @@ The clostest the constellation are from the solar system, the better they are.
 
 # Release history
 
+## version 0.8.x (Centaurus)
+
+| Release  | Date       |  Description
+|----------|------------|-------------
+| 0.8.11   | 2019-10-15 | Improve bootstrap config and status generation
+| 0.8.9    | 2019-06-15 | Add lab list, polishing bootstrap and bash integration
+| 0.8.7    | 2019-06-15 | Stabilize bootstrap and improve debug display layout
+| 0.8.5    | 2019-06-15 | Boostrap command can save current context and remove saved context
+| 0.8.3    | 2019-06-14 | Instructor workstation provisionned during infra process
+| 0.8.1    | 2019-06-14 | unstable addition of bootstrap installation
+| 0.8.0    | 2019-09-13 | Stable Release with minor fix from 0.7.15
+
+
 ## version 0.7.x (Cygnus)
 
 | Release  | Date       |  Description
 |----------|------------|-------------
+| 0.7.15   | 2019-06-28 | Many bugfix and stabilisation work. Prepare Centaurus release cycle
 | 0.7.12   | 2019-06-16 | Stable release for lab usage tested with startx ansible course
 | 0.7.11   | 2019-06-15 | More stable lab usage with addition of grade-line lib for lab grade scripts
 | 0.7.9    | 2019-06-14 | Improve lab usage
@@ -50,12 +64,12 @@ The clostest the constellation are from the solar system, the better they are.
 
 | Release  | Date       |  Description
 |----------|------------|-------------
-| 0.6.19   | 2019-06-01 | Full AWS provisionning deployment and integration of book generation
+| 0.6.19   | 2019-06-01 | Full AWS provisioning deployment and integration of book generation
 | 0.6.17   | 2019-05-31 | Improve AWS infrastructure deployement for a full classroom support
 | 0.6.16   | 2019-05-29 | Debugging student loading
-| 0.6.15   | 2019-05-27 | Stabilize post-provisionning on self infrastructure.
+| 0.6.15   | 2019-05-27 | Stabilize post-provisioning on self infrastructure.
 | 0.6.11   | 2019-05-22 | Improving lab and infra management. 
-| 0.6.10   | 2019-05-19 | Remove usless become, delegate_to. Change instructor dependency and install sequence. Stabilize infra self provisionning sequence (only with virt kernel)
+| 0.6.10   | 2019-05-19 | Remove usless become, delegate_to. Change instructor dependency and install sequence. Stabilize infra self provisioning sequence (only with virt kernel)
 | 0.6.9    | 2019-05-18 | Speeup libre reinstall. 
 | 0.6.7    | 2019-05-18 | Move user config to dedicated role installation and reduce loading tasks
 | 0.6.5    | 2019-05-16 | Change infra workflow and start classroom libre installation. Move libre version form user config to internal config
@@ -70,7 +84,7 @@ The clostest the constellation are from the solar system, the better they are.
 | 0.5.99   | 2019-05-09 | Debug infra aws deployment
 | 0.5.44   | 2019-05-02 | Stable instructor install on Centos 7.6
 | 0.5.43   | 2019-04-29 | Add repository refresh on install and signsheet record in instructor container
-| 0.5.40   | 2019-04-27 | Update to Centos 7.6 environement
+| 0.5.40   | 2019-04-27 | Update to Centos 7.6 environment
 | 0.5.34   | 2018-12-09 | Reorg var dependencies and log management
 | 0.5.32   | 2018-11-30 | Clean service dependencies
 | 0.5.30   | 2018-11-27 | Upgrade sxapi dependencies in instructor container (move to yaml)

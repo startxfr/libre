@@ -1,8 +1,15 @@
 ---
-- name: "Update instructor environment on instructor"
+- name: "Update instructor environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: instructor, do: load }
-    - { role: instructor, do: update }
+    - role: instructor
+      do: load
+      libre_type: instructor
+      libre_user: instructor
+    - role: instructor
+      do: update
+      libre_type: instructor
+      libre_user: instructor

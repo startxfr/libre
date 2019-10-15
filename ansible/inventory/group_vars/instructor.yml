@@ -8,6 +8,9 @@ libre_user: instructor
 # playbooks directory inside the course directory
 training_dir_course_playbooks: playbooks/instructor
 
+libre_debug: false
+libre_verbose: true
+
 # minimum physical CPU required
 libre_minhw_cpu_physical: 1
 # minimum logical CPU required

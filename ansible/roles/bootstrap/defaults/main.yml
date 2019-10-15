@@ -1,0 +1,8 @@
+---
+## LIBRE Instructor role default variables
+
+do: load
+
+bootstrap_base_directory: "/usr/share/libre-bootstrap"
+bootstrap_saved_directory: "/usr/share/libre-bootstrap/saved"
+bootstrap_archive_directory: "/usr/share/libre-bootstrap/archived"

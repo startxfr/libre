@@ -1,6 +1,6 @@
 # LIBRE Ansible Roles
 
-Theses roles are used by LIBRE playbooks to help you manage a LIBRE training course
+These roles are used by LIBRE playbooks to help you manage a LIBRE training course
 
 1. Infrastructure roles
     1. [AWS roles](./infra-aws)

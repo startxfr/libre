@@ -24,20 +24,19 @@
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     state: get
     zone: "{{ libre_infra.route53.zone }}"
-    record: "workstation{{item}}.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
+    record: "*.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
     type: A
   register: route53_facts
-  with_sequence: start=0 end={{ libre_session.students|length }}
+  with_sequence: start=0 end={{ (libre_session.students|length)-1 }}
 - name: "aws : deprovision : Get VPC facts"
   ec2_vpc_net_facts:
     aws_access_key: "{{ libre_infra.auth.access_key }}"
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     region: "{{ libre_infra.ec2.region }}"
     filters:
-      "tag:Name": "{{ libre_session.id }}-env{{item}}-vpc"
+      "tag:Name": "{{ libre_session.id }}-vpc"
       "tag:Session": "{{ libre_session.id }}"
   register: r_libre_vpcs
-  with_sequence: start=0 end={{ libre_session.students|length }}
 - name: "aws : deprovision : Get VPC route tables facts"
   ec2_vpc_route_table_facts:
     aws_access_key: "{{ libre_infra.auth.access_key }}"
@@ -46,7 +45,7 @@
     filters:
       "vpc-id": "{{ r_libre_vpcs.vpcs[0].id }}"
   register: libre_routes
-  with_sequence: start=0 end={{ libre_session.students|length }}
+  with_sequence: start=0 end={{ (libre_session.students|length)-1 }}
   when:
     - r_libre_vpcs.vpcs is defined
     - r_libre_vpcs.vpcs | length > 0
@@ -57,11 +56,12 @@
     region: "{{ libre_infra.ec2.region }}"
     filters:
       "vpc-id": "{{ r_libre_vpcs.vpcs[0].id }}"
-  with_sequence: start=0 end={{ libre_session.students|length }}
+  with_sequence: start=0 end={{ (libre_session.students|length)-1 }}
   when:
     - r_libre_vpcs.vpcs is defined
     - r_libre_vpcs.vpcs | length > 0
   register: libre_subnets
+  
 - name: "aws : deprovision : Find EC2 instances ID"
   ec2_instance_facts:
     aws_access_key: "{{ libre_infra.auth.access_key }}"
@@ -79,30 +79,28 @@
     state: absent
     count: 0
 #    wait: yes
-    instance_ids: '{{ item.instance_id }}'
-  with_items: "{{  ec2.instances }}"
-- name: "aws : deprovision : Remove public DNS for workstations"
+    instance_ids: '{{ instance.instance_id }}'
+  loop: "{{ ec2.instances }}"
+  loop_control:
+    loop_var: instance
+    label: "{{ instance.instance_id }}"
+  ignore_errors: yes
+- name: "aws : deprovision : Remove public DNS"
   route53:
     state: absent
     aws_access_key: "{{ libre_infra.auth.access_key }}"
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     zone: "{{ libre_infra.route53.zone }}"
-    ttl: "{{ item.set.ttl | default(30)  }}"
-    record: "{{ item.set.record | default('workstation'+item.item+'.'+libre_session.course+'.'+libre_infra.route53.domain) }}"
-    value: "{{ item.set.value | default('')  }}"
-    type: "{{ item.set.type | default('A')  }}"
-  with_items: "{{ route53_facts.results }}"
-- name: "aws : deprovision : Remove public DNS for instructor"
-  route53:
-    state: absent
-    aws_access_key: "{{ libre_infra.auth.access_key }}"
-    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
-    zone: "{{ libre_infra.route53.zone }}"
-    ttl: 30
-    record: "instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}."
-    value: "workstation0.{{ libre_session.course }}.{{ libre_infra.route53.domain }}."
-    type: CNAME
-- name: "aws : deprovision : Delete {{ libre_session.id }}-env{{item}}-vpc Internet Gateway"
+    ttl: "{{ route53.set.ttl | default(30)  }}"
+    record: "{{ route53.set.record | default('workstation-env'+route53.item+'.'+libre_session.id+'.'+libre_infra.route53.domain) }}"
+    value: "{{ route53.set.value | default('')  }}"
+    type: "{{ route53.set.type | default('A')  }}"
+  loop: "{{ route53_facts.results }}"
+  loop_control:
+    loop_var: route53
+    label: "{{ route53.set.value }}"
+  ignore_errors: yes
+- name: "aws : deprovision : Delete {{ libre_session.id }}-igw Internet Gateway"
   ec2_vpc_igw:
     state: absent
     aws_access_key: "{{ libre_infra.auth.access_key }}"
@@ -112,73 +110,110 @@
   when:
     - r_libre_vpcs.vpcs is defined
     - r_libre_vpcs.vpcs | length > 0
-- name: "aws : deprovision : Delete {{ libre_session.id }}-env{{item}}-vpc routes tables"
-  ec2_vpc_route_table:
-    state: absent
-    aws_access_key: "{{ libre_infra.auth.access_key }}"
-    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
-    region: "{{ libre_infra.ec2.region }}"
-    vpc_id: "{{ r_libre_vpcs.vpcs[0].id }}"
-    route_table_id: "{{ item.id }}"
-    lookup: id
-  with_items: "{{ libre_routes.route_tables }}"
-  when:
-    - libre_routes.route_tables is defined
-    - r_libre_vpcs.vpcs is defined
-    - r_libre_vpcs.vpcs | length > 0
-- name: "aws : deprovision : Delete {{ libre_session.id }}-env{{item}}-vpc subnets"
+  ignore_errors: yes
+- name: "aws : deprovision : Filter VPC subnets"
+  set_fact: 
+    subnetcidr_block: "{{ subnetcidrblock }}"
+  loop: "{{ libre_subnets | json_query('results[*].subnets[*].cidr_block') }}"
+  loop_control:
+    loop_var: subnetcidrblock
+    label: "{{ subnetcidrblock }}"
+  delegate_to: localhost
+  run_once: true
+  ignore_errors: yes
+- name: "aws : deprovision : Delete {{ libre_session.id }}-X-subnet subnets"
   ec2_vpc_subnet:
     state: absent
     aws_access_key: "{{ libre_infra.auth.access_key }}"
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     region: "{{ libre_infra.ec2.region }}"
     vpc_id: "{{ r_libre_vpcs.vpcs[0].id }}"
-    cidr: "{{ item.cidr_block }}"
+    cidr: "{{ subnet }}"
     wait: yes
-  with_items: "{{ libre_subnets.subnets }}"
+  loop: "{{ subnetcidr_block }}"
+  loop_control:
+    loop_var: subnet
+    label: "{{ subnet }}"
   when:
-    - libre_subnets.subnets is defined
+    - libre_subnets.results is defined
+    - subnetcidr_block | length > 0
     - r_libre_vpcs.vpcs is defined
     - r_libre_vpcs.vpcs | length > 0
-- name: "aws : deprovision : Delete {{ libre_session.id }}-env{{item}}-vpc VPC in {{ libre_infra.ec2.region }}"
+  ignore_errors: yes
+- name: "aws : deprovision : Filter VPC routes"
+  set_fact: 
+    routes_ids: "{{ routesid }}"
+  loop: "{{ libre_routes | json_query('results[*].route_tables[*].id') }}"
+  loop_control:
+    loop_var: routesid
+    label: "{{ routesid }}"
+  delegate_to: localhost
+  run_once: true
+  ignore_errors: yes
+- name: "aws : deprovision : Delete {{ libre_session.id }}-route-public routes tables"
+  ec2_vpc_route_table:
+    state: absent
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    region: "{{ libre_infra.ec2.region }}"
+    vpc_id: "{{ r_libre_vpcs.vpcs[0].id }}"
+    route_table_id: "{{ route }}"
+    lookup: id
+  loop: "{{ routes_ids }}"
+  loop_control:
+    loop_var: route
+    label: "{{ route }}"
+  when:
+    - libre_routes.results is defined
+    - routes_ids | length > 0
+    - r_libre_vpcs.vpcs is defined
+    - r_libre_vpcs.vpcs | length > 0
+  ignore_errors: yes
+- name: "aws : deprovision : Delete {{ libre_session.id }}-vpc VPC in {{ libre_infra.ec2.region }}"
   ec2_vpc_net:
     state: absent
     aws_access_key: "{{ libre_infra.auth.access_key }}"
     aws_secret_key: "{{ libre_infra.auth.secret_key }}"
     region: "{{ libre_infra.ec2.region }}"
-    name: "{{ libre_session.id }}-env{{item}}-vpc"
-    cidr_block: "{{ item.cidr_block }}"
+    name: "{{ libre_session.id }}-vpc"
+    cidr_block: "{{ vpc.cidr_block }}"
     purge_cidrs: yes
-  with_items: "{{ r_libre_vpcs.vpcs }}"
+  loop: "{{ r_libre_vpcs.vpcs }}"
+  loop_control:
+    loop_var: vpc
+    label: "{{ vpc.cidr_block }}"
   when:
     - r_libre_vpcs.vpcs is defined
     - r_libre_vpcs.vpcs | length > 0
+  ignore_errors: yes
 - name: "aws : deprovision : Remove infrastructure inventory {{config_libre.directory.conf}}/inventory/students.yml"
   file:
     state: "absent"
     path: "{{config_libre.directory.conf}}/inventory/students.yml"
-- name: "aws : deprovision : Set infrastructure state to deprovisionned"
+- name: "aws : deprovision : Set infrastructure state to deprovisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'deprovisioned' }, recursive=True) }}"
 - name: "aws : deprovision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "aws : deprovision : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "aws : deprovision : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-deprovision.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 - name: "aws : deprovision : Log deprovision action"
   include_role:
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is Deprovisionned"
+    log_name: "AWS infrastructure is Deprovisioned"
     log_component: infra-aws
-    log_action: deprovision
+    log_action: deprovision AWS infrastructure on {{ libre_infra.ec2.region }}

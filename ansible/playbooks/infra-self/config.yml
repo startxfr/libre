@@ -1,8 +1,17 @@
 ---
-- name: "Configure classroom self infrastructure on instructor"
-  hosts: 'instructor'
+- name: "Configure classroom self infrastructure on bootstrap host"
+  hosts: 'bootstrap'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: infra, do: load, infra_type: self }
-    - { role: infra, do: config, infra_type: self }
+    - role: infra
+      do: load
+      infra_type: self
+      libre_type: bootstrap
+      libre_user: provisionner
+    - role: infra
+      do: config
+      infra_type: self
+      libre_type: bootstrap
+      libre_user: provisionner

@@ -1,14 +1,13 @@
 ---
-- name: "Install student environment on students"
-  hosts: 'workstation'
+- name: "Install student environment on students host"
+  hosts: 'workstations'
   gather_facts: true
   user: root
 
   roles:
     - role: student
       do: load
-    - role: student
+      libre_type: student
+    - role: instructor
       do: install
-      libre_type: 'student'
-      libre_verbose: false
-      libre_debug: false
+      libre_type: student

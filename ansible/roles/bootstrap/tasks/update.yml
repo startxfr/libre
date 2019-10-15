@@ -1,0 +1,13 @@
+---
+- name: "update : Get previous report data"
+  set_fact:
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
+- name: "update : Generate bootstrap update report at {{ r_libre_result_file }}"
+  template:
+    src: libre_report-update.j2
+    dest: "{{ r_libre_result_file }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+    mode: 0666
+  delegate_to: localhost

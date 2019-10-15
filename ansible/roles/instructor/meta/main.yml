@@ -23,5 +23,5 @@ galaxy_info:
   - training
   - TMS
 dependencies:
-  - { role: infra, do: load }
+  - { role: session, do: load }
 allow_duplicates: false

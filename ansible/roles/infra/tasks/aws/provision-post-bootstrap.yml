@@ -1,0 +1,13 @@
+---
+- name: "aws : provision-post-bootstrap : Change hostname for bootstrap-{{libre_session.id}}"
+  hostname:
+    name: "bootstrap"
+  become: yes
+- name: "aws : provision-post-bootstrap : Log bootstrap post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "AWS infrastructure is Post-provisioned on bootstrap"
+    log_component: infra-aws
+    log_action: post-provision AWS infrastructure on bootstrap

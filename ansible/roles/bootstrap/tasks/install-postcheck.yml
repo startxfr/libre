@@ -1,0 +1,19 @@
+---
+- name: "install-postcheck : Start infrastructure install post-check if not already checked"
+  include_role:
+    name: infra
+    tasks_from: install-postcheck
+  when: not infra_install_postcheck or infra_install_postcheck is undefined
+
+- name: "install-postcheck : Start the bootstrap postcheck sensors if not already done"
+  when: not bootstrap_install_postcheck or bootstrap_install_postcheck is undefined
+  block:
+  - name: "install-postcheck : Training directory detail must exist"
+    assert:
+      that: r_libre_dir_details is defined
+      msg: "Training directory details don't exist. Try to re-install LIBRE Toolkit and start this setup again."
+
+- name: "install-postcheck : Mark bootstrap install-postcheck as done"
+  set_fact:
+    bootstrap_install_postcheck: True
+

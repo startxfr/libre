@@ -5,14 +5,16 @@
 
 - name: "stop : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "stop : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: libre_report-stop.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 
 - name: "stop : Log stop action"
   include_role:
@@ -21,4 +23,4 @@
   vars:
     log_name: "Stopped chapter {{ libre_chapter.id }} : {{ libre_chapter.name }}"
     log_component: chapter
-    log_action: stop
+    log_action: stop {{ libre_chapter.idn }}

@@ -7,12 +7,15 @@
 ### Infrastructure requirements
 
 If you plan to run a `self` or `prem` infrastructure, you must install this 
-environement without any virtualisation layer. Only direct install on physical 
+environment without any virtualisation layer. Only direct install on physical 
 installation with virtualisation CPU enabled are supported.
 
 If you plan to run an `aws` infrastructure, you must install you instructor
 environment into an EC2 instance located into the same datacenter as your
 targeted environment.
+
+Whatever your infrastructure layer you should use a bootstrap environment to
+provision you infrastructor station during the classroom provision process.
 
 ### System requirements
 
@@ -20,13 +23,11 @@ This setup require a Centos 7.6 or later with at least 100Mo free RAM and 1Vcpu
 (required to have 2Vcpu) and a root access for installation.
 
 If you start from a fresh install, you should run the following sequence to get 
-a fully updated environement.
+a fully updated environment.
 
 ```bash
-[root@instructor ~]# 
-sudo su -
-yum update -y
-yum install -y curl git
+[user@localhost ~]# sudo su -
+[root@localhost ~]$ yum update -y && yum install -y curl git
 ```
 
 ### Installing instructor
@@ -34,10 +35,11 @@ yum install -y curl git
 #### Configuring instructor environment
 
 Prior to your libre installation, you can add a custom instructor configuration
-file in order to configure the libre TMS environement to use specific 
-your own session, course repository or infrastructure backends.
+file in order to configure the libre TMS environment to use specific 
+session backend, your own course repository or your private infrastructure 
+backends.
 You can create the following files with you custom parameters to 
-configure your LIBRE environement prior to any action:
+configure your LIBRE environment prior to any action:
 - `~/.libre/config.yml` : **libre** default configuration
 - `~/.libre/infra.yml` : **infrastructure** configuration file
 - `~/.libre/infra-id_rsa` : infrastructure ssh backend **private key**
@@ -55,29 +57,25 @@ after the instructor install and you will be able to change their content whenev
 > **NOTICE**: In the `infra.yml` config file, `aws.access_key` and
   `aws.secret_key` are set to `False` in order to force interactive prompt 
   for AWS credentials.
-  Theses credentials must have autorizations over EC2, VPC, Route53 objects
+  These credentials must have autorizations over EC2, VPC, Route53 objects
   for the used datacenter (default is `eu-west-3`).
 
   If you manually set `aws.access_key` and `aws.secret_key` in the `infra.yml` 
   prior to any `libre-infra aws xxxx` command, you can bypass the interactive 
-  sequence and run aws infrastructure provisionning without interaction.
+  sequence and run aws infrastructure provisioning without interaction.
 
 #### Install libre TMS with instructor profile
 
 ```bash
-[root@instructor ~]# 
-# install the installer
-curl -L https://goo.gl/T8Dw9J -o /tmp/installer-libre
-chmod +x /tmp/installer-libre
-# install LIBRE
-/tmp/installer-libre install
+[root@localhost ~]$ curl -L https://goo.gl/T8Dw9J -o /tmp/libre-installer
+[root@localhost ~]$ chmod +x /tmp/libre-installer
+[root@localhost ~]$ /tmp/libre-installer install instructor
+[root@instructor ~]$ libre-instructor info
 ```
 
-### Installing instructor
+### Configuring instructor
 
-#### Configuring instructor environment manually
-
-##### Configure STARTX course repository
+#### Configure STARTX course repository
 
 Edit `~/.libre/repository.yml` file with the following content. 
 You can also download the [repository.yml config file](./config/repository.yml) example.
@@ -89,7 +87,7 @@ base: "/libre/course-repo"
 local: "/var/local/libre.repo"
 ```
 
-##### Configure STARTX session backend
+#### Configure STARTX session backend
 
 Edit `~/.libre/session.yml` file with the following content. You can also download the [session.yml config file](./config/session.yml) example.
 
@@ -98,13 +96,13 @@ type: "gapi"
 gapi: "https://script.google.com/macros/s/AKfycbxeOVza-MLwqSOtCLecPgzaXA-kUngoTdpbGyGJeObl9TyeSw8/exec"
 ```
 
-##### Configure STARTX infrastructure
+#### Configure STARTX infrastructure
 
 You can choose between 3 type of infrastructure deployment
 
-###### Self infractusture
+##### Self infractusture
 
-1. Configure STARTX infrastructure in self-hosted environement
+1. Configure STARTX infrastructure in self-hosted environment
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 
@@ -117,16 +115,10 @@ self:
     associated_ip: "127.0.0.1"
 ```
 
-2. Configure STARTX self-hosted credentials
 
-Edit `~/.libre/infra-id_rsa.pub` file with the [STARTX public self RSA](./config/infra-id_rsa.pub).
+##### On-Prem infractusture
 
-Edit `~/.libre/infra-id_rsa` file with the [STARTX private self RSA](./config/infra-id_rsa).
-
-
-###### On-Prem infractusture
-
-1. Configure STARTX infrastructure in on-premise environement
+1. Configure STARTX infrastructure in on-premise environment
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 
@@ -137,20 +129,22 @@ prem:
   network:
     dns: "training.example.com"
   ssh:
-    privateKey_file: "~/.libre/infra-id_rsa"
+    privateKey_file: "~/.libre/infra-prem-id_rsa"
     user: "root"
 ```
 
 2. Configure STARTX On-premise credentials
 
-Edit `~/.libre/infra-id_rsa.pub` file with the [STARTX public on-prem RSA](./config/infra-id_rsa.pub).
+Generate `~/.libre/infra-prem-id_rsa.pub` and  `~/.libre/infra-prem-id_rsa` files 
+whith the following command
 
-Edit `~/.libre/infra-id_rsa` file with the [STARTX private on-prem RSA](./config/infra-id_rsa).
+```bash
+[root@instructor ~]$ ssh-keygen -t rsa -b 4096 -N "" -f ~/.libre/infra-prem-id_rsa
+```
 
+##### AWS infractusture
 
-###### AWS infractusture
-
-1. Configure STARTX infrastructure in AWS environement
+1. Configure STARTX infrastructure in AWS environment
 
 Edit `~/.libre/infra.yml` file with the following content. You can also download the [infra.yml config file](./config/infra.yml) example.
 
@@ -176,6 +170,5 @@ aws:
 
 2. Configure STARTX AWS credentials
 
-Edit `~/.libre/infra-id_rsa.pub` file with the [STARTX public AWS RSA](./config/infra-id_rsa.pub).
-
-Edit `~/.libre/infra-id_rsa` file with the [STARTX private AWS RSA](./config/infra-id_rsa).
+Edit `~/.libre/infra-id_rsa.pub` and `~/.libre/infra-id_rsa` files with a SSH RSA 
+key referenced in your AWS wallet.

@@ -1,7 +1,16 @@
 ---
 instructor:
   hosts:
+    instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}:
+  vars:
+    ansible_connection: ssh
+    ansible_user: "{{ libre_infra.ssh.user }}"
+    ansible_ssh_private_key_file: "{{ libre_infra.ssh.privateKey_file }}"
+    libre_type: instructor
+
+bootstrap:
+  hosts:
     localhost:
   vars:
     ansible_connection: local
-    libre_type: instructor
+    libre_type: bootstrap

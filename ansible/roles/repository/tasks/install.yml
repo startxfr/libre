@@ -43,8 +43,38 @@
     clone: yes
     force: yes
     repo: "{{ config_repository.url }}"
-    dest: "{{ config_repository.local }}"
+    dest: "/tmp/repo-copy"
     version: "{{ config_repository.branch }}"
+  delegate_to: localhost
+- name: "install : Archive course content"
+  archive:
+    path: 
+    - "/tmp/repo-copy/*"
+    - "/tmp/repo-copy/.*"
+    exclude_path:
+    - "/tmp/repo-copy/.."
+    dest: "/tmp/repo-copy.tgz"
+  delegate_to: localhost
+- name: "install : Ensure {{ config_repository.local }} directory exist"
+  file:
+    state: "directory"
+    path: "{{ config_repository.local }}"
+- name: "install : Unarchive course content to {{ inventory_hostname }}"
+  unarchive:
+    src: /tmp/repo-copy.tgz
+    dest: "{{ config_repository.local }}"
+- name: "install : Fix perm in course content at {{ inventory_hostname }}"
+  file:
+    dest: "{{ config_repository.local }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+    mode: "u=rwX,g=rwX,o=rX"
+    recurse: yes
+- name: "install : remove temporary course materials in /tmp/repo-copy"
+  file:
+    state: "absent"
+    path: "/tmp/repo-cop*"
+  delegate_to: localhost
 
 - name: "install : Update {{ config_repository.local }} directory details"
   stat:
@@ -53,14 +83,16 @@
 
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "install : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 
 # Install post-tasks
 - name: "install : Start repository post-installation checks"

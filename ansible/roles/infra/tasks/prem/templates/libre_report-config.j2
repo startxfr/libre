@@ -1,0 +1,15 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+Session \e[1m{{ libre_session.id }}\e[0m is now \e[1m\e[32m{{libre_infra.state}}\e[0m to run under \e[1m\e[34mOn-Premise infrastructure\e[0m
+
+      domain : \e[1m{{ libre_infra.network.dns }}\e[0m
+   classroom : \e[1m{{ libre_session.students|length }} students\e[0m x \e[1m{{ libre_infra.classroom|length }}\e[0m workstations
+
+You can continue this process by :
+
+\e[1m1. Check classroom infrastructure configuration file\e[0m
+   \e[2m#\e[0m \e[94mvi {{config_libre.directory.conf}}/{{ r_infra_config_file }}\e[0m
+\e[1m2. Check infrastructure status\e[0m
+   \e[2m#\e[0m \e[94mlibre-infra prem status\e[0m
+\e[1m3. Start provisioning infrastructure\e[0m
+   \e[2m#\e[0m \e[92mlibre-infra prem provision\e[0m

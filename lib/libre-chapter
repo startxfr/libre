@@ -61,13 +61,13 @@ Chapter training management command line.
 Usage:
   libre-chapter [command]
 
-- Generic commands:
+- Chapter management commands:
   start            start chapter lecture
-  list             list available chapters
   stop             stop chapter lecture
+
+- Information commands:
   status           get status of the current chapter
-  usage            get command line usage information
-  info             give information about current libre installation
-  version          give information about current libre version
+  list             list available chapters
 EOF
+classroomGenericUsageSubcmd
 }

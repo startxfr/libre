@@ -1,9 +1,12 @@
 ---
 # Reset post-tasks
-- name: "Reset lab on local (post-tasks)"
-  hosts: 'localhost'
+- name: "Reset lab on student workstation (post-tasks)"
+  hosts: 'workstations'
   gather_facts: no
   user: root
   roles:
-    - { role: lab, do: load }
-    - { role: lab, do: post, lab_action: reset }
+    - role: lab
+      do: load
+    - role: lab
+      do: post
+      lab_action: reset

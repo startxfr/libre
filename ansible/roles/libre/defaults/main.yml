@@ -20,7 +20,7 @@ libre_dest_ansible: '{{ libre_dest_lib }}/libre-ansible'
 libre_config_file_hw: 'hardware.json'
 
 # Default user for course content
-libre_user: 'instructor'
+libre_user: 'student'
 # Default user for course content
 libre_group: 'libre'
 # Personal home directory where configuration is stored
@@ -41,7 +41,7 @@ libre_tmp: '/tmp'
 libre_tmpfile: 'libre.txt'
 
 # Default config_LIBRE structure
-libre_type: 'instructor'
+libre_type: 'student'
 libre_version: '0.0.1-devel'
 libre_verbose: True
 libre_debug: False

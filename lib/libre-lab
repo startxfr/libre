@@ -11,11 +11,10 @@ function labHeader {
 }
 
 function labPlaybookCall() {
-  export ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg
-  if (ansible-playbook /tmp/current_lab/$1.yml --syntax-check) then
+  if (ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml --syntax-check &> /dev/null) then
     isDebug
     if [ "$?" -eq 1 ] ; then
-      ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
+      ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt
       retc=$?
       if [ $retc -eq 0 ]; then
         echoOK "Playbook ${1} ended"
@@ -23,7 +22,7 @@ function labPlaybookCall() {
         echoError "Playbook ${1} ended with error"
       fi
     else
-      ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt 1> /tmp/a
+      ANSIBLE_CONFIG=/tmp/current_lab/ansible.cfg ansible-playbook /tmp/current_lab/$1.yml -e grade_result_file=/tmp/libre.txt 1> /tmp/a
       retc=$?
       if [ $retc -eq 0 ]; then
         ret=$(cat /tmp/a | tail -n 2 | head -n 1)
@@ -33,7 +32,7 @@ function labPlaybookCall() {
         cat /tmp/a | grep -A 30 "^fatal:"
         echoError "Playbook ${1} ended with error"
       fi
-      rm -f /tmp/a
+      echo "" > /tmp/a
     fi
   fi
 }
@@ -47,7 +46,7 @@ function labPlaybook {
     param="local -e lab_current=$2";
   fi
 
-  if [[ $1 == 'status' ]] ; then
+  if [[ $1 == 'status' || $1 == 'list' ]] ; then
     runLibrePlaybook lab $1 $2;
     exit 0;
   fi
@@ -93,16 +92,22 @@ cat <<EOF
 Lab training management command line.
 
 Usage:
-  libre-lab [command]
+  libre-lab [command] [name|id]
 
-- Generic commands:
-  start            start lab
-  stop             stop lab
-  reset            reset lab
-  grade            grade lab
+- Lab management commands:
+  start <name/id>  start the given lab. (Default start first lab)
+  stop <name/id>   stop the given lab. (Default stop last lab)
+  reset <name/id>  reset the given lab. (Default reset last lab)
+  grade <name/id>  grade the given lab. (Default grade last lab)
+
+- Information commands:
   status           get status of the current lab
-  usage            get command line usage information
-  info             give information about current libre installation
-  version          give information about current libre version
+  list             list all available labs
+
+- Installation commands:
+  install          install course repository cache
+  uninstall        uninstall course repository cache
+  update           update course repository cache
 EOF
+classroomGenericUsageSubcmd
 }

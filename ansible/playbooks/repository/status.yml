@@ -1,9 +1,16 @@
 ---
-- name: "Check training repository environment on instructor"
+- name: "Check training repository environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root
+  become: yes
 
   roles:
-    - { role: repository, do: load }
-    - { role: repository, do: status }
+    - role: repository
+      do: load
+      libre_type: instructor
+      libre_user: instructor
+    - role: repository
+      do: status
+      libre_type: instructor
+      libre_user: instructor

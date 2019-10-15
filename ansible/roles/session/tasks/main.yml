@@ -16,5 +16,5 @@
               ]
     msg: "Action {{ r_do }} in session role is not supported"
 
-- name: "{{ r_do }} session environement"
+- name: "{{ r_do }} session environment"
   include_tasks: "{{ r_do }}.yml"

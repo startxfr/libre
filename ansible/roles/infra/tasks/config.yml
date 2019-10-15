@@ -37,4 +37,4 @@
   vars:
     log_name: "Infrastructure {{ libre_infra.type }} is configured"
     log_component: infra
-    log_action: config
+    log_action: config {{ libre_infra.type }} infrastructure

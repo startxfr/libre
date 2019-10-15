@@ -1,9 +1,17 @@
 ---
-- name: "Display infrastructure history on instructor"
-  hosts: 'instructor'
+- name: "Display infrastructure history on bootstrap host"
+  hosts: 'bootstrap'
   gather_facts: true
   user: root
+  become: yes
 
   roles:
-    - { role: infra, do: load }
-    - { role: infra, do: history, history_filter: infra }
+    - role: infra
+      do: load
+      libre_type: bootstrap
+      libre_user: provisionner
+    - role: infra
+      do: history
+      libre_type: bootstrap
+      libre_user: provisionner
+      history_filter: infra

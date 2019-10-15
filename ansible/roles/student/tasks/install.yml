@@ -9,15 +9,19 @@
   include_role:
     name: libre
     tasks_from: install 
-- name: "install : Set hostame to student"
-  hostname:
-    name: student
     
-- name: "install : Copy root .libre config to the student home directory"
+- name: "install : Copy root .libre config to the {{ libre_user | default(r_libre_user) }} home directory"
   synchronize:
     src: /root/.libre/
-    dest: /home/student/.libre
+    dest: /home/{{ libre_user | default(r_libre_user) }}/.libre
   delegate_to: "{{ inventory_hostname }}"
+- name: "install : Fix perm in course content at /home/{{ libre_user | default(r_libre_user) }}/.libre"
+  file:
+    dest: "/home/{{ libre_user | default(r_libre_user) }}/.libre"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+    mode: "u=rwX,g=rX,o=rX"
+    recurse: yes
 - name: "install : Install specific course actions"
   include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
   when: r_session_dir_course_playbooks_details.stat.exists
@@ -25,11 +29,15 @@
 - name: "install : Get previous report data"
   set_fact:
     previous_report: "{{ lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0664
+  delegate_to: localhost
 - name: "install : Log install action"
   include_role:
     name: libre
@@ -37,7 +45,7 @@
   vars:
     log_name: "Student workstation is installed"
     log_component: student
-    log_action: install
+    log_action: install student workstation
 
 # Install post-tasks
 - name: "install : Start student post-installation checks"

@@ -92,13 +92,15 @@
     dest: "{{ r_session_dir_course }}"
     recursive: yes
     delete: yes
+    owner: yes
+    group: yes
   delegate_to: "{{ inventory_hostname }}"
 
 - name: "install : Reload session course-manifest"
   include_tasks: load/course-manifest.yml
 
 - name: "install : Install course playbook"
-  include_tasks: "{{ r_session_dir_course }}/{{ r_session_dir_course_playbooks}}/install.yml"
+  include_tasks: "{{ r_session_dir_course }}/{{  training_dir_course_playbooks | default(r_session_dir_course_playbooks) }}/install.yml"
   when: r_session_dir_course_playbooks_details.stat.exists
   
 - name: "install : Set session state to installed"
@@ -110,14 +112,16 @@
 
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
 - name: "install : Generate session report at {{ r_libre_result_file }}"
   template:
     src: libre_report-install.j2
     dest: "{{ r_libre_result_file }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 - name: "install : Log install action"
   include_role:
     name: libre
@@ -125,7 +129,7 @@
   vars:
     log_name: "Session {{ libre_session.id }} with course {{ libre_session.course }} is installed"
     log_component: session
-    log_action: install
+    log_action: install session {{ libre_session.id }}
 
 # Install post-tasks
 - name: "install : Start session post-installation checks"

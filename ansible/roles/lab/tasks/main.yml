@@ -7,9 +7,10 @@
       r_do in [
                'setup',
                'load',
+               'list',
                'status',
                'pre',
                'post',
               ]
-- name: "{{ r_do }} lab environement"
+- name: "{{ r_do }} lab environment"
   include_tasks: "{{ r_do }}.yml"

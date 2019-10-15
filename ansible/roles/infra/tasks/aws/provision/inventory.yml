@@ -11,8 +11,8 @@
     state: directory
     path: "{{ config_libre.directory.conf }}/inventory"
     mode: 0775
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     recurse: yes
 - name: "aws : provision : inventory : Generate inventory {{ config_libre.directory.conf }}/inventory/instructor.yml"
   template:
@@ -20,16 +20,16 @@
     dest: "{{ config_libre.directory.conf }}/inventory/instructor.yml"
 #    remote_src: yes
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 - name: "aws : provision : inventory : Generate students inventory {{config_libre.directory.conf}}/inventory/students.yml"
   template:
     src: "../templates/inventory-students.j2"
     dest: "{{ config_libre.directory.conf }}/inventory/students.yml"
 #    remote_src: yes
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 - name: "aws : provision : inventory : Update instructor /etc/hosts file"
   template:
     src: "../templates/host-instructor.j2"
@@ -37,7 +37,16 @@
 - name: "aws : provision : inventory : Create students /tmp/X.hosts files"
   template:
     src: "../templates/host-student.j2"
-    dest: /tmp/{{student.workstation}}.hosts
+    dest: "/tmp/{{student.workstation}}.hosts"
+  loop: "{{ libre_session.students }}"
+  loop_control:
+    index_var: index
+    loop_var: student
+    label: "{{ index }}"
+- name: "aws : provision : inventory : Create students /tmp/X.knownhosts files"
+  template:
+    src: "../templates/knownhosts-student.j2"
+    dest: "/tmp/{{student.workstation}}.knownhosts"
   loop: "{{ libre_session.students }}"
   loop_control:
     index_var: index

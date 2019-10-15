@@ -22,6 +22,9 @@
 {% if ws.infra_aws is defined and ws.infra_aws.type is defined %}
       , "type" : "{{ ws.infra_aws.type }}"
 {% endif %}
+{% if ws.infra_aws is defined and ws.infra_aws.has_dns is defined %}
+      , "has_dns" : "{{ ws.infra_aws.has_dns }}"
+{% endif %}
 {% if ws.infra_aws is defined and ws.infra_aws.image is defined %}
       , "image" : "{{ ws.infra_aws.image }}"
 {% endif %}

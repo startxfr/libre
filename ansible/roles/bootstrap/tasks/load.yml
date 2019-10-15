@@ -1,0 +1,22 @@
+---
+- name: "load : Find saved session bootstrapped in {{ r_bootstrap_saved_directory }}"
+  find:
+    paths: "{{ r_bootstrap_saved_directory }}"
+    recurse: no
+    file_type: directory
+    excludes: '.,..'
+  register: r_bootstrap_saved_dir_details
+- name: "load : Generate saved bootstrapped session list"
+  set_fact:
+    r_bootstrap_saved_sessions: "{{ r_bootstrap_saved_dir_details.files | map(attribute='path') | list }}"
+- name: "load : Find archived session bootstrapped in {{ r_bootstrap_archive_directory }}"
+  find:
+    paths: "{{ r_bootstrap_archive_directory }}"
+    recurse: no
+    file_type: file
+    patterns: "*.tgz"
+    excludes: '.,..'
+  register: r_bootstrap_archive_dir_details
+- name: "load : Generate archive bootstrapped session list"
+  set_fact:
+    r_bootstrap_archive_sessions: "{{ r_bootstrap_archive_dir_details.files | map(attribute='path') | list }}"
