@@ -17,7 +17,7 @@ exit
 ```bash
 git clone https://github.com/startxfr/libre /tmp/libre
 cd /tmp/libre/ansible
-git checkout v0.7.7
+git checkout v0.8.11
 ```
 
 ## 3. Test console

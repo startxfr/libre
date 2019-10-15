@@ -57,7 +57,7 @@ application:
   ansible: "/usr/local/lib/libre-ansible"
   source:
     repo: "https://github.com/startxfr/libre"
-    branch: "v0.7.7"
+    branch: "v0.8.11"
     base: "/"
     tmp: "/tmp/libre"
 directory:
@@ -85,7 +85,7 @@ This file define and configure your course repository installation.
 
 ```yaml
 url: "https://github.com/startxfr/libre"
-branch: "v0.7.7"
+branch: "v0.8.11"
 base: "/courses-samples"
 local: "/var/local/libre.repo"
 ```
