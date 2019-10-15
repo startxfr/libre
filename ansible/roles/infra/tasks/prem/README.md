@@ -1,4 +1,4 @@
-# LIBRE Training Toolkit - On-Premise provisionning ansible role
+# LIBRE Training Toolkit - On-Premise provisioning ansible role
 
 Role used to handle basic infrastructure operations
 

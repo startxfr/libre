@@ -1,12 +1,15 @@
 ---
 # Grade pre-tasks
-- name: "Grade lab on local (pre-tasks)"
-  hosts: 'localhost'
+- name: "Grade lab on student workstation (pre-tasks)"
+  hosts: 'workstations'
   gather_facts: true
   user: root
   roles:
-    - { role: lab, do: load }
-    - { role: lab, do: pre, lab_action: grade }
+    - role: lab
+      do: load
+    - role: lab
+      do: pre
+      lab_action: grade
 
 # # Grade tasks
 # - name: "grade : Start grading lab {{ current_lab.id }} {{ current_lab.name }}"

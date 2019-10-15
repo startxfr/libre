@@ -5,6 +5,6 @@ do: load
 libre_myconfile_repository: 'repository.yml'
 # Default config_repository structure
 repository_url: 'https://github.com/startxfr/libre'
-repository_branch: 'master'
+repository_branch: 'stable'
 repository_base: '/courses-samples'
 repository_local: '/var/local/libre.repo'

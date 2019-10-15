@@ -1,0 +1,9 @@
+---
+- name: "list : Generate bootstrap list report at {{ r_libre_result_file }}"
+  template:
+    src: libre_report-list.j2
+    dest: "{{ r_libre_result_file }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
+    mode: 0666
+  delegate_to: localhost

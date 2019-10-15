@@ -1,45 +1,31 @@
 ---
-- name: "prem : provision-post : Set infrastructure state to provisionned"
+- name: "prem : provision-post : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'post-provisioned' }, recursive=True) }}"
 - name: "prem : provision-post : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "prem : provision-post : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
   run_once: true
-- name: "prem : provision-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+- name: "prem : provision-post : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-provision-post.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    dest: "{{ r_libre_result_file }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
   run_once: true
 - name: "prem : provision-post : Log post-provision action"
   include_role:
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "Self-Hosted infrastructure is Post-provisionned"
+    log_name: "On-Premise infrastructure is Post-provisioned"
     log_component: infra-prem
-    log_action: post-provision
-  run_once: true
-- name: "prem : provision-post : Post-provisionning is finish"
-  debug:
-    msg:
-      - "We are happy to report that on-premise infrastructure {{ libre_session.id }} for course {{ libre_session.course }} was successfully post-provisioned on Self-Hosted infrastructure"
-      - " "
-      - "Here are some interesting characteristics of this infrastructure:"
-      - " "
-      - "  - Instructor: instructor.{{ libre_infra.network.dns }}"
-      - "  - Student   : student.{{ libre_infra.network.dns }}"
-      - "  - username  : {{ libre_infra.ssh.user }}"
-      - " "
-      - "You can continue this process by running the following command :"
-      - "   $ libre-session start "
-      - " "
-      - " Have an happy training ;)"
+    log_action: post-provision on-premise infrastructure
   run_once: true

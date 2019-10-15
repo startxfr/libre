@@ -3,19 +3,42 @@
   group:
     name: "{{ r_libre_group }}"
     state: present
+- name: "install_user : Create user provisionner"
+  user:
+    name: "provisionner"
+    comment: "LIBRE provisionner"
+    groups: "{{ r_libre_group }}"
+#    password: "{{ 'provisionner' | password_hash('sha512') }}"
+    uid: 10010
+    state: present
+  when: >
+    libre_type == "bootstrap" or 
+    config_libre.application.type == "bootstrap"
 - name: "install_user : Create user instructor"
   user:
     name: "instructor"
     comment: "LIBRE instructor"
     groups: "{{ r_libre_group }}"
-    password: "{{ 'instructor' | password_hash('sha512') }}"
-#    uid: 1001
+#    password: "{{ 'instructor' | password_hash('sha512') }}"
+    uid: 10011
     state: present
+  when: >
+    libre_type == "bootstrap" or 
+    config_libre.application.type == "bootstrap" or 
+    libre_type == "instructor" or 
+    config_libre.application.type == "instructor"
 - name: "install_user : Create user student"
   user:
     name: "student"
     comment: "LIBRE student"
     groups: "{{ r_libre_group }}"
-    password: "{{ 'student' | password_hash('sha512') }}"
-#    uid: 1001
+#    password: "{{ 'student' | password_hash('sha512') }}"
+    uid: 10012
     state: present
+  when: >
+    libre_type == "bootstrap" or 
+    config_libre.application.type == "bootstrap" or 
+    libre_type == "instructor" or 
+    config_libre.application.type == "instructor" or 
+    libre_type == "student" or 
+    config_libre.application.type == "student"

@@ -3,11 +3,17 @@
   include_role:
     name: libre
     tasks_from: status
-- name: "status : Get previous report data"
-  set_fact:
-    previous_report: "{{lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
-- name: "status : Generate student report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
-  template:
-    src: libre_report-status.j2
-    dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
-    mode: 0664
+- name: "status : Generate status report"
+  delegate_to: localhost
+  run_once: true
+  block:
+    - name: "status : Get previous report data"
+      set_fact:
+        previous_report: "{{lookup('file', r_libre_tmp + '/' + libre_tmpfile, errors='ignore') | default('') }}"
+    - name: "status : Generate student report at {{ r_libre_tmp }}/{{ libre_tmpfile }}"
+      template:
+        src: libre_report-status.j2
+        dest: "{{ r_libre_tmp }}/{{ libre_tmpfile }}"
+        owner: "{{ libre_user | default(r_libre_user) }}"
+        group: "{{ libre_group | default(r_libre_group) }}"
+        mode: 0664

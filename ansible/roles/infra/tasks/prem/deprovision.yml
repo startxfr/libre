@@ -3,29 +3,31 @@
   file:
     state: "absent"
     path: "{{config_libre.directory.conf}}/inventory/students.yml"
-- name: "prem : deprovision : Set infrastructure state to provisionned"
+- name: "prem : deprovision : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'deprovisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'deprovisioned' }, recursive=True) }}"
 - name: "prem : deprovision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "prem : deprovision : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
-- name: "prem : deprovision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
+- name: "prem : deprovision : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-deprovision.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    dest: "{{ r_libre_result_file }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 - name: "prem : deprovision : Log deprovision action"
   include_role:
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "On-Prem infrastructure is Deprovisionned"
+    log_name: "On-Prem infrastructure is Deprovisioned"
     log_component: infra-prem
-    log_action: deprovision
+    log_action: deprovision on-premise infrastructure
 

@@ -1,0 +1,109 @@
+#!/bin/bash
+
+source /usr/local/lib/libre-core
+
+# Display bootstrap header message
+function bootstrapHeader {
+  isVerbose
+  if [ "$?" -eq 1 ] ; then
+    cat /usr/local/lib/libre-bootstrap.txt
+  fi
+}
+
+# Call bootstrap playbook
+function bootstrapPlaybook {
+  bootstrapHeader
+  runLibrePlaybook bootstrap $1 $2
+  exit 0;
+}
+
+# Call bootstrap remove playbook
+function bootstrapRemovePlaybook {
+  bootstrapHeader
+  param=""
+  if [[ "$1" != "" ]] ; then
+      param="local -e bootstrap_session=$1"
+  fi
+  runLibrePlaybook bootstrap remove $param
+  exit 0;
+}
+
+# Call bootstrap use playbook
+function bootstrapUsePlaybook {
+  bootstrapHeader
+  param=""
+  if [[ "$1" != "" ]] ; then
+      param="local -e bootstrap_session=$1"
+  fi
+  runLibrePlaybook bootstrap use $param
+  exit 0;
+}
+
+# Call bootstrap uninstall playbook
+function bootstrapUninstallPlaybook {
+  bootstrapHeader
+  if [[ "$1" == "deep" || "$1" == "all" || "$1" == true || "$1" == "true" || "$1" == "True" ]] ; then
+      deep="local -e libre_uninstall_deep=True"
+  else
+      deep=""
+  fi
+  runLibrePlaybook bootstrap uninstall $deep
+  exit 0;
+}
+
+# Display bootstrap info and exit
+function bootstrapInformation {
+  bootstrapHeader
+  coreInformation
+  exit 0;
+}
+
+# Display bootstrap welcome and exit
+function bootstrapWelcome {
+  bootstrapHeader
+  coreInformation
+  echoEnv
+  bootstrapUsage
+  exit 0;
+}
+
+# Display version info and exit
+function bootstrapVersion {
+  coreVersion
+  exit 0;
+}
+
+# Display libre-bootstrap usage
+function bootstrapUsage {
+cat <<EOF
+
+Instructor training management command line.
+
+Usage:
+  libre-bootstrap [command]
+
+- Session management commands:
+  use/switch <id>  Change the current session context by restoring a saved context 
+                   or creating a new one. Save previous session context prior 
+                   to the move. (Alias: switch)
+  save             Save the current session into saved context
+  remove <id>      Remove the given session from the current store
+  archivate        Save in a compressed format all data related to a session
+                   managed by this provionner (Alias: backup)
+
+- Information commands:
+  status           get status of the current bootstrap
+  history          get history of the bootstrap actions
+  list             Get a list of all training session stored in the current and 
+                   archive store
+
+- Installation commands:
+  install          install bootstrap environment
+  update           update the bootstrap environment
+  uninstall        uninstall bootstrap environment after archiving (extra command 
+                   "deep" or "all" will remove user config directory)
+EOF
+classroomGenericUsageSubcmd
+}
+
+

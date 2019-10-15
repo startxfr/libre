@@ -1,9 +1,17 @@
 ---
-- name: "Uninstall instructor environment on instructor"
+- name: "Uninstall instructor environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root
+  become: yes
 
   roles:
-    - { role: instructor, do: load }
-    - { role: instructor, do: uninstall }
+    - role: instructor
+      do: load
+      libre_type: instructor
+      libre_user: instructor
+    - role: instructor
+      do: uninstall
+      libre_type: instructor
+      libre_user: instructor
+      libre_uninstall_deep: false

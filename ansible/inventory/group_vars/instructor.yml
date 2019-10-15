@@ -8,6 +8,9 @@ libre_user: instructor
 # playbooks directory inside the course directory
 training_dir_course_playbooks: playbooks/instructor
 
+libre_debug: false
+libre_verbose: true
+
 # minimum physical CPU required
 libre_minhw_cpu_physical: 1
 # minimum logical CPU required
@@ -15,7 +18,7 @@ libre_minhw_cpu_cores: 1
 # minimum virtual CPU required
 libre_minhw_cpu_vcpus: 1
 # minimum RAM size
-libre_minhw_memory_total: 512
+libre_minhw_memory_total: 256
 # minimum RAM free space
 libre_minhw_memory_free: 96
 # minimum storage free space (in percent)

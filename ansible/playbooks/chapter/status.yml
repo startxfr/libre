@@ -1,9 +1,15 @@
 ---
-- name: "Check chapter on local"
+- name: "Check chapter on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root
 
   roles:
-    - { role: chapter, do: load }
-    - { role: chapter, do: status }
+    - role: chapter
+      do: load
+      libre_type: instructor
+      libre_user: instructor
+    - role: chapter
+      do: status
+      libre_type: instructor
+      libre_user: instructor

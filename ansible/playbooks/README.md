@@ -1,10 +1,10 @@
 # LIBRE Playbooks repository
 
-Theses playbooks could be run from a console installation or used by the LIBRE command line.
+These playbooks could be run from a console installation or used by the LIBRE command line.
 For more more informations on how to [setup a console installation](../../install-console.md)
 or [setup LIBRE command line](../../installer.md)
 
-1. Infrastructure playbooks
+1. Bootstrap playbooks
     1. [AWS provisionning](./infra-aws)
     2. [On-premise provisionning](./infra-prem)
 2. Instructor playbooks

@@ -1,0 +1,27 @@
+## default configuration vars for bootstrap group
+---
+
+# Workstation type to install
+libre_type: bootstrap
+# Default user for course content
+libre_user: provisionner
+# playbooks directory inside the course directory
+training_dir_course_playbooks: playbooks/bootstrap
+
+libre_debug: false
+libre_verbose: true
+
+# minimum physical CPU required
+libre_minhw_cpu_physical: 1
+# minimum logical CPU required
+libre_minhw_cpu_cores: 1
+# minimum virtual CPU required
+libre_minhw_cpu_vcpus: 1
+# minimum RAM size
+libre_minhw_memory_total: 256
+# minimum RAM free space
+libre_minhw_memory_free: 96
+# minimum storage free space (in percent)
+libre_minhw_storage_percent: 20
+# minimum storage free space (in size)
+libre_minhw_storage_capacity: 2048

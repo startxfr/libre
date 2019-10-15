@@ -8,8 +8,8 @@
     state: directory
     path: "{{ r_libre_userconfig_dir }}"
     mode: 0775
-    #owner: "{{ r_libre_user }}"
-    #group: "{{ r_libre_group }}"
+#    owner: "{{ libre_user | default(r_libre_user) }}"
+#    group: "{{ libre_group | default(r_libre_group) }}"
     recurse: yes
   when: not r_libre_userconfig_dir_details.stat.exists
 - name: "install_homedir : Reload configuration directory {{ r_libre_userconfig_dir }}"

@@ -7,6 +7,7 @@
 # Install tasks
 - name: "install : Start LIBRE installation"
   include_tasks: install/{{ item }}.yml
+  become: yes
   with_items:
     - user
     - services
@@ -17,14 +18,16 @@
     - hardware
 - name: "install : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
-- name: "install : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
+- name: "install : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: libre_report-install.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    dest: "{{ r_libre_result_file }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 
 # Install post-tasks
 - name: "install : Start LIBRE post-installation checks"

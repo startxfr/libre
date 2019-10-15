@@ -1,9 +1,16 @@
 ---
-- name: "Check session environment on instructor"
+- name: "Stop session environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
   user: root
+  become: yes
 
   roles:
-    - { role: session, do: load }
-    - { role: session, do: stop }
+    - role: session
+      do: load
+      libre_type: instructor
+      libre_user: instructor
+    - role: session
+      do: stop
+      libre_type: instructor
+      libre_user: instructor

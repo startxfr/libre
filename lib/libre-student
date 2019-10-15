@@ -48,13 +48,13 @@ Student training management command line.
 Usage:
   libre-student [command]
 
-- Generic commands:
+- Information commands:
+  status           get status of the current student
+  history          get history of the student actions
+
+- Installation commands:
   install          install student environment
   uninstall        uninstall student environment
-  history          get history of the student actions
-  status           get status of the current student
-  usage            get command line usage information
-  info             give information about current libre installation
-  version          give information about current libre version
 EOF
+classroomGenericUsageSubcmd
 }

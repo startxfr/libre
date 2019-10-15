@@ -1,0 +1,7 @@
+---
+- name: "lab : grade-line : Record log trace in {{ output_file | default(grade_result_file) }}"
+  shell: >
+    echo "{{ title }}{{ '.'  * (75 - (title |length)) }} {{ result }}" >> {{ output_file | default(grade_result_file) }}
+  become_user: student
+  become: yes
+  delegate_to: localhost

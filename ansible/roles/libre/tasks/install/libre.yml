@@ -48,6 +48,25 @@
          not r_libre_binary_details.stat.executable or
             r_libre_force_upgrade)
 #        and inventory_hostname not in ['127.0.0.1', 'localhost']
+- name: "install_libre : move LIBRE bootstrap binary content to {{ r_libre_dest_bin }}"
+  copy:
+    src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"
+    dest: "{{ r_libre_dest_bin }}"
+    remote_src: yes
+    mode: 0775
+#    owner: root
+    group: root
+  loop: "{{ r_libre_files_binary_bootstrap }}"
+  loop_control:
+    loop_var: binname
+    label: "{{ binname }}"
+  when: >
+    (libre_type == "bootstrap") and
+    (
+      not r_libre_binary_details.stat.exists or
+      not r_libre_binary_details.stat.executable or
+          r_libre_force_upgrade
+    )
 - name: "install_libre : move LIBRE instructor binary content to {{ r_libre_dest_bin }}"
   copy:
     src: "{{ config_libre.application.source.tmp }}{{ config_libre.application.source.base }}/bin/{{ binname }}"
@@ -61,7 +80,7 @@
     loop_var: binname
     label: "{{ binname }}"
   when: >
-    (libre_type != "student" and config_libre.application.type == "instructor") and
+    (libre_type == "instructor") and
     (
       not r_libre_binary_details.stat.exists or
       not r_libre_binary_details.stat.executable or
@@ -80,7 +99,7 @@
     loop_var: binname
     label: "{{ binname }}"
   when: >
-    (libre_type == "student" or config_libre.application.type != "instructor") and
+    (libre_type == "student") and
     (
       not r_libre_binary_details.stat.exists or
       not r_libre_binary_details.stat.executable or

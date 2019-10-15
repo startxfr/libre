@@ -70,18 +70,20 @@ Instructor session training management command line.
 Usage:
   libre-session [command]
 
-- Generic commands:
+- Session management commands:
   config           configure session environment
-  install          install session environment
   start            start training session
   stop             stop training session
-  uninstall        uninstall session environment
+
+- Information commands:
   status           get status of the current session
   history          get history of the session actions
-  usage            get command line usage information
-  info             give information about current libre installation
-  version          give information about current libre version
+
+- Installation commands:
+  install          install session environment
+  uninstall        uninstall session environment
 EOF
+classroomGenericUsageSubcmd
 }
 
 

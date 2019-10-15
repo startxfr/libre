@@ -1,16 +1,19 @@
 #!/bin/bash
 
 ROOT_DIR=/usr/share/libre
-LIBRE_VERSION="0.7.7"
+
+LIBRE_VERSION="0.8.11"
+LIBRE_TYPE=bootstrap
+LIBRE_VERBOSE=true
+LIBRE_DEBUG=false
 
 # Default config var
 CONFIG_DIR=$ROOT_DIR/conf
 CONFIG_FILE=~/.libre/config.yml
 INVENTORY_FILE=$CONFIG_DIR/inventory
 SESSION_FILE=$CONFIG_DIR/session.json
-LIBRE_VERBOSE=true
-LIBRE_DEBUG=false
 ANSIBLE_RETURN=/tmp/libre.txt
+ANSIBLE_ROOT=/usr/share/lib/libre-ansible
 
 # load init files
 function loadInits {
@@ -109,7 +112,7 @@ function echoEnv {
 function checkIfLibre {
   if [[ ! -d "$ROOT_DIR" ]] ; then
     echoError "LIBRE is not installed";
-    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/stable/installer.md";
+    echoError "Please run 'libre-installer' or see https://github.com/startxfr/libre/blob/stable/installer.md";
     echoError "for more information on how to install LIBRE";
     exit 1;
   fi
@@ -119,7 +122,7 @@ function checkIfLibre {
 function checkIfConfig {
   if [[ ! -f $CONFIG_FILE ]] ; then
     echoError "LIBRE configuration doesn't exist in $CONFIG_FILE";
-    echoError "Please run 'installer-libre' or see https://github.com/startxfr/libre/blob/stable/installer.md";
+    echoError "Please run 'libre-installer' or see https://github.com/startxfr/libre/blob/stable/installer.md";
     echoError "for more information on how to install LIBRE";
     exit 1;
   fi
@@ -139,7 +142,7 @@ function checkIfSession {
 function coreWelcome {
 cat <<EOF
 
-Librairie d'outils pour l'environement de formation STARTX
+Librairie d'outils pour l'environment de formation STARTX
 Ne pas utiliser directement mais plutot les outils :
 
   libre-instructor   instructor workstation management
@@ -188,45 +191,33 @@ function runLibrePlaybook {
   else
     librefilter="-e target=local "
   fi
-  cd $ANSIBLE_ROOT
   if [[ ! -r $INVENTORY_FILE ]] ; then
     INVENTORY_FILE="inventory";
   fi
 # export ANSIBLE_STDOUT_CALLBACK=yaml
   isDebug
   if [ "$?" -eq 1 ] ; then
+    mv ansible.cfg ansible.cfg.back
+    cp -f ansible.debug.cfg ansible.cfg
+    ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml
+    retc=$?
+    mv -f ansible.cfg.back ansible.cfg
+    cd - &> /dev/null
+  else
     ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml
     retc=$?
     cd - &> /dev/null
-    if [ $retc -eq 0 ]; then
-      echoOK "Playbook ${libretype}/${libreaction} ended"
-    else
-      echoError "Playbook ${libretype}/${libreaction} ended with error"
-    fi
-    if [ -f $ANSIBLE_RETURN ]; then
-      cat $ANSIBLE_RETURN | xargs --null echo -ne
-      rm -f $ANSIBLE_RETURN
-    fi
-    return $retc
-  else
-    ansible-playbook -i $INVENTORY_FILE $librefilter playbooks/${libretype}/${libreaction}.yml 1> /tmp/a
-    retc=$?
-    cd - &> /dev/null
-    if [ $retc -eq 0 ]; then
-      ret=$(cat /tmp/a | tail -n 2 | head -n 1)
-      echoOK $ret
-      echoOK "Playbook ${libretype}/${libreaction} ended"
-    else
-      cat /tmp/a | grep -A 30 "^fatal:"
-      echoError "Playbook ${libretype}/${libreaction} ended with error"
-    fi
-    if [ -f $ANSIBLE_RETURN ]; then
-      cat $ANSIBLE_RETURN | xargs --null echo -ne
-      rm -f $ANSIBLE_RETURN
-    fi
-    rm -f /tmp/a
-    return $retc
   fi
+  if [ $retc -eq 0 ]; then
+    echoOK "Playbook ${libretype}/${libreaction} ended"
+  else
+    echoError "Playbook ${libretype}/${libreaction} ended with error"
+  fi
+  if [ -f $ANSIBLE_RETURN ]; then
+    cat $ANSIBLE_RETURN | xargs --null echo -ne
+    echo "" > $ANSIBLE_RETURN
+  fi
+  return $retc
 }
 
 # Display libre-* generic usage
@@ -236,7 +227,6 @@ cat <<EOF
   usage             this message
   info              give information about libre configuration
   version           give the version of this tool
-
 EOF
 }
 

@@ -9,6 +9,46 @@
 
 - name: "aws : provision : Create Network environments"
   include_tasks: provision/network.yml
+- name: "aws : provision : Create instructor ec2 instance for session {{ libre_session.id }}"
+  ec2:
+    aws_access_key: "{{ libre_infra.auth.access_key }}"
+    aws_secret_key: "{{ libre_infra.auth.secret_key }}"
+    region: "{{ libre_infra.ec2.region }}"
+    instance_type: "t2.small"
+    image: "{{ libre_infra.ec2.image }}"
+    key_name: "{{ libre_infra.ssh.keyname }}"
+    group_id: "{{ list_networks[0].security_group_id }}"
+    vpc_subnet_id: "{{ list_networks[0].vpc_subnet_id }}"
+    assign_public_ip: yes
+    exact_count: 1
+    count_tag: 
+      Name: "{{ libre_session.id }}-instructor"
+    wait: yes
+#    wait_timeout: 10
+    instance_tags:
+      Name: "{{ libre_session.id }}-instructor"
+      Type: "instructor"
+      Session: "{{ libre_session.id }}"
+      Group: "instructor"
+      Labenv: "instructor"
+      Course: "{{ libre_session.course }}"
+      Stage: "{{ libre_session.state }}"
+      Instructor: "{{ libre_session.instructor }}"
+      DnsRecord: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+    volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 8
+        delete_on_termination: true
+#      - device_name: /dev/sdb
+#        volume_type: io1
+#        iops: 100
+#        volume_size: 10
+#        delete_on_termination: true
+  register: ec2
+- name: "aws : provision : instance : Add instructor instance description to list_instances"
+  set_fact:
+    list_instances: "{{ list_instances + ec2.tagged_instances }}"
 - name: "aws : provision : Create {{ libre_session.students|length }} students environments"
   include_tasks: provision/instance.yml
   vars:
@@ -35,22 +75,23 @@
     loop_var: instance
     label: "{{ instance.public_ip }}"
 
-- name: "aws : provision : Set infrastructure state to provisionned"
+- name: "aws : provision : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'provisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'provisioned' }, recursive=True) }}"
 - name: "aws : provision : Update infrastructure config file {{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
   template:
     src: templates/libre-infra.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_infra_config_file }}"
 - name: "aws : provision : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
-- name: "aws : provision : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
+- name: "aws : provision : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-provision.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    dest: "{{ r_libre_result_file }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666 
   delegate_to: localhost
 - name: "aws : provision : Log provision action"
@@ -58,30 +99,10 @@
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is Provisionned"
+    log_name: "AWS infrastructure is Provisioned"
     log_component: infra-aws
-    log_action: provision
+    log_action: provision on {{ libre_infra.ec2.region }}
     
-- name: "aws : provision : Infrastructure provisionning is finish"
-  debug:
-    msg:
-      - " "
-      - "We are happy to report that classroom infrastructure {{ libre_session.course }}.{{ libre_infra.route53.domain }} was successfully provisioned on AWS infrastructure"
-      - " "
-      - "Here are some interesting characteristics of this classroom infrastructure:"
-      - " "
-      - "  - Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
-#      - "  - IP address: {{ ec2.tagged_instances[0].public_ip }}"
-      - "  - Type: {{ libre_infra.ec2.type }}"
-      - "  - Region: {{ libre_infra.ec2.region }}"
-      - "  - SSH User: {{ libre_infra.ssh.user }}"
-      - "  - SSH Key: {{ libre_infra.ssh.keyname }}.pem"
-      - "  - Size: {{ libre_session.students|length }} students x {{ libre_infra.ec2.classroom|length }} workstations"
-      - " "
-      - "You must finish your installation by running the following command :"
-      - "  ansible-playbook -i /usr/share/libre/conf/inventory playbooks/infra-aws/provision-post.yml"
-      - " "
-      - " Have a happy setup ;)"
 #- name: "provision : Send a mail for notification"
 #  mail:
 ##     from: cl@startx.fr
@@ -92,7 +113,7 @@
 #
 #      Here are some interesting characteristics of this classroom infrastructure:
 #
-#        - Instructor: instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}
+#        - Instructor: instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}
 #        - IP address: {{ ec2.tagged_instances[0].public_ip }}
 #        - Type: {{ libre_infra.ec2.type }}
 #        - Region: {{ libre_infra.ec2.region }}

@@ -1,3 +1,23 @@
 {% if previous_report is defined %}{{ previous_report }}{% endif %}
 
-AWS infrastructure is \e[1m\e[32mprovisionned\e[0m
+Session \e[1m{{ libre_session.id }}\e[0m is now \e[1m\e[33m{{libre_infra.state}}\e[0m to run under \e[1m\e[34mAWS infrastructure\e[0m
+
+     aws key : {{ libre_infra.auth.access_key }}
+      region : \e[1m{{ libre_infra.ec2.region }}\e[0m
+      domain : \e[1m{{ libre_infra.route53.domain }}\e[0m
+ station tpl : \e[1m{{ libre_infra.ec2.type }}\e[0m ({{ libre_infra.ec2.image }})
+ aws ssh key : \e[1m{{ libre_infra.ssh.keyname }}\e[0m (user: {{ libre_infra.ssh.user }})
+   local key : {{ libre_infra.ssh.privateKey_file }}
+   classroom : \e[1m{{ libre_session.students|length }} students\e[0m x \e[1m{{ libre_infra.ec2.classroom|length }}\e[0m workstations
+  instructor : instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}
+
+You can continue this process by :
+
+\e[1m1. Check classroom infrastructure configuration file\e[0m
+   \e[2m#\e[0m \e[94mvi {{config_libre.directory.conf}}/{{ r_infra_config_file }}\e[0m
+\e[1m2. Check infrastructure status\e[0m
+   \e[2m#\e[0m \e[94mlibre-infra aws status\e[0m
+\e[1m3. Check connection to instructor station\e[0m
+   \e[2m#\e[0m \e[94mssh -i {{ libre_infra.ssh.privateKey_file }} {{ libre_infra.ssh.user }}@instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}\e[0m
+\e[1m4. Start provisioning infrastructure\e[0m
+   \e[2m#\e[0m \e[92mlibre-infra aws post-provision\e[0m

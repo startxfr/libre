@@ -8,10 +8,11 @@
   register: r_infra_conf_details
 - name: "load : Set libre_infra fact from {{ config_libre.directory.conf }}/{{ r_infra_config_file }}" 
   set_fact:
-    libre_infra: "{{ lookup('file', config_libre.directory.conf + '/' + r_infra_config_file, errors='ignore') | default(false) }}"
+    libre_infra: "{{ lookup('file', config_libre.directory.conf + '/' + r_infra_config_file, errors='ignore') | default('') }}"
 - name: "load : Set libre_infra fact from default infra"
   set_fact:
     libre_infra: "{{ config_infra[config_infra.default]|combine({'state': 'loaded' }, recursive=True) }}"
-  when: libre_infra is undefined or libre_infra is sameas false
+  when: libre_infra is undefined or libre_infra == ""
 - name: "load : Load {{ libre_infra.type }} infrastructure"
   include_tasks: "{{ libre_infra.type }}/load.yml"
+  when: libre_infra is defined and libre_infra.type is defined

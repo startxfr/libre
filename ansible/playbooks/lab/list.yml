@@ -1,0 +1,11 @@
+---
+- name: "List availables labs on student workstation"
+  hosts: 'workstations'
+  gather_facts: true
+  user: root
+
+  roles:
+    - role: lab
+      do: load
+    - role: lab
+      do: list

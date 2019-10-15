@@ -18,19 +18,21 @@
     src: chapter-current.j2
     dest: "{{ config_libre.directory.conf }}/{{ r_chapter_config_current }}"
     mode: 0664
-    owner: "{{ r_libre_user }}"
-    group: "{{ r_libre_group }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
 
 - name: "start : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
-- name: "start : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
+- name: "start : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: libre_report-start.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    dest: "{{ r_libre_result_file }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 
 - name: "start : Log start action"
   include_role:
@@ -39,4 +41,4 @@
   vars:
     log_name: "Started chapter {{ libre_chapter.id }} : {{ libre_chapter.name }}"
     log_component: chapter
-    log_action: start
+    log_action: start {{ libre_chapter.idn }}

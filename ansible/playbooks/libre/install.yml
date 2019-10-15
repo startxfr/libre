@@ -1,8 +1,11 @@
 ---
-- name: "Install libre environment on local"
+- name: "Install libre environment on localhost"
   hosts: 'localhost'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: libre, do: load }
-    - { role: libre, do: install }
+    - role: libre
+      do: load
+    - role: libre
+      do: install

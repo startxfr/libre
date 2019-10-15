@@ -1,9 +1,11 @@
 ---
-- name: "Check lab on local"
-  hosts: 'localhost'
+- name: "Check lab status on student workstation"
+  hosts: 'workstations'
   gather_facts: true
   user: root
 
   roles:
-    - { role: lab, do: load }
-    - { role: lab, do: status }
+    - role: lab
+      do: load
+    - role: lab
+      do: status

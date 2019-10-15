@@ -3,9 +3,14 @@
   include_role:
     name: session
     tasks_from: status
-- name: "status : Get previous report data"
-  set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
-- name: "status : Status of {{ libre_infra.type }} infrastructure"
-  include_tasks: "{{ libre_infra.type }}/status.yml"
-  when: libre_infra.type is defined
+
+- name: "status : Generate status report"
+  delegate_to: localhost
+  run_once: true
+  block:
+    - name: "status : Get previous report data"
+      set_fact:
+        previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+    - name: "status : Status of {{ libre_infra.type }} infrastructure"
+      include_tasks: "{{ libre_infra.type }}/status.yml"
+      when: libre_infra.type is defined

@@ -1,32 +1,77 @@
 ---
-- name: "Post-Provision classroom infrastructure on instructor"
+- name: "Post-Provision classroom infrastructure on bootstrap host"
+  hosts: 'bootstrap'
+  gather_facts: true
+  become: yes
+  roles:
+    - role: infra
+      do: load
+      infra_type: prem
+      libre_type: bootstrap
+      libre_user: provisionner
+    - role: infra
+      do: provision-post-bootstrap
+      infra_type: prem
+      libre_type: bootstrap
+      libre_user: provisionner
+      
+- name: "Post-Provision classroom install instructor"
   hosts: 'instructor'
   gather_facts: true
+  become: yes
   roles:
-    - { role: infra, do: load, infra_type: prem }
-    - { role: infra, do: provision-post-instructor, infra_type: prem }
+    - role: instructor 
+      do: load
+    - role: instructor
+      do: install
+      libre_type: instructor
+      libre_user: instructor
 
-- name: "Post-Provision classroom infrastructure on students"
-  hosts: 'students'
-  gather_facts: true
-  roles:
-    - { role: infra, do: load, infra_type: prem }
-    - { role: infra, do: provision-post-students, infra_type: prem }
-
-- name: "Post-Provision classroom infrastructure on workstations"
+- name: "Post-Provision classroom install workstations"
   hosts: 'workstations'
   gather_facts: true
+  become: yes
   vars:
-    libre_type: "student"
-    libre_verbose: false
+    libre_verbose: true
     libre_debug: false
   roles:
-    - { role: student, do: load }
-    - { role: student, do: install }
-    
-- name: "Post-Provision classroom infrastructure on instructor (end)"
-  hosts: 'instructor'
+    - role: student
+      do: load
+      libre_type: student
+      libre_user: student
+    - role: student
+      do: install
+      libre_type: student
+      libre_user: student
+
+- name: "Post-Provision classroom students"
+  hosts: 'students'
   gather_facts: true
+  become: yes
   roles:
-    - { role: infra, do: load, infra_type: prem }
-    - { role: infra, do: provision-post-post, infra_type: prem }
+    - role: infra
+      do: load
+      infra_type: prem
+      libre_type: student
+      libre_user: student
+    - role: infra
+      do: provision-post-students
+      infra_type: prem
+      libre_type: student
+      libre_user: student
+
+- name: "Post-Provision classroom finialize on bootstrap"
+  hosts: 'bootstrap'
+  gather_facts: true
+  become: yes
+  roles:
+    - role: infra 
+      do: load
+      infra_type: prem
+      libre_type: bootstrap
+      libre_user: provisionner
+    - role: infra
+      do: provision-post-post
+      infra_type: prem
+      libre_type: bootstrap
+      libre_user: provisionner

@@ -1,0 +1,13 @@
+{% if previous_report is defined %}{{ previous_report }}{% endif %}
+
+  \e[1m\e[34mcurrent\e[0m : \e[1m\e[32m{{ libre_session.id }}\e[0m is the current session
+
+    \e[1m\e[34msaved\e[0m : \e[1m{{ r_bootstrap_saved_sessions | count }}\e[0m stored session(s)
+{% for sess in r_bootstrap_saved_sessions %}
+        \e[1m{{ loop.index }}\e[0m : session \e[1m{{ sess |replace(r_bootstrap_saved_directory + "/", "") }}\e[0m
+{% endfor %}
+
+ \e[1m\e[33marchived\e[0m : \e[1m{{ r_bootstrap_archive_sessions | count }}\e[0m stored session(s)
+{% for sess in r_bootstrap_archive_sessions %}
+        \e[1m{{ loop.index }}\e[0m : backup \e[1m{{ sess |replace(r_bootstrap_archive_directory + "/", "") }}\e[0m
+{% endfor %}

@@ -1,0 +1,81 @@
+---
+- name: "use : The bootstrapped session is not defined"
+  when: bootstrap_session is undefined
+  block:
+    - name: "use : Configure the bootstrapped session"
+      pause:
+        prompt: "What training session are you bootstrapped ? "
+      register: bsessionID
+      delegate_to: localhost
+    - name: "use : Session ID is a good number"
+      assert:
+        that: bsessionID.user_input != ""
+        msg: "You must give a good Session ID"
+    - name: "use : Register bootstrap_session fact"
+      set_fact:
+        bootstrap_session: "{{ bsessionID.user_input }}"
+        
+- name: "use : The bootstrapped session is already the current session"
+  when: bootstrap_session == libre_session.id
+  block:
+    - name: "use : Targeted session is the current session"
+      assert:
+        that: bootstrap_session == libre_session.id
+        msg: "The targeted session must be the current session to match this condition"
+
+- name: "use : The bootstrapped session is not the current session"
+  when: bootstrap_session != libre_session.id
+  block:
+    - name: "use : Save /etc/hosts to {{ config_libre.directory.conf }}/hosts"
+      copy:
+        src: "/etc/hosts"
+        dest: "{{ config_libre.directory.conf }}/hosts"
+    - name: "use : synchronize current session to {{ r_bootstrap_saved_directory }}/{{libre_session.id}}"
+      synchronize:
+        src: "{{ config_libre.directory.base }}/"
+        dest: "{{ r_bootstrap_saved_directory }}/{{libre_session.id}}"
+        owner: yes
+        group: yes
+        recursive: yes
+        delete: yes
+      delegate_to: "{{ inventory_hostname }}"
+
+- name: "use : The bootstrapped session is a saved session"
+  when: (r_bootstrap_saved_directory + '/' + bootstrap_session) in r_bootstrap_saved_sessions
+  block:
+    - name: "use : restore saved session in {{ r_bootstrap_saved_directory }}/{{bootstrap_session}} to {{ config_libre.directory.base }}"
+      synchronize:
+        src: "{{ r_bootstrap_saved_directory }}/{{bootstrap_session}}/"
+        dest: "{{ config_libre.directory.base }}"
+        owner: yes
+        group: yes
+        recursive: yes
+        delete: yes
+      delegate_to: "{{ inventory_hostname }}"
+    - name: "use : Restore {{ config_libre.directory.conf }}/hosts to /etc/hosts"
+      copy:
+        src: "{{ config_libre.directory.conf }}/hosts"
+        dest: "/etc/hosts"
+        
+- name: "use : The bootstrapped session is not a saved session"
+  when: (r_bootstrap_saved_directory + '/' + bootstrap_session) not in r_bootstrap_saved_sessions
+  block:
+    - name: "remove : Cleaning files from the current session"
+      file:
+        state: absent
+        path: 
+          - "{{ config_libre.directory.course }}/*"
+          - "{{ config_libre.directory.conf }}/*"
+          - "{{ config_libre.directory.collect }}/log.yml"
+    - name: "remove : Create empty log.yml file"
+      file:
+        state: touch
+        owner: "{{ libre_user | default(r_libre_user) }}"
+        group: "{{ libre_group | default(r_libre_group) }}"
+        path: "{{ config_libre.directory.collect }}/log.yml"
+    - name: "use : Start configuring current session context with {{ bootstrap_session }} session"
+      include_role:
+        name: session
+        tasks_from: config
+      vars:
+        session_id: "{{ bootstrap_session }}"

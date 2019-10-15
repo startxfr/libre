@@ -1,9 +1,9 @@
 ---
-#- name: "load_report : Touch report file {{ r_libre_tmp }}/{{ r_libre_tmpfile  }}"
+#- name: "load_report : Touch report file {{ r_libre_result_file  }}"
 #  become: yes
 #  file:
-#    path: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+#    path: "{{ r_libre_result_file }}"
 #    state: touch
-###    owner: root
-#    group: "{{ r_libre_group }}"
+##    owner: "{{ libre_user | default(r_libre_user) }}"
+#    group: "{{ libre_group | default(r_libre_group) }}"
 #    mode: 0666

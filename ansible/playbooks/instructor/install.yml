@@ -1,8 +1,15 @@
 ---
-- name: "Install instructor environment on instructor"
+- name: "Install instructor environment on instructor host"
   hosts: 'instructor'
   gather_facts: true
+  become: yes
 
   roles:
-    - { role: instructor, do: load }
-    - { role: instructor, do: install }
+    - role: instructor
+      do: load
+      libre_type: instructor
+      libre_user: instructor
+    - role: instructor
+      do: install
+      libre_type: instructor
+      libre_user: instructor

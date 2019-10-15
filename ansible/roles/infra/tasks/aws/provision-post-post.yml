@@ -1,4 +1,50 @@
 ---
+- name: "install-postcheck : Install the instructor environment"
+  become: yes
+  delegate_to: "instructor.{{ libre_session.id }}.{{ libre_infra.route53.domain }}"
+  block:
+  - name: "aws : provision-post-post : Change hostname for instructor"
+    hostname:
+      name: "instructor-{{ libre_session.id }}"
+  - name: "aws : provision-post-post : Update instructor /etc/hosts file"
+    copy:
+      src: /etc/hosts
+      dest: /etc/hosts
+  - name: "aws : provision-post-post : Remove yum installed python-requests packages on instructor (conflict with docker-py pip module)"
+    yum:
+      name: python-requests 
+      state: absent
+    become: yes
+  - name: "aws : provision-post-post : Ensure docker packages are installed on instructor"
+    yum:
+      name: docker 
+    become: yes
+  - name: "aws : provision-post-post : Install docker pip packages on instructor"
+    pip:
+      name: "docker"
+#      Use docker-py on python < v2.7
+#      name: "docker-py"
+      state: present
+    become: yes
+  - name: "aws : provision-post-post : Ensure docker service is running on instructor"
+    systemd:
+      name: docker
+      state: started
+  - name: "aws : provision-post-post : Copy session {{ libre_session.id }} configuration to instructor"
+    copy:
+      src: "{{ config_libre.directory.conf }}/"
+      dest: "{{ config_libre.directory.conf }}"
+      owner: "{{ libre_user | default(r_libre_user) }}"
+      group: "{{ libre_group | default(r_libre_group) }}"
+
+- name: "aws : provision-post-post : Log instructor post-provision action"
+  include_role:
+    name: libre
+    tasks_from: lib/log
+  vars:
+    log_name: "AWS infrastructure has post-provisioned instructor workstation"
+    log_component: infra-aws
+    log_action: post-provision on instructor
 - name: "aws : provision-post-post : Copy course {{ libre_session.course }} playbooks to temporary tgz file"
   archive:
     path: "{{ r_session_dir_course }}/playbooks/labs/"
@@ -8,6 +54,7 @@
   vars:
     classroom: "{{ libre_infra.ec2.classroom }}"
     student: "{{ std }}"
+    libre_user: "student"
   loop: "{{ libre_session.students }}"
   loop_control:
     loop_var: std
@@ -17,37 +64,26 @@
     path: "/tmp/playbooks-labs.tgz"
     state: absent
   
-- name: "aws : provision-post-post : Set infrastructure state to provisionned"
+- name: "aws : provision-post-post : Set infrastructure state to provisioned"
   set_fact:
-    libre_infra: "{{ libre_infra|combine({'state': 'post-provisionned' }, recursive=True) }}"
+    libre_infra: "{{ libre_infra|combine({'state': 'post-provisioned' }, recursive=True) }}"
 - name: "aws : provision-post-post : Get previous report data"
   set_fact:
-    previous_report: "{{ lookup('file', r_libre_tmp + '/' + r_libre_tmpfile, errors='ignore') | default('') }}"
-- name: "aws : provision-post-post : Generate LIBRE report at {{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
+    previous_report: "{{ lookup('file', r_libre_result_file, errors='ignore') | default('') }}"
+  delegate_to: localhost
+- name: "aws : provision-post-post : Generate LIBRE report at {{ r_libre_result_file }}"
   template:
     src: templates/libre_report-provision-post.j2
-    dest: "{{ r_libre_tmp }}/{{ r_libre_tmpfile }}"
-#    owner: root
-    group: "{{ r_libre_group }}"
+    dest: "{{ r_libre_result_file }}"
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
+  delegate_to: localhost
 - name: "aws : provision-post-post : Log post-provision action"
   include_role:
     name: libre
     tasks_from: lib/log
   vars:
-    log_name: "AWS infrastructure is post Post-provisionned"
+    log_name: "AWS infrastructure is post Post-provisioned"
     log_component: infra-aws
-    log_action: post-provision (post)
-- name: "aws : provision-post-post : Post-provisionning is finish"
-  debug:
-    msg:
-      - " "
-      - "We are happy to report that AWS infrastructure {{ libre_session.course }}.{{ libre_infra.route53.domain }} was successfully provisioned on AWS infrastructure"
-      - " "
-      - "You can now connect to your instructor workstation :"
-      - "  ssh -i {{ libre_infra.ssh.keyname }}.pem {{ libre_infra.ssh.user }}@instructor.{{ libre_session.course }}.{{ libre_infra.route53.domain }}"
-      - "Then run instructor installation by running :"
-      - "  libre-instructor install"
-      - " "
-      - " Have a happy setup ;)"
-  run_once: true
+    log_action: post-provision on instructor

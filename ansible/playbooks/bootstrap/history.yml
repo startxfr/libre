@@ -1,0 +1,16 @@
+---
+- name: "Display bootstrap history on bootstrap host"
+  hosts: 'bootstrap'
+  gather_facts: true
+  user: root
+
+  roles:
+    - role: bootstrap
+      do: load
+      libre_type: bootstrap
+      libre_user: provisionner
+    - role: bootstrap
+      do: history
+      libre_type: bootstrap
+      libre_user: provisionner
+      history_filter: all
