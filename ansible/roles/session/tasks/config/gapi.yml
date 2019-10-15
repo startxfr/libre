@@ -1,12 +1,13 @@
 ---
 - name: "config : gapi : Session ID is not already defined"
   when: session_id is undefined
+  delegate_to: localhost
+  run_once: true
   block:
     - name: "config : gapi : Configure the session ID"
       pause:
         prompt: "What is your session ID ?"
       register: sessionID
-      delegate_to: localhost
     - name: "config : gapi : Session ID is a good number"
       assert:
         that: sessionID.user_input != ""
@@ -16,13 +17,14 @@
         session_id: "{{ sessionID.user_input }}"
 - name: "config : gapi : Session Token is not already defined"
   when: session_token is undefined
+  delegate_to: localhost
+  run_once: true
   block:
     - name: "config : gapi : Configure the session token"
       pause:
         prompt: "What is the corresponding session token ?"
         echo: no
       register: sessionToken
-      delegate_to: localhost
     - name: "config : gapi : Session token is a good number"
       assert:
         that: sessionToken.user_input != ""
@@ -33,6 +35,8 @@
 
 - name: "config : gapi : Session ID and Token are given to update session context"
   when: session_id is defined and session_token is defined
+  delegate_to: localhost
+  run_once: true
   block:
     - name: "config : gapi : Calling Google API backend for session"
       include_role:
@@ -56,12 +60,11 @@
       set_fact:
         session_students: '{{ session_students + [ { "id" : "INSTR", "name" : session_instructor + " (instructor)", "email" : "libre@startx.fr", "workstation" : "0" } ]  }}'
       when: gapiReturn is defined
-    - name: "config : gapi : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
-      template:
-        src: libre-session-gapi.j2
-        dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
-        mode: 0664
-        owner: "{{ libre_user | default(r_libre_user) }}"
-        group: "{{ libre_group | default(r_libre_group) }}"
 
-
+- name: "config : gapi : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+  template:
+    src: libre-session-gapi.j2
+    dest: "{{ config_libre.directory.conf }}/{{ r_session_config_file }}"
+    mode: 0664
+    owner: "{{ libre_user | default(r_libre_user) }}"
+    group: "{{ libre_group | default(r_libre_group) }}"

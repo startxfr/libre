@@ -10,10 +10,23 @@
     copy:
       src: /etc/hosts
       dest: /etc/hosts
-  - name: "install_services : Ensure docker packages are installed on instructor"
+  - name: "aws : provision-post-post : Remove yum installed python-requests packages on instructor (conflict with docker-py pip module)"
     yum:
-      name: docker
-  - name: "install_services : Ensure docker service is running on instructor"
+      name: python-requests 
+      state: absent
+    become: yes
+  - name: "aws : provision-post-post : Ensure docker packages are installed on instructor"
+    yum:
+      name: docker 
+    become: yes
+  - name: "aws : provision-post-post : Install docker pip packages on instructor"
+    pip:
+      name: "docker"
+#      Use docker-py on python < v2.7
+#      name: "docker-py"
+      state: present
+    become: yes
+  - name: "aws : provision-post-post : Ensure docker service is running on instructor"
     systemd:
       name: docker
       state: started

@@ -90,7 +90,7 @@ _libre_instructor()
 # Auto-completion for repository
 _libre_repository()
 {
-  local available="install uninstall status history usage info version"
+  local available="install uninstall update status history usage info version"
   if [ "${#COMP_WORDS[@]}" != "2" ]; then
     return
   fi

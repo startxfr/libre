@@ -1,35 +1,36 @@
 ---
-- name: "config : manual : Configure the session ID"
-  pause:
-    prompt: "What is your session ID ?"
-  register: sessionID
-  delegate_to: localhost
+- name: "config : manual : Session ID is not already defined"
   when: session_id is undefined
-
-- name: "config : manual : Session ID doesn't match a good number"
-  fail:
-    msg: "You must give a good Session ID"
-  when: session_id | default('') | string == ""
-
-- name: "config : manual : Configure the course ID"
-  pause:
-    prompt: "What is your course ID ?"
-  register: courseID
   delegate_to: localhost
+  run_once: true
+  block:
+    - name: "config : manual : Configure the session ID"
+      pause:
+        prompt: "What is your session ID ?"
+      register: sessionID
+    - name: "config : manual : Session ID is a good number"
+      assert:
+        that: sessionID.user_input != ""
+        msg: "You must give a good Session ID"
+    - name: "config : manual : Register session_id fact"
+      set_fact:
+        session_id: "{{ sessionID.user_input }}"
+- name: "config : manual : Course ID is not already defined"
   when: course_id is undefined
-
-- name: "config : manual : Course ID doesn't match a good id"
-  fail:
-    msg: "You must give a good course ID"
-  when: course_id | default('') | string == ""
-
-- name: "config : manual : Register session_id fact"
-  set_fact:
-    session_id: "{{ sessionID.user_input }}"
-
-- name: "config : manual : Register course_id fact"
-  set_fact:
-    course_id: "{{ courseID.user_input }}"
+  delegate_to: localhost
+  run_once: true
+  block:
+    - name: "config : manual : Configure the course ID"
+      pause:
+        prompt: "What is your course ID ?"
+      register: courseID
+    - name: "config : manual : Course ID is a good number"
+      assert:
+        that: courseID.user_input != ""
+        msg: "You must give a good Course ID"
+    - name: "config : manual : Register course_id fact"
+      set_fact:
+        course_id: "{{ courseID.user_input }}"
 
 - name: "config : manual : Generate session config file {{ config_libre.directory.conf }}/{{ r_session_config_file }}"
   template:

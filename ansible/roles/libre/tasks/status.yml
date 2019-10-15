@@ -1,13 +1,16 @@
 ---
-- name: "status : Get {{ r_libre_dest_bin }}/libre-{{ config_libre.application.type | default('instructor') | string }} file details"
-  stat:
-    path: "{{ r_libre_dest_bin }}/libre-{{ config_libre.application.type }}"
-  register: r_libre_binary_details
-- name: "status : Generate LIBRE report at {{ r_libre_result_file }}"
-  template:
-    src: libre_report-status.j2
-    dest: "{{ r_libre_result_file }}"
-    owner: "{{ libre_user | default(r_libre_user) }}"
-    group: "{{ libre_group | default(r_libre_group) }}"
-    mode: 0666
+- name: "status : Generate status report"
   delegate_to: localhost
+  run_once: true
+  block:
+    - name: "status : Get {{ r_libre_dest_bin }}/libre-{{ config_libre.application.type | default('instructor') | string }} file details"
+      stat:
+        path: "{{ r_libre_dest_bin }}/libre-{{ config_libre.application.type }}"
+      register: r_libre_binary_details
+    - name: "status : Generate LIBRE report at {{ r_libre_result_file }}"
+      template:
+        src: libre_report-status.j2
+        dest: "{{ r_libre_result_file }}"
+        owner: "{{ libre_user | default(r_libre_user) }}"
+        group: "{{ libre_group | default(r_libre_group) }}"
+        mode: 0666

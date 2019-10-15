@@ -9,6 +9,7 @@
     name: "libre-instructor-{{ libre_session.id }}"
     image: startx/libre-instructor:latest
     state: started
+    recreate: yes
     volumes:
      - "/usr/share/libre/conf:/usr/src/app/config:ro"
      - "/usr/share/libre/course:/usr/src/app/course:ro"
@@ -16,6 +17,7 @@
     ports:
      - "80:8080"
   become: yes
+  ignore_errors: true
 - name: "start : Start course {{ libre_course.id }}"
   include_tasks: "{{ r_session_dir_course }}/{{ training_dir_course_playbooks | default(r_session_dir_course_playbooks) }}/start.yml"
   when: r_session_dir_course_playbooks_details.stat.exists

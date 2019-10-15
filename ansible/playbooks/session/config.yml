@@ -1,6 +1,6 @@
 ---
 - name: "Config session environment on instructor host"
-  hosts: 'instructor'
+  hosts: 'instructor bootstrap'
   gather_facts: true
   user: root
   become: yes

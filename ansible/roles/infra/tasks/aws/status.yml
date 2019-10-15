@@ -7,3 +7,4 @@
     group: "{{ libre_group | default(r_libre_group) }}"
     mode: 0666
   delegate_to: localhost
+  run_once: true

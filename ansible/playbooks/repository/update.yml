@@ -1,6 +1,6 @@
 ---
-- name: "Update training repository environment on instructor host"
-  hosts: 'instructor'
+- name: "Update training repository environment on instructor and bootstrap host"
+  hosts: 'instructor bootstrap'
   gather_facts: true
   become: yes
 

@@ -1,6 +1,6 @@
 ---
-- name: "Uninstall session environment on instructor host"
-  hosts: 'instructor'
+- name: "Uninstall session environment on instructor and bootstrap host"
+  hosts: 'instructor bootstrap'
   gather_facts: true
   user: root
   become: yes
