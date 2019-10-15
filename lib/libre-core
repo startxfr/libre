@@ -2,7 +2,7 @@
 
 ROOT_DIR=/usr/share/libre
 
-LIBRE_VERSION="0.8.9"
+LIBRE_VERSION="0.8.11"
 LIBRE_TYPE=bootstrap
 LIBRE_VERBOSE=true
 LIBRE_DEBUG=false
